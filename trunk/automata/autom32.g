@@ -161,20 +161,40 @@ end;
 
 EditList2states:=function(list)
   local i,li,j,eq;
-  li:=[];
   for i in [1..Length(list)] do
+    li:=[];
     if list[i][1][1][2]=[2,2,()] and (not 2 in list[i][1][1][1]) and (not 2 in list[i][1][1][3]) and (list[i][1][1][1][3]=(1,2)) then
       if list[i][1][1][3][3]=(1,2) then
-        AutGr:=SymmetricGroup(2);Comm:="";
-      elif list[i][1][1][1]=[1,1,(1,2)] then
-        if list[i][1][1][3]=[1,1,()] then AutGr:=Group((1,2),(3,4)); Comm:="Klein Group";
-        elif list[i][1][1][3]=[3,3,()] then AutGr:=SymmetricGroup(2);Comm:="";
+        Comm:="Z/2Z";
+      elif list[i][1][1][1]=[1,1,(1,2)] or list[i][1][1][1]=[3,3,(1,2)] then
+        if list[i][1][1][3]=[1,1,()] then Comm:="Klein Group";
+        elif list[i][1][1][3]=[3,3,()] then Comm:="Z/2Z";
         else Comm:="Infinite Dihedral Group";
         fi;
-      elif
-        if list[i][1][1][1]=[1,2,(1,2)]
-      #Add(li,list[i]);
+      elif list[i][1][1][3][1]=list[i][1][1][3][2] then Comm:="Z";
+      else Comm:="Lamplighter group";
+      fi;
+    elif list[i][1][1][2]=[2,2,(1,2)] and (not 2 in list[i][1][1][1]) and (not 2 in list[i][1][1][3]) and (list[i][1][1][1][3]=(1,2)) then
+      if list[i][1][1][3][3]=(1,2) then
+        Comm:="Z/2Z";
+      elif list[i][1][1][1]=[1,1,(1,2)] then
+        if list[i][1][1][3]=[1,1,()] then Comm:="Klein Group";
+        elif list[i][1][1][3]=[3,3,()] then Comm:="Z/2Z";
+        else Comm:="Infinite Dihedral Group";
+        fi;
+      elif list[i][1][1][1]=[3,3,(1,2)] then
+        if list[i][1][1][3]=[1,1,()] then Comm:="Mark: Klein Group";
+        elif list[i][1][1][3]=[3,3,()] then Comm:="Klein Group";
+        else Comm:="Mark: Infinite Dihedral Group";
+        fi;
+      elif list[i][1][1][3][1]=list[i][1][1][3][2] then Comm:="Mark: Z";
+      else Comm:="Mark: Lamplighter group";
+      fi;
     fi;
+
+    for A in EquivList(list[i][1]) do
+      list[NumOfAut(A)][4]:=Comm;
+    od;
   od;
-  return li;
+  return true;
 end;

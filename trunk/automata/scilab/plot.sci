@@ -26,23 +26,23 @@ num_states = size(autom); num_states = num_states(1);
 
 mats = list(1);
 for i=2:num_states
-	mats = lstcat(mats, list(1))
+	mats = lstcat(mats, list(1));
 end
 
 for i=1:iter_num
-	mats = iter_autmats(mats, autom)
+	mats = iter_autmats(mats, autom);
 end
 
 op = mats(1);
 for i=2:num_states
-	op = op + mats(i)
+	op = op + mats(i);
 end
-op = op / num_states
+op = op / num_states;
 
-sp = spec(op)
-sp_for_plotting = sp
+sp = spec(op);
+sp_for_plotting = sp;
 for i=1:2^iter_num
-	sp_for_plotting(i) = round(sp_for_plotting(i)*2^(prec)) / 2^(prec)
+	sp_for_plotting(i) = round(sp_for_plotting(i)*2^(prec)) / 2^(prec);
 end
 
 freq_matrix = nfreq(sp_for_plotting);

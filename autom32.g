@@ -9,8 +9,8 @@ function(l,p)
 end);
 
 
-file:="c:/gap4r3/pkg/autom32/list.dat";
-f:="c:/gap4r3/pkg/autom32/a.dat";
+file:="c:/gap4r3/pkg/automata/data/savchuk/list.dat";
+
 ################################################################################
 ##
 #F AutNum. . . . . . . . . . . . . . . . . . . . . . . . .generates automaton #n

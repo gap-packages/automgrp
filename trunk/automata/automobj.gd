@@ -38,6 +38,13 @@ DeclareOperation("Perm", [IsAutomObj, IsInt]);
 DeclareAttribute("TopPerm", IsAutomObj);
 
 
+###############################################################################
+##
+#O  Expand(<automobj>)
+##
+DeclareOperation("Expand", [IsAutomObj]);
+
+
 
 
 

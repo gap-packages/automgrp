@@ -24,8 +24,12 @@ InstallTrueMethod(IsAutomataGroup, IsAutomGroup);
 #############################################################################
 ##
 #O  AutomGroup(<automaton_list>)
+#O  AutomGroup(<automaton_list>, <names>)
+#O  AutomGroupNoBindGlobal(<automaton_list>)
+#O  AutomGroupNoBindGlobal(<automaton_list>, <names>)
 ##
 DeclareOperation("AutomGroup", [IsList]);
+DeclareOperation("AutomGroupNoBindGlobal", [IsList]);
 
 
 #############################################################################

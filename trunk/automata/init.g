@@ -16,9 +16,11 @@ ReadPkg("automata", "globals.g");
 
 ReadPkg("automata", "automaton.gd");
 ReadPkg("automata", "initialautomaton.gd");
+ReadPkg("automata", "listops.gd");
 
 ReadPkg("automata", "automaton.gi");
 ReadPkg("automata", "initialautomaton.gi");
+ReadPkg("automata", "listops.gi");
 
 
 #ReadPkg("automata", "freegrp.gd");

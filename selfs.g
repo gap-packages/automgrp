@@ -124,7 +124,7 @@ IsOneWord:=function(w,G)
   l[1][Length(l[1])]:=();
   b:=[];
   for i in [1..Length(l)] do
-    b[i]:=l[i]^l[i][Length(l[i])];
+    b[i]:=l[i]^((l[i][Length(l[i])])^(-1));
   od;
   i:=1;
   res:=true;
@@ -341,31 +341,43 @@ InvestigatePairs:=function(G)
   return Pairs;
 end;
 
+
+#sg:=[ [ [ 1, 1, () ], [ 1, 3, () ], [ 2, 2, (1,2) ], [ 2, 5, (1,2) ], [ 4, 2, (1,2) ] ] ];
+
 ################################################################################
 ##
 #F ContractingLevel . . . . . . . . . . . . . . . . . . Computes the level where
 ##                                              all pairs contract to the kernel
 
 ContractingLevel:=function(G)
-  local i,j,res,ContPairs,d,maxlev,n,Pairs,IsPairContracts;
+  local i,j,res,ContPairs,d,maxlev,n,Pairs,DoesPairContract;
 
-  IsPairContracts:=function(i,j,lev)
-    local t,res;
+  DoesPairContract:=function(i,j,lev)
+    local t,res,localmaxlev;
     if lev>maxlev then maxlev:=lev; fi;
-    if (ContPairs[i][j]=1) then return true; fi;
+    if IsList(ContPairs[i][j]) then
+      if lev+ContPairs[i][j][1]>maxlev then maxlev:=lev+ContPairs[i][j][1]; fi;
+      return true;
+    fi;
     if Pairs[i][j]<>0 then
-      ContPairs[i][j]:=1;
+      ContPairs[i][j]:=[0];
       return true;
     fi;
     if ContPairs[i][j]=2 then return false; fi;
     t:=1; res:=true;
     ContPairs[i][j]:=2;
+    localmaxlev:=0;
     while res and (t<=d) do
-      res:=IsPairContracts(G[1][i][t],G[1][j][t^G[1][i][d+1]],lev+1);
+      res:=DoesPairContract(G[1][i][t],G[1][j][t^G[1][i][d+1]],lev+1);
+      if res then
+        if ContPairs[G[1][i][t]][G[1][j][t^G[1][i][d+1]]][1]+1>localmaxlev then
+          localmaxlev:=ContPairs[G[1][i][t]][G[1][j][t^G[1][i][d+1]]][1]+1;
+        fi;
+      fi;
       t:=t+1;
     od;
     if res then
-             ContPairs[i][j]:=1;
+             ContPairs[i][j]:=[localmaxlev];
              return true;
            else return false;
     fi;
@@ -375,26 +387,26 @@ ContractingLevel:=function(G)
   Pairs:=InvestigatePairs(G);
   n:=Length(G[1]);
   for i in [1..n] do
-    Add(ContPairs,[1]);
+    Add(ContPairs,[[0]]);
     for j in [1..n-1] do
-      if i=1 then Add(ContPairs[i],1);
+      if i=1 then Add(ContPairs[i],[0]);
              else Add(ContPairs[i],-1);
       fi;
     od;
   od;
-#  Print(ContPairs,"\n");
+  Print(ContPairs,"\n");
   i:=1;
   d:=Length(G[1][1])-1;
   while res and (i<=n) do
     j:=1;
     while res and (j<=n) do
       if ContPairs[i][j]=0 then return -1; fi;
-      if ContPairs[i][j]=-1 then res:=IsPairContracts(i,j,0); fi;
+      if ContPairs[i][j]=-1 then res:=DoesPairContract(i,j,0); fi;
       j:=j+1;
     od;
     i:=i+1;
   od;
-#  Print(ContPairs);
+  Print(ContPairs);
   if res then return maxlev;
          else return -1;
   fi;
@@ -679,7 +691,7 @@ end;
 ##              		                               of the self-similar group
 
 FindNucleus:=function(H)
-  local G,Pairs,i,j,PairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus;
+  local G,g,Pairs,i,j,PairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus;
 
   IsPairContracts:=function(i,j,lev)
     local t,res;

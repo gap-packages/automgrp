@@ -57,6 +57,8 @@ function(super, sub)
     if not IsSphericallyTransitive(super) then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(sub): false");
       Info(InfoAutomata, 3, "  super is not spherically transitive");
+      Info(InfoAutomata, 3, "  super = ", super);
+      Info(InfoAutomata, 3, "  sub = ", sub);
       SetIsSphericallyTransitive(sub, false); fi; fi;
 
   TryNextMethod();
@@ -89,6 +91,7 @@ function(G)
   if IsFinite(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is finite");
+    Info(InfoAutomata, 3, "  G = ", G);
     return false;
   fi;
   TryNextMethod();
@@ -99,6 +102,7 @@ function(G)
   if AutomataAbelImageSpherTrans in AbelImage(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
     Info(InfoAutomata, 3, "  using AbelImage");
+    Info(InfoAutomata, 3, "  G = ", G);
     return true;
   fi;
   TryNextMethod();
@@ -115,6 +119,7 @@ function (G)
   if CanEasilyComputeSize(G) and Size(G) < infinity then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is finite");
+    Info(InfoAutomata, 3, "  G = ", G);
     return false;
   fi;
 
@@ -123,10 +128,12 @@ function (G)
     if not IsTransitiveOnLevel(G, i) then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
       Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
+      Info(InfoAutomata, 3, "  G = ", G);
       return false;
     fi;
   od;
   Info(InfoAutomata, 3, "IsSphericallyTransitive(G): G is transitive on ", k, "-th level");
+  Info(InfoAutomata, 3, "  G = ", G);
 
   TryNextMethod();
 end);
@@ -353,25 +360,23 @@ end);
 InstallMethod(PermGroupOnLevelOp, "method for IsTreeAutomorphismGroup and IsPosInt",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
-  local gens, a, pgens, pgroup;
-  gens := GeneratorsOfGroup(G);
-  if gens = [] then return Group(()); fi;
-  pgens := [];
-  for a in gens do
-    Add(pgens, PermOnLevel(a, k));
-  od;
-  pgroup := Group(pgens);
+  local pgens, pgroup;
 
-  if IsActingOnBinaryTree(G) then
-    SetIsPGroup(pgroup, true);
-    if IsTrivial(pgroup) then
-      SetPrimePGroup(pgroup, fail);
-    else
-      SetPrimePGroup(pgroup, 2);
+  pgens := List(GeneratorsOfGroup(G), g -> PermOnLevel(g, k));
+  if pgens = [] then
+    return Group(());
+  else
+    pgroup := Group(pgens);
+    if IsActingOnBinaryTree(G) then
+      SetIsPGroup(pgroup, true);
+      if IsTrivial(pgroup) then
+        SetPrimePGroup(pgroup, fail);
+      else
+        SetPrimePGroup(pgroup, 2);
+      fi;
     fi;
+    return pgroup;
   fi;
-
-  return pgroup;
 end);
 
 
@@ -400,6 +405,7 @@ function (G, k)
   if FixesLevel(G, k) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is not transitive on level", k);
+    Info(InfoAutomata, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -438,6 +444,8 @@ function (G, k)
   if FixesVertex(G, k) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G fixes vertex", k);
+    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomata, 3, "  k = ", k);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -482,6 +490,7 @@ function (G, seq)
   if FixesVertex(G, seq) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G fixes vertex", seq);
+    Info(InfoAutomata, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -518,6 +527,7 @@ function(G, k)
   if IsTrivial(PermGroupOnLevel(G, k)) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G fixes level", k);
+    Info(InfoAutomata, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return true;
   else
@@ -540,6 +550,7 @@ function(G, v)
   od;
   Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
   Info(InfoAutomata, 3, "  G fixes vertex", v);
+  Info(InfoAutomata, 3, "  G = ", G);
   SetIsSphericallyTransitive(G, false);
   return true;
 end);
@@ -706,18 +717,26 @@ function(g, G)
   then
     Info(InfoAutomata, 3, "g in G: false");
     Info(InfoAutomata, 3, "  not IsSphericallyTransitive(G) and IsSphericallyTransitive(g)");
+    Info(InfoAutomata, 3, "  g = ", g);
+    Info(InfoAutomata, 3, "  G = ", G);
     return false;
   fi;
 
   if not AbelImage(g) in AbelImage(G) then
     Info(InfoAutomata, 3, "g in G: false");
     Info(InfoAutomata, 3, "  not AbelImage(g) in AbelImage(G)");
+    Info(InfoAutomata, 3, "  g = ", g);
+    Info(InfoAutomata, 3, "  G = ", G);
     return false;
   fi;
 
 #TODO
   for i in [1..10] do
     if not PermOnLevel(g, i) in PermGroupOnLevel(G, i) then
+      Info(InfoAutomata, 3, "g in G: false");
+      Info(InfoAutomata, 3, "  not PermOnLevel(g ",i,",) in PermGroupOnLevel(G, ",i,")");
+      Info(InfoAutomata, 3, "  g = ", g);
+      Info(InfoAutomata, 3, "  G = ", G);
       return false;
     fi;
   od;

@@ -92,34 +92,15 @@ DeclareGlobalFunction("ReducedAutomatonInList");
 DeclareGlobalFunction("MinimalSubAutomatonInlist");
 
 
-# ###############################################################################
-# ##
-# #F  PermuteStatesInList(<list>, <perm>)
-# ##
-# ##  It does not check correctness of arguments
-# ##
-# DeclareGlobalFunction("PermuteStatesInList");
+###############################################################################
+##
+#F  PermuteStatesInList(<list>, <perm>)
+##
+##  Try to see what it does. I can never memorize what does "permute" mean.
+##  I guess it means that i-th state goes to (i^perm)-th place.
+##  Does not check correctness of arguments.
+##
+DeclareGlobalFunction("PermuteStatesInList");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#E

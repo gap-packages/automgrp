@@ -328,54 +328,28 @@ function(states, list)
 end);
 
 
-# ###############################################################################
-# ##
-# #F  PermuteStatesInList(<list>, <perm>)
-# ##
-# ##  It does not check correctness of arguments
-# ##
-# InstallGlobalFunction(PermuteStatesInList,
-# function(list, perm)
-#     local new_list, i, j, deg;
-# 
-#     deg := Length(list[1]) - 1;
-#     new_list := [];
-#     for i in [1..Length(list)] do
-#         new_list[i^perm] := [];
-#         for j in [1..deg] do
-#             new_list[i^perm][j] := list[i][j]^perm;
-#         od;
-#         new_list[i^perm][deg+1] := list[i][deg+1];
-#     od;
-# 
-#     return new_list;
-# end);
+###############################################################################
+##
+#F  PermuteStatesInList(<list>, <perm>)
+##
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(PermuteStatesInList,
+function(list, perm)
+  local new_list, i, j, deg;
+
+  deg := Length(list[1]) - 1;
+  new_list := [];
+  for i in [1..Length(list)] do
+    new_list[i^perm] := [];
+    for j in [1..deg] do
+      new_list[i^perm][j] := list[i][j]^perm;
+    od;
+    new_list[i^perm][deg+1] := list[i][deg+1];
+  od;
+
+  return new_list;
+end);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#E

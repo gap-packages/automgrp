@@ -9,9 +9,28 @@ Revision.fgautom_gi :=
   "@(#)$Id$";
 
 
+
+###############################################################################
+##
+#V  FGAutomatonFamilyCreated
+##
+##  This is a list containing already created FGAutomaton families.
+##  Initially it's an empty list. Functions creating new families add them to
+##  this list.
+##
+MakeReadWriteGlobal ("FGAutomatonFamilyCreated");
+FGAutomatonFamilyCreated := [];
+
+
 ###############################################################################
 ##
 #R  IsFGAutomatonRep
+##
+##  automata are represented by Word, States, Perm, and Degree where
+##  Word is an IsAssocWord over generating set;
+##  States is IsList of length Degree representing states of automaton;
+##  Perm is IsPerm of degree not greater than Degree;
+##  Degree is an arity of tree automaton acts on.
 ##
 DeclareRepresentation(  "IsFGAutomatonRep",
                         IsComponentObjectRep and IsAttributeStoringRep,

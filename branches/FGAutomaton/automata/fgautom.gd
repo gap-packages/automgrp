@@ -11,6 +11,15 @@ Revision.fgautom_gd :=
 
 ###############################################################################
 ##
+#V  FGAutomatonFamilyCreated
+##
+##  This is a list containing already created FGAutomaton families.
+##
+DeclareGlobalVariable ("FGAutomatonFamilyCreated");
+
+
+###############################################################################
+##
 #C  IsFGAutomaton
 ##
 DeclareCategory ("IsFGAutomaton", IsInitialAutomaton);

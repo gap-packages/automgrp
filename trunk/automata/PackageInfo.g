@@ -2,6 +2,8 @@
 ##  
 ##  PackageInfo.g for the package `automata'
 ##  
+##  @(#)$Id$
+##
 
 ##  For the LoadPackage mechanism in GAP >= 4.4 only the entries
 ##  .PackageName, .Version, .PackageDoc, .Dependencies, .AvailabilityTest

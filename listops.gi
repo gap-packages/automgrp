@@ -423,15 +423,17 @@ end);
 #F  DiagonalActionInList(<list>, <n>)
 ##
 InstallGlobalFunction(DiagonalActionInList,
-function(list, n)
+function(list, n, names)
   local d, nlist, nd, nalph, nstates, nperm,
-        i, j, k, letter, n_letter, n_state, state;
+        i, j, k, letter, n_letter, n_state, state,
+        nnames;
 
   d := Length(list[1]) - 1;
   nd := d ^ n;
   nalph := Tuples([1..d], n);
   nstates := Tuples([1..Length(list)], n);
   nlist := List([1..Length(nstates)], i -> []);
+  nnames := List(nstates, s->List(s, i->names[i]));
 
   for i in [1..Length(nlist)] do
     nperm := [];
@@ -450,7 +452,8 @@ function(list, n)
     nlist[i][nd+1] := PermListList(nalph, nperm);
   od;
 
-  return nlist;
+  nnames := List(nnames, l->Concatenation(l));
+  return [nlist, nnames];
 end);
 
 

@@ -15,13 +15,24 @@ Revision.automaton_gi :=
 #M  IsSphericallyTransitive (<a>)
 ##
 InstallMethod(IsSphericallyTransitive,
-              "method for IsAutomaton acting on binary tree",
+              "IsSphericallyTransitive(IsAutomaton and IsActingOnBinaryTree)",
               [IsAutomaton and IsActingOnBinaryTree],
 function(a)
   local ab;
   Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using AbelImage");
-  ab := AbelImageAutomatonInList(AutomatonList(a))[AutomatonListInitialState(a)];
+  ab := AbelImage(a);
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
+end);
+
+
+###############################################################################
+##
+#M  AbelImage (<a>)
+##
+InstallMethod(AbelImage, "AbelImage(IsAutomaton)", [IsAutomaton],
+function(a)
+  local ab;
+  return AbelImageAutomatonInList(AutomatonList(a))[AutomatonListInitialState(a)];
 end);
 
 

@@ -16,6 +16,7 @@ DeclareOperation("CalculateWords", [IsList, IsList]);
 DeclareGlobalFunction("ReducedSphericalIndex");
 DeclareGlobalFunction("IsEqualSphericalIndex");
 DeclareGlobalFunction("TopDegreeInSphericalIndex");
+DeclareGlobalFunction("DegreeOfLevelInSphericalIndex");
 
 DeclareGlobalFunction("TreeLevelTuples");
 

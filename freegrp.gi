@@ -32,21 +32,6 @@ automata_lt := function(w1, w2)
 end;
 
 
-# #############################################################################
-# ##
-# #F  automata_swap(list, i, j)
-# ##
-# automata_swap := function(list, i, j)
-# 	local t;
-# 
-# 	t := list[i];
-# 	list[i] := list[j];
-# 	list[j] := t;
-# 	
-# 	return;
-# end;
-
-
 #############################################################################
 ##
 #M  Nielsen(<list>)
@@ -297,333 +282,10 @@ function(words_list, fictive_arg)
 end);
 
 
-# #############################################################################
-# ##
-# #O  NielsenMihaylov(<words_list>, m, n)
-# #M  NielsenMihaylov(<words_list>, m, n)
-# ##
-# DeclareOperation("NielsenMihaylov", [IsList, IsInt, IsInt]);
-# InstallOtherMethod(NielsenMihaylov, [IsList, IsInt, IsInt],
-# function(words_list, m, n)
-# 	local result, transform, did_something, i, j, try_again, tmp;
-# 	
-# 	if m + n <> Length(words_list) then
-# 		Error("NielsenMihaylov(IsList, IsInt, IsInt): m + n <> Length(words_list)\n");
-# 	fi;
-# 	
-# 	if m <= 0 or n <= 0 then
-# 		Error("NielsenMihaylov(IsList, IsInt, IsInt): m or n is not positive\n");
-# 	fi;
-# 	
-# 	for i in [1..m+n] do
-# 		if not IsAssocWord(words_list[i]) then
-# 			Error("NielsenMihaylov(IsList, IsAssocWord): ", i, "-th element of list is not associative word\n");
-# 		fi;
-# 	od;
-# 	
-# 	result := ShallowCopy(words_list);
-# 	transform := ShallowCopy(FreeGeneratorsOfFpGroup(FreeGroup(m+n)));
-# 	did_something := false;
-# 	try_again := true;
-# 
-# Print("0: ", result, "\n");					
-# Print("0: ", transform, "\n");						
-# 		
-# 	while try_again do
-# 		try_again := false;
-# 		
-# 		for i in [1..m] do
-# 			for j in [1..m] do
-# 				if j = i then
-# 					if automata_lt(result[i]^-1, result[i]) then
-# 						result[i] := result[i]^-1;
-# 						transform[i] := transform[i]^-1;
-# 						try_again := true;
-# 						did_something := true;
-# Print("1: ", i, " ", j, "", result, "\n");					
-# 					fi;
-# 					continue;
-# 				fi;
-# 				
-# 				if i > j and automata_lt(result[i], result[j]) then
-# 					tmp := result[i];
-# 					result[i] := result[j];
-# 					result[j] := tmp;
-# 					tmp := transform[i];
-# 					transform[i] := transform[j];
-# 					transform[j] := tmp;
-# 					try_again := true;
-# 					did_something := true;
-# Print("2: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]*result[j], result[i]) then
-# 					result[i] := result[i]*result[j];
-# 					transform[i] := transform[i]*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("3: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i], result[i]) then
-# 					result[i] := result[j]*result[i];
-# 					transform[i] := transform[j]*transform[i];
-# 					did_something := true;
-# 					try_again := true;
-# Print("4: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]*result[j]^-1, result[i]) then
-# 					result[i] := result[i]*result[j]^-1;
-# 					transform[i] := transform[i]*transform[j]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("5: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i]^-1, result[i]) then
-# 					result[i] := result[j]*result[i]^-1;
-# 					transform[i] := transform[j]*transform[i]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("6: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) then
-# 					result[i] := result[i]^-1*result[j];
-# 					transform[i] := transform[i]^-1*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("7: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i], result[i]) then
-# 					result[i] := result[j]^-1*result[i];
-# 					transform[i] := transform[j]^-1*transform[i];
-# 					did_something := true;
-# 					try_again := true;
-# Print("8: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) then
-# 					result[i] := result[i]^-1*result[j];
-# 					transform[i] := transform[i]^-1*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("9: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i]^-1, result[i]) then
-# 					result[i] := result[j]^-1*result[i]^-1;
-# 					transform[i] := transform[j]^-1*transform[i]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("10: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			od;
-# 			
-# 			for j in [m+1..m+n] do
-# 				if automata_lt(result[i]^result[j], result[i]) then
-# 					result[i] := result[i]^result[j];
-# 					transform[i] := transform[i]^transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("11: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^(result[j]^-1), result[i]) then
-# 					result[i] := result[i]^(result[j]^-1);
-# 					transform[i] := transform[i]^(transform[j]^-1);
-# 					did_something := true;
-# 					try_again := true;
-# Print("12: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				
-# 				if automata_lt((result[i]^-1)^result[j], result[i]) then
-# 					result[i] := (result[i]^-1)^result[j];
-# 					transform[i] := (transform[i]^-1)^transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("13: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt((result[i]^-1)^(result[j]^-1), result[i]) then
-# 					result[i] := (result[i]^-1)^(result[j]^-1);
-# 					transform[i] := (transform[i]^-1)^(transform[j]^-1);
-# 					did_something := true;
-# 					try_again := true;
-# Print("14: ", i, " ", j, "", result, "\n");					
-# 				fi;			
-# 			od;
-# 		od;
-# 		
-# 		for i in [m+1..m+n] do
-# 			for j in [1..m] do
-# 				if IsOne(result[i]) and not IsOne(result[j]) 
-# 					and not Contains(result{[m+1..m+n]}, result[j]) then
-# 						result[i] := result[j];	
-# 						transform[i] := transform[i] * transform[j];
-# 						did_something := true;
-# 						try_again := true;
-# Print("31: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				
-# 				if automata_lt(result[i]*result[j], result[i]) 
-# 					and not IsOne(result[i]*result[j]) then
-# 						result[i] := result[i]*result[j];
-# 						transform[i] := transform[i]*transform[j];
-# 						did_something := true;
-# 						try_again := true;
-# Print("15: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i], result[i]) 
-# 					and not IsOne(result[j]*result[i]) then
-# 						result[i] := result[j]*result[i];
-# 						transform[i] := transform[j]*transform[i];
-# 						did_something := true;
-# 						try_again := true;
-# Print("16: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]*result[j]^-1, result[i]) 
-# 					and not IsOne(result[i]*result[j]^-1) then
-# 						result[i] := result[i]*result[j]^-1;
-# 						transform[i] := transform[i]*transform[j]^-1;
-# 						did_something := true;
-# 						try_again := true;
-# Print("17: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i]^-1, result[i]) 
-# 					and not IsOne(result[j]*result[i]^-1) then
-# 						result[i] := result[j]*result[i]^-1;
-# 						transform[i] := transform[j]*transform[i]^-1;
-# 						did_something := true;
-# 						try_again := true;
-# Print("18: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) 
-# 					and not IsOne(result[i]^-1*result[j]) then
-# 						result[i] := result[i]^-1*result[j];
-# 						transform[i] := transform[i]^-1*transform[j];
-# 						did_something := true;
-# 						try_again := true;
-# Print("19: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i], result[i]) 
-# 					and not IsOne(result[j]^-1*result[i]) then
-# 						result[i] := result[j]^-1*result[i];
-# 						transform[i] := transform[j]^-1*transform[i];
-# 						did_something := true;
-# 						try_again := true;
-# Print("20: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) 
-# 					and not IsOne(result[i]^-1*result[j]) then
-# 						result[i] := result[i]^-1*result[j];
-# 						transform[i] := transform[i]^-1*transform[j];
-# 						did_something := true;
-# 						try_again := true;
-# Print("21: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i]^-1, result[i]) 
-# 					and not IsOne(result[j]^-1*result[i]^-1) then
-# 						result[i] := result[j]^-1*result[i]^-1;
-# 						transform[i] := transform[j]^-1*transform[i]^-1;
-# 						did_something := true;
-# 						try_again := true;
-# Print("22: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			od;
-# 			
-# 			for j in [m+1..m+n] do
-# 				if j = i then
-# 					if automata_lt(result[i]^-1, result[i]) then
-# 						result[i] := result[i]^-1;
-# 						transform[i] := transform[i]^-1;
-# 						try_again := true;
-# 						did_something := true;
-# Print("23: ", i, " ", j, "", result, "\n");					
-# 					fi;
-# 					continue;
-# 				fi;
-# 			
-# 				if i > j and automata_lt(result[i], result[j]) then
-# 					tmp := result[i];
-# 					result[i] := result[j];
-# 					result[j] := tmp;
-# 					tmp := transform[i];
-# 					transform[i] := transform[j];
-# 					transform[j] := tmp;
-# 					try_again := true;
-# 					did_something := true;
-# Print("24: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]*result[j], result[i]) then
-# 					result[i] := result[i]*result[j];
-# 					transform[i] := transform[i]*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("32: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i], result[i]) then
-# 					result[i] := result[j]*result[i];
-# 					transform[i] := transform[j]*transform[i];
-# 					did_something := true;
-# 					try_again := true;
-# Print("33: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]*result[j]^-1, result[i]) then
-# 					result[i] := result[i]*result[j]^-1;
-# 					transform[i] := transform[i]*transform[j]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("34: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]*result[i]^-1, result[i]) then
-# 					result[i] := result[j]*result[i]^-1;
-# 					transform[i] := transform[j]*transform[i]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("35: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) then
-# 					result[i] := result[i]^-1*result[j];
-# 					transform[i] := transform[i]^-1*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("36: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i], result[i]) then
-# 					result[i] := result[j]^-1*result[i];
-# 					transform[i] := transform[j]^-1*transform[i];
-# 					did_something := true;
-# 					try_again := true;
-# Print("37: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			
-# 				if automata_lt(result[i]^-1*result[j], result[i]) then
-# 					result[i] := result[i]^-1*result[j];
-# 					transform[i] := transform[i]^-1*transform[j];
-# 					did_something := true;
-# 					try_again := true;
-# Print("38: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 				if automata_lt(result[j]^-1*result[i]^-1, result[i]) then
-# 					result[i] := result[j]^-1*result[i]^-1;
-# 					transform[i] := transform[j]^-1*transform[i]^-1;
-# 					did_something := true;
-# 					try_again := true;
-# Print("39: ", i, " ", j, "", result, "\n");					
-# 				fi;
-# 			od;
-# 		od;
-# 	od;
-# 	
-# 	return [result, transform, did_something];
-# end);
-
-
+#############################################################################
+##
+#M  CalculateWord(<word>, <list>)
+##
 InstallMethod(CalculateWord, [IsAssocWord, IsList],
 function(w, img)
     local result, i;
@@ -639,6 +301,10 @@ function(w, img)
 end);
 
 
+#############################################################################
+##
+#M  CalculateWords(<words_list>, <list>)
+##
 InstallMethod(CalculateWords, [IsList, IsList],
 function(words, domain)
     local result, i;
@@ -652,11 +318,20 @@ function(words, domain)
 end);
 
 
+#############################################################################
+##
+#M  Rang(<list>)
+##
 InstallMethod(Rang, [IsList],
 function(list)
     return Rang(list, list[1]);
 end);
 
+
+#############################################################################
+##
+#M  Rang(<words_list>)
+##
 InstallOtherMethod(Rang, [IsList, IsAssocWord],
 function(words, fictive_argument)
     return Length(Difference(Nielsen(words)[1], [One(words[1])]));
@@ -696,7 +371,6 @@ function(pairs)
 		od;
 		result := StructuralCopy(t);
 	fi;
-# if DEBUG_LEVEL > 1 then Print("Mihaylov(IsList): result = ", result, "\n"); fi;
 
 	for i in [1..Length(result)] do
 		if not IsOne(result[i][1]) then
@@ -704,10 +378,10 @@ function(pairs)
 		fi;
 	od;
 	m := i - 1; n := Length(result) - m;
-# if DEBUG_LEVEL > 1 then Print("Mihaylov(IsList): m = ", m, ", n = ", n, "\n"); fi;
 	if m = 0 then
 		return result;
 	fi;
+	##	TODO
 	##	impossible?
 	if n = 0 then
 		Error("Mihaylov(IsList): n = 0\n");
@@ -723,7 +397,6 @@ function(pairs)
 		od;
 		result := StructuralCopy(t);
 	fi;
-# if DEBUG_LEVEL > 1 then Print("Mihaylov(IsList): result = ", result, "\n"); fi;
 
 	nie := NielsenBack(List(result{[m+1..m+n]}, p -> p[1]));
 	if nie[3] then
@@ -734,7 +407,6 @@ function(pairs)
 		od;
 		result := StructuralCopy(t);
 	fi;
-# if DEBUG_LEVEL > 1 then Print("Mihaylov(IsList): result = ", result, "\n"); fi;
 
 	return result;
 end);
@@ -815,44 +487,22 @@ end);
 InstallMethod(NielsenLow, [IsList, IsInt, IsInt],
 function(words_list, m, n)
 	local result, transform, did_something, i, j, try_again, tmp, nie;
-	
-##	Error checking should be done outside
-#
-# 	if m + n <> Length(words_list) then
-# 		Error("NielsenLow(IsList, IsInt, IsInt): m + n <> Length(words_list)\n");
-# 	fi;
-# 	
-# 	if m <= 0 or n <= 0 then
-# 		Error("NielsenLow(IsList, IsInt, IsInt): m or n is not positive\n");
-# 	fi;
-# 	
-# 	for i in [1..m+n] do
-# 		if not IsAssocWord(words_list[i]) then
-# 			Error("NielsenLow(IsList, IsAssocWord): ", i, "-th element of list is not associative word\n");
-# 		fi;
-# 	od;
-	
+		
 	result := ShallowCopy(words_list);
 	transform := ShallowCopy(FreeGeneratorsOfFpGroup(FreeGroup(m+n)));
 	did_something := false;
 	try_again := true;
 
-# Print("0: ", result, "\n");					
-# Print("0: ", transform, "\n");						
-		
 	while try_again do
 		try_again := false;
 		
 		nie := Nielsen(result{[1..m]});
-# Print("123: ", nie, "\n");
 		if nie[3] then
 			result := Concatenation(CalculateWords(nie[2], result{[1..m]}), result{[m+1..m+n]});
 			transform := Concatenation(CalculateWords(nie[2], transform{[1..m]}), transform{[m+1..m+n]});
 			did_something := true;
 			try_again := true;		
 		fi;
-# Print("125: ", result, "\n");					
-# Print("125: ", transform, "\n");						
 		
 		for i in [1..m] do			
 			for j in [m+1..m+n] do
@@ -861,7 +511,6 @@ function(words_list, m, n)
 					transform[i] := transform[i]^transform[j];
 					did_something := true;
 					try_again := true;
-# Print("11: ", i, " ", j, "", result, "\n");					
 				fi;
 			
 				if automata_lt(result[i]^(result[j]^-1), result[i]) then
@@ -869,7 +518,6 @@ function(words_list, m, n)
 					transform[i] := transform[i]^(transform[j]^-1);
 					did_something := true;
 					try_again := true;
-# Print("12: ", i, " ", j, "", result, "\n");					
 				fi;
 				
 				if automata_lt((result[i]^-1)^result[j], result[i]) then
@@ -877,7 +525,6 @@ function(words_list, m, n)
 					transform[i] := (transform[i]^-1)^transform[j];
 					did_something := true;
 					try_again := true;
-# Print("13: ", i, " ", j, "", result, "\n");					
 				fi;
 			
 				if automata_lt((result[i]^-1)^(result[j]^-1), result[i]) then
@@ -885,7 +532,6 @@ function(words_list, m, n)
 					transform[i] := (transform[i]^-1)^(transform[j]^-1);
 					did_something := true;
 					try_again := true;
-# Print("14: ", i, " ", j, "", result, "\n");					
 				fi;			
 			od;
 		od;
@@ -897,7 +543,6 @@ end);
 
 #############################################################################
 ##
-#O  NielsenMihaylov(<words_list>, m, n)
 #M  NielsenMihaylov(<words_list>, m, n)
 ##
 InstallOtherMethod(NielsenMihaylov, [IsList, IsInt, IsInt],
@@ -910,7 +555,6 @@ function(words_list, m, n)
 	did_something := false;
 	try_again := true;
 	
-# Print("0: ", result, " ", transform, "\n");
 	while try_again do
 		try_again := false;
 		
@@ -920,7 +564,6 @@ function(words_list, m, n)
 			try_again := true;
 			result := nie[1];
 			transform := CalculateWords(nie[2], transform);
-# Print("1: ", result, " ", transform, "\n");
 		fi;
 		
 		nie := Nielsen(result{[m+1..m+n]});
@@ -929,17 +572,14 @@ function(words_list, m, n)
 			try_again := true;
 			result := Concatenation(result{[1..m]}, nie[1]);
 			transform := Concatenation(transform{[1..m]}, CalculateWords(nie[2], transform{[m+1..m+n]}));
-# Print("2: ", result, " ", transform, "\n");
 		fi;
 		
 		if Rang(result{[m+1..m+n]}) = n then
 			if List(result{[m+1..m+n]}, w -> Length(w)) = List([1..n], i -> 1) then
 				## ok
 				try_again := false;
-# Print("3: ", result, " ", transform, "\n");
 			else
 				##	try to minimize sum of lengths
-# Print("4: ", result, " ", transform, "\n");
 				good_pair := false;
 				for pair in ListX([m+1..m+n], [1..m], function(i,j) return [i,j]; end) do
 					good_tf := false;
@@ -962,20 +602,17 @@ function(words_list, m, n)
 				od;
 				if not good_pair then
 					##	give up
-# Print("7: ", result, " ", transform, "\n");
 					return [result, transform, did_something];
 				else
 					result[pair[1]] := result[pair[tf[1]]]^tf[2] * result[pair[tf[3]]]^tf[4];
 					transform[pair[1]] := transform[pair[tf[1]]]^tf[2] * transform[pair[tf[3]]]^tf[4];
 					try_again := true;
 					did_something := true;
-# Print("5: ", result, " ", transform, "\n");
 				fi;
 			fi;
 		else
 			##	try to make rang bigger
 			for i in [1..m] do
-# Print("6: ", result, " ", transform, "\n");
 				good_tf := false;
 				pair := [m+1, i];
 				for tf in [	[1,1,2,1],[2,1,1,1],[1,-1,2,1],[2,-1,1,1],
@@ -996,25 +633,25 @@ function(words_list, m, n)
 			od;
 			if not good_pair then
 				##	give up
-# Print("8: ", result, " ", transform, "\n");
 				return [result, transform, did_something];					
 			else
 				result[pair[1]] := result[pair[tf[1]]]^tf[2] * result[pair[tf[3]]]^tf[4];
 				transform[pair[1]] := transform[pair[tf[1]]]^tf[2] * transform[pair[tf[3]]]^tf[4];
 				try_again := true;
 				did_something := true;
-# Print("9: ", result, " ", transform, "\n");
 			fi;
 		fi;
 	
 	od;
 
 	return [result, transform, did_something];
-
-
 end);
 
 
+#############################################################################
+##
+#M  NumberOfLetters(<word>, <list>)
+##
 InstallOtherMethod(NumberOfLetters, [IsList],
 function(list)
 	local letters, i, j;
@@ -1029,24 +666,13 @@ function(list)
 end);
 
 
-# 					if automata_lt(result[p[1]] * result[p[2]], result[p[1]]) then
-# 						tf := [1,1,2,1];
-# 					elif automata_lt(result[p[2]] * result[p[1]], result[p[1]]) then
-# 						tf := [2,1,1,1];
-# 					elif automata_lt(result[p[1]]^-1 * result[p[2]], result[p[1]]) then
-# 						tf := [1,-1,2,1];
-# 					elif automata_lt(result[p[2]]^-1 * result[p[1]], result[p[1]]) then
-# 						tf := [2,-1,1,1];
-# 					elif automata_lt(result[p[1]] * result[p[2]]^-1, result[p[1]]) then
-# 						tf := [1,1,2,-1];
-# 					elif automata_lt(result[p[2]] * result[p[1]]^-1, result[p[1]]) then
-# 						tf := [2,1,1,-1];
-# 					elif automata_lt(result[p[1]]^-1 * result[p[2]]^-1, result[p[1]]) then
-# 						tf := [1,-1,2,-1];
-# 					elif automata_lt(result[p[2]]^-1 * result[p[1]]^-1, result[p[1]]) then
-# 						tf := [2,-1,1,-1];
-# 					else
-# 						continue;
-# 					fi;
+#############################################################################
+##
+#M  Word(<list>)
+##
+InstallOtherMethod(Word, [IsList],
+function(list)
+    return List(list, i -> Word(i));
+end);
 
 

@@ -6,7 +6,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.utils_gd := 
+Revision.utils_gd :=
   "@(#)$Id$";
 
 

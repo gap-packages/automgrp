@@ -6,7 +6,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.listops_gd := 
+Revision.listops_gd :=
   "@(#)$Id$";
 
 
@@ -16,7 +16,7 @@ Revision.listops_gd :=
 ##
 ##  Checks whether the list is correct list to define automaton, i.e.:
 ##  [[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]],
-##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are 
+##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are
 ##  in SymmetricalGroup(n).
 ##
 InstallGlobalFunction(IsCorrectAutomatonList,
@@ -26,12 +26,12 @@ function(list)
   if not IsDenseList(list) then
     return false;
   fi;
-  
+
   len := Length(list);
   if len = 0 then
     return false;
   fi;
-        
+
   for i in [1..len] do
     if not IsDenseList(list[i]) then
       return false;
@@ -40,12 +40,12 @@ function(list)
       return false;
     fi;
   od;
-  
+
   deg := Length(list[1]) - 1;
   if deg < 2 then
     return false;
   fi;
-  
+
   for i in [1..len] do
     for j in [1..deg] do
       if not IsInt(list[i][j]) then
@@ -208,12 +208,12 @@ end);
 ##
 #F  ReducedAutomatonInList( <list> )
 ##
-##  Returns [new_list, list_of_states] where new_list is a new list which 
-##  represents reduced form of given automaton, i-th elmt of list_of_states 
+##  Returns [new_list, list_of_states] where new_list is a new list which
+##  represents reduced form of given automaton, i-th elmt of list_of_states
 ##  is the number of i-th state of new automaton in the old one.
-##  
+##
 ##  First state of returned list is always first state of given one.
-##  It does not remove trivial state, so it's not really "reduced automaton", 
+##  It does not remove trivial state, so it's not really "reduced automaton",
 ##  it just removes equivalent states.
 ##  TODO: write such function which removes trivial state
 ##
@@ -298,7 +298,7 @@ end);
 ##
 #F  MinimalSubAutomatonInlist(<states>, <list>)
 ##
-##  Returns list representation of automaton given by <list> which is minimal 
+##  Returns list representation of automaton given by <list> which is minimal
 ##  subatomaton of automaton containing states <states>.
 ##
 ##  Does not check correctness of list.

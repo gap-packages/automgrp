@@ -123,8 +123,8 @@ InstallMethod(StabilizerOfLevel, [IsFGAutomGroup, IsInt],
 function (G, k)
     local freegens, S, F, hom, chooser, s, f, gens;
 
-##	TODO
-##	if stabilizes the level then return G
+##  TODO
+##  if stabilizes the level then return G
 
     freegens := List(GeneratorsOfGroup(G), a -> [a!.Word, Perm(a, k)]);
     S := Group(List(freegens, x -> x[2]));
@@ -147,7 +147,7 @@ function (G, k)
     local X, S, F, hom, s, f, gens, stab, rt, map, canonreprs,
             action;
 
-##	TODO
+##  TODO
 #     if G stabilizes k then return G; fi;
 
     X := List(G!.Gens, a -> [a!.Word, a!.Perm]);
@@ -174,21 +174,21 @@ function (G, seq)
     local X, S, F, hom, s, f, gens, stab, rt, map, canonreprs,
             action, i, v;
 
-##	TODO
+##  TODO
 #     if G stabilizes k then return G; fi;
 
-		if Length(seq) = 0 then
-			Error("StabilizerOfVertex(IsFGAutomGroup, IsList): don't want to stabilize root vertex\n");
-		fi;    
-		for i in [1..Length(seq)] do
-			if not seq[i] in [1..Degree(G)] then
-				Error("StabilizerOfVertex(IsFGAutomGroup, IsList): list is not valid vertex\n");
-			fi;
-		od;
-		
-		v := Position(AsList(Tuples([1..Degree(G)], Length(seq))), seq);
-		
-		X := List(G!.Gens, a -> [a!.Word, Perm(a, Length(seq))]);
+  	if Length(seq) = 0 then
+  		Error("StabilizerOfVertex(IsFGAutomGroup, IsList): don't want to stabilize root vertex\n");
+  	fi;
+  	for i in [1..Length(seq)] do
+  		if not seq[i] in [1..Degree(G)] then
+  			Error("StabilizerOfVertex(IsFGAutomGroup, IsList): list is not valid vertex\n");
+  		fi;
+  	od;
+
+  	v := Position(AsList(Tuples([1..Degree(G)], Length(seq))), seq);
+
+  	X := List(G!.Gens, a -> [a!.Word, Perm(a, Length(seq))]);
     S := Group(List(X, x -> x[2]));
     F := FreeGroup(Length(X));
     hom := GroupHomomorphismByImagesNC(F, S,
@@ -222,7 +222,7 @@ end);
 ##
 InstallMethod(Mihaylov, [IsFGAutomGroup],
 function(G)
-	return Mihaylov(G!.AutomFam);
+  return Mihaylov(G!.AutomFam);
 end);
 
 
@@ -268,18 +268,18 @@ end);
 ##
 InstallOtherMethod(Projection, [IsFGAutomGroup, IsList],
 function(G, v)
-	if Length(v) = 0 then
-		return G;
-	fi;
-	    
-##	TODO
-##	error checking
-##	stabilize
-	if Set(List(G!.Gens, g -> (v = v^g))) <> [true] then
-			Error("Projection(IsFGAutomGroup, IsInt): group does not stabilize given vertex\n");
-	fi;
+  if Length(v) = 0 then
+  	return G;
+  fi;
 
-	return FGAutomGroup(List(G!.Gens, g -> Projection(g, v)));
+##  TODO
+##  error checking
+##  stabilize
+  if Set(List(G!.Gens, g -> (v = v^g))) <> [true] then
+  		Error("Projection(IsFGAutomGroup, IsInt): group does not stabilize given vertex\n");
+  fi;
+
+  return FGAutomGroup(List(G!.Gens, g -> Projection(g, v)));
 end);
 
 
@@ -289,7 +289,7 @@ end);
 ##
 InstallOtherMethod(IsFractalByWords, [IsFGAutomGroup],
 function(G)
-	return IsFractalByWords(G!.AutomFam);
+  return IsFractalByWords(G!.AutomFam);
 end);
 
 
@@ -299,7 +299,7 @@ end);
 ##
 InstallOtherMethod(Perm, [IsFGAutomGroup],
 function(G)
-	return Group(List(GeneratorsOfGroup(G), a -> Perm(a)));
+  return Group(List(GeneratorsOfGroup(G), a -> Perm(a)));
 end);
 
 
@@ -309,7 +309,7 @@ end);
 ##
 InstallOtherMethod(Perm, [IsFGAutomGroup, IsInt],
 function(G, k)
-	return Group(List(GeneratorsOfGroup(G), a -> Perm(a, k)));
+  return Group(List(GeneratorsOfGroup(G), a -> Perm(a, k)));
 end);
 
 

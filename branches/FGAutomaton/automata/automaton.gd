@@ -5,7 +5,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.automaton_gd := 
+Revision.automaton_gd :=
   "@(#)$Id$";
 
 
@@ -15,7 +15,7 @@ Revision.automaton_gd :=
 ##
 ##  This is a category parent for all automata categories.
 ##
-DeclareCategory("IsAutomaton",  IsMultiplicativeElement and 
+DeclareCategory("IsAutomaton",  IsMultiplicativeElement and
                                 IsAssociativeElement);
 
 
@@ -26,7 +26,7 @@ DeclareCategory("IsAutomaton",  IsMultiplicativeElement and
 ##
 ##  It has different meaning for initial and noninitial automata.
 ##  Maybe it's worth to make this function always return a list of length
-##  1 or 2 where the first elmt is the 'list' and optional second elmt is 
+##  1 or 2 where the first elmt is the 'list' and optional second elmt is
 ##  number of initial state?
 ##
 DeclareOperation("GetList", [IsAutomaton]);

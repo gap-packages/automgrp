@@ -4,7 +4,7 @@
 ##
 ##  automata v0.9, started 01/22/2004
 ##
-##	Declarations of functions dealing with FGAutomGroup's
+##  Declarations of functions dealing with FGAutomGroup's
 ##
 
 ###############################################################################

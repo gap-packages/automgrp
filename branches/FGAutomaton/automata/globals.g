@@ -6,7 +6,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.globals_g := 
+Revision.globals_g :=
   "@(#)$Id$";
 
 
@@ -15,7 +15,7 @@ Revision.globals_g :=
 #V  AutomataParameters
 ##
 ##  This record contains various global variables for automata package.
-##  It's made as one record with million (possible:) entries in order to not 
+##  It's made as one record with million (possible:) entries in order to not
 ##  pollute global namespace (and we can put any trash in here).
 ##
 BindGlobal ( "AutomataParameters", rec (

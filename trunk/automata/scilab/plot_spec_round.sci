@@ -29,11 +29,11 @@ for i=1:2^iter_num
 	sp_for_plotting(i) = round(sp_for_plotting(i)*2^(prec)) / 2^(prec)
 end
 
-freq_matrix = nfreq(sp_for_plotting)
+freq_matrix = nfreq(sp_for_plotting);
 num_eigens = size(freq_matrix); num_eigens = num_eigens(1);
 x = [1:num_eigens]; y =x;
-for i=1:num_eigens
-	x(i) = freq_matrix(i,1)
-	y(i) = freq_matrix(i,2)
-end
-plot2d3(x,y, strf="011", rect=[-1,0,1,max(y)])
+for i=1:num_eigens,
+	x(i) = freq_matrix(i,1);
+	y(i) = freq_matrix(i,2);
+end,
+plot2d3(x,y, strf="011", rect=[-1,0,1,max(y)]);

@@ -12,6 +12,7 @@ basepics = "/home/muntyan/math/automata/data/pics";
 
 automata = read(strcat([basedata, "3st"]), -1, 18);
 
+// 3 4 5 6 10 15
 i=1;
 
 for i = 1:32
@@ -19,10 +20,10 @@ for i = 1:32
 	autom = [automata(i, 1), automata(i, 2), automata(i, 3); automata(i, 4), automata(i, 5), automata(i, 6); automata(i, 7), automata(i, 8), automata(i, 9); automata(i, 10), automata(i, 11), automata(i, 12); automata(i, 13), automata(i, 14), automata(i, 15); automata(i, 16), automata(i, 17), automata(i, 18)]
 	xbasc(0);
 	sp = plot_spec_round(autom, 9, 7);
-	xs2gif(0, strcat([basepics, "/", string(i), ".9,7.gif"]));
+//	xs2gif(0, strcat([basepics, "/", string(i), ".9,7.gif"]));
 	xs2fig(0, strcat([basepics, "/", string(i), ".9,7.fig"]));
 	xs2ps(0, strcat([basepics, "/", string(i), ".9,7.ps"]));
-	xs2ppm(0, strcat([basepics, "/", string(i), ".9,7.ppm"]));
+//	xs2ppm(0, strcat([basepics, "/", string(i), ".9,7.ppm"]));
 	write(strcat([basepics, "/", string(i), ".9.spectra"]), sp);
 end
 

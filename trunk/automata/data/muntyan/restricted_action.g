@@ -2,7 +2,7 @@ restricted_aut := function(list, forbidden)
   local i, g, d, k, s, f, p, pim, nstates, naut, dom;
 
   ## check that forbidden is closed under automaton action
-  g := AutomGroup(list);
+  g := AutomGroupNoBindGlobal(list);
   d := Length(forbidden);
   if Union(List([1..d], i -> Orbit(g, [i,forbidden[i]]))) <>
     Union(List([1..d], i -> [[i,forbidden[i]]])) then

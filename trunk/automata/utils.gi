@@ -97,6 +97,20 @@ end);
 
 ###############################################################################
 ##
+#F  DegreeOfLevelInSphericalIndex(<ind>)
+##
+InstallGlobalFunction("DegreeOfLevelInSphericalIndex",
+function(M, k)
+  local i;
+  if Length(M.start) >= k then return M.start[k]; fi;
+  i := RemInt(k-Length(M.start), Length(M.period));
+  if i = 0 then i := Length(M.period); fi;
+  return M.period[i];
+end);
+
+
+###############################################################################
+##
 #F  TreeLevelTuples(<ind>)
 #F  TreeLevelTuples(<ind>, <n>)
 #F  TreeLevelTuples(<start>, <period>, <n>)

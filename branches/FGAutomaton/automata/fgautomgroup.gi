@@ -177,18 +177,18 @@ function (G, seq)
 ##  TODO
 #     if G stabilizes k then return G; fi;
 
-  	if Length(seq) = 0 then
-  		Error("StabilizerOfVertex(IsFGAutomGroup, IsList): don't want to stabilize root vertex\n");
-  	fi;
-  	for i in [1..Length(seq)] do
-  		if not seq[i] in [1..Degree(G)] then
-  			Error("StabilizerOfVertex(IsFGAutomGroup, IsList): list is not valid vertex\n");
-  		fi;
-  	od;
+    if Length(seq) = 0 then
+      Error("StabilizerOfVertex(IsFGAutomGroup, IsList): don't want to stabilize root vertex\n");
+    fi;
+    for i in [1..Length(seq)] do
+      if not seq[i] in [1..Degree(G)] then
+        Error("StabilizerOfVertex(IsFGAutomGroup, IsList): list is not valid vertex\n");
+      fi;
+    od;
 
-  	v := Position(AsList(Tuples([1..Degree(G)], Length(seq))), seq);
+    v := Position(AsList(Tuples([1..Degree(G)], Length(seq))), seq);
 
-  	X := List(G!.Gens, a -> [a!.Word, Perm(a, Length(seq))]);
+    X := List(G!.Gens, a -> [a!.Word, Perm(a, Length(seq))]);
     S := Group(List(X, x -> x[2]));
     F := FreeGroup(Length(X));
     hom := GroupHomomorphismByImagesNC(F, S,
@@ -269,14 +269,14 @@ end);
 InstallOtherMethod(Projection, [IsFGAutomGroup, IsList],
 function(G, v)
   if Length(v) = 0 then
-  	return G;
+    return G;
   fi;
 
 ##  TODO
 ##  error checking
 ##  stabilize
   if Set(List(G!.Gens, g -> (v = v^g))) <> [true] then
-  		Error("Projection(IsFGAutomGroup, IsInt): group does not stabilize given vertex\n");
+      Error("Projection(IsFGAutomGroup, IsInt): group does not stabilize given vertex\n");
   fi;
 
   return FGAutomGroup(List(G!.Gens, g -> Projection(g, v)));

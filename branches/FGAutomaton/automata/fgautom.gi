@@ -257,17 +257,17 @@ end);
 ##
 InstallMethod(Perm, [IsFGAutom, IsInt],
 function(a, k)
-  	local dom, perm;
+    local dom, perm;
 
-  	if k <= 0 then
-  		Error("Perm(IsFGAutom, IsInt): level number is not positive\n");
-  	fi;
+    if k <= 0 then
+      Error("Perm(IsFGAutom, IsInt): level number is not positive\n");
+    fi;
 
-  	dom := AsList(Tuples([1..Degree(a)], k));
-  	perm := List(dom, s -> s ^ a);
-  	perm := PermListList(dom, perm);
+    dom := AsList(Tuples([1..Degree(a)], k));
+    perm := List(dom, s -> s ^ a);
+    perm := PermListList(dom, perm);
 
-  	return perm;
+    return perm;
 end);
 
 
@@ -327,15 +327,15 @@ end);
 InstallOtherMethod(Projection, [IsFGAutom, IsList],
 function(a, v)
   if Length(v) = 0 then
-  	return a;
+    return a;
   fi;
 
   if v[1]^a <> v[1] then
-  	Error("Projection(IsFGAutom, IsList): given autmaton does not stabilize given vertex\n");
+    Error("Projection(IsFGAutom, IsList): given autmaton does not stabilize given vertex\n");
   fi;
 
   if Length(v) = 1 then
-  	return Projection(a, v[1]);
+    return Projection(a, v[1]);
   fi;
 
   return Projection(Projection(a, v[1]), v{[2..Length(v)]});
@@ -485,27 +485,27 @@ function(a)
   list := listrep.list;
 
   pf := function(w)
-  	if IsOne(w) then
-  		Print(AutomataParameters.identity_symbol);
-  	else
-  		Print(w);
-  	fi;
+    if IsOne(w) then
+      Print(AutomataParameters.identity_symbol);
+    else
+      Print(w);
+    fi;
   end;
 
   for i in [1..Length(list)] do
-  	pf(names[i]);
-  	Print(" = (");
-  	for j in [1..deg] do
-  		pf(names[list[i][j]]);
-  		if j <> deg then
-  			Print(", ");
-  		fi;
-  	od;
-  	if not IsOne(list[i][deg+1]) then
-  		Print(")", list[i][deg+1], "\n");
-  	else
-  		Print(")\n");
-  	fi;
+    pf(names[i]);
+    Print(" = (");
+    for j in [1..deg] do
+      pf(names[list[i][j]]);
+      if j <> deg then
+        Print(", ");
+      fi;
+    od;
+    if not IsOne(list[i][deg+1]) then
+      Print(")", list[i][deg+1], "\n");
+    else
+      Print(")\n");
+    fi;
   od;
 end);
 
@@ -524,34 +524,34 @@ function(a)
   list := listrep.list;
   names := [];
   for i in [1..Length(list)] do
-  	names[i] := Concatenation("s", String(i));
+    names[i] := Concatenation("s", String(i));
   od;
 
   pf := function(w)
-  	if IsOne(w) then
-  		Print(AutomataParameters.identity_symbol);
-  	else
-  		Print(w);
-  	fi;
+    if IsOne(w) then
+      Print(AutomataParameters.identity_symbol);
+    else
+      Print(w);
+    fi;
   end;
 
   for i in [1..Length(list)] do
-  	Print(names[i]);
-  	Print(" = (");
-  	for j in [1..deg] do
-  		Print(names[list[i][j]]);
-  		if j <> deg then
-  			Print(", ");
-  		fi;
-  	od;
-  	if not IsOne(list[i][deg+1]) then
-  		Print(")", list[i][deg+1], "\n");
-  	else
-  		Print(")\n");
-  	fi;
+    Print(names[i]);
+    Print(" = (");
+    for j in [1..deg] do
+      Print(names[list[i][j]]);
+      if j <> deg then
+        Print(", ");
+      fi;
+    od;
+    if not IsOne(list[i][deg+1]) then
+      Print(")", list[i][deg+1], "\n");
+    else
+      Print(")\n");
+    fi;
   od;
   for i in [1..Length(list)] do
-  	Print(names[i], " = "); pf(states[i]); Print("\n");
+    Print(names[i], " = "); pf(states[i]); Print("\n");
   od;
 end);
 
@@ -570,20 +570,20 @@ function(a)
   list_comp := [];
 
   while pos <> Length(states) do
-  	pos := pos + 1;
-  	word := states[pos];
-  	aut := FGAutom(word, FamilyObj(a));
-  	for i in [1..deg] do
-  		if not aut!.States[i] in states then
-  			Add(states, aut!.States[i]);
-  		fi;
-  	od;
+    pos := pos + 1;
+    word := states[pos];
+    aut := FGAutom(word, FamilyObj(a));
+    for i in [1..deg] do
+      if not aut!.States[i] in states then
+        Add(states, aut!.States[i]);
+      fi;
+    od;
 
-  	Add(list_comp, Concatenation(List(aut!.States, w -> Position(states, w)), [aut!.Perm]));
+    Add(list_comp, Concatenation(List(aut!.States, w -> Position(states, w)), [aut!.Perm]));
   od;
 
-  return rec(	list 	:= list_comp,
-  						names := states	);
+  return rec(  list   := list_comp,
+              names := states  );
 end);
 
 
@@ -603,22 +603,22 @@ function(a, path)
 ##  TODO: error checking
 
   while true do
-  	if cur_pos = 1 and Word(cur_state) in checked_words then
-  			return true;
-  	fi;
+    if cur_pos = 1 and Word(cur_state) in checked_words then
+        return true;
+    fi;
 
-  	if path[cur_pos]^cur_state <> path[cur_pos] then
-  		return false;
-  	fi;
+    if path[cur_pos]^cur_state <> path[cur_pos] then
+      return false;
+    fi;
 
-  	if cur_pos = 1 then
-  		Add(checked_words, Word(cur_state)); fi;
+    if cur_pos = 1 then
+      Add(checked_words, Word(cur_state)); fi;
 
-  	cur_state := Projection(cur_state, path[cur_pos]);
+    cur_state := Projection(cur_state, path[cur_pos]);
 
-  	if cur_pos < len then
-  		cur_pos := cur_pos + 1;
-  	else cur_pos := 1; fi;
+    if cur_pos < len then
+      cur_pos := cur_pos + 1;
+    else cur_pos := 1; fi;
   od;
 end);
 

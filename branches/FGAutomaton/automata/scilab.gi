@@ -22,21 +22,21 @@ function(list, iter_num, round, stacksize)
   temp_file_name := Filename(temp_dir, "pass");
   temp_file := OutputTextFile(temp_file_name, false);
   if temp_file = fail then
-  	Error("Could not create temp file\n");
+    Error("Could not create temp file\n");
   fi;
 
   for i in [1..2^iter_num] do
-  	for j in [1..Length(list)] do
-  		AppendTo(temp_file, mats[j][i][1], "\t", mats[j][i][2], "\t");
-  	od;
-  	AppendTo(temp_file, "\n");
+    for j in [1..Length(list)] do
+      AppendTo(temp_file, mats[j][i][1], "\t", mats[j][i][2], "\t");
+    od;
+    AppendTo(temp_file, "\n");
   od;
   CloseStream(temp_file);
 
   sci_temp_file_name := Filename(temp_dir, "pass_sci");
   sci_temp_file := OutputTextFile(sci_temp_file_name, false);
   if sci_temp_file = fail then
-  	Error("Could not create temp file for scilab script\n");
+    Error("Could not create temp file for scilab script\n");
   fi;
 
   AppendTo(sci_temp_file, "getf(\"", plot_spectra_func_file, "\");\n");

@@ -342,12 +342,17 @@ end);
 InstallMethod(DiagonalActionOp, "DiagonalActionOp(IsAutomFamily, IsPosInt)",
               [IsAutomFamily, IsPosInt],
 function(fam, n)
-  local list, states, dlist;
+  local names, list, states, dlist;
   list := fam!.automatonlist;
   states := [1..fam!.numstates];
-  if fam!.trivstate <> 0 then Add(states, fam!.trivstate); fi;
+  names := fam!.names;
+  if fam!.trivstate <> 0 then
+    Add(states, fam!.trivstate);
+    Add(names, "e");
+  fi;
   dlist := MinimalSubAutomatonInlist(states, list)[1];
-  return AutomGroup(DiagonalActionInList(dlist, n));
+  return AutomGroup(DiagonalActionInList(dlist, n, names)[1],
+    DiagonalActionInList(dlist, n, names)[2]);
 end);
 
 

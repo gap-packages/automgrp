@@ -1,0 +1,56 @@
+f := FreeGroup("a","b","c","d");
+AssignGeneratorVariables(f);
+
+BrokenAddingMachineFamily :=
+    CreateFamilyOfAutomata([[1,1,()], [1,3,(1,2)], [2,1,(1,2)]], ["e","t","T"]);
+e:=Automaton(BrokenAddingMachineFamily, 0);
+t:=Automaton(BrokenAddingMachineFamily, 1);
+OrderOfAutomaton(t^6);
+
+
+AddingMachineFamily :=
+    CreateFamilyOfAutomata([[1,1,()], [1,2,(1,2)]], ["e","t"]);;
+e:=Automaton(AddingMachineFamily, 0);;
+t:=Automaton(AddingMachineFamily, 1);;
+T := AutomataGroup([t]);
+
+GrigorchukAutomatonFamily :=
+    CreateFamilyOfAutomata([[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);;
+e:=Automaton(GrigorchukAutomatonFamily, 0);;
+a:=Automaton(GrigorchukAutomatonFamily, 1);;
+b:=Automaton(GrigorchukAutomatonFamily, 2);;
+c:=Automaton(GrigorchukAutomatonFamily, 3);;
+d:=Automaton(GrigorchukAutomatonFamily, 4);;
+G := AutomataGroup([a,b,c,d]);
+EEE := AutomataGroup([e]);
+
+check := function(list)
+    return ProductOfAutomataList(list) = Product(list);
+end;
+
+AddingMachineFamily :=
+    CreateFamilyOfAutomata([[1,1,1,()], [1,1,2,(1,2,3)]], ["e","t"]);;
+e:=Automaton(AddingMachineFamily, 0);;
+t:=Automaton(AddingMachineFamily, 1);;
+T := AutomataGroup([t]);
+
+
+e := InitialAutomaton(1, [[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+a := InitialAutomaton(2, [[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+b := InitialAutomaton(3, [[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+c := InitialAutomaton(4, [[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+d := InitialAutomaton(5, [[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+
+GGG := CreateAutom([[1,1,()], [1,1,(1,2)], [2,4,()], [2,5,()], [1,3,()]], ["e","a","b","c","d"]);
+e := One(GGG);
+
+DualAlyoshinAutomatonFamily := CreateFamilyOfAutomata([[2,2,1,(1,3)],[1,1,2,(1,2,3)]],["a","b"]);
+a:=Automaton(DualAlyoshinAutomatonFamily, 1);
+b:=Automaton(DualAlyoshinAutomatonFamily, 2);
+Alyoshin := GroupWithGenerators([a,b]);
+
+A := CreateAutom([[2,2,1,(1,3)],[1,1,2,(1,2,3)]],["a","b"]);
+Stab(A);
+
+
+A := CreateAutom([[1,3,(1,2)],[3,1,(1,2)],[2,2,()]],["a","b","c"]);

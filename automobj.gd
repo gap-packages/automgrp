@@ -38,55 +38,6 @@ DeclareOperation("Perm", [IsAutomObj, IsInt]);
 DeclareAttribute("TopPerm", IsAutomObj);
 
 
-# ###############################################################################
-# ##
-# #O  Degree(<object>)
-# ##
-# DeclareOperation("Degree", [IsAutomObj]);
-# 
-# 
-# ###############################################################################
-# ##
-# #O  IsActingOnBinaryTree
-# ##
-# DeclareOperation("IsActingOnBinaryTree", IsAutomObj);
-
-
-# ###############################################################################
-# ##
-# #A  AbelianType
-# ##
-# DeclareAttribute("AbelianType", IsAutomaton);
-# 
-# ###############################################################################
-# ##
-# #O  CanEasilyCheckSphericalTransitivity
-# ##
-# ##  It and CanEasilyComputeOrder (and maybe something else?) are not properties
-# ##  because of crossreferences.
-# ##
-# DeclareOperation("CanEasilyCheckSphericalTransitivity", [IsAutomaton]);
-# 
-# ###############################################################################
-# ##
-# #P  IsSphericallyTransitive
-# ##
-# DeclareProperty("IsSphericallyTransitive", IsAutomaton);
-# 
-# 
-# ###############################################################################
-# ##
-# #A  Heigth
-# ##
-# DeclareAttribute("Heigth", IsAutomaton);
-# 
-# 
-# ###############################################################################
-# ##
-# #O  CanEasilyComputeOrder
-# ##
-# DeclareOperation("CanEasilyComputeOrder", [IsAutomaton]);
-
 
 
 

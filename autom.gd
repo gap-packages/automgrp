@@ -38,52 +38,6 @@ DeclareOperation("CreateAutom", [IsObject]);
 DeclareOperation("Autom", [IsObject]);
 
 
-# ###############################################################################
-# ##
-# #O  ProductOfAutomataList(<automaton>)
-# ##
-# DeclareOperation("ProductOfAutomataList", [IsList]);
-
-
-# ###############################################################################
-# ##
-# #A  AbelianType
-# ##
-# DeclareAttribute("AbelianType", IsAutomaton);
-# 
-# 
-# ###############################################################################
-# ##
-# #O  CanEasilyCheckSphericalTransitivity
-# ##
-# ##  It and CanEasilyComputeOrder (and maybe something else?) are not properties
-# ##  because of crossreferences.
-# ##
-# DeclareOperation("CanEasilyCheckSphericalTransitivity", [IsAutomaton]);
-# 
-# ###############################################################################
-# ##
-# #P  IsSphericallyTransitive
-# ##
-# DeclareProperty("IsSphericallyTransitive", IsAutomaton);
-# 
-# 
-# ###############################################################################
-# ##
-# #A  Heigth
-# ##
-# DeclareAttribute("Heigth", IsAutomaton);
-# 
-# 
-# ###############################################################################
-# ##
-# #O  CanEasilyComputeOrder
-# ##
-# DeclareOperation("CanEasilyComputeOrder", [IsAutomaton]);
-
-
-
-
 ###############################################################################
 ##
 #P  IsActingOnBinaryTree

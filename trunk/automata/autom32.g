@@ -261,6 +261,44 @@ SynchronizeByLabel:=function(list,label)
   return list;
 end;
 
+
+################################################################################
+##
+#F AddClassToClass . . . . . . . . . . adds automaton #i to the class containing
+##                                                              automaton #class
+
+AddClassToClass:=function(iclass,jclass,list)
+  local k,i,j,li,lj,listi;
+  j:=list[jclass][2];
+  i:=list[iclass][2];
+  listi:=[];
+  for li in [1..Length(list)] do
+    if list[li][2]=i then Add(listi,li); fi;
+  od;
+
+  if i>j then
+    for li in listi do
+      for k in [2..Length(list[j])] do
+        if IsBound(list[j][k]) and (k=2 or k=3 or k=4) then list[li][k]:=list[j][k]; fi;
+      od;
+    od;
+    return list;
+  elif i<j then
+    for li in listi do
+      for k in [3..Length(list[j])] do
+        if IsBound(list[j][k]) and (k=3 or k=4) then list[li][k]:=list[j][k]; fi;
+      od;
+    od;
+
+
+    for lj in [1..Length(list)] do
+      if list[lj][2]=j then list[lj][2]:=i; fi;
+    od;
+  fi;
+  return list;
+end;
+
+
 ################################################################################
 ##
 #F NumberOfClasses . . . . . . . . . . .gives nuber of different classes in list
@@ -452,7 +490,7 @@ end;
 ##                                                                    from Ainfo
 
 WriteAutomInfoTo:=function(f,Ainfo)
-  local ConvToTeX,A;
+  local ConvToTeX,A,i;
   ConvToTeX:=function(x)
     if x=1 then return "a";
       elif x=2 then return "b";
@@ -476,8 +514,22 @@ WriteAutomInfoTo:=function(f,Ainfo)
   AppendTo(f,"$b=(",ConvToTeX(A[2][1]),",",ConvToTeX(A[2][2]),")",ConvToTeX(A[2][3]),"$\n\n");
   AppendTo(f,"$c=(",ConvToTeX(A[3][1]),",",ConvToTeX(A[3][2]),")",ConvToTeX(A[3][3]),"$&\n");
 
-  AppendTo(f,"Group: ",Ainfo[4],"\n\nErgodic: \\textit{",ConvToTeX(Ainfo[5]),"}\n\nContracting: \\textit{n/a}\\\\ \n");
-  AppendTo(f,"\\end{tabular}&\n\\hfill~\n");
+  AppendTo(f,"Group: ",Ainfo[4],"\n\nErgodic: \\textit{",ConvToTeX(Ainfo[5]),"}\n\n");
+  if IsBound(Ainfo[7]) then
+    AppendTo(f,"Contracting: \\textit{yes} \n\n");
+  else
+    AppendTo(f,"Contracting: \\textit{n/a} \n\n");
+  fi;
+
+  if IsBound(Ainfo[6]) then
+    AppendTo(f,"Growth: \\textit{",Ainfo[6][1]);
+    for i in [2..Length(Ainfo[6])] do
+      AppendTo(f,",",Ainfo[6][i]);
+    od;
+    AppendTo(f,"}\n\n");
+  fi;
+
+  AppendTo(f,"\\\\ \n\\end{tabular}&\n\\hfill~\n");
 
   DrawAutomTo(f,Ainfo[1]);
 
@@ -513,5 +565,4 @@ WriteAutomListTo:=function(f,AutList)
 
   AppendTo(f,"\\end{document}\n");
 end;
-
 

@@ -53,9 +53,6 @@ function(fam)
 	stab := List(GeneratorsOfGroup(stab), a -> a!.States);
 	for i in [1..fam!.Degree] do
 		pr := List(stab, s -> s[i]);
-# 		if IndexInParent(Subgroup(fam!.FreeGroup, pr)) <> 1 then
-# 			return false;
-# 		fi;
 		if Difference(Nielsen(pr)[1], [One(pr[1])]) <> GeneratorsOfGroup(fam!.FreeGroup) then
 			return false;
 		fi;

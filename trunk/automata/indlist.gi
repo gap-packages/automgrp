@@ -6,6 +6,10 @@
 ##
 
 
+#############################################################################
+##
+#R  IsIndexedListRep
+##
 IsIndexedListRep := NewRepresentation(  "IsIndexedListRep",
                                         IsComponentObjectRep,
                                         ["indexes", "values", "length"] );
@@ -13,6 +17,10 @@ IndexedListFamily := NewFamily  (
             "IndexedListFamily",
             IsIndexedList and IsIndexedListRep  );
 
+#############################################################################
+##
+#M  IndexedList(<ind_list>, <val_list>)
+##
 InstallMethod(IndexedList, [IsList, IsList],
 function(indlist, vallist)
     local i, list, ind;
@@ -34,11 +42,21 @@ function(indlist, vallist)
     );
 end);
 
+
+#############################################################################
+##
+#M	IndexedList(<list>)
+##
 InstallOtherMethod(IndexedList, [IsList],
 function(list)
     return IndexedList(list, list);
 end);
 
+
+#############################################################################
+##
+#M	IndexedList()
+##
 InstallOtherMethod(IndexedList, "creates empty indexed list", ReturnTrue, [],
 function()
     return Objectify(   NewType(IndexedListFamily,
@@ -51,15 +69,29 @@ function()
     );
 end);
 
+
+#############################################################################
+##
+#M	Length(<indexed_list>)
+##
 InstallOtherMethod(Length, [IsIndexedList],
 function(list)
     return list!.length;
 end);
+#############################################################################
+##
+#M	Size(<indexed_list>)
+##
 InstallOtherMethod(Size, [IsIndexedList],
 function(list)
     return list!.length;
 end);
 
+
+#############################################################################
+##
+#M	PrintObj(<indexed_list>)
+##
 InstallMethod(PrintObj, [IsIndexedList],
 function(list)
     Print(list!.indexes, " -> ", list!.values);
@@ -67,11 +99,20 @@ function(list)
 end);
 
 
+#############################################################################
+##
+#M	IsBoundInIndexedList(<indexed_list>, <pos>)
+##
 InstallOtherMethod(IsBoundInIndexedList, [IsIndexedList, IsObject],
 function(list, pos)
     return not (PositionSet(list!.indexes, pos) = fail);
 end);
 
+
+#############################################################################
+##
+#M	Value(<indexed_list>, <pos>)
+##
 InstallOtherMethod(Value, [IsIndexedList, IsObject],
 function(list, pos)
     local realpos;
@@ -85,6 +126,11 @@ function(list, pos)
     fi;
 end);
 
+
+#############################################################################
+##
+#M	Put(<indexed_list>, <pos>, <val>)
+##
 InstallOtherMethod(Put, [IsIndexedList, IsObject, IsObject],
 function(list, pos, val)
     local realpos;
@@ -108,6 +154,11 @@ function(list, pos, val)
     return list;
 end);
 
+
+#############################################################################
+##
+#M	Remove(<indexed_list>, <pos>)
+##
 InstallOtherMethod(Remove, [IsIndexedList, IsObject],
 function(list, pos)
     local realpos;
@@ -128,6 +179,10 @@ function(list, pos)
 end);
 
 
+#############################################################################
+##
+#M	SubList(<indexed_list>, <indexes>)
+##
 InstallMethod(SubList, [IsIndexedList, IsList],
 function(list, ind)
     local sub, i;
@@ -139,18 +194,31 @@ function(list, ind)
     return sub;
 end);
 
+
+#############################################################################
+##
+#M	Indexes(<indexed_list>)
+##
 InstallMethod(Indexes, [IsIndexedList],
 function(list)
     return list!.indexes;
 end);
 
 
+#############################################################################
+##
+#M	Values(<indexed_list>)
+##
 InstallMethod(Values, [IsIndexedList],
 function(list)
     return list!.values;
 end);
 
 
+#############################################################################
+##
+#M	UnionOfIndexedLists(<list1>, <list2>)
+##
 InstallMethod(UnionOfIndexedLists, [IsIndexedList, IsIndexedList],
 function(l1, l2)
     local ind, val, sub;
@@ -163,6 +231,10 @@ function(l1, l2)
 end);
 
 
+#############################################################################
+##
+#M	UnionOfIndexedLists(<list>)
+##
 InstallOtherMethod(UnionOfIndexedLists, [IsList],
 function(list)
     local union, i;

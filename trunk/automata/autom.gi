@@ -231,17 +231,6 @@ function (a)
 end);
 
 
-# ###############################################################################
-# ##
-# #M  ViewObj(a)
-# ##
-# InstallMethod(ViewObj, [IsAutom],
-# function (a)
-#     if IsOne(a!.Word) then Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
-#     else Print(a!.Word); fi;
-# end);
-
-
 ###############################################################################
 ##
 #M  TopPerm(a)
@@ -331,18 +320,6 @@ function(a, k)
 end);
 
 
-# ###############################################################################
-# ##
-# #M  Nielsen(list, a)
-# ##
-# InstallOtherMethod(Nielsen, [IsList, IsAutom],
-# function(list, fictive_argument)
-#     local nie;
-#     nie := Nielsen(List(list, a -> Word(a)));
-#     return [List(nie[1], w -> Autom(w, list[1])), nie[2], nie[3]];
-# end);
-# 
-# 
 ###############################################################################
 ##
 #M  k ^ a
@@ -470,19 +447,6 @@ InstallMethod(IsActingOnBinaryTree, [IsAutomFamily],
 function(fam)
     return fam!.Degree = 2;
 end);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -47,6 +47,20 @@ DeclareOperation("Expand", [IsAutomObj]);
 
 ###############################################################################
 ##
+#O  ExpandRen(<automobj>)
+##
+DeclareOperation("ExpandRen", [IsAutomObj]);
+
+
+###############################################################################
+##
+#O  StabilizesPath(<automobj>, <path>)
+##
+DeclareOperation("StabilizesPath", [IsAutomObj, IsObject]);
+
+
+###############################################################################
+##
 #A  ListRep(<autom>)
 ##
 DeclareAttribute("ListRep", IsAutomObj);

@@ -512,6 +512,52 @@ end);
 
 ###############################################################################
 ##
+#M  ExpandRen(a)
+##
+InstallMethod(ExpandRen, [IsAutom],
+function(a)
+	local letters, deg, listrep, list, states, names, i, j, pf;
+	
+	listrep := ListRep(a);
+	deg := Degree(a);
+	states := listrep.names;
+	list := listrep.list;
+	names := [];
+	for i in [1..Length(list)] do
+		names[i] := Concatenation("s", String(i));
+	od;
+	
+	pf := function(w)
+		if IsOne(w) then
+			Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
+		else
+			Print(w);
+		fi;
+	end;
+	
+	for i in [1..Length(list)] do
+		Print(names[i]);
+		Print(" = (");
+		for j in [1..deg] do
+			Print(names[list[i][j]]);
+			if j <> deg then
+				Print(", ");
+			fi;
+		od;
+		if not IsOne(list[i][deg+1]) then
+			Print(")", list[i][deg+1], "\n");
+		else
+			Print(")\n");
+		fi; 
+	od;	
+	for i in [1..Length(list)] do
+		Print(names[i], " = "); pf(states[i]); Print("\n");
+	od;
+end);
+
+
+###############################################################################
+##
 #M  ListRep(a)
 ##
 InstallMethod(ListRep, [IsAutom],
@@ -538,6 +584,42 @@ function(a)
 	
 	return rec(	list 	:= list_comp,
 							names := states	);
+end);
+
+
+###############################################################################
+##
+#M  StabilizesPath(a, path)
+##
+InstallMethod(StabilizesPath, [IsAutom, IsList],
+function(a, path)
+	local len, checked_words, cur_state, cur_pos;
+	
+	checked_words := [];
+	cur_state := a;
+	cur_pos := 1;
+	len := Length(path);	
+
+##	TODO: error checking
+	
+	while true do
+		if cur_pos = 1 and Word(cur_state) in checked_words then
+				return true;
+		fi;
+				
+		if path[cur_pos]^cur_state <> path[cur_pos] then
+			return false;
+		fi;
+				
+		if cur_pos = 1 then 
+			Add(checked_words, Word(cur_state)); fi;
+		
+		cur_state := Projection(cur_state, path[cur_pos]);
+		
+		if cur_pos < len then 
+			cur_pos := cur_pos + 1; 
+		else cur_pos := 1; fi;
+	od;
 end);
 
 

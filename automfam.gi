@@ -23,20 +23,20 @@ end);
 InstallMethod(MihaylovSystem, [IsAutomFamily],
 function(fam)
 	local gens, mih;
-	
+
 	if not IsActingOnBinaryTree(fam) then
 		Print("Mihaylov(IsAutomFamily): group is not acting on binary tree\n");
 		return fail;
 	fi;
-	
+
 	if not IsFractalByWords(fam) then
 		Print("Mihaylov(IsAutomFamily): group is not fractal\n");
 		return fail;
 	fi;
-	
+
 	gens := StructuralCopy(GeneratorsOfGroup(StabilizerOfFirstLevel(fam!.Group)));
 	mih := Mihaylov(List(gens, a -> a!.States));
-	
+
 	return mih;
 end);
 
@@ -60,5 +60,4 @@ function(fam)
 
 	return true;
 end);
-
 

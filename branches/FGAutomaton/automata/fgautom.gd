@@ -21,16 +21,18 @@ DeclareGlobalVariable ("FGAutomatonFamilyCreated");
 ###############################################################################
 ##
 #C  IsFGAutomaton
+#C  IsFGAutomatonFamily
 ##
 DeclareCategory ("IsFGAutomaton", IsInitialAutomaton);
 DeclareCategoryCollections ("IsFGAutomaton");
-
-
-#############################################################################
-##
-#C  IsFGAutomatonFamily
-##
 DeclareCategoryFamily ("IsFGAutomaton");
+
+
+###############################################################################
+##
+#O  FGAutomatonCreate(<object>)
+##
+DeclareOperation ("FGAutomatonCreate", [IsList]);
 
 
 ###############################################################################

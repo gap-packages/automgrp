@@ -37,86 +37,85 @@ DeclareRepresentation(  "IsFGAutomatonRep",
                         ["Word", "States", "Perm", "Degree"]);
 
 
-# ###############################################################################
-# ##
-# #M  CreateAutom(<list>, <names>, <rename>, <int>)
-# ##
-# InstallOtherMethod(CreateAutom, [IsList, IsList, IsBool, IsInt],
-# function (list, names, rename, fictive_parameter)
+###############################################################################
+##
+#M  FGAutomatonCreate(<list>, <names>, <rename>)
+##
+##  It may change its arguments
+##
+InstallOtherMethod(FGAutomatonCreate, [IsList, IsList, IsBool],
+function (list, names, rename, fictive_parameter)
 #     local  degree, t, trivstate , perm, nontrivstates, freegroup,
 #             freegens, i, j, family;
+
+  # Check correctness of arguments
+  if not IsCorrectAutomatonList (list) then
+    Print("error: <list> is not a list defining autmaton\n");
+    return fail;
+  fi;
+
+  degree := Length(list[1]) - 1;
+
+  # Reduce automaton, find trivial state, permute states
+  tmp := ReducedAutomatonInList(list);
+  list := tmp[1];
+  names := List(tmp[2], x->names[x]);
+
+  trivstate := 0;
+  for i in [1..Length(list)] do
+    if IsTrivialStateInList(i, list) then
+      trivstate := i;
+      break;
+    fi;
+  od;
+  if trivstate <> 0 then
+    if Length(list) = 1 then
+      Print("error: don't want to work with trivial automaton\n");
+      return fail;
+    fi;
+    if trivstate <> Length(list) then
+      perm := PermListList([1..Length(list)],
+        Concatenation(  [1..(trivstate-1)],
+                        [(trivstate+1)..Length(list)],
+                        [trivstate] )
+      );
+      list := PermuteStatesInList(list, perm^-1);
+      names := Permuted(names, perm^-1);
+    fi;
+    trivstate := Length(list);
+    names[trivstate] := AutomataParameters.identity_symbol;
+  fi;
+
+  # list [1..Length(list)] or [1..Lentgh(list)-1], depending on
+  # presence of trivial state
+  nontrivstates := Difference([1..Length(list)], [trivstate]);
+
+#   # Create family if needed
+#   freegroup := FreeGroup(names{nontrivstates});
+#   freegens := FreeGeneratorsOfFpGroup(freegroup);
 # 
-# # 1. Check correctness of arguments
-# 
-#     if not IsCorrectListComponentOfAutomaton(list)[1] then
-#         Print("error: ", IsCorrectListComponentOfAutomaton(list)[2], "\n");
-#         return fail;
-#     fi;
-# 
-#     degree := Length(list[1]) - 1;
-# 
-# # 2. Reduce automaton, find trivial state, permute states
-# 
-#     t := ReducedAutomatonInList(list);
-#     list := t[1];
-#     names := List(t[2], x->names[x]);
-# 
-#     trivstate := 0;
-#     for i in [1..Length(list)] do
-#         if IsTrivialStateInList(i, list) then
-#             trivstate := i;
-#         fi;
+#   for i in [1..Length(list)] do
+#     for j in [1..degree] do
+#       if list[i][j] = trivstate then
+#         list[i][j] := One(freegroup);
+#       else
+#         list[i][j] := freegens[list[i][j]];
+#       fi;
 #     od;
-#     if trivstate <> 0 then
-#         if Length(list) = 1 then
-#             Print("error: don't want to work with trivial automaton\n");
-#             return fail;
-#         fi;
-#         if trivstate <> Length(list) then
-#             perm := PermListList([1..Length(list)],
-#                 Concatenation(  [1..(trivstate-1)],
-#                                 [(trivstate+1)..Length(list)],
-#                                 [trivstate] )
-#             );
-#             list := PermuteStatesInList(list, perm^-1);
-#             names := Permuted(names, perm^-1);
-#         fi;
-#         trivstate := Length(list);
-#         names[trivstate] := AUTOMATA_PARAMETERS.IDENTITY_SYMBOL;
-#     fi;
+#   od;
 # 
-#     # list [1..Length(list)] or [1..Lentgh(list)-1], depending on
-#     # presence of trivial state
-#     nontrivstates := Difference([1..Length(list)], [trivstate]);
+#   # 8. Create family
+#   family := NewFamily("AutomFamily",
+#                       IsAutom,
+#                       IsAutom,
+#                       IsAutomFamily and IsAutomObj);
 # 
-# # 4. Create FreeGroup and FreeGens
-# 
-#     freegroup := FreeGroup(names{nontrivstates});
-#     freegens := FreeGeneratorsOfFpGroup(freegroup);
-# 
-#     for i in [1..Length(list)] do
-#         for j in [1..degree] do
-#             if list[i][j] = trivstate then
-#                 list[i][j] := One(freegroup);
-#             else
-#                 list[i][j] := freegens[list[i][j]];
-#             fi;
-#         od;
-#     od;
-# 
-# # 8. Create family
-# 
-#     family := NewFamily("AutomFamily",
-#                         IsAutom,
-#                         IsAutom,
-#                         IsAutomFamily and IsAutomObj);
-# 
-#     family!.Degree := degree;
-#     family!.Names := names{nontrivstates};
-#     family!.FreeGroup := freegroup;
-#     family!.FreeGens := freegens;
-#     family!.AutomatonList := list;
-# 
+#   family!.Degree := degree;
+#   family!.Names := names{nontrivstates};
+#   family!.FreeGroup := freegroup;
+#   family!.FreeGens := freegens;
+#   family!.AutomatonList := list;
+
 # # 9. Create Automs
 # 
 #     family!.Gens := IndexedList();

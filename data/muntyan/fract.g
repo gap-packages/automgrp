@@ -217,9 +217,11 @@ od;
 
 
 ###################################
-file := "/tmp/list";
-PrintTo(file, "list := [\n");
+file := OutputTextFile("/tmp/list", false);
+WriteLine(file, "list := [");
 for i in [1..Length(list)-1] do
-  AppendTo(file, list[i], ",\n");
+  WriteLine(file, Concatenation(String(list[i]), ","));
 od;
-AppendTo(file, list[Length(list)], "\n];\n");
+WriteLine(file, String(list[Length(list)]));
+WriteLine(file, "];");
+CloseStream(file);

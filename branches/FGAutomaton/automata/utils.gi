@@ -590,22 +590,22 @@ end);
 
 #############################################################################
 ##
-#M  Mihaylov(<list>)
+#M  ComputeMihaylovSystem(<list>)
 ##
-InstallMethod(Mihaylov, [IsList],
+InstallGlobalFunction(ComputeMihaylovSystem,
 function(pairs)
   local result, i, nie, m, n, w, t;
 
   if not IsList(pairs[1]) then
-    Error("Mihaylov(IsList): first element of list is not IsList\n");
+    Error("ComputeMihaylovSystem: first element of list is not IsList\n");
   fi;
 
   if Length(pairs[1]) <> 2 then
-    Error("Mihaylov(IsList): can work only with pairs\n");
+    Error("ComputeMihaylovSystem: can work only with pairs\n");
   fi;
 
   if not IsAssocWord(pairs[1][1]) then
-    Error("Mihaylov(IsList): <arg>[1][1] is not IsAssocWord\n");
+    Error("ComputeMihaylovSystem: <arg>[1][1] is not IsAssocWord\n");
   fi;
 
   result := StructuralCopy(pairs);
@@ -634,7 +634,7 @@ function(pairs)
   ##  TODO
   ##  impossible?
   if n = 0 then
-    Error("Mihaylov(IsList): n = 0\n");
+    Error("ComputeMihaylovSystem: n = 0\n");
   fi;
 
 
@@ -923,6 +923,37 @@ end);
 InstallOtherMethod(Word, [IsList],
 function(list)
     return List(list, i -> Word(i));
+end);
+
+
+InstallGlobalFunction(ExpandExtRepOfWord,
+function(w, numgens)
+  local i, res, extrep;
+
+  extrep := ExtRepOfObj(w);
+  if Length(extrep) = 0 then
+    return [];
+  fi;
+
+  res := [];
+  for i in [1..Length(extrep)/2] do
+    if extrep[2*i] > 0 then
+      res := Concatenation(res, List([1..extrep[2*i]], j -> extrep[2*i-1]));
+    else
+      res := Concatenation(res, List([1..-extrep[2*i]], j -> extrep[2*i-1]+numgens));
+    fi;
+  od;
+  return res;
+end);
+
+InstallGlobalFunction(WordByExpExtRep,
+function(rep, w)
+  local extrep, i;
+  extrep := [];
+  for i in [1..Length(rep)] do
+    extrep := Concatenation(extrep, [AbsInt(rep[i]), SignInt(rep[i])]);
+  od;
+  return ObjByExtRep(FamilyObj(w), extrep);
 end);
 
 

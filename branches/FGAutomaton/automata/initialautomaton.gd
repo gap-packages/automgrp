@@ -18,11 +18,14 @@ Revision.initialautomaton_gd :=
 ##
 DeclareCategory("IsInitialAutomaton", IsAutomaton and
                                       IsMultiplicativeElementWithInverse);
+DeclareCategoryCollections("IsInitialAutomaton");
+InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsInitialAutomatonCollection);
 
 
 DeclareOperation("Perm", [IsInitialAutomaton, IsInt]);
 DeclareOperation("TopPerm", [IsInitialAutomaton]);
 DeclareOperation("Projection", [IsInitialAutomaton, IsInt]);
+DeclareOperation("State", [IsInitialAutomaton, IsInt]);
 DeclareOperation("Expand", [IsInitialAutomaton]);
 DeclareOperation("ExpandRen", [IsInitialAutomaton]);
 DeclareOperation("StabilizesPath", [IsInitialAutomaton, IsObject]);

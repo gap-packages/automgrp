@@ -142,6 +142,21 @@ end);
 
 ###############################################################################
 ##
+#M  CreateAutom(<list>)
+##
+InstallOtherMethod(CreateAutom, [IsList],
+function (list)
+  local letters;
+  if (Length(list) > 26) then
+    Error("list is too long\n");
+  fi;
+  letters := ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+  return CreateAutom(list, letters{[1..Length(list)]}, true, 1);
+end);
+
+
+###############################################################################
+##
 #M  FGAutom(<word>, <fam>)
 ##
 InstallOtherMethod(FGAutom, [IsAssocWord, IsFGAutomFamily],
@@ -420,30 +435,65 @@ end);
 ##
 InstallMethod(\=, [IsFGAutom, IsFGAutom],
 function(a1, a2)
-    local d, checked_pairs, pos, aw1, aw2, np, i;
+  local d, checked_pairs, pos, aw1, aw2, np, i;
 
-    d := a1!.Degree;
-    checked_pairs := [[a1!.Word, a2!.Word]];
-    pos := 0;
+  d := a1!.Degree;
+  checked_pairs := [[a1!.Word, a2!.Word]];
+  pos := 0;
 
-    while Length(checked_pairs) <> pos do
-        pos := pos + 1;
-        aw1 := FGAutom(checked_pairs[pos][1], a1);
-        aw2 := FGAutom(checked_pairs[pos][2], a2);
+  while Length(checked_pairs) <> pos do
+    pos := pos + 1;
+    aw1 := FGAutom(checked_pairs[pos][1], a1);
+    aw2 := FGAutom(checked_pairs[pos][2], a2);
 
-        if Perm(aw1) <> Perm(aw2) then
-            return false;
-        fi;
+    if Perm(aw1) <> Perm(aw2) then
+      return false;
+    fi;
 
-        for i in [1..d] do
-            np := [aw1!.States[i], aw2!.States[i]];
-            if not np in checked_pairs then
-                checked_pairs := Concatenation(checked_pairs, [np]);
-            fi;
-        od;
+    for i in [1..d] do
+      np := [aw1!.States[i], aw2!.States[i]];
+      if not np in checked_pairs then
+        checked_pairs := Concatenation(checked_pairs, [np]);
+      fi;
     od;
+  od;
 
-    return true;
+  return true;
+end);
+
+
+###############################################################################
+##
+#M  a1 < a2
+##
+InstallMethod(\<, [IsFGAutom, IsFGAutom],
+function(a1, a2)
+  local d, checked_pairs, pos, aw1, aw2, np, i;
+
+  d := a1!.Degree;
+  checked_pairs := [[a1!.Word, a2!.Word]];
+  pos := 0;
+
+  while Length(checked_pairs) <> pos do
+    pos := pos + 1;
+    aw1 := FGAutom(checked_pairs[pos][1], a1);
+    aw2 := FGAutom(checked_pairs[pos][2], a2);
+
+    if Perm(aw1) < Perm(aw2) then
+      return true;
+    elif Perm(aw1) > Perm(aw2) then
+      return false;
+    fi;
+
+    for i in [1..d] do
+      np := [aw1!.States[i], aw2!.States[i]];
+      if not np in checked_pairs then
+        checked_pairs := Concatenation(checked_pairs, [np]);
+      fi;
+    od;
+  od;
+
+  return false;
 end);
 
 

@@ -19,7 +19,8 @@ Revision.globals_g :=
 ##  pollute global namespace (and we can put any trash in here).
 ##
 BindGlobal ( "AutomataParameters", rec (
-  identity_symbol := "e"
+  identity_symbol := "e",
+  state_symbol := "s"
 ));
 
 

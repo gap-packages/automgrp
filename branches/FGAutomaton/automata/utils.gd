@@ -29,7 +29,7 @@ DeclareOperation("CalculateWord", [IsAssocWord, IsList]);
 DeclareOperation("CalculateWords", [IsList, IsList]);
 
 
-DeclareOperation("Mihaylov", [IsList]);
+DeclareGlobalFunction("ComputeMihaylovSystem");
 
 DeclareOperation("Rang", [IsList]);
 
@@ -38,5 +38,8 @@ DeclareOperation("Contains", [IsList, IsObject]);
 DeclareOperation("NumberOfLetters", [IsList]);
 DeclareOperation("NielsenLow", [IsList, IsInt, IsInt]);
 DeclareOperation("NielsenMihaylov", [IsList, IsInt, IsInt]);
+
+DeclareGlobalFunction("ExpandExtRepOfWord");
+DeclareGlobalFunction("WordByExpExtRep");
 
 #E

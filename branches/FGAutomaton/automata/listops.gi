@@ -352,4 +352,28 @@ function(list, perm)
 end);
 
 
+###############################################################################
+##
+#F  StateOfWordInAutomatonList(<w>, <s>, <list>)
+##
+##  It's ProjectWord from selfs.g
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(StateOfWordInAutomatonList,
+function(w, s, list)
+  local i, perm, d, proj;
+  d := Length(list[1])-1;
+  if s > d then
+    Error("error in StateOfWordInAutomatonList:\n  given vertex number is invalid\n");
+  fi;
+  proj := [];
+  perm := ();
+  for i in [1..Length(w)] do
+    Add(proj, list[w[i]][s^perm]);
+    perm := perm * list[w[i]][d+1];
+  od;
+  return proj;
+end);
+
+
 #E

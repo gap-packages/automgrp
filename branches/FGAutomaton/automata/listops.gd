@@ -103,4 +103,7 @@ DeclareGlobalFunction("MinimalSubAutomatonInlist");
 DeclareGlobalFunction("PermuteStatesInList");
 
 
+DeclareGlobalFunction("StateOfWordInAutomatonList");
+
+
 #E

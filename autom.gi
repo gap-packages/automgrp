@@ -100,7 +100,7 @@ function (list, names, rename, fictive_parameter)
     family!.Gens := IndexedList();
     for i in [1..Length(freegens)] do
         Put(family!.Gens, freegens[i],
-            Objectify(  NewType(family, IsAutom),
+            Objectify(  NewType(family, IsAutom and IsAutomRep),
                         rec(    Word := freegens[i],
                                 States := list[i]{[1..degree]},
                                 Perm := list[i][degree+1],
@@ -170,7 +170,7 @@ end);
 ##
 InstallMethod(InverseOp, [IsAutom],
 function(a)
-    return Objectify(  NewType(FamilyObj(a), IsAutom),
+    return Objectify(  NewType(FamilyObj(a), IsAutom and IsAutomRep),
                         rec(    Word := a!.Word ^ -1,
                                 States := List([1..a!.Degree], i -> a!.States[i^(a!.Perm^-1)] ^ -1),
                                 Perm := a!.Perm ^ -1,
@@ -184,7 +184,7 @@ end);
 ##
 InstallMethod(OneOp, [IsAutom],
 function(a)
-    return Objectify(  NewType(FamilyObj(a), IsAutom),
+    return Objectify(  NewType(FamilyObj(a), IsAutom and IsAutomRep),
                         rec(    Word := One(a!.Word),
                                 States := List([1..a!.Degree], i -> One(a!.Word)),
                                 Perm := (),
@@ -198,7 +198,7 @@ end);
 ##
 InstallOtherMethod(OneOp, [IsAutomFamily],
 function(fam)
-    return Objectify(  NewType(fam, IsAutom),
+    return Objectify(  NewType(fam, IsAutom and IsAutomRep),
                         rec(    Word := One(fam!.FreeGroup),
                                 States := List([1..fam!.Degree], i -> One(fam!.FreeGroup)),
                                 Perm := (),
@@ -298,7 +298,7 @@ end);
 InstallMethod(\*, [IsAutom, IsAutom],
 function(a1, a2)
     return Objectify(
-        NewType(FamilyObj(a1), IsAutom),
+        NewType(FamilyObj(a1), IsAutom and IsAutomRep),
         rec(    Word := a1!.Word * a2!.Word,
                 States := List([1..a1!.Degree], i -> a1!.States[i] * a2!.States[i^(a1!.Perm)]),
                 Perm := a1!.Perm * a2!.Perm,
@@ -477,12 +477,49 @@ end);
 ##
 InstallMethod(Expand, [IsAutom],
 function(a)
-	local deg, pos, states, list, word, aut, i, j, pf;
+	local deg, listrep, i, j, pf;
+	
+	listrep := ListRep(a);
+	deg := Degree(a);
+	
+	pf := function(w)
+		if IsOne(w) then
+			Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
+		else
+			Print(w);
+		fi;
+	end;
+	
+	for i in [1..Length(listrep.list)] do
+		pf(listrep.names[i]);
+		Print(" = (");
+		for j in [1..deg] do
+			pf(listrep.names[listrep.list[i][j]]);
+			if j <> deg then
+				Print(", ");
+			fi;
+		od;
+		if not IsOne(listrep.list[i][deg+1]) then
+			Print(")", listrep.list[i][deg+1], "\n");
+		else
+			Print(")\n");
+		fi; 
+	od;
+end);
+
+
+###############################################################################
+##
+#M  ListRep(a)
+##
+InstallMethod(ListRep, [IsAutom],
+function(a)
+	local deg, pos, states, list_comp, word, aut, i;
 	
 	deg := Degree(a);
 	states := [a!.Word];
 	pos := 0;
-	list := [];
+	list_comp := [];
 
 	while pos <> Length(states) do
 		pos := pos + 1;
@@ -494,31 +531,11 @@ function(a)
 			fi;
 		od;
 		
-		Add(list, Concatenation([word], aut!.States, [aut!.Perm]));
+		Add(list_comp, Concatenation(List(aut!.States, w -> Position(states, w)), [aut!.Perm]));
 	od;
 	
-	pf := function(w)
-		if IsOne(w) then
-			Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
-		else
-			Print(w);
-		fi;
-	end;
-	for i in [1..Length(list)] do
-		pf(list[i][1]);
-		Print(" = (");
-		for j in [1..deg] do
-			pf(list[i][j+1]);
-			if j <> deg then
-				Print(", ");
-			fi;
-		od;
-		if not IsOne(list[i][deg+2]) then
-			Print(")", list[i][deg+2], "\n");
-		else
-			Print(")\n");
-		fi; 
-	od;
+	return rec(	list 	:= list_comp,
+							names := states	);
 end);
 
 

@@ -595,11 +595,47 @@ end;
 ################################################################################
 ##
 #F Minimize. . . . . . . . . . . . . . . . . . . . . .Glues equivalent states of
-##              		                       	    noninitial automaton
+##                                                          noninitial automaton
 
-Minimize:=function(G)
+MinimizeAutom:=function(G)
 
+  local AreEqualStates,i,j,Pairs,n, tmpG,d,k,l,st;
 
+  AreEqualStates:=function(st1,st2)
+    local eq,i;
+    if st1=st2 or ([st1,st2] in Pairs) or ([st2,st1] in Pairs) then return true; fi;
+    if G[1][st1][d+1]<>G[1][st2][d+1] then return false; fi;
+    Add(Pairs, [st1,st2]);
+    eq:=true;
+    for i in [1..d] do
+      if not AreEqualStates(G[1][st1][i],G[1][st2][i]) then eq:=false; break; fi;
+    od;
+    return eq;
+  end;
+
+  n:=Length(G[1]);
+  d:=Length(G[1][1])-1;
+  for i in [1..n-1] do
+    for j in [i+1..n] do
+      Pairs:=[];
+      if AreEqualStates(i,j) then
+        tmpG:=[];  #can be maid better by gluing all pairs from Pairs.
+        for k in [1..n] do
+          if k<>j then
+            st:=ShallowCopy(G[1][k]);
+            for l in [1..d] do
+              if st[l]=j then st[l]:=i;
+              elif st[l]>j then st[l]:=st[l]-1;
+              fi;
+            od;
+            Add(tmpG,st);
+          fi;
+        od;
+        return MinimizeAutom([tmpG]);
+      fi;
+    od;
+  od;
+  return G;
 end;
 
 
@@ -916,20 +952,3 @@ Growth:=function(n,G)
 
   return GrList;
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,24 +14,24 @@ Revision.listops_gd :=
 ##
 #F  IsCorrectAutomatonList( <list> )
 ##
-##  Checks whether the list is the following:
+##  Checks whether the list is correct list to define automaton, i.e.:
 ##  [[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]],
-##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], p_i are IsPerm, and 
-##  maximal moved point of each p_i is not greater than n.
+##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are 
+##  in SymmetricalGroup(n).
 ##
 DeclareGlobalFunction("IsCorrectAutomatonList");
 
 
-# ###############################################################################
-# ##
-# #F  ConnectedStatesInList(state, list)
-# ##
-# ##  Returns list of states which are reachable from given state,
-# ##  it does not check correctness of arguments
-# ##
-# DeclareGlobalFunction("ConnectedStatesInList");
-# 
-# 
+###############################################################################
+##
+#F  ConnectedStatesInList( <state>, <list>)
+##
+##  Returns list of states which can be reached from given state.
+##  It does not check correctness of arguments.
+##
+DeclareGlobalFunction("ConnectedStatesInList");
+
+
 # ###############################################################################
 # ##
 # #F  IsTrivialStateInList(state, list)

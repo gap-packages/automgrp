@@ -32,11 +32,11 @@ DeclareRepresentation("IsAutomFamilyRep",
 
 ###############################################################################
 ##
-#M  AutomFamily(<list>, <names>)
+#M  AutomFamily(<list>, <names>, <bind_global>)
 ##
-InstallMethod(AutomFamily, "method for IsList and IsList",
-              [IsList, IsList],
-function (list, names)
+InstallOtherMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
+              [IsList, IsList, IsBool],
+function (list, names, bind_global)
   local deg, tmp, trivstate, numstates, numallstates, i, j, perm,
         freegroup, freegens, a, family;
 
@@ -154,7 +154,7 @@ function (list, names)
     IsActingOnBinaryTree(family!.automgens[i]);
   od;
 
-  if AutomataParameters.bind_vars_autom_family then
+  if bind_global then
     for i in [1..family!.numstates] do
       # I don't make it read'n'write intentionally, in order
       # to avoid accidental overwriting some variable.
@@ -182,7 +182,55 @@ function(list)
   fi;
   return AutomFamily(list,
     List([1..Length(list)],
-      i -> Concatenation(AutomataParameters.state_symbol, String(i))));
+      i -> Concatenation(AutomataParameters.state_symbol, String(i))),
+    AutomataParameters.bind_vars_autom_family);
+end);
+
+
+###############################################################################
+##
+#M  AutomFamily(<list>, <names>)
+##
+InstallMethod(AutomFamily, [IsList, IsList],
+function(list, names)
+  if not IsCorrectAutomatonList(list) then
+    Print("error in AutomFamily(IsList, IsList):\n  given list is not a correct list representing automaton\n");
+    return fail;
+  fi;
+  return AutomFamily(list, names, true);
+end);
+
+
+###############################################################################
+##
+#M  AutomFamilyNoBindGlobal(<list>)
+##
+InstallOtherMethod(AutomFamilyNoBindGlobal, "method for IsList", [IsList],
+function(list)
+  if not IsCorrectAutomatonList(list) then
+    Print("error in AutomFamilyNoBindGlobal(IsList):\n",
+          "  given list is not a correct list representing automaton\n");
+    return fail;
+  fi;
+  return AutomFamily(list,
+    List([1..Length(list)],
+      i -> Concatenation(AutomataParameters.state_symbol, String(i))), false);
+end);
+
+
+###############################################################################
+##
+#M  AutomFamilyNoBindGlobal(<list>, <names>)
+##
+InstallMethod(AutomFamilyNoBindGlobal,
+              "AutomFamilyNoBindGlobal(IsList, IsList)", [IsList, IsList],
+function(list, names)
+  if not IsCorrectAutomatonList(list) then
+    Print("error in AutomFamilyNoBindGlobal(IsList):\n",
+          "  given list is not a correct list representing automaton\n");
+    return fail;
+  fi;
+  return AutomFamily(list, names, false);
 end);
 
 

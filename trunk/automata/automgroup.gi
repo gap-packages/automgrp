@@ -32,6 +32,26 @@ end);
 
 ###############################################################################
 ##
+#M  AutomGroupNoBindGlobal(<list>)
+##
+InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsList)", [IsList],
+function (list)
+  local fam, g;
+
+  if not IsCorrectAutomatonList(list) then
+    Print("error in AutomGroupNoBindGlobal(IsList):\n");
+    Print("  given list is not a correct list representing automaton\n");
+    return fail;
+  fi;
+
+  fam := AutomFamilyNoBindGlobal(list);
+  if fam = fail then return fail; fi;
+  return GroupOfAutomFamily(fam);
+end);
+
+
+###############################################################################
+##
 #M  AutomGroup(<list>, <names>)
 ##
 InstallOtherMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
@@ -45,6 +65,27 @@ function (list, names)
   fi;
 
   fam := AutomFamily(list, names);
+  if fam = fail then return fail; fi;
+  return GroupOfAutomFamily(fam);
+end);
+
+
+###############################################################################
+##
+#M  AutomGroupNoBindGlobal(<list>, <names>)
+##
+InstallOtherMethod(AutomGroupNoBindGlobal,
+                   "AutomGroupNoBindGlobal(IsList, IsList)", [IsList, IsList],
+function (list, names)
+  local fam, g;
+
+  if not IsCorrectAutomatonList(list) then
+    Print("error in AutomGroup(IsList):\n");
+    Print("  given list is not a correct list representing automaton\n");
+    return fail;
+  fi;
+
+  fam := AutomFamily(list, names, false);
   if fam = fail then return fail; fi;
   return GroupOfAutomFamily(fam);
 end);

@@ -6,10 +6,13 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.init_g := "@(#)$Id$";
+Revision.init_g := 
+  "@(#)$Id$";
 
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
 
+
+ReadPkg("automata", "globals.g");
 
 ReadPkg("automata", "automaton.gd");
 ReadPkg("automata", "initialautomaton.gd");

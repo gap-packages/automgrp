@@ -514,7 +514,7 @@ InstallMethod(ProjectionOp, "ProjectionOp(IsTreeAutomorphismGroup, IsPosInt)",
 function(G, k)
   local gens, pgens;
 
-  if k > DegreeOfTree(G) then return fail; fi;
+  if k > TopDegreeOfTree(G) then return fail; fi;
   if not FixesVertex(G, k) then return fail; fi;
 
   gens := GeneratorsOfGroup(G);

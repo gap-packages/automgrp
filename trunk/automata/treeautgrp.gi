@@ -103,11 +103,23 @@ RedispatchOnCondition(IsSphericallyTransitive, true, [IsTreeAutomorphismGroup],
 InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsTreeAutomorphismGroup)",
               [IsTreeAutomorphismGroup],
 function (G)
+  local i, k;
+
   if CanEasilyComputeSize(G) and Size(G) < infinity then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is finite");
     return false;
   fi;
+
+  k := 3;
+  for i in [1..k] do
+    if not IsTransitive(G, TreeLevelTuples(SphericalIndex(G), i)) then
+      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+      Info(InfoAutomata, 3, "  G is nottransitive on ", i, "-th level");
+      return false;
+    fi;
+  od;
+  Info(InfoAutomata, 3, "IsSphericallyTransitive(G): G is transitive on ", k, "-th level");
 
   TryNextMethod();
 end);

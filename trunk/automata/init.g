@@ -17,6 +17,7 @@ ReadPkg("automata", "automfam.gd");
 
 ReadPkg("automata", "common.g");
 
+ReadPkg("automata", "automobj.gi");
 ReadPkg("automata", "freegrp.gi");
 ReadPkg("automata", "autom.gi");
 ReadPkg("automata", "agroup.gi");

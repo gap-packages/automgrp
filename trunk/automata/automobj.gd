@@ -66,6 +66,13 @@ DeclareOperation("StabilizesPath", [IsAutomObj, IsObject]);
 DeclareAttribute("ListRep", IsAutomObj);
 
 
+###############################################################################
+##
+#O  PermMatrices(<automobj>, <level>)
+##
+DeclareOperation("PermMatrices", [IsAutomObj, IsInt]);
+
+
 
 
 

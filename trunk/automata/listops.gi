@@ -6,7 +6,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.listops_gd := 
+Revision.listops_gd :=
   "@(#)$Id$";
 
 
@@ -16,7 +16,7 @@ Revision.listops_gd :=
 ##
 ##  Checks whether the list is correct list to define automaton, i.e.:
 ##  [[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]],
-##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are 
+##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are
 ##  in SymmetricalGroup(n).
 ##
 InstallGlobalFunction(IsCorrectAutomatonList,
@@ -26,12 +26,12 @@ function(list)
   if not IsDenseList(list) then
     return false;
   fi;
-  
+
   len := Length(list);
   if len = 0 then
     return false;
   fi;
-        
+
   for i in [1..len] do
     if not IsDenseList(list[i]) then
       return false;
@@ -40,12 +40,12 @@ function(list)
       return false;
     fi;
   od;
-  
+
   deg := Length(list[1]) - 1;
   if deg < 2 then
     return false;
   fi;
-  
+
   for i in [1..len] do
     for j in [1..deg] do
       if not IsInt(list[i][j]) then
@@ -208,12 +208,12 @@ end);
 ##
 #F  ReducedAutomatonInList( <list> )
 ##
-##  Returns [new_list, list_of_states] where new_list is a new list which 
-##  represents reduced form of given automaton, i-th elmt of list_of_states 
+##  Returns [new_list, list_of_states] where new_list is a new list which
+##  represents reduced form of given automaton, i-th elmt of list_of_states
 ##  is the number of i-th state of new automaton in the old one.
-##  
+##
 ##  First state of returned list is always first state of given one.
-##  It does not remove trivial state, so it's not really "reduced automaton", 
+##  It does not remove trivial state, so it's not really "reduced automaton",
 ##  it just removes equivalent states.
 ##  TODO: write such function which removes trivial state
 ##
@@ -298,7 +298,7 @@ end);
 ##
 #F  MinimalSubAutomatonInlist(<states>, <list>)
 ##
-##  Returns list representation of automaton given by <list> which is minimal 
+##  Returns list representation of automaton given by <list> which is minimal
 ##  subatomaton of automaton containing states <states>.
 ##
 ##  Does not check correctness of list.
@@ -349,6 +349,201 @@ function(list, perm)
   od;
 
   return new_list;
+end);
+
+
+###############################################################################
+##
+#F  WordStateInList(<w>, <s>, <list>)
+##
+##  It's ProjectWord from selfs.g
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(WordStateInList,
+function(w, s, list)
+  local i, perm, d, proj;
+  d := Length(list[1])-1;
+  proj := [];
+  perm := ();
+  for i in [1..Length(w)] do
+    Add(proj, list[w[i]][s^perm]);
+    perm := perm * list[w[i]][d+1];
+  od;
+  return proj;
+end);
+
+
+###############################################################################
+##
+#F  WordStateAndPermInList(<w>, <s>, <list>)
+##
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(WordStateAndPermInList,
+function(w, s, list)
+  local i, perm, perm_res, new_state, d, proj;
+  d := Length(list[1])-1;
+  proj := [];
+  perm := ();
+  perm_res := ();
+  for i in [1..Length(w)] do
+    new_state := list[w[i]][s^perm];
+    Add(proj, new_state);
+    perm := perm * list[w[i]][d+1];
+    perm_res := perm_res * list[new_state][d+1];
+  od;
+  return [proj, perm_res];
+end);
+
+
+###############################################################################
+##
+#F  ImageOfVertexInList(<list>, <init>, <vertex>)
+##
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(ImageOfVertexInList,
+function(list, s, seq)
+  local deg, img, x;
+
+  deg := Length(list[1]) - 1;
+  img := [];
+  for x in seq do
+      Add(img, x^list[s][deg+1]);
+      s := list[s][x];
+  od;
+
+  return img;
+end);
+
+
+###############################################################################
+##
+#F  DiagonalActionInList(<list>, <n>)
+##
+InstallGlobalFunction(DiagonalActionInList,
+function(list, n)
+  local d, nlist, nd, nalph, nstates, nperm,
+        i, j, k, letter, n_letter, n_state, state;
+
+  d := Length(list[1]) - 1;
+  nd := d ^ n;
+  nalph := Tuples([1..d], n);
+  nstates := Tuples([1..Length(list)], n);
+  nlist := List([1..Length(nstates)], i -> []);
+
+  for i in [1..Length(nlist)] do
+    nperm := [];
+    state := nstates[i];
+    for j in [1..nd] do
+      letter := nalph[j];
+      n_letter := [];
+      n_state := [];
+      for k in [1..n] do
+        n_letter[k] := letter[k]^list[state[k]][d+1];
+        n_state[k] := list[state[k]][letter[k]];
+      od;
+      nperm[j] := n_letter;
+      nlist[i][j] := Position(nstates, n_state);
+    od;
+    nlist[i][nd+1] := PermListList(nalph, nperm);
+  od;
+
+  return nlist;
+end);
+
+
+###############################################################################
+##
+#F  MultAlphabetInList(<list>, <n>)
+##
+InstallGlobalFunction(MultAlphabetInList,
+function(list, n)
+  local d, nlist, nd, nalph, nperm,
+        i, j, k, letter, n_letter, st;
+
+  d := Length(list[1]) - 1;
+  nd := d ^ n;
+  nalph := Tuples([1..d], n);
+  nlist := List(list, i -> []);
+
+  for i in [1..Length(nlist)] do
+    nperm := [];
+    for j in [1..Length(nalph)] do
+      letter := nalph[j];
+      n_letter := [];
+      st := i;
+      for k in [1..n] do
+        Add(n_letter, letter[k]^list[st][d+1]);
+        st := list[st][letter[k]];
+      od;
+      nlist[i][j] := st;
+      nperm[j] := n_letter;
+    od;
+    nlist[i][nd+1] := PermListList(nalph, nperm);
+  od;
+
+  return nlist;
+end);
+
+
+###############################################################################
+##
+#F  HasDualInList(<list>)
+##
+InstallGlobalFunction(HasDualInList,
+function(list)
+  local i, j, p, d, n;
+  d := Length(list[1]) - 1;
+  n := Length(list);
+  for i in [1..d] do
+    p := [];
+    for j in [1..n] do
+      p[j] := list[j][i];
+    od;
+    if PermListList([1..n], p) = fail then
+      return false;
+    fi;
+  od;
+  return true;
+end);
+
+
+###############################################################################
+##
+#F  DualAutomatonList(<list>)
+##
+InstallGlobalFunction(DualAutomatonList,
+function(list)
+  local dual, d, n;
+  d := Length(list[1]) - 1;
+  n := Length(list);
+  return List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]),
+    [PermList(List([1..n], j -> list[j][i]))]));
+end);
+
+
+###############################################################################
+##
+#F  HasDualOfInverseInList(<list>)
+##
+InstallGlobalFunction(HasDualOfInverseInList,
+function(list)
+  return HasDualInList(InverseAutomatonList(list));
+end);
+
+
+###############################################################################
+##
+#F  InverseAutomatonList(<list>)
+##
+InstallGlobalFunction(InverseAutomatonList,
+function(list)
+  local inv, d, i;
+  d := Length(list[1]) - 1;
+  inv := List(list, l -> Permuted(l, l[d+1]));
+  for i in [1..Length(list)] do inv[i][d+1] := inv[i][d+1]^-1; od;
+  return inv;
 end);
 
 

@@ -336,19 +336,19 @@ function (G)
 
   if IsTrivial(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is trivial");
+    Info(InfoAutomata, 3, "  G is trivial: G = ", G);
     return false;
   fi;
 
   if CanEasilyComputeSize(G) and Size(G) < infinity then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  Size(G) < infinity");
+    Info(InfoAutomata, 3, "  Size(G) < infinity: G = ", G);
     return false;
   fi;
 
   if HasIsFinite(G) and IsFinite(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  IsFinite(G)");
+    Info(InfoAutomata, 3, "  IsFinite(G): G = ", G);
     return false;
   fi;
 
@@ -361,6 +361,8 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphismGroup], 10,
 function (G)
   if not IsAutomGroup(G) and IsAutom(State(GeneratorsOfGroup(G)[1], 1)) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): checking");
+    Info(InfoAutomata, 3, "IsTransitiveOnLevel(G, 1) and IsSphericallyTransitive(ProjStab(G, 1))");
     return IsTransitiveOnLevel(G, 1) and IsSphericallyTransitive(ProjStab(G, 1));
   fi;
   TryNextMethod();
@@ -460,6 +462,7 @@ function(g, G)
   if Word(g) in GroupWithGenerators(fgens) then
     Info(InfoAutomata, 3, "g in G: true");
     Info(InfoAutomata, 3, "  by elements of free group");
+    Info(InfoAutomata, 3, "  g = ", g, "; G = ", G);
     return true;
   fi;
 

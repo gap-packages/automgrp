@@ -21,6 +21,7 @@ InstallMethod(IsSphericallyTransitive,
 function(a)
   local ab;
   Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using AbelImage");
+  Info(InfoAutomata, 3, "  a = ", a);
   ab := AbelImage(a);
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
 end);

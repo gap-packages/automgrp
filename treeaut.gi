@@ -83,9 +83,9 @@ end);
 
 ###############################################################################
 ##
-#M  PrintObj(<a>)
+#M  ViewObj(<a>)
 ##
-InstallMethod(PrintObj, [IsTreeAutomorphism],
+InstallMethod(ViewObj, [IsTreeAutomorphism],
 function (a)
     local deg, printword, i;
 

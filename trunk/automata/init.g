@@ -3,6 +3,7 @@
 #W  init.g                  automata package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
 ##
+##  automata v 0.91 started June 07 2004
 ##
 
 Revision.init_g := "@(#)$Id$";
@@ -11,8 +12,10 @@ DeclareAutoPackage("automata", "0.91", ReturnTrue);
 
 
 ReadPkg("automata", "automaton.gd");
+ReadPkg("automata", "initialautomaton.gd");
 
 ReadPkg("automata", "automaton.gi");
+ReadPkg("automata", "initialautomaton.gi");
 
 
 #ReadPkg("automata", "freegrp.gd");

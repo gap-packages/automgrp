@@ -19,7 +19,7 @@ InstallMethod(IsSphericallyTransitive,
               [IsAutomaton and IsActingOnBinaryTree],
 function(a)
   local ab;
-  Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using SbelImage");
+  Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using AbelImage");
   ab := AbelImageAutomatonInList(AutomatonList(a))[AutomatonListInitialState(a)];
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
 end);

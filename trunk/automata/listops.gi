@@ -294,40 +294,40 @@ function(list)
 end);
 
 
-# ###############################################################################
-# ##
-# #F  MinimalSubAutomatonInlist(<states>, <list>)
-# ##
-# ##  Returns list rep of automaton which is minimal subatomaton of automaton
-# ##  with list rep <list> containing states <states>.
-# ##
-# ##  It does not check correctness of list
-# ##
-# InstallGlobalFunction(MinimalSubAutomatonInlist,
-# function(states, list)
-#     local s, new_states, state, new_list, i, deg;
-# 
-#     new_states := [];
-#     for s in states do
-#         new_states := Union(new_states, ConnectedStatesInList(s, list));
-#     od;
-# 
-#     new_list := [];
-#     deg := Length(list[1]) - 1;
-# 
-#     for s in new_states do
-#         state := [];
-#         for i in [1..deg] do
-#             state[i] := Position(new_states, list[s][i]);
-#         od;
-#         state[deg+1] := list[s][deg+1];
-#         new_list := Concatenation(new_list, [state]);
-#     od;
-# 
-#     return [new_list, new_states];
-# end);
-# 
-# 
+###############################################################################
+##
+#F  MinimalSubAutomatonInlist(<states>, <list>)
+##
+##  Returns list representation of automaton given by <list> which is minimal 
+##  subatomaton of automaton containing states <states>.
+##
+##  Does not check correctness of list.
+##
+InstallGlobalFunction(MinimalSubAutomatonInlist,
+function(states, list)
+  local s, new_states, state, new_list, i, deg;
+
+  new_states := [];
+  for s in states do
+    new_states := Union(new_states, ConnectedStatesInList(s, list));
+  od;
+
+  new_list := [];
+  deg := Length(list[1]) - 1;
+
+  for s in new_states do
+    state := [];
+    for i in [1..deg] do
+      state[i] := Position(new_states, list[s][i]);
+    od;
+    state[deg+1] := list[s][deg+1];
+    new_list := Concatenation(new_list, [state]);
+  od;
+
+  return [new_list, new_states];
+end);
+
+
 # ###############################################################################
 # ##
 # #F  PermuteStatesInList(<list>, <perm>)

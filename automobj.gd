@@ -45,6 +45,13 @@ DeclareAttribute("TopPerm", IsAutomObj);
 DeclareOperation("Expand", [IsAutomObj]);
 
 
+###############################################################################
+##
+#A  ListRep(<autom>)
+##
+DeclareAttribute("ListRep", IsAutomObj);
+
+
 
 
 

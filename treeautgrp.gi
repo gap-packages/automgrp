@@ -54,6 +54,8 @@ function(super, sub)
 
   if HasIsSphericallyTransitive(super) then
     if not IsSphericallyTransitive(super) then
+      Info(InfoAutomata, 3, "IsSphericallyTransitive(sub): false");
+      Info(InfoAutomata, 3, "  super is not spherically transitive");
       SetIsSphericallyTransitive(sub, false); fi; fi;
 
   TryNextMethod();
@@ -93,7 +95,11 @@ end);
 
 InstallMethod(IsSphericallyTransitive, [IsTreeAutomorphismGroup and IsActingOnBinaryTree],
 function(G)
-  if AutomataAbelImageSpherTrans in AbelImage(G) then return true; fi;
+  if AutomataAbelImageSpherTrans in AbelImage(G) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
+    Info(InfoAutomata, 3, "  using AbelImage");
+    return true;
+  fi;
   TryNextMethod();
 end);
 
@@ -115,7 +121,7 @@ function (G)
   for i in [1..k] do
     if not IsTransitive(G, TreeLevelTuples(SphericalIndex(G), i)) then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-      Info(InfoAutomata, 3, "  G is nottransitive on ", i, "-th level");
+      Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
       return false;
     fi;
   od;
@@ -166,6 +172,7 @@ function(G)
 
   if not IsTransitive(PermGroupOnLevel(G, 1), [1..DegreeOfTree(G)]) then
     SetIsSphericallyTransitive(G, false);
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "IsFractal(G): false");
     Info(InfoAutomata, 3, "  G is not transitive on first level");
     return false;
@@ -380,6 +387,8 @@ function (G, k)
   local perms, S, F, hom, chooser, s, f, gens;
 
   if FixesLevel(G, k) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomata, 3, "  G is not transitive on level", k);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -416,6 +425,8 @@ function (G, k)
     return fail;
   fi;
   if FixesVertex(G, k) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomata, 3, "  G fixes vertex", k);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -458,6 +469,8 @@ function (G, seq)
     return StabilizerOfFirstLevel(G);
   fi;
   if FixesVertex(G, seq) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomata, 3, "  G fixes vertex", seq);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -492,6 +505,8 @@ InstallMethod(FixesLevel, "method for IsTreeAutomorphismGroup and IsPosInt",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   if IsTrivial(PermGroupOnLevel(G, k)) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomata, 3, "  G fixes level", k);
     SetIsSphericallyTransitive(G, false);
     return true;
   else
@@ -512,6 +527,8 @@ function(G, v)
   for g in gens do
     if not FixesVertex(g, v) then return false; fi;
   od;
+  Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+  Info(InfoAutomata, 3, "  G fixes vertex", v);
   SetIsSphericallyTransitive(G, false);
   return true;
 end);

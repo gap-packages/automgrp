@@ -179,6 +179,8 @@ function(a, k)
       return false; fi; fi;
 
   if IsOne(PermOnLevel(a, k)) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomata, 3, "  a is not transitive on level", k);
     SetIsSphericallyTransitive(a, false);
     return true;
   else
@@ -199,6 +201,8 @@ function(a, v)
       return false; fi; fi;
 
   if v^a = v then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomata, 3, "  a fixes vertex ", v);
     SetIsSphericallyTransitive(a, false);
     return true;
   else

@@ -91,6 +91,8 @@ function(obj, k)
     if not FixesVertex(obj, v) then
       return false;
     else
+      Info(InfoAutomata, 3, "IsSphericallyTransitive(obj): false");
+      Info(InfoAutomata, 3, "  obj fixes vertex", v);
       SetIsSphericallyTransitive(obj, false);
     fi;
   od;

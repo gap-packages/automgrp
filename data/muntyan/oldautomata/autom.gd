@@ -12,7 +12,7 @@
 ##
 DeclareCategory("IsAutom",
                 IsAutomObj and
-								IsMultiplicativeElementWithInverse and IsAssociativeElement);
+                IsMultiplicativeElementWithInverse and IsAssociativeElement);
 
 DeclareCategoryCollections("IsAutom");
 

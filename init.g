@@ -3,10 +3,17 @@
 #W  init.g                  automata package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
 ##
-##  @(#)$Id$
 ##
 
+Revision.init_g := "@(#)$Id$";
+
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
+
+
+ReadPkg("automata", "automaton.gd");
+
+ReadPkg("automata", "automaton.gi");
+
 
 #ReadPkg("automata", "freegrp.gd");
 #ReadPkg("automata", "automobj.gd");
@@ -33,3 +40,4 @@ DeclareAutoPackage("automata", "0.91", ReturnTrue);
 #ReadPkg("automata", "autom32.g");
 
 
+#E

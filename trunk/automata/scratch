@@ -52,21 +52,5 @@ Alyoshin := GroupWithGenerators([a,b]);
 A := CreateAutom([[2,2,1,(1,3)],[1,1,2,(1,2,3)]],["a","b"]);
 Stab(A);
 
-StabilizerOfFirstLevel(Alyoshin);
-
-projectionofstab := function(group, gens)
-    local stab, stabgens, projgens, projgenswords;
-    stab := Stabilizer(group, 2);
-    stabgens := GeneratorsOfGroup(stab);
-#    Print("stabgens: ", stabgens, "\n");
-    projgens := List(stabgens, a -> Projection(a, 2));
-#    Print("projgens: ", projgens, "\n");
-    projgenswords := List(projgens, a -> a!.Word);
-#    Print("projgenswords: ", projgenswords, "\n");
-    projgenswords := Nielsen(projgenswords)[1];
-#    Print("projgenswords: ", projgenswords, "\n");
-    projgens := List(projgenswords, w -> CalculateWord(w, gens));
-    return [AutomataGroup(projgens), List(projgens, a -> a!.Word)];
-end;
 
 A := CreateAutom([[1,3,(1,2)],[3,1,(1,2)],[2,2,()]],["a","b","c"]);

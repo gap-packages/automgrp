@@ -14,6 +14,7 @@ ReadPkg("automata", "agroup.gd");
 ReadPkg("automata", "indlist.gd");
 ReadPkg("automata", "autls.gd");
 ReadPkg("automata", "automfam.gd");
+ReadPkg("automata", "scilab.gd");
 
 ReadPkg("automata", "common.g");
 
@@ -24,6 +25,7 @@ ReadPkg("automata", "agroup.gi");
 ReadPkg("automata", "indlist.gi");
 ReadPkg("automata", "autls.gi");
 ReadPkg("automata", "automfam.gi");
+ReadPkg("automata", "scilab.gi");
 
 
 

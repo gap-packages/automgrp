@@ -5,47 +5,30 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.automaton_gd := 
+Revision.automaton_gd :=
   "@(#)$Id$";
 
 
 ###############################################################################
 ##
 #C  IsAutomaton
+#C  IsAutomatonFamily
+#C  IsAutomatonCollection
 ##
-##  This is a category parent for all automata categories.
+##  This is a category parent for all initial automata categories.
 ##
-DeclareCategory("IsAutomaton",  IsMultiplicativeElement and 
-                                IsAssociativeElement);
+DeclareCategory("IsAutomaton",  IsAutomatonObject and IsTreeAutomorphism);
+DeclareCategoryFamily("IsAutomaton");
+DeclareCategoryCollections("IsAutomaton");
+InstallTrueMethod(IsAutomatonObject, IsAutomatonCollection);
+InstallTrueMethod(IsAutomatonObject, IsAutomatonFamily);
 
 
 ###############################################################################
 ##
-#O  GetList (<automaton>)
-#O  GetListWithNames (<automaton>)
+#A  AutomatonListInitialState (<a>)
 ##
-##  It has different meaning for initial and noninitial automata.
-##  Maybe it's worth to make this function always return a list of length
-##  1 or 2 where the first elmt is the 'list' and optional second elmt is 
-##  number of initial state?
-##
-DeclareOperation("GetList", [IsAutomaton]);
-DeclareOperation("GetListWithNames", [IsAutomaton]);
+DeclareAttribute( "AutomatonListInitialState", IsAutomaton, "mutable" );
 
-
-###############################################################################
-##
-#P  IsActingOnBinaryTree
-##
-DeclareProperty("IsActingOnBinaryTree", IsAutomaton);
-
-
-###############################################################################
-##
-#P  IsFiniteAutomaton
-#P  CanEasilyCheckFinitnessAutomaton
-##
-DeclareProperty("IsFiniteAutomaton", IsAutomaton);
-DeclareFilter("CanEasilyCheckFinitnessAutomaton");
 
 #E

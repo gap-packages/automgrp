@@ -1,35 +1,36 @@
 #############################################################################
 ##
-#W  fgautom.gd                 automata package                Yevgen Muntyan
+#W  fgautom.gd               automata package                  Yevgen Muntyan
+#W                                                             Dmytro Savchuk
 ##
-##  automata v 0.91 started June 07 2004
+##  automata v0.9, started 01/22/2004
 ##
-
-Revision.fgautom_gd := 
-  "@(#)$Id$";
 
 
 ###############################################################################
 ##
-#C  IsFGAutomaton
+#C  IsFGAutom
+#C  IsFGAutomFamily
+#C  IsFGAutomCollection
 ##
-DeclareCategory ("IsFGAutomaton", IsInitialAutomaton);
-DeclareCategoryCollections ("IsFGAutomaton");
-
-
-#############################################################################
-##
-#C  IsFGAutomatonFamily
-##
-DeclareCategoryFamily ("IsFGAutomaton");
+DeclareCategory("IsFGAutom", IsAutomaton);
+DeclareCategoryFamily("IsFGAutom");
+DeclareCategoryCollections("IsFGAutom");
 
 
 ###############################################################################
 ##
-#O  FGAutomaton(<object>)
+#O  CreateAutom(<object>)
 ##
-DeclareOperation ("FGAutomaton", [IsObject]);
+DeclareOperation("CreateAutom", [IsObject]);
 
 
+###############################################################################
+##
+#O  Autom(<object>)
+##
+DeclareOperation("FGAutom", [IsObject]);
 
-#E
+
+DeclareOperation("ListRep", [IsFGAutom]);
+DeclareOperation("StabilizesPath", [IsFGAutom, IsList]);

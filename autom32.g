@@ -284,10 +284,10 @@ end;
 DrawAutom:=function(Ainfo,f)
   local A,n,i;
   A:=Ainfo[1][1];
-  AppentTo(f,"\begin{minipage}{113pt}\n");
-  AppentTo(f,"\begin{picture}(1410,1321)(0,0)\n");
-  AppentTo(f,"\put(200,200){\circle{200}} %a\n");
-  AppentTo(f,"\put(1200,200){\circle{200}}%b\n");
+  AppendTo(f,"\begin{minipage}{113pt}\n");
+  AppendTo(f,"\begin{picture}(1410,1321)(0,0)\n");
+  AppendTo(f,"\put(200,200){\circle{200}} %a\n");
+  AppendTo(f,"\put(1200,200){\circle{200}}%b\n");
   AppendTo(f,"\put(700,1070){\circle{200}}%c\n");
   AppendTo(f,"\put(45,280){$a$}\n");
   AppendTo(f,"\put(1280,280){$b$}\n");
@@ -359,6 +359,7 @@ DrawAutom:=function(Ainfo,f)
                  else AppendTo(f,"\put(230,700){$_0$} %a->c\n");
     fi;
   else return fail;
+  fi;
 
   if A[1][2]=1 then
     if A[1][1]<>1 then AppendTo(f,"\put(193,10){$_1$}  %a->a\n"); fi;
@@ -367,6 +368,7 @@ DrawAutom:=function(Ainfo,f)
   elif A[1][2]=3 then
     if A[1][1]<>3 then AppendTo(f,"\put(230,700){$_1$} %a->c\n"); fi;
   else return fail;
+  fi;
 
 
   if A[2][1]=1 then
@@ -382,6 +384,7 @@ DrawAutom:=function(Ainfo,f)
                  else AppendTo(f,"\put(890,585){$_0$} %b->c\n");
     fi;
   else return fail;
+  fi;
 
   if A[2][2]=1 then
     if A[2][1]<>1 then AppendTo(f,"\put(680,77){$_1$}   %b->a\n"); fi;
@@ -390,6 +393,7 @@ DrawAutom:=function(Ainfo,f)
   elif A[2][2]=3 then
     if A[2][1]<>3 then AppendTo(f,"\put(890,585){$_1$} %b->c\n"); fi;
   else return fail;
+  fi;
 
 
   if A[3][1]=1 then
@@ -405,6 +409,7 @@ DrawAutom:=function(Ainfo,f)
                  else AppendTo(f,"\put(545,1261){$_0$}  %c->c\n");
     fi;
   else return fail;
+  fi;
 
   if A[3][2]=1 then
     if A[3][1]<>1 then AppendTo(f,"\put(460,585){$_1$}  %c->a\n"); fi;
@@ -413,10 +418,25 @@ DrawAutom:=function(Ainfo,f)
   elif A[3][2]=3 then
     if A[3][1]<>3 then AppendTo(f,"\put(545,1261){$_1$}  %c->c\n"); fi;
   else return fail;
+  fi;
+
+  AppendTo(f,"\end{picture}\n");
+  AppendTo(f,"\begin{minipage}\n");
+  AppendTo(f,"\begin{minipage}{\linewidth}\n");
 
 
 
+end;
 
+
+################################################################################
+##
+#F FormatAutomForSciLab . . . . . . . . . . . .generates automata understandible
+##                                                                     to SciLab
+
+FormatAutomForSciLab:=function(A)
+  local SciA;
+  SciA:=[];
 
 
 end;

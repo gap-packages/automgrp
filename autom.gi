@@ -449,6 +449,57 @@ function(fam)
 end);
 
 
+###############################################################################
+##
+#M  Expand(a)
+##
+InstallMethod(Expand, [IsAutom],
+function(a)
+	local deg, pos, states, list, word, aut, i, j, pf;
+	
+	deg := Degree(a);
+	states := [a!.Word];
+	pos := 0;
+	list := [];
+
+	while pos <> Length(states) do
+		pos := pos + 1;
+		word := states[pos];
+		aut := Autom(word, FamilyObj(a));
+		for i in [1..deg] do
+			if not aut!.States[i] in states then
+				Add(states, aut!.States[i]);
+			fi;
+		od;
+		
+		Add(list, Concatenation([word], aut!.States, [aut!.Perm]));
+	od;
+	
+	pf := function(w)
+		if IsOne(w) then
+			Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
+		else
+			Print(w);
+		fi;
+	end;
+	for i in [1..Length(list)] do
+		pf(list[i][1]);
+		Print(" = (");
+		for j in [1..deg] do
+			pf(list[i][j+1]);
+			if j <> deg then
+				Print(", ");
+			fi;
+		od;
+		if not IsOne(list[i][deg+2]) then
+			Print(")", list[i][deg+2], "\n");
+		else
+			Print(")\n");
+		fi; 
+	od;
+end);
+
+
 
 
 

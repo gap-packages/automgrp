@@ -1,7 +1,7 @@
 S := ListX ([(),(1,2)],[(),(1,2)],[(),(1,2)],[1..3],[1..3],[1..3],[1..3],[1..3],[1..3],
 function(y3, y2, y1, x32, x31, x22, x21, x12, x11)
   return [[x11,x12,y1],[x21,x22,y2],[x31,x32,y3]];
-end);
+end);;
 
 trans1 := function(l)
   local r, j;
@@ -31,7 +31,7 @@ star := l -> [[l[1][2], l[1][1], l[1][3]],
 
 inv := function (l)
   local r, i;
-  
+
   r := [[],[],[]];
   for i in [1..3] do
     r[i][3] := l[i][3];
@@ -67,7 +67,7 @@ is3aut := function (l)
   red := ReducedAutomatonInList(l);
   if Length(red[1]) = Length(l) then
     return true;
-  else 
+  else
     return false;
   fi;
 end;

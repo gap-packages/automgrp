@@ -18,11 +18,12 @@ ReadPkg("automata", "automaton.gd");
 ReadPkg("automata", "initialautomaton.gd");
 ReadPkg("automata", "listops.gd");
 ReadPkg("automata", "fgautom.gd");
+ReadPkg("automata", "utils.gd");
 
 ReadPkg("automata", "automaton.gi");
 ReadPkg("automata", "initialautomaton.gi");
 ReadPkg("automata", "listops.gi");
-ReadPkg("automata", "fgautom.gi");
+ReadPkg("automata", "utils.gi");
 
 
 #ReadPkg("automata", "freegrp.gd");

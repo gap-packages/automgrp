@@ -36,10 +36,8 @@ DeclareOperation("GetListWithNames", [IsAutomaton]);
 ###############################################################################
 ##
 #P  IsActingOnBinaryTree
-#A  AlphabetOrder - better name?
 ##
 DeclareProperty("IsActingOnBinaryTree", IsAutomaton);
-DeclareAttribute("AlphabetOrder", IsAutomaton);
 
 
 ###############################################################################

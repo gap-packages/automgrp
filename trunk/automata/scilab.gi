@@ -94,13 +94,8 @@ end);
 InstallMethod(PlotSpectraInScilabAddInverses,
               [IsList and IsPermCollection, IsPosInt, IsPosInt],
 function(perms, perm_deg, round)
-  local i, nperms;
-  nperms := [];
-  for i in [1..Length(perms)] do
-    Add(nperms, perms[i]);
-    Add(nperms, perms[i]^-1);
-  od;
-  PlotSpectraPermsInScilab( nperms, perm_deg, round,
+  PlotSpectraPermsInScilab( Concatenation(perms, List(perms, p -> p^-1)),
+                            perm_deg, round,
                             AutomataParameters.scilab_stacksize );
 end);
 

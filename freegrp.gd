@@ -39,4 +39,3 @@ DeclareOperation("NielsenMihaylov", [IsList, IsInt, IsInt]);
 
 
 
-

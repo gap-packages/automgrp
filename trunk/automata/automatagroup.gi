@@ -12,37 +12,6 @@ Revision.automatagroup_gi :=
 
 ###############################################################################
 ##
-#M  UseSubsetRelation(<super>, <sub>)
-##
-InstallMethod(UseSubsetRelation, "method for two IsAutomataGroup's",
-              [IsAutomataGroup, IsAutomataGroup],
-function(super, sub)
-  if HasIsFreeAbelian(super) then
-    if IsFreeAbelian(super) then
-      if not IsTrivial(sub) then SetIsFreeAbelian(sub, true); fi;
-    else
-      SetIsFreeAbelian(sub, false);
-    fi;
-  fi;
-
-  if HasIsFreeNonabelian(super) then
-    if IsFreeNonabelian(super) then
-      if not IsTrivial(sub) then SetIsFreeNonabelian(sub, true); fi;
-    else
-      SetIsFreeNonabelian(sub, false);
-    fi;
-  fi;
-
-  if HasIsSphericallyTransitive(super) then
-    if not IsSphericallyTransitive(super) then
-      SetIsSphericallyTransitive(sub, false); fi; fi;
-
-  TryNextMethod();
-end);
-
-
-###############################################################################
-##
 #M  LowerCentralSeriesOnLevelOp (<G>, <k>)
 #M  PCentralSeriesOnLevelOp (<G>, <k>)
 #M  JenningsSeriesOnLevelOp (<G>, <k>)

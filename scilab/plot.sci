@@ -20,7 +20,7 @@ endfunction
 
 
 // ******************************************************************
-function [sp] = plot_spec_round(autom, iter_num, prec)
+function [sp, max_freq] = plot_spec_round(autom, iter_num, prec)
 
 num_states = size(autom); num_states = num_states(1);
 
@@ -48,10 +48,12 @@ end
 freq_matrix = nfreq(sp_for_plotting);
 num_eigens = size(freq_matrix); num_eigens = num_eigens(1);
 x = [1:num_eigens]; y =x;
+max_freq = 0;
 for i=1:num_eigens,
 	x(i) = freq_matrix(i,1);
 	y(i) = freq_matrix(i,2);
 end,
+max_freq = max(y);
 plot2d3(x,y, strf="011", rect=[-1,0,1,max(y)]);
 
 endfunction
@@ -93,13 +95,19 @@ function [sp] = plotmain(autom, iter, calc_inv)
 		stacksize(10000000);
 	end
 	
+	xbasc();
+//	xset("default");
+	xset("font size", 6);
 	if calc_inv then
-		sp = plot_spec_round(get_inverses(autom), iter, ROUND);
+		[sp, ymax] = plot_spec_round(get_inverses(autom), iter, ROUND);
 	else
-		sp = plot_spec_round(autom, iter, ROUND);
+		[sp, ymax] = plot_spec_round(autom, iter, ROUND);
 	end
-//	xset("font size", 14);
-	xtitle(get_title(autom, iter), "", "");
+
+//	xset("font size", 10);
+	xtitle(get_title(autom, iter), string(iter), "");	
+//	xstring(1.05, ymax/2 ,get_titles_mat(autom));	
+	
 	disp(strcat(["minmin = ", string(sp(1))]));
 	disp(strcat(["min = ", string(sp(2))]));
 	disp(strcat(["max = ", string(sp(2^iter-1))]));
@@ -121,24 +129,10 @@ endfunction
 // ******************************************************************
 function [title] = get_title(autom, iter)
 	[num_states, d] = size(autom); d = d - 1;
-	letters = ['a','b','c','d','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-	id = 'e';
-	sigma = "(01)";
-	st = list(1:num_states);
-	for i = 1:num_states
-		if (autom(i, 1) - i)^2 + (autom(i, 2) - i)^2 + (autom(i, 3))^2 == 0 then
-			st = id;
-		else
-			st = letters(i);
-		end
-	end
-	
+	st_mat = get_titles_mat(autom);
 	states = list(1:num_states);
 	for i = 1:num_states
-		states(i) = strcat([st(i), " = (", st(autom(i, 1)), ", ", st(autom(i, 2)), ")"]);
-		if autom(i, 3) <> 0 then
-			states(i) = strcat([states(i), sigma]);
-		end
+		states(i) = st_mat(i, 1);
 	end
 	
 	title = "";
@@ -146,7 +140,39 @@ function [title] = get_title(autom, iter)
 		title = strcat([title, states(i), ", "]);
 	end
 	title = strcat([title, states(num_states)]);
-	title = strcat([title, "; ", string(iter), "-th level"]);
+//	title = strcat([title, "; ", string(iter), "-th level"]);
+endfunction
+// ******************************************************************
+
+
+// ******************************************************************
+function [mat] = get_titles_mat(autom)
+	[num_states, d] = size(autom); d = d - 1;
+	letters = ['a','b','c','d','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+	id = 'e';
+	sigma = "(01)";
+	st = list(1:num_states);
+	for i = 1:num_states
+		if (autom(i, 1) - i)^2 + (autom(i, 2) - i)^2 + (autom(i, 3))^2 == 0 then
+			st(i) = id;
+		else
+			st(i) = letters(i);
+		end
+	end
+	
+	states = [];
+	for i = 1:num_states
+		str = strcat([st(i), " = (", st(autom(i, 1)), ", ", st(autom(i, 2)), ")"]);
+		if autom(i, 3) <> 0 then
+			str = strcat([str, sigma]);
+		end
+		states = [states; [str]];
+	end
+	
+	mat = [states(1)];
+	for i = 2:num_states
+		mat = [mat; [states(i)]];
+	end
 endfunction
 // ******************************************************************
 

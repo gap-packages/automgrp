@@ -515,7 +515,7 @@ WriteAutomInfoTo:=function(f,Ainfo)
   A:=Ainfo[1][1];
   AppendTo(f,"\\begin{tabular}{p{320pt}p{114pt}}\n");
   AppendTo(f,"\\textbf{Automata number $",String(NumOfAut(Ainfo[1])),"$}\n");
-  AppendTo(f,"\\vspace{.4cm}\n\n");
+  AppendTo(f,"\\vspace{.2cm}\n\n");
 
   AppendTo(f,"\\begin{tabular}{p{60pt}p{260pt}}\n\n");
 
@@ -529,6 +529,13 @@ WriteAutomInfoTo:=function(f,Ainfo)
   else
     AppendTo(f,"Contracting: \\textit{n/a} \n\n");
   fi;
+
+  if IsBound(Ainfo[9]) then
+    AppendTo(f,"Fractal: \\textit{yes} \n\n");
+  else
+    AppendTo(f,"Fractal: \\textit{n/a} \n\n");
+  fi;
+
 
   if IsBound(Ainfo[6]) then
     AppendTo(f,"Growth: \\textit{",Ainfo[6][1]);
@@ -547,7 +554,7 @@ WriteAutomInfoTo:=function(f,Ainfo)
   AppendTo(f,"\\epsfig{file=pics/",Ainfo[2],"_round_9_7.eps,height=190pt}");
   AppendTo(f,"\\epsfig{file=pics/",Ainfo[2],"_exact_9_7.eps,height=190pt}");
   AppendTo(f,"}\\\\ \n\\hline\n\\end{tabular}\n");
-  AppendTo(f,"\\vspace{.7cm}\n\n");
+  AppendTo(f,"\\vspace{.2cm}\n\n");
 end;
 
 

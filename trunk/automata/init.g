@@ -6,7 +6,7 @@
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.init_g := 
+Revision.init_g :=
   "@(#)$Id$";
 
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
@@ -46,8 +46,8 @@ ReadPkg("automata", "autom.gi");
 #ReadPkg("automata", "scilab.gi");
 
 
-#ReadPkg("automata", "selfs.g");
-#ReadPkg("automata", "autom32.g");
+ReadPkg("automata", "selfs.g");
+ReadPkg("automata", "autom32.g");
 
 
 #E

@@ -81,47 +81,74 @@ endfunction
 
 
 // ******************************************************************
+function [sp] = plotmain(autom, iter, calc_inv)
+	global ROUND
+	
+	if ROUND == [] then
+		ROUND = 7;
+	end
+	
+	ss = stacksize();
+	if ss < 10000000 then	
+		stacksize(10000000);
+	end
+	
+	if calc_inv then
+		sp = plot_spec_round(get_inverses(autom), iter, ROUND);
+	else
+		sp = plot_spec_round(autom, iter, ROUND);
+	end
+//	xset("font size", 14);
+	xtitle(get_title(autom, iter), "", "");
+	disp(strcat(["minmin = ", string(sp(1))]));
+	disp(strcat(["min = ", string(sp(2))]));
+	disp(strcat(["max = ", string(sp(2^iter-1))]));
+endfunction
+// ******************************************************************
+
+
+// ******************************************************************
 function [sp] = plotspec(autom, iter)
-	global ROUND
-	
-	if ROUND == [] then
-		ROUND = 7;
-	end
-	
-	ss = stacksize();
-	if ss < 10000000 then	
-		stacksize(10000000);
-	end
-	
-	sp = plot_spec_round(get_inverses(autom), iter, ROUND);
-	disp(strcat(["minmin = ", string(sp(1))]));
-	disp(strcat(["min = ", string(sp(2))]));
-	disp(strcat(["max = ", string(sp(2^iter-1))]));
+	sp = plotmain(autom, iter, %T);
 endfunction
-// ******************************************************************
 
-
-// ******************************************************************
 function [sp] = plotspec_ni(autom, iter)
-	global ROUND
-	
-	if ROUND == [] then
-		ROUND = 7;
-	end
-	
-	ss = stacksize();
-	if ss < 10000000 then	
-		stacksize(10000000);
-	end
-	
-	sp = plot_spec_round(autom, iter, ROUND);
-	disp(strcat(["minmin = ", string(sp(1))]));
-	disp(strcat(["min = ", string(sp(2))]));
-	disp(strcat(["max = ", string(sp(2^iter-1))]));
+	sp = plotmain(autom, iter, %F);
 endfunction
 // ******************************************************************
 
 
+// ******************************************************************
+function [title] = get_title(autom, iter)
+	[num_states, d] = size(autom); d = d - 1;
+	letters = ['a','b','c','d','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+	id = 'e';
+	sigma = "(01)";
+	st = list(1:num_states);
+	for i = 1:num_states
+		if (autom(i, 1) - i)^2 + (autom(i, 2) - i)^2 + (autom(i, 3))^2 == 0 then
+			st = id;
+		else
+			st = letters(i);
+		end
+	end
+	
+	states = list(1:num_states);
+	for i = 1:num_states
+		states(i) = strcat([st(i), " = (", st(autom(i, 1)), ", ", st(autom(i, 2)), ")"]);
+		if autom(i, 3) <> 0 then
+			states(i) = strcat([states(i), sigma]);
+		end
+	end
+	
+	title = "";
+	for i=1:(num_states - 1)
+		title = strcat([title, states(i), ", "]);
+	end
+	title = strcat([title, states(num_states)]);
+	title = strcat([title, "; ", string(iter), "-th level"]);
+endfunction
+// ******************************************************************
 
 
 

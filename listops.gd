@@ -62,20 +62,24 @@ DeclareGlobalFunction("AreEquivalentStatesInList");
 DeclareGlobalFunction("AreEquivalentStatesInLists");
 
 
-# ###############################################################################
-# ##
-# #F  ReducedAutomatonInList(list)
-# ##
-# ##  returns new list which is list representation of reduced form of automaton
-# ##  given by list
-# ##  first state of returned list is always first state if given one
-# ##  this function does not remove trivial state - it's for initial automata
-# ##
-# ##  It does not check correctness of list
-# ##
-# DeclareGlobalFunction("ReducedAutomatonInList");
-# 
-# 
+###############################################################################
+##
+#F  ReducedAutomatonInList( <list> )
+##
+##  Returns [new_list, list_of_states] where new_list is a new list which 
+##  represents reduced form of given automaton, i-th elmt of list_of_states 
+##  is the number of i-th state of new automaton in the old one.
+##  
+##  First state of returned list is always first state of given one.
+##  It does not remove trivial state, so it's not really "reduced automaton", 
+##  it just removes equivalent states.
+##  TODO: write such function which removes trivial state
+##
+##  Does not check correctness of list.
+##
+DeclareGlobalFunction("ReducedAutomatonInList");
+
+
 # ###############################################################################
 # ##
 # #F  MinimalSubAutomatonInlist(<states>, <list>)

@@ -204,92 +204,96 @@ function(state1, state2, list1, list2)
 end);
 
 
-# ###############################################################################
-# ##
-# #F  ReducedAutomatonInList(list)
-# ##
-# ##  returns new list which is list representation of reduced form of automaton
-# ##  given by list
-# ##  first state of returned list is always first state if given one
-# ##  this function does not remove trivial state - it's for initial automata
-# ##
-# ##  It does not check correctness of list
-# ##
-# InstallGlobalFunction(ReducedAutomatonInList,
-# function(list)
-#     local  i, n, triv_states, equiv_classes, checked_states, s, s1, s2,
-#             eq_cl, eq_cl_1, eq_cl_2, are_equiv, eq_cl_reprs,
-#             new_states, new_list, deg,
-#             reduced_automaton, state, states_reprs;
-# 
-#     n := Length(list);
-#     triv_states := [];
-#     equiv_classes := [];
-#     checked_states := [];
-#     deg := Length(list[1]) - 1;
-# 
-#     for s in [1..n] do
-#         if IsTrivialStateInList(s, list) then
-#             triv_states := Union(triv_states, [s]);
-#         fi;
-#     od;
-# 
-#     equiv_classes:=[triv_states];
-#     for s1 in Difference([1..n], triv_states) do
-#     for s2 in Difference([s1+1..n], triv_states) do
-#         are_equiv := AreEquivalentStatesInList(s1, s2, list);
-# 
-#         if s1 in checked_states then
-#             for eq_cl in equiv_classes do
-#                 if s1 in eq_cl then
-#                     eq_cl_1 := StructuralCopy(eq_cl);
-#                     break; fi; od;
-#         else
-#             equiv_classes := Union(equiv_classes, [[s1]]);
-#             eq_cl_1 := [s1];
-#             checked_states := Union(checked_states, [s1]);
-#         fi;
-#         if s2 in checked_states then
-#             for eq_cl in equiv_classes do
-#                 if s2 in eq_cl then
-#                     eq_cl_2 := StructuralCopy(eq_cl);
-#                     break; fi; od;
-#         else
-#             equiv_classes := Union(equiv_classes, [[s2]]);
-#             eq_cl_2 := [s2];
-#             checked_states := Union(checked_states, [s2]);
-#         fi;
-# 
-#         if are_equiv then
-#             equiv_classes := Difference(equiv_classes, [eq_cl_1, eq_cl_2]);
-#             equiv_classes := Union(equiv_classes, [Union(eq_cl_1, eq_cl_2)]);
-#         fi;
-#     od;
-#     od;
-#     states_reprs := [1..n];
-#     for eq_cl in equiv_classes do
-#         for s in eq_cl do
-#             states_reprs[s] := Minimum(eq_cl);
-#         od;
-#     od;
-# 
-# 
-#     new_states := Set(states_reprs);
-#     new_list := [];
-# 
-#     for s in new_states do
-#         state := [];
-#         state[deg+1] := list[s][deg+1];
-#         for i in [1..deg] do
-#             state[i] := Position(new_states, states_reprs[list[s][i]]);
-#         od;
-#         new_list := Concatenation(new_list, [state]);
-#     od;
-# 
-#     return [new_list, new_states];
-# end);
-# 
-# 
+###############################################################################
+##
+#F  ReducedAutomatonInList( <list> )
+##
+##  Returns [new_list, list_of_states] where new_list is a new list which 
+##  represents reduced form of given automaton, i-th elmt of list_of_states 
+##  is the number of i-th state of new automaton in the old one.
+##  
+##  First state of returned list is always first state of given one.
+##  It does not remove trivial state, so it's not really "reduced automaton", 
+##  it just removes equivalent states.
+##  TODO: write such function which removes trivial state
+##
+##  Does not check correctness of list.
+##
+InstallGlobalFunction(ReducedAutomatonInList,
+function(list)
+  local   i, n, triv_states, equiv_classes, checked_states, s, s1, s2,
+          eq_cl, eq_cl_1, eq_cl_2, are_equiv, eq_cl_reprs,
+          new_states, new_list, deg,
+          reduced_automaton, state, states_reprs;
+
+  n := Length(list);
+  triv_states := [];
+  equiv_classes := [];
+  checked_states := [];
+  deg := Length(list[1]) - 1;
+
+  for s in [1..n] do
+      if IsTrivialStateInList(s, list) then
+          triv_states := Union(triv_states, [s]);
+      fi;
+  od;
+
+  equiv_classes:=[triv_states];
+  for s1 in Difference([1..n], triv_states) do
+  for s2 in Difference([s1+1..n], triv_states) do
+    are_equiv := AreEquivalentStatesInList(s1, s2, list);
+
+    if s1 in checked_states then
+      for eq_cl in equiv_classes do
+        if s1 in eq_cl then
+          eq_cl_1 := StructuralCopy(eq_cl);
+          break; fi; od;
+    else
+      equiv_classes := Union(equiv_classes, [[s1]]);
+      eq_cl_1 := [s1];
+      checked_states := Union(checked_states, [s1]);
+    fi;
+    if s2 in checked_states then
+      for eq_cl in equiv_classes do
+        if s2 in eq_cl then
+          eq_cl_2 := StructuralCopy(eq_cl);
+          break; fi; od;
+    else
+      equiv_classes := Union(equiv_classes, [[s2]]);
+      eq_cl_2 := [s2];
+      checked_states := Union(checked_states, [s2]);
+    fi;
+
+    if are_equiv then
+      equiv_classes := Difference(equiv_classes, [eq_cl_1, eq_cl_2]);
+      equiv_classes := Union(equiv_classes, [Union(eq_cl_1, eq_cl_2)]);
+    fi;
+  od;
+  od;
+  states_reprs := [1..n];
+  for eq_cl in equiv_classes do
+    for s in eq_cl do
+      states_reprs[s] := Minimum(eq_cl);
+    od;
+  od;
+
+
+  new_states := Set(states_reprs);
+  new_list := [];
+
+  for s in new_states do
+    state := [];
+    state[deg+1] := list[s][deg+1];
+    for i in [1..deg] do
+      state[i] := Position(new_states, states_reprs[list[s][i]]);
+    od;
+    new_list := Concatenation(new_list, [state]);
+  od;
+
+  return [new_list, new_states];
+end);
+
+
 # ###############################################################################
 # ##
 # #F  MinimalSubAutomatonInlist(<states>, <list>)

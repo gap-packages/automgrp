@@ -35,6 +35,15 @@ DeclareOperation("GetListWithNames", [IsAutomaton]);
 
 ###############################################################################
 ##
+#P  IsActingOnBinaryTree
+#A  AlphabetOrder - better name?
+##
+DeclareProperty("IsActingOnBinaryTree", IsAutomaton);
+DeclareAttribute("AlphabetOrder", IsAutomaton);
+
+
+###############################################################################
+##
 #P  IsFiniteAutomaton
 #P  CanEasilyCheckFinitnessAutomaton
 ##
@@ -46,12 +55,5 @@ DeclareOperation("GetListWithNames", [IsAutomaton]);
 ##
 DeclareProperty("IsFiniteAutomaton", IsAutomaton);
 DeclareFilter("CanEasilyCheckFinitnessAutomaton");
-
-
-
-
-
-
-
 
 #E

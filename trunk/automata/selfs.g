@@ -108,7 +108,7 @@ IsOneWord:=function(w,G)
   if Length(w) mod 2=1 then Add(w,1); fi;
   l:=[];
   for i in [1..Length(w)/2] do
-    Add(l,ShallowCopy(G[w[2*i-1]][w[2*i]]));
+    Add(l,StructuralCopy(G[w[2*i-1]][w[2*i]]));
   od;
 #  Print("l=",l);
   c:=[(),l[1][Length(l[1])]];
@@ -149,7 +149,7 @@ end;
 OrderOfElement:=function(v,G)
   local w,k;
   v:=ReduceWord(v);
-  w:=ShallowCopy(v); k:=1;
+  w:=StructuralCopy(v); k:=1;
   while not IsOneWord(w,G) do
     Append(w,v);
 #   Print(w,";");
@@ -216,7 +216,7 @@ GeneratorActionOnLevel:=function(G,g,n)
       k:=k+1;
     od;
     w:=VertexNumber(k,n,d);
-    v:=ShallowCopy(w);
+    v:=StructuralCopy(w);
     i:=i+1;
     repeat
       l[NumberOfWord(v,d)+1]:=1;
@@ -428,7 +428,7 @@ ContractingTable:=function(G)
           od;
         fi;
       od;
-      PairAct:=ShallowCopy(TmpList);
+      PairAct:=StructuralCopy(TmpList);
     od;
     Add(PairAct,GeneratorActionOnLevel(G,i,lev)*GeneratorActionOnLevel(G,j,lev));
     return PairAct;
@@ -449,10 +449,10 @@ end;
 
 ################################################################################
 ##
-#F AddIvverses . . . . . . . . . .Adds to the generating set of the self-similar
-##                		 group inverse elements and the identity element
+#F AddIvversesOld. . . . . . . . .Adds to the generating set of the self-similar
+##                               group inverse elements and the identity element
 
-AddInverses:=function(H)
+AddInversesOld:=function(H)
   local Pairs,i,j,g,id,inv,n,eq,shift,tmpG,tmpPairs,d,tmp,already,G,isId,idEl;
   shift:=function(x,y,z)
     if x<y then return x;
@@ -461,7 +461,7 @@ AddInverses:=function(H)
     fi;
   end;
 
-  G:=ShallowCopy(H);
+  G:=StructuralCopy(H);
   id:=0; d:=Length(G[1][1])-1;
   idEl:=[];
 
@@ -539,7 +539,7 @@ AddInverses:=function(H)
       Add(tmpPairs,tmp);
     fi;
   od;
-  Pairs:=ShallowCopy(tmpPairs); G[1]:=ShallowCopy(tmpG);
+  Pairs:=StructuralCopy(tmpPairs); G[1]:=StructuralCopy(tmpG);
   n:=n-Length(eq)/2;
 #  Print("n_after=",n);
   eq:=[];
@@ -568,7 +568,7 @@ AddInverses:=function(H)
     fi;
   od;
 #  Print("tmpG",tmpG);
-  G[1]:=ShallowCopy(tmpG);
+  G[1]:=StructuralCopy(tmpG);
   eq:=[];
   for i in [2..Length(G[1])] do
     if G[1][i]=[i,i,()] then Add(eq,i); fi;
@@ -594,7 +594,7 @@ end;
 
 ################################################################################
 ##
-#F Minimize. . . . . . . . . . . . . . . . . . . . . .Glues equivalent states of
+#F MinimizeAutom . . . . . . . . . . . . . . . . . . .Glues equivalent states of
 ##                                                          noninitial automaton
 
 MinimizeAutom:=function(G)
@@ -622,7 +622,7 @@ MinimizeAutom:=function(G)
         tmpG:=[];  #can be maid better by gluing all pairs from Pairs.
         for k in [1..n] do
           if k<>j then
-            st:=ShallowCopy(G[1][k]);
+            st:=StructuralCopy(G[1][k]);
             for l in [1..d] do
               if st[l]=j then st[l]:=i;
               elif st[l]>j then st[l]:=st[l]-1;
@@ -641,8 +641,42 @@ end;
 
 ################################################################################
 ##
+#F AddIvverses. . . . . . . . .Adds to the generating set of the self-similar
+##                               group inverse elements and the identity element
+
+AddInverses:=function(H)
+  local d,n,G,idEl,st,i,perm,inv;
+  d:=Length(H[1][1])-1;
+  n:=Length(H[1]);
+  if n<1 or d<1 then return fail; fi;
+  idEl:=[];
+  for i in [1..d] do Add(idEl,1); od;
+  Add(idEl,());
+  G:=[[idEl]];
+  for i in [1..n] do Add(G[1],StructuralCopy(H[1][i])); od;
+
+  for st in [2..n+1] do
+    for i in [1..d] do G[1][st][i]:=G[1][st][i]+1; od;
+  od;
+
+  for st in [2..n+1] do
+    inv:=[];
+    perm:=G[1][st][d+1]^(-1);
+    for i in [1..d] do Add(inv, G[1][st][i^perm]+n); od;
+    Add(inv,perm);
+    Add(G[1],inv);
+  od;
+
+  return MinimizeAutom(G);
+end;
+
+
+
+
+################################################################################
+##
 #F FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
-##              		                       of the self-similar group
+##              		                               of the self-similar group
 
 FindNucleus:=function(H)
   local G,Pairs,i,j,PairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus;
@@ -703,7 +737,7 @@ FindNucleus:=function(H)
     return res;
   end;
 
-  found:=false; G:=ShallowCopy(H);
+  found:=false; G:=StructuralCopy(H);
   G:=AddInverses(G);
   while not found do
     res:=true; maxlev:=0; ContPairs:=[];
@@ -799,7 +833,7 @@ PortraitOfWord:=function(w,G)
   PortraitIter:=function(v,lev,plist)
     local i,j,tmpv,sigma;
     for i in [1..Length(G[1])] do
-      tmpv:=ShallowCopy(v);
+      tmpv:=StructuralCopy(v);
       Add(tmpv,i);
       if IsOneWord(tmpv,G) then
 	Add(bndry,[lev,i^inv]);
@@ -891,9 +925,9 @@ end;
 
 PortraitsOfWordPowers:=function(w,G)
   local list,d,v;
-  v:=ShallowCopy(w);
+  v:=StructuralCopy(w);
   d:=Length(G[1][1])-1;
-  list:=[ShallowCopy(w),PortraitOfWord(v,G)];
+  list:=[StructuralCopy(w),PortraitOfWord(v,G)];
   while list[Length(list)]<>[d,[0,1]] do
     Append(v,w);
     Add(list, PortraitOfWord(v,G));
@@ -932,12 +966,12 @@ Growth:=function(n,G)
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
       for j in [2..Length(G[1])] do
-        v:=ShallowCopy(ElList[i]);
+        v:=StructuralCopy(ElList[i]);
 	Add(v,j);
 	New:=true;
  	k:=1;
 	while New and k<=oldgr do
-	  tmpv:=ShallowCopy(v);
+	  tmpv:=StructuralCopy(v);
 	  Append(tmpv,inverse(ElList[k]));
 	  if IsOneWord(tmpv,G) then New:=false; fi;
 	  k:=k+1;

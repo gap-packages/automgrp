@@ -355,6 +355,17 @@ function (G)
 end);
 
 
+InstallMethod(IsSphericallyTransitive,
+              "method for wreath product of AutomGroup and Symmetric group",
+              [IsTreeAutomorphismGroup], 10,
+function (G)
+  if not IsAutomGroup(G) and IsAutom(State(GeneratorsOfGroup(G)[1], 1)) then
+    return IsTransitiveOnLevel(G, 1) and IsSphericallyTransitive(ProjStab(G, 1));
+  fi;
+  TryNextMethod();
+end);
+
+
 ###############################################################################
 ##
 #M  DiagonalAction(<G>, <n>)

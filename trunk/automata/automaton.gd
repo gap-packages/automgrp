@@ -47,12 +47,6 @@ DeclareAttribute("AlphabetOrder", IsAutomaton);
 #P  IsFiniteAutomaton
 #P  CanEasilyCheckFinitnessAutomaton
 ##
-##  This is defined for IsAutomaton, not for IsInitialAutomaton, because we 
-##  can consider things like
-##  a = (b^2, a)(1,2)
-##  b = (a, a^2),
-##  can't we? Hope we will be able to deal with such things.
-##
 DeclareProperty("IsFiniteAutomaton", IsAutomaton);
 DeclareFilter("CanEasilyCheckFinitnessAutomaton");
 

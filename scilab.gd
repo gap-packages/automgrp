@@ -15,7 +15,7 @@ Revision.globals_g :=
 
 ###############################################################################
 ##
-#F  PlotSpectraPermsInScilab(<perms>, <round>)
+#F  PlotSpectraPermsInScilab(<perms>, <perm_deg>, <round>, <stacksize>)
 ##
 DeclareGlobalFunction("PlotSpectraPermsInScilab");
 

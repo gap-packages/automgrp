@@ -27,6 +27,17 @@ end);
 
 ###############################################################################
 ##
+#M  DegreeOfLevel(<obj>)
+##
+InstallMethod(DegreeOfLevel, "DegreeOfLevel(IsTreeAutObject, IsPosInt)",
+              [IsTreeAutObject, IsPosInt],
+function(obj, k)
+  return DegreeOfLevelInSphericalIndex(SphericalIndex(obj), k);
+end);
+
+
+###############################################################################
+##
 #M  IsActingOnHomogeneousTree(<obj>)
 ##
 InstallMethod(IsActingOnHomogeneousTree, "method for IsTreeAutObject",
@@ -78,10 +89,12 @@ function(obj, k)
   lev := Tuples([1..DegreeOfTree(obj)], k);
   for v in lev do
     if not FixesVertex(obj, v) then
-      return false; fi;
+      return false;
+    else
+      SetIsSphericallyTransitive(obj, false);
+    fi;
   od;
 
-  SetIsSphericallyTransitive(obj, false);
   return true;
 end);
 
@@ -99,7 +112,6 @@ function(obj, v)
 
   TryNextMethod();
 end);
-
 
 
 #E

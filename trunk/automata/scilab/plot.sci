@@ -98,7 +98,7 @@ function [sp] = plotmain(autom, iter, calc_inv)
 	xbasc();
 //	xset("default");
 	xset("font size", 6);
-	if calc_inv then
+	if calc_inv == 1 then
 		[sp, ymax] = plot_spec_round(get_inverses(autom), iter, ROUND);
 	else
 		[sp, ymax] = plot_spec_round(autom, iter, ROUND);
@@ -117,11 +117,11 @@ endfunction
 
 // ******************************************************************
 function [sp] = plotspec(autom, iter)
-	sp = plotmain(autom, iter, %T);
+	sp = plotmain(autom, iter, 1);
 endfunction
 
 function [sp] = plotspec_ni(autom, iter)
-	sp = plotmain(autom, iter, %F);
+	sp = plotmain(autom, iter, 0);
 endfunction
 // ******************************************************************
 

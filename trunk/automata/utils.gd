@@ -21,5 +21,7 @@ DeclareGlobalFunction("DegreeOfLevelInSphericalIndex");
 
 DeclareGlobalFunction("TreeLevelTuples");
 
+DeclareGlobalFunction("ParseAutomatonString");
+
 
 #E

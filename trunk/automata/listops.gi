@@ -14,6 +14,11 @@ Revision.listops_gd :=
 ##
 #F  IsCorrectAutomatonList( <list> )
 ##
+##  Checks whether the list is correct list to define automaton, i.e.:
+##  [[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]],
+##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are 
+##  in SymmetricalGroup(n).
+##
 InstallGlobalFunction(IsCorrectAutomatonList,
 function(list)
   local len, deg, i, j;
@@ -59,39 +64,39 @@ function(list)
 end);
 
 
-# ###############################################################################
-# ##
-# #F  ConnectedStatesInList(state, list)
-# ##
-# ##  Returns list of states which are reachable from given state,
-# ##  it does not check correctness of arguments
-# ##
-# InstallGlobalFunction(ConnectedStatesInList,
-# function(state, list)
-#     local i, s, d, to_check, checked;
-# 
-#     d := Length(list[1]) - 1;
-# 
-#     to_check := [state];
-#     checked := [];
-# 
-#     while Length(to_check) <> 0 do
-#         for s in to_check do
-#             for i in [1..d] do
-#                 if (not list[s][i] in checked) and (not list[s][i] in to_check)
-#                 then
-#                     to_check := Union(to_check, [list[s][i]]);
-#                 fi;
-#             od;
-#             checked := Union(checked, [s]);
-#             to_check := Difference(to_check, [s]);
-#         od;
-#     od;
-# 
-#     return checked;
-# end);
-# 
-# 
+###############################################################################
+##
+#F  ConnectedStatesInList(state, list)
+##
+##  Returns list of states which are reachable from given state,
+##  it does not check correctness of arguments
+##
+InstallGlobalFunction(ConnectedStatesInList,
+function(state, list)
+  local i, s, d, to_check, checked;
+
+  d := Length(list[1]) - 1;
+
+  to_check := [state];
+  checked := [];
+
+  while Length(to_check) <> 0 do
+    for s in to_check do
+      for i in [1..d] do
+        if (not list[s][i] in checked) and (not list[s][i] in to_check)
+        then
+          to_check := Union(to_check, [list[s][i]]);
+        fi;
+      od;
+      checked := Union(checked, [s]);
+      to_check := Difference(to_check, [s]);
+    od;
+  od;
+
+  return checked;
+end);
+
+
 # ###############################################################################
 # ##
 # #F  IsTrivialStateInList(state, list)

@@ -60,7 +60,7 @@ function (list, names, rename, fictive_parameter)
             names := Permuted(names, perm^-1);
         fi;
         trivstate := Length(list);
-        names[trivstate] := AutomataParameters.idenity_symbol;
+        names[trivstate] := AutomataParameters.identity_symbol;
     fi;
 
     # list [1..Length(list)] or [1..Lentgh(list)-1], depending on
@@ -215,7 +215,7 @@ function (a)
     local deg, printword, i;
 
     printword := function(w)
-        if IsOne(w) then Print(AutomataParameters.idenity_symbol);
+        if IsOne(w) then Print(AutomataParameters.identity_symbol);
         else Print(w); fi;
     end;
 
@@ -486,7 +486,7 @@ function(a)
 		
 	pf := function(w)
 		if IsOne(w) then
-			Print(AutomataParameters.idenity_symbol);
+			Print(AutomataParameters.identity_symbol);
 		else
 			Print(w);
 		fi;
@@ -529,7 +529,7 @@ function(a)
 	
 	pf := function(w)
 		if IsOne(w) then
-			Print(AutomataParameters.idenity_symbol);
+			Print(AutomataParameters.identity_symbol);
 		else
 			Print(w);
 		fi;

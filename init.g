@@ -49,7 +49,7 @@ ReadPkg("automata", "utilsfrgrp.gi");
 ReadPkg("automata", "utilsratfun.gi");
 ReadPkg("automata", "scilab.gi");
 
-ReadPkg("automata", "selfs.g");
+#ReadPkg("automata", "selfs.g");
 #ReadPkg("automata", "autom32.g");
 
 

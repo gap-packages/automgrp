@@ -32,33 +32,36 @@ DeclareGlobalFunction("IsCorrectAutomatonList");
 DeclareGlobalFunction("ConnectedStatesInList");
 
 
-# ###############################################################################
-# ##
-# #F  IsTrivialStateInList(state, list)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# DeclareGlobalFunction("IsTrivialStateInList");
-# 
-# 
-# ###############################################################################
-# ##
-# #F  AreEquivalentStatesInList(state1, state2, list)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# DeclareGlobalFunction("AreEquivalentStatesInList");
-# 
-# 
-# ###############################################################################
-# ##
-# #F  AreEquivalentStatesInLists(state1, state2, list1, list2)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# DeclareGlobalFunction("AreEquivalentStatesInLists");
-# 
-# 
+###############################################################################
+##
+#F  IsTrivialStateInList( <state>, <list>)
+##
+##  Checks whether given state is trivial.
+##  Does not check correctness of arguments.
+##
+DeclareGlobalFunction("IsTrivialStateInList");
+
+
+###############################################################################
+##
+#F  AreEquivalentStatesInList( <state1>, <state2>, <list> )
+##
+##  Checks whether two given states are equivalent.
+##  Does not check correctness of arguments.
+##
+DeclareGlobalFunction("AreEquivalentStatesInList");
+
+
+###############################################################################
+##
+#F  AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
+##
+##  Checks whether two given states in different lists are equivalent.
+##  Does not check correctness of arguments.
+##
+DeclareGlobalFunction("AreEquivalentStatesInLists");
+
+
 # ###############################################################################
 # ##
 # #F  ReducedAutomatonInList(list)

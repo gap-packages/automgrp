@@ -97,111 +97,113 @@ function(state, list)
 end);
 
 
-# ###############################################################################
-# ##
-# #F  IsTrivialStateInList(state, list)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# InstallGlobalFunction(IsTrivialStateInList,
-# function(state, list)
-#     local i, s, d, to_check, checked;
-# 
-#     d := Length(list[1]) - 1;
-# 
-#     to_check := [state];
-#     checked := [];
-# 
-#     while Length(to_check) <> 0 do
-#         for s in to_check do
-#             for i in [1..d] do
-#                 if list[s][d+1] <> () then
-#                     return false;
-#                 fi;
-#                 if (not list[s][i] in checked) and (not list[s][i] in to_check)
-#                 then
-#                     to_check := Union(to_check, [list[s][i]]);
-#                 fi;
-#             od;
-#             checked := Union(checked, [s]);
-#             to_check := Difference(to_check, [s]);
-#         od;
-#     od;
-# 
-#     return true;
-# end);
-# 
-# 
-# ###############################################################################
-# ##
-# #F  AreEquivalentStatesInList(state1, state2, list)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# InstallGlobalFunction(AreEquivalentStatesInList,
-# function(state1, state2, list)
-#     local d, checked_pairs, pos, s1, s2, np, i;
-# 
-#     d := Length(list[1]) - 1;
-#     checked_pairs := [[state1, state2]];
-#     pos := 0;
-# 
-#     while Length(checked_pairs) <> pos do
-#         pos := pos + 1;
-#         s1 := checked_pairs[pos][1];
-#         s2 := checked_pairs[pos][2];
-# 
-#         if list[s1][d+1] <> list[s2][d+1] then
-#             return false;
-#         fi;
-# 
-#         for i in [1..d] do
-#             np := [list[s1][i], list[s2][i]];
-#             if not np in checked_pairs then
-#                 checked_pairs := Concatenation(checked_pairs, [np]);
-#             fi;
-#         od;
-#     od;
-# 
-#     return true;
-# end);
-# 
-# 
-# ###############################################################################
-# ##
-# #F  AreEquivalentStatesInLists(state1, state2, list1, list2)
-# ##
-# ##  it does not check correctness of arguments
-# ##
-# InstallGlobalFunction(AreEquivalentStatesInLists,
-# function(state1, state2, list1, list2)
-#     local d, checked_pairs, pos, s1, s2, np, i;
-# 
-#     d := Length(list1[1]) - 1;
-#     checked_pairs := [[state1, state2]];
-#     pos := 0;
-# 
-#     while Length(checked_pairs) <> pos do
-#         pos := pos + 1;
-#         s1 := checked_pairs[pos][1];
-#         s2 := checked_pairs[pos][2];
-# 
-#         if list1[s1][d+1] <> list2[s2][d+1] then
-#             return false;
-#         fi;
-# 
-#         for i in [1..d] do
-#             np := [list1[s1][i], list2[s2][i]];
-#             if not np in checked_pairs then
-#                 checked_pairs := Concatenation(checked_pairs, [np]);
-#             fi;
-#         od;
-#     od;
-# 
-#     return true;
-# end);
-# 
-# 
+###############################################################################
+##
+#F  IsTrivialStateInList( <state>, <list>)
+##
+##  Checks whether given state is trivial.
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(IsTrivialStateInList,
+function(state, list)
+  local i, s, d, to_check, checked;
+
+  d := Length(list[1]) - 1;
+  to_check := [state];
+  checked := [];
+
+  while Length(to_check) <> 0 do
+    for s in to_check do
+      for i in [1..d] do
+        if not IsOne(list[s][d+1]) then
+          return false;
+        fi;
+        if (not list[s][i] in checked) and (not list[s][i] in to_check)
+        then
+          to_check := Union(to_check, [list[s][i]]);
+        fi;
+      od;
+      checked := Union(checked, [s]);
+      to_check := Difference(to_check, [s]);
+    od;
+  od;
+
+  return true;
+end);
+
+
+###############################################################################
+##
+#F  AreEquivalentStatesInList( <state1>, <state2>, <list> )
+##
+##  Checks whether two given states are equivalent.
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(AreEquivalentStatesInList,
+function(state1, state2, list)
+  local d, checked_pairs, pos, s1, s2, np, i;
+
+  d := Length(list[1]) - 1;
+  checked_pairs := [[state1, state2]];
+  pos := 0;
+
+  while Length(checked_pairs) <> pos do
+    pos := pos + 1;
+    s1 := checked_pairs[pos][1];
+    s2 := checked_pairs[pos][2];
+
+    if list[s1][d+1] <> list[s2][d+1] then
+      return false;
+    fi;
+
+    for i in [1..d] do
+      np := [list[s1][i], list[s2][i]];
+      if not np in checked_pairs then
+        checked_pairs := Concatenation(checked_pairs, [np]);
+      fi;
+    od;
+  od;
+
+  return true;
+end);
+
+
+###############################################################################
+##
+#F  AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
+##
+##  Checks whether two given states in different lists are equivalent.
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(AreEquivalentStatesInLists,
+function(state1, state2, list1, list2)
+  local d, checked_pairs, pos, s1, s2, np, i;
+
+  d := Length(list1[1]) - 1;
+  checked_pairs := [[state1, state2]];
+  pos := 0;
+
+  while Length(checked_pairs) <> pos do
+    pos := pos + 1;
+    s1 := checked_pairs[pos][1];
+    s2 := checked_pairs[pos][2];
+
+    if list1[s1][d+1] <> list2[s2][d+1] then
+      return false;
+    fi;
+
+    for i in [1..d] do
+      np := [list1[s1][i], list2[s2][i]];
+      if not np in checked_pairs then
+        checked_pairs := Concatenation(checked_pairs, [np]);
+      fi;
+    od;
+  od;
+
+  return true;
+end);
+
+
 # ###############################################################################
 # ##
 # #F  ReducedAutomatonInList(list)

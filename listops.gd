@@ -80,18 +80,18 @@ DeclareGlobalFunction("AreEquivalentStatesInLists");
 DeclareGlobalFunction("ReducedAutomatonInList");
 
 
-# ###############################################################################
-# ##
-# #F  MinimalSubAutomatonInlist(<states>, <list>)
-# ##
-# ##  Returns list rep of automaton which is minimal subatomaton of automaton
-# ##  with list rep <list> containing states <states>.
-# ##
-# ##  It does not check correctness of list
-# ##
-# DeclareGlobalFunction("MinimalSubAutomatonInlist");
-# 
-# 
+###############################################################################
+##
+#F  MinimalSubAutomatonInlist(<states>, <list>)
+##
+##  Returns list representation of automaton given by <list> which is minimal 
+##  subatomaton of automaton containing states <states>.
+##
+##  Does not check correctness of list.
+##
+DeclareGlobalFunction("MinimalSubAutomatonInlist");
+
+
 # ###############################################################################
 # ##
 # #F  PermuteStatesInList(<list>, <perm>)

@@ -131,7 +131,7 @@ function(arg)
     start := arg[1];
     period := arg[2];
     n := arg[3];
-    m := 0;
+    m := n;
     ind := [];
     if Length(start) <> 0 then
       if n <= Length(start) then
@@ -143,8 +143,12 @@ function(arg)
       fi;
     fi;
     if m > 0 then
-      Append(ind, Concatenation(List([1..Int(m/Length(period))], i -> period)));
-      Append(ind, period{[1..m-Int(m/Length(period))]});
+      # TODO: why Append doesn't work???
+#       Append(ind, Concatenation(List([1..Int(m/Length(period))], i -> period)));
+#       Append(ind, period{[1..m-Int(m/Length(period))]});
+      ind := Concatenation(ind,
+        Concatenation(List([1..Int(m/Length(period))], i -> period)));
+      ind := Concatenation(ind, period{[1..m-Int(m/Length(period))]});
     fi;
     args := List([1..n], i -> [1..ind[i]]);
     Add(args, function(arg) return arg; end);

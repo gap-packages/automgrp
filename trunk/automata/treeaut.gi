@@ -164,6 +164,7 @@ InstallMethod(PermOnLevelOp, "method for IsTreeAutomorphism and IsPosInt",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
   if k = 1 then return Perm(a); fi;
+  Error("implement me: PermOnLevelOp(IsTreeAutomorphism, IsPosInt)");
 end);
 
 

@@ -1,3 +1,12 @@
+#############################################################################
+##
+#W  selfs.g                    automata package                Dmytro Savchuk
+##
+##  automata v 0.91 started June 07 2004
+##
+#Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
+##
+
 InstallOtherMethod(\^,"list^perm",true,[IsList,IsPerm],0,
 function(l,p)
   local i,b;

@@ -103,6 +103,29 @@ end);
 
 ###############################################################################
 ##
+#M  PrintObj(<a>)
+##
+InstallMethod(PrintObj, [IsTreeAutomorphism],
+function (a)
+    local deg, printword, i;
+
+    deg := TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
+    Print("(");
+    for i in [1..deg] do
+      if (IsAutom(a!.states[i])) then
+        View(a!.states[i]);
+      else
+        Print(a!.states[i]);
+      fi;
+      if i <> deg then Print(", "); fi;
+    od;
+    Print(")");
+    if not IsOne(a!.perm) then Print(a!.perm); fi;
+end);
+
+
+###############################################################################
+##
 #M  SphericalIndex(<a>)
 ##
 InstallMethod(SphericalIndex, [IsTreeAutomorphism and IsTreeAutomorphismRep],

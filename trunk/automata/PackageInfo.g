@@ -25,11 +25,11 @@ Subtitle := "automata",
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers. For an automatic package distribution update
 ##  you must provide a new version number even after small changes.
-Version := "0.9",
+Version := "0.91",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 # 
-Date := "01/01/2004",
+Date := "01/01/2005",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
@@ -113,41 +113,30 @@ Date := "01/01/2004",
 ##     Institution := "Institute for Nothing"
 ##     )
 ##  
-#Persons := [
-#  rec( 
-#    LastName      := "Nickel",
-#    FirstNames    := "Werner",
-#    IsAuthor      := true,
-#    IsMaintainer  := true,
-#    Email         := "nickel@mathematik.tu-darmstadt.de",
-#    WWWHome       := "http://www.mathematik.tu-darmstadt.de/~nickel",
-#    PostalAddress := Concatenation( [
-#                       "AG 2, Fachbereich Mathematik, TU Darmstadt\n",
-#                       "Schlossgartenstr. 7, 64289 Darmstadt\n",
-#                       "Germany" ] ),
-#    Place         := "Darmstadt",
-#    Institution   := "TU Darmstadt"
-#  ),
-#  rec( 
-#    LastName      := "Gamble",
-#    FirstNames    := "Greg",
-#    IsAuthor      := true,
-#    IsMaintainer  := true,
-#    Email         := "gregg@math.rwth-aachen.de",
-#    WWWHome       := "http://www.math.rwth-aachen.de/~Greg.Gamble",
-#    PostalAddress := Concatenation( [
-#                       "Greg Gamble\n",
-#                       "School of Mathematics and Statistics\n",
-#                       "Curtin University of Technology\n",
-#                       "GPO Box U 1987\n",
-#                       "Perth WA 6845\n",
-#                       "Australia" ] ),
-#    Place         := "Perth",
-#    Institution   := "Curtin University of Technology"
-#  )
-# provide such a record for each author and/or maintainer ...
-  
-#],
+Persons := [
+  rec( 
+    LastName      := "Muntyan",
+    FirstNames    := "Yevgen",
+    IsAuthor      := true,
+    IsMaintainer  := true,
+    Email         := "muntyan@math.tamu.edu",
+    WWWHome       := "http://munt.mine.nu",
+    PostalAddress := "",
+    Place         := "College Station, TX, USA",
+    Institution   := "TAMU"
+  ),
+  rec( 
+    LastName      := "Savchuk",
+    FirstNames    := "Dmytro",
+    IsAuthor      := true,
+    IsMaintainer  := true,
+    Email         := "savchuk@math.tamu.edu",
+    WWWHome       := "",
+    PostalAddress := "",
+    Place         := "College Station, TX, USA",
+    Institution   := "TAMU"
+  ),
+],
 
 ##  Status information. Currently the following cases are recognized:
 ##    "accepted"      for successfully refereed packages
@@ -198,7 +187,7 @@ Date := "01/01/2004",
 #   is an example of how to create a <span class=\"pkgname\">GAP</span> \
 #   package. It has little functionality except for being a package",
 
-#PackageWWWHome := "http://www.math.rwth-aachen.de/~Greg.Gamble/Example",
+PackageWWWHome := "http://sourceforge.net/projects/finautom",
                
 ##  Here is the information on the help books of the package, used for
 ##  loading into GAP's online help and maybe for an online copy of the 
@@ -329,7 +318,7 @@ Autoload := true,
 ##  *Optional*: Here you can list some keyword related to the topic 
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := []
+Keywords := ["finite automata", "tree automorphism"]
 
 ));
 

@@ -94,6 +94,25 @@ end);
 
 ###############################################################################
 ##
+#M  AutomGroup(<string>)
+#M  AutomGroupNoBindGlobal(<string>)
+##
+InstallMethod(AutomGroup, "AutomGroup(IsString)", [IsString],
+function (string)
+    local s;
+    s := ParseAutomatonString(string);
+    return AutomGroup(s[2], s[1]);
+end);
+InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsString)", [IsString],
+function (string)
+    local s;
+    s := ParseAutomatonString(string);
+    return AutomGroupNoBindGlobal(s[2], s[1]);
+end);
+
+
+###############################################################################
+##
 #M  UnderlyingAutomFamily(<G>)
 ##
 InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomGroup)",

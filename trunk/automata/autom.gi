@@ -322,6 +322,28 @@ end);
 
 ###############################################################################
 ##
+#M  Projection(a, seq)
+##
+InstallOtherMethod(Projection, [IsAutom, IsList],
+function(a, v)
+	if Length(v) = 0 then
+		return a;
+	fi;
+	
+	if v[1]^a <> v[1] then
+		Error("Projection(IsAutom, IsList): given autmaton does not stabilize given vertex\n");
+	fi;
+	
+	if Length(v) = 1 then
+		return Projection(a, v[1]);
+	fi;
+	
+	return Projection(Projection(a, v[1]), v{[2..Length(v)]});
+end);
+
+
+###############################################################################
+##
 #M  k ^ a
 ##
 InstallOtherMethod(\^, [IsInt, IsAutom],

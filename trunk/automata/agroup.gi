@@ -109,7 +109,7 @@ function (G)
     hom := GroupHomomorphismByImagesNC(F, S,
                 GeneratorsOfGroup(F), List(freegens, x -> x[2]));
     gens := GeneratorsOfGroup(Kernel(hom));
-    gens := Nielsen(gens)[1];
+#     gens := Nielsen(gens)[1];
     gens := List(gens, w -> CalculateWord(w, GeneratorsOfGroup(G)));
     return AGroup(gens);
 end);
@@ -132,7 +132,7 @@ function (G, k)
     hom := GroupHomomorphismByImagesNC(F, S,
                 GeneratorsOfGroup(F), List(freegens, x -> x[2]));
     gens := GeneratorsOfGroup(Kernel(hom));
-    gens := Nielsen(gens)[1];
+#     gens := Nielsen(gens)[1];
     gens := List(gens, w -> CalculateWord(w, GeneratorsOfGroup(G)));
     return AGroup(gens);
 end);
@@ -159,7 +159,7 @@ function (G, k)
         return k^Image(hom, w);
     end;
     gens := GeneratorsOfGroup(Stabilizer(F, k, action));
-    gens := Nielsen(gens)[1];
+#     gens := Nielsen(gens)[1];
     gens := List(gens, w -> CalculateWord(w, GeneratorsOfGroup(G)));
     return AGroup(gens);
 end);
@@ -197,7 +197,7 @@ function (G, seq)
         return k^Image(hom, w);
     end;
     gens := GeneratorsOfGroup(Stabilizer(F, v, action));
-    gens := Nielsen(gens)[1];
+#     gens := Nielsen(gens)[1];
     gens := List(gens, w -> CalculateWord(w, GeneratorsOfGroup(G)));
     return AGroup(gens);
 end);
@@ -259,6 +259,27 @@ function(G, k)
     fi;
 
     return AGroup(List(G!.Gens, g -> Projection(g, k)));
+end);
+
+
+###############################################################################
+##
+#M  Projection(G, seq)
+##
+InstallOtherMethod(Projection, [IsAGroup, IsList],
+function(G, v)
+	if Length(v) = 0 then
+		return G;
+	fi;
+	    
+##	TODO
+##	error checking
+##	stabilize
+	if Set(List(G!.Gens, g -> (v = v^g))) <> [true] then
+			Error("Projection(IsAGroup, IsInt): group does not stabilize given vertex\n");
+	fi;
+
+	return AGroup(List(G!.Gens, g -> Projection(g, v)));
 end);
 
 

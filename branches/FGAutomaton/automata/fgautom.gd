@@ -1,46 +1,43 @@
 #############################################################################
 ##
-#W  fgautom.gd                 automata package                Yevgen Muntyan
+#W  autom.gd                 automata package                  Yevgen Muntyan
 ##
-##  automata v 0.91 started June 07 2004
+##  automata v0.9, started 01/22/2004
 ##
-
-Revision.fgautom_gd := 
-  "@(#)$Id$";
 
 
 ###############################################################################
 ##
-#V  FGAutomatonFamilyCreated
+#C  IsAutom
 ##
-##  This is a list containing already created FGAutomaton families.
+DeclareCategory("IsFGAutom", IsInitialAutomaton);
+
+DeclareCategoryCollections("IsFGAutom");
+
+
+#############################################################################
 ##
-DeclareGlobalVariable ("FGAutomatonFamilyCreated");
+#C  IsFGAutomFamily
+##
+DeclareCategoryFamily( "IsFGAutom" );
 
 
 ###############################################################################
 ##
-#C  IsFGAutomaton
-#C  IsFGAutomatonFamily
+#O  CreateAutom(<object>)
 ##
-DeclareCategory ("IsFGAutomaton", IsInitialAutomaton);
-DeclareCategoryCollections ("IsFGAutomaton");
-DeclareCategoryFamily ("IsFGAutomaton");
+DeclareOperation("CreateAutom", [IsObject]);
 
 
 ###############################################################################
 ##
-#O  FGAutomatonCreate(<object>)
+#O  Autom(<object>)
 ##
-DeclareOperation ("FGAutomatonCreate", [IsList]);
+DeclareOperation("FGAutom", [IsObject]);
 
 
 ###############################################################################
 ##
-#O  FGAutomaton(<object>)
+#P  IsActingOnBinaryTree
 ##
-DeclareOperation ("FGAutomaton", [IsObject]);
-
-
-
-#E
+DeclareProperty("IsActingOnBinaryTree", IsFGAutomFamily);

@@ -20,13 +20,14 @@ DeclareCategory("IsInitialAutomaton", IsAutomaton and
                                       IsMultiplicativeElementWithInverse);
 
 
-
-
-
-
-
-
-
+DeclareOperation("Perm", [IsInitialAutomaton, IsInt]);
+DeclareOperation("TopPerm", [IsInitialAutomaton]);
+DeclareOperation("Projection", [IsInitialAutomaton, IsInt]);
+DeclareOperation("Expand", [IsInitialAutomaton]);
+DeclareOperation("ExpandRen", [IsInitialAutomaton]);
+DeclareOperation("StabilizesPath", [IsInitialAutomaton, IsObject]);
+DeclareAttribute("ListRep", IsInitialAutomaton);
+DeclareOperation("PermMatrices", [IsInitialAutomaton, IsInt]);
 
 
 

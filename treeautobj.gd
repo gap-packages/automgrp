@@ -21,12 +21,14 @@ DeclareCategory("IsTreeAutObject", IsObject);
 ##
 #A  SphericalIndex
 #A  TopDegreeOfTree
+#O  DegreeOfLevel
 #P  IsActingOnHomogeneousTree
 #A  DegreeOfTree
 #P  IsActingOnBinaryTree
 ##
 DeclareAttribute("SphericalIndex", IsTreeAutObject);
 DeclareAttribute("TopDegreeOfTree", IsTreeAutObject);
+DeclareOperation("DegreeOfLevel", [IsTreeAutObject, IsPosInt]);
 DeclareProperty("IsActingOnHomogeneousTree", IsTreeAutObject);
 DeclareAttribute("DegreeOfTree", IsTreeAutObject);
 DeclareProperty("IsActingOnBinaryTree", IsTreeAutObject);
@@ -64,7 +66,6 @@ DeclareAttribute("FirstMovedLevel", IsTreeAutObject);
 #A  AbelImage(<obj>)
 ##
 DeclareAttribute("AbelImage", IsTreeAutObject);
-
 
 
 #E

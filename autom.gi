@@ -477,11 +477,13 @@ end);
 ##
 InstallMethod(Expand, [IsAutom],
 function(a)
-	local deg, listrep, i, j, pf;
+	local deg, listrep, list, names, i, j, pf;
 	
 	listrep := ListRep(a);
 	deg := Degree(a);
-	
+	names := listrep.names;
+	list := listrep.list;
+		
 	pf := function(w)
 		if IsOne(w) then
 			Print(AUTOMATA_PARAMETERS.IDENTITY_SYMBOL);
@@ -490,17 +492,17 @@ function(a)
 		fi;
 	end;
 	
-	for i in [1..Length(listrep.list)] do
-		pf(listrep.names[i]);
+	for i in [1..Length(list)] do
+		pf(names[i]);
 		Print(" = (");
 		for j in [1..deg] do
-			pf(listrep.names[listrep.list[i][j]]);
+			pf(names[list[i][j]]);
 			if j <> deg then
 				Print(", ");
 			fi;
 		od;
-		if not IsOne(listrep.list[i][deg+1]) then
-			Print(")", listrep.list[i][deg+1], "\n");
+		if not IsOne(list[i][deg+1]) then
+			Print(")", list[i][deg+1], "\n");
 		else
 			Print(")\n");
 		fi; 

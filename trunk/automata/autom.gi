@@ -746,7 +746,11 @@ function(a)
     if w[i] < 0 then w[i] := -w[i]+FamilyObj(a)!.numstates; fi;
   od;
   abels := AbelImagesGenerators(FamilyObj(a));
-  return Sum(List(w, x -> abels[x]));
+  if not IsEmpty(w) then
+    return Sum(List(w, x -> abels[x]));
+  else
+    return Zero(abels[1]);
+  fi;
 end);
 
 
@@ -766,10 +770,6 @@ InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsAutom)",
               [IsAutom],
 function(a)
   local w, i, ab, abs;
-
-  if IsActingOnBinaryTree(a) then
-    return AbelImage(a) = AutomataAbelImageSpherTrans;
-  fi;
 
   if IsOne(Word(a)) then return false; fi;
 

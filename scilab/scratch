@@ -1,0 +1,91 @@
+// Al'oshin
+[1,3,1;3,1,1;2,2,0;6,4,1;4,6,1;5,5,0]
+
+// Grigorchuk
+[1,1,0; 1,1,1; 2,4,0; 2,5,0; 1,3,0]
+
+basedata = "/home/muntyan/math/automata/data/";
+basegifs = "/home/muntyan/math/automata/data/";
+
+automata = read(strcat([basedata, "3st"]), -1, 18);
+
+i=1;
+
+for i = 1:32
+	i
+	autom = [automata(i, 1), automata(i, 2), automata(i, 3); automata(i, 4), automata(i, 5), automata(i, 6); automata(i, 7), automata(i, 8), automata(i, 9); automata(i, 10), automata(i, 11), automata(i, 12); automata(i, 13), automata(i, 14), automata(i, 15); automata(i, 16), automata(i, 17), automata(i, 18)]
+	xbasc(0);
+	sp = plot_spec_round(autom, 9, 7);
+	xs2gif(0, strcat([basegifs, string(i), ".9,7.gif"]));
+	xs2fig(0, strcat([basegifs, string(i), ".9,7.fig"]));
+	xs2ps(0, strcat([basegifs, string(i), ".9,7.ps"]));
+	xs2ppm(0, strcat([basegifs, string(i), ".9,7.ppm"]));
+	write(strcat([basegifs, string(i), ".9.spectra"]), sp);
+end
+
+
+
+
+
+##########################
+## gap code
+
+file := "/home/muntyan/math/automata/data/3st";
+ind := ListX([0,1],[0,1],[0,1],[0,1],[0,1], function(a,b,c,d,e) return [a,b,c,d,e]; end);
+
+all := [];
+for i in [1..32] do
+	v := [];
+	if ind[i][1] = 0 then
+		v[1] := 1;
+		v[2] := 3;
+	else
+		v[1] := 3;
+		v[2] := 1;		
+	fi;
+	if ind[2] = 0 then
+		v[4] := 1;
+		v[5] := 3;
+	else
+		v[4] := 3;
+		v[5] := 1;		
+	fi;
+	v[7] := 2;
+	v[8] := 2;
+	v[16] := 5;
+	v[17] := 5;
+	v[3] := ind[i][3];
+	v[6] := ind[i][4];
+	v[9] := ind[i][5];
+	v[12] := ind[i][3];
+	v[15] := ind[i][4];
+	v[18] := ind[i][5];
+
+	if v[3] = 0 then
+		v[10] := v[1] + 3;
+		v[11] := v[2] + 3;
+	else
+		v[11] := v[1] + 3;
+		v[10] := v[2] + 3;
+	fi;
+	if v[6] = 0 then
+		v[13] := v[4] + 3;
+		v[14] := v[5] + 3;
+	else
+		v[14] := v[4] + 3;
+		v[13] := v[5] + 3;
+	fi;
+	
+	all[i] := StructuralCopy(v);
+od;
+
+PrintTo(file, "");
+for i in [1..32] do
+	for j in [1..17] do
+		AppendTo(file, all[i][j], "\t");
+	od;
+	AppendTo(file, all[i][18], "\n");
+od;
+
+
+

@@ -19,25 +19,25 @@ GG2:=[[[1,1,()], [1,1,(1,2)], [4,2,()], [5,2,()], [3,1,()],[4,2,(1,2)],[5,1,()]]
 
 GGAltered:=[[[1,1,()], [1,1,(1,2)], [4,2,(1,2)], [5,2,(1,2)], [3,1,(1,2)]]];
 
-gr:=
-[ [ [1,1,()],     [1,7,(1,2)], [7,1,(1,2)],  [2,4,()],     [10,5,()],
-    [3,6,()],     [4,6,(1,2)], [5,11,(1,2)], [12,5,(1,2)], [7,7,()],
-    [3,9,(1,2)],  [8,2,(1,2)] ] ];
-
-gr2:=
-[ [ [1,1,()], [1,4,(1,2)], [2,3,()], [3,5,(1,2)], [6,5,()], [4,1,(1,2)] ] ];
+# gr:=
+# [ [ [1,1,()],     [1,7,(1,2)], [7,1,(1,2)],  [2,4,()],     [10,5,()],
+#     [3,6,()],     [4,6,(1,2)], [5,11,(1,2)], [12,5,(1,2)], [7,7,()],
+#     [3,9,(1,2)],  [8,2,(1,2)] ] ];
+#
+# gr2:=
+# [ [ [1,1,()], [1,4,(1,2)], [2,3,()], [3,5,(1,2)], [6,5,()], [4,1,(1,2)] ] ];
 
 AddingMachine:=[ [ [1,1,()], [1,2,(1,2)] ] ];
 
-mg1:=[ [ [1,1,()], [1,1,(1,2)], [2,3,(1,2)], [4,2,(1,2)] ] ];
-
-g:=GrigorchukGroup;
-
-a:=[[[1,2,()],[2,3,()],[1,2,()]]];
-
-NC:=[[[1,1,()],[1,1,(1,2)],[3,2,()]]];
-
-LL:=[[[1,1,()],[3,2,(1,2)],[3,2,()]]];
+# mg1:=[ [ [1,1,()], [1,1,(1,2)], [2,3,(1,2)], [4,2,(1,2)] ] ];
+#
+# g:=GrigorchukGroup;
+#
+# a:=[[[1,2,()],[2,3,()],[1,2,()]]];
+#
+# NC:=[[[1,1,()],[1,1,(1,2)],[3,2,()]]];
+#
+# LL:=[[[1,1,()],[3,2,(1,2)],[3,2,()]]];
 
 Bond:=[[[1,1,()],[1,1,(1,2)],[2,4,()],[1,5,()],[1,3,()]]];
 
@@ -56,11 +56,11 @@ Sush:=
 ] ];
 
 
-MyAut1:=
-[ [ [1,1,()],  [2,3,(1,2)],  [4,4,(1,2)],  [2,4,()] ] ];
-
-MyAut2:=
-[ [ [1,1,()],  [2,3,(1,2)],  [2,4,()],  [4,2,()] ] ];
+# MyAut1:=
+# [ [ [1,1,()],  [2,3,(1,2)],  [4,4,(1,2)],  [2,4,()] ] ];
+#
+# MyAut2:=
+# [ [ [1,1,()],  [2,3,(1,2)],  [2,4,()],  [4,2,()] ] ];
 
 
 OlGroup:=
@@ -75,8 +75,8 @@ OlGroup:=
 ] ];
 
 
-aut3:=
-[ [ [1,1,()], [3,4,(1,2)], [4,4,()], [2,3,(1,2)] ] ];
+# aut3:=
+# [ [ [1,1,()], [3,4,(1,2)], [4,4,()], [2,3,(1,2)] ] ];
 
 ################################################################################
 ##
@@ -339,7 +339,7 @@ InvestigatePairs:=function(G)
     if (not IsList(Pairs[i][j])) or (IsList(Pairs[i][j])
                                      and (Pairs[i][j][1]<>k)) then
       if (not IsList(Pairs[i][j])) and (Pairs[i][j]<>-1) then
-    	if Pairs[i][j]=k then return true;
+        if Pairs[i][j]=k then return true;
                          else return false;
         fi;
       fi;
@@ -565,7 +565,7 @@ AddInversesOld:=function(H)
     j:=1;
     while isId and j<=d do
       if G[1][i][j]<>j then
-	isId:=false;
+        isId:=false;
       fi;
       j:=j+1;
     od;
@@ -771,7 +771,7 @@ end;
 ################################################################################
 ##
 #F FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
-##              		                               of the self-similar group
+##                                                             of the self-similar group
 
 FindNucleus:=function(H)
   local G,g,Pairs,i,j,PairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus;
@@ -1019,17 +1019,17 @@ InverseTable:=function(G)
       j:=1; found:=false;
       while j<=Length(G[1]) and not found do
         #Print("[",i,",",j,"]\n");
-	if IsOneWord([i,j],G) then
+        if IsOneWord([i,j],G) then
           found:=true;
-	  if i<>j then
-	    inv:=inv*(i,j);
+          if i<>j then
+            inv:=inv*(i,j);
             Add(viewed,i);
-	    Add(viewed,j);
-	  else
-	    Add(viewed,i);
-	  fi;
-	fi;
-	j:=j+1;
+            Add(viewed,j);
+          else
+            Add(viewed,i);
+          fi;
+        fi;
+        j:=j+1;
       od;
     fi;
   od;
@@ -1051,8 +1051,8 @@ PortraitOfWord:=function(w,G)
       tmpv:=StructuralCopy(v);
       Add(tmpv,i);
       if IsOneWord(tmpv,G) then
-	Add(bndry,[lev,i^inv]);
-	return;
+        Add(bndry,[lev,i^inv]);
+        return;
       fi;
     od;
 
@@ -1060,7 +1060,7 @@ PortraitOfWord:=function(w,G)
       tmpv:=[]; sigma:=();
       for j in v do
         Add(tmpv,G[1][j][i^sigma]);
-	sigma:=sigma*G[1][j][d+1];
+        sigma:=sigma*G[1][j][d+1];
       od;
       if i=1 then Add(plist,sigma);fi;
       Add(plist,[]);
@@ -1091,8 +1091,8 @@ WritePortraitInFile:=function(p,file,add)
     if Length(perm)>0 then
       AppendTo(file,"`",perm[1],"`");
       for j in [2..Length(perm)] do
-	AppendTo(file,", ");
-	WritePerm(perm[j]);
+        AppendTo(file,", ");
+        WritePerm(perm[j]);
       od;
     fi;
     AppendTo(file," ]");
@@ -1121,9 +1121,9 @@ WritePortraitsInFile:=function(lst,G,file,add)
 
   for i in [1..Length(lst)] do
     if i=1 then
-	AppendTo(file,"[ ",lst[i],", ");
+        AppendTo(file,"[ ",lst[i],", ");
     else
-	AppendTo(file,", [ ",lst[i],", ");
+        AppendTo(file,", [ ",lst[i],", ");
     fi;
     p:=PortraitOfWord(lst[i],G);
     WritePortraitInFile(p,file,true);
@@ -1267,7 +1267,7 @@ end;
 ################################################################################
 ##
 #F GroupElements . . . . . . . . . . . . . . . . . . . Enumerate all elements of
-##              		               a self-similar group up to a given length
+##                                             a self-similar group up to a given length
 
 GroupElements:=function(n,G)
   local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H;

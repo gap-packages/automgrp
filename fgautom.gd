@@ -1,48 +1,34 @@
 #############################################################################
 ##
-#W  autom.gd                   automata package                Yevgen Muntyan
+#W  fgautom.gd                 automata package                Yevgen Muntyan
 ##
 ##  automata v 0.91 started June 07 2004
 ##
 
-Revision.autom_gd := 
+Revision.fgautom_gd := 
   "@(#)$Id$";
 
 
 ###############################################################################
 ##
-#C  IsAutom
+#C  IsFGAutomaton
 ##
-DeclareCategory("IsAutom", IsInitialAutomaton);
-DeclareCategoryCollections("IsAutom");
+DeclareCategory ("IsFGAutomaton", IsInitialAutomaton);
+DeclareCategoryCollections ("IsFGAutomaton");
 
 
 #############################################################################
 ##
-#C  IsAutomFamily
+#C  IsFGAutomatonFamily
 ##
-DeclareCategoryFamily( "IsAutom" );
+DeclareCategoryFamily ("IsFGAutomaton");
 
 
 ###############################################################################
 ##
-#O  CreateAutom(<object>)
+#O  FGAutomaton(<object>)
 ##
-DeclareOperation("CreateAutom", [IsObject]);
-
-
-###############################################################################
-##
-#O  Autom(<object>)
-##
-DeclareOperation("Autom", [IsObject]);
-
-
-###############################################################################
-##
-#P  IsActingOnBinaryTree
-##
-DeclareProperty("IsActingOnBinaryTree", IsAutomFamily);
+DeclareOperation ("FGAutomaton", [IsObject]);
 
 
 

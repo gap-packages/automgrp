@@ -216,7 +216,7 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphism and IsActingOnBinaryTree],
 function(a)
   local ab;
-  Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using SbelImage");
+  Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using AbelImage");
   ab := AbelImage(a);
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
 end);

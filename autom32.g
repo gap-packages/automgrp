@@ -160,9 +160,8 @@ end;
 ##
 
 EditList2states:=function(list)
-  local i,li,j,eq;
+  local i,eq,A;
   for i in [1..Length(list)] do
-    li:=[];
     if list[i][1][1][2]=[2,2,()] and (not 2 in list[i][1][1][1]) and (not 2 in list[i][1][1][3]) and (list[i][1][1][1][3]=(1,2)) then
       if list[i][1][1][3][3]=(1,2) then
         Comm:="Z/2Z";

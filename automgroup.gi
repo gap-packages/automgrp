@@ -69,7 +69,7 @@ InstallMethod(GroupOfAutomFamily, "GroupOfAutomFamily(IsAutomFamily)",
               [IsAutomFamily],
 function(fam)
   local g;
-  g := Group(fam!.automgens{[1..fam!.numstates]});
+  g := GroupWithGenerators(fam!.automgens{[1..fam!.numstates]});
   SetUnderlyingAutomFamily(g, fam);
   SetIsGroupOfAutomFamily(g, true);
   SetGeneratingAutomatonList(g, fam!.automatonlist);
@@ -218,18 +218,18 @@ InstallMethod(IsFractalByWords, "IsFractalByWords(IsAutomGroup)",
 function (G)
   local freegens, stab, i, sym, f;
 
-  sym := Group(List(GeneratorsOfGroup(G), g -> Perm(g)));
+  sym := GroupWithGenerators(List(GeneratorsOfGroup(G), g -> Perm(g)));
   if not IsTransitive(sym, [1..DegreeOfTree(G)]) then
     Info(InfoAutomata, 1, "group is not transitive on first level");
     return false;
   fi;
 
-  f := Group(List(GeneratorsOfGroup(G), g -> Word(g)));
+  f := GroupWithGenerators(List(GeneratorsOfGroup(G), g -> Word(g)));
   stab := StabilizerOfFirstLevel(G);
   stab := List(GeneratorsOfGroup(stab), a -> StatesWords(a));
 
   for i in [1..DegreeOfTree(G)] do
-    if f <> Group(List(stab, s -> s[i])) then
+    if f <> GroupWithGenerators(List(stab, s -> s[i])) then
       return false;
     fi;
   od;
@@ -300,13 +300,13 @@ function (G)
 
   if CanEasilyComputeSize(G) and Size(G) < infinity then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is finite");
+    Info(InfoAutomata, 3, "  Size(G) < infinity");
     return false;
   fi;
 
   if HasIsFinite(G) and IsFinite(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is finite");
+    Info(InfoAutomata, 3, "  IsFinite(G)");
     return false;
   fi;
 
@@ -356,7 +356,7 @@ function(G, H)
 
   fgens1 := List(GeneratorsOfGroup(G), g -> Word(g));
   fgens2 := List(GeneratorsOfGroup(H), g -> Word(g));
-  if Group(fgens1) = Group(fgens2) then
+  if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
     Info(InfoAutomata, 3, "G = H: true");
     Info(InfoAutomata, 3, "  by subgroups of free group");
     return true;
@@ -384,7 +384,7 @@ function(G, H)
   fgens1 := List(GeneratorsOfGroup(G), g -> Word(g));
   gens2 := GeneratorsOfGroup(H);
   fgens2 := List(gens2, g -> Word(g));
-  if IsSubgroup(Group(fgens1), Group(fgens2)) then
+  if IsSubgroup(GroupWithGenerators(fgens1), GroupWithGenerators(fgens2)) then
     Info(InfoAutomata, 3, "IsSubgroup(G, H): true");
     Info(InfoAutomata, 3, "  by subgroups of free group");
     return true;
@@ -404,7 +404,7 @@ function(g, G)
   local fgens, w;
 
   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
-  if Word(g) in Group(fgens) then
+  if Word(g) in GroupWithGenerators(fgens) then
     Info(InfoAutomata, 3, "g in G: true");
     Info(InfoAutomata, 3, "  by elements of free group");
     return true;

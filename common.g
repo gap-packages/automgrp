@@ -29,9 +29,4 @@ DEBUG_LEVEL := 2;
 
 
 
-InstallOtherMethod(Word, [IsList],
-function(list)
-    return List(list, i -> Word(i));
-end);
-
 

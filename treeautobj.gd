@@ -43,9 +43,11 @@ InstallSubsetMaintenance(IsActingOnBinaryTree, IsCollection, IsCollection);
 ###############################################################################
 ##
 #P  IsSphericallyTransitive
+#O  IsTransitiveOnLevel(<obj>, <k>)
 #O  CanEasilyTestSphericalTransitivity
 ##
 DeclareProperty("IsSphericallyTransitive", IsTreeAutObject);
+DeclareOperation("IsTransitiveOnLevel", [IsTreeAutObject, IsPosInt]);
 DeclareFilter("CanEasilyTestSphericalTransitivity");
 InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 

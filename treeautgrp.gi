@@ -119,7 +119,7 @@ function (G)
 
   k := 3;
   for i in [1..k] do
-    if not IsTransitive(G, TreeLevelTuples(SphericalIndex(G), i)) then
+    if not IsTransitiveOnLevel(G, i) then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
       Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
       return false;
@@ -128,6 +128,16 @@ function (G)
   Info(InfoAutomata, 3, "IsSphericallyTransitive(G): G is transitive on ", k, "-th level");
 
   TryNextMethod();
+end);
+
+
+###############################################################################
+##
+#M  IsTransitiveOnLevel (<G>, <k>)
+##
+InstallMethod(IsTransitiveOnLevel, [IsTreeAutomorphismGroup, IsPosInt],
+function(G, k)
+  return IsTransitive(G, TreeLevelTuples(SphericalIndex(G), k));
 end);
 
 

@@ -10,3 +10,8 @@ two := [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16, 17, 19, 23, 24, 27, 28, 
 #  4 - al* + one state
 #  5 - inf?
 #
+
+#  12 - al
+#  14 - mix of al and al*
+#  18 - alll
+#  20 - al + one state

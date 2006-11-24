@@ -23,6 +23,9 @@ DeclareCategoryFamily("IsAutom");
 InstallTrueMethod(IsAutomatonObject, IsAutomCollection);
 InstallTrueMethod(IsAutomatonObject, IsAutomFamily);
 
+DeclareOperation("Word", [IsObject]);
+DeclareOperation("Word", [IsGroup, IsGroup]);
+
 
 ###############################################################################
 ##
@@ -37,7 +40,6 @@ DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
 #O  StatesWords(<a>)
 ##
 DeclareOperation("StatesWords", [IsAutom]);
-
 
 
 #E

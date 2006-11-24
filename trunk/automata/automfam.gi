@@ -72,10 +72,10 @@ function (list, names, bind_global)
     numstates := Length(list) - 1;
   fi;
 
-  if numstates = 0 then
-    Print("error in AutomFamily(IsList, IsList, IsString):\n  don't want to work with trivial automaton\n");
-    return fail;
-  fi;
+#  if numstates = 0 then
+#    Print("error in AutomFamily(IsList, IsList, IsString):\n  don't want to work with trivial automaton\n");
+#    return fail;
+#  fi;
 
   # First move trivial state to the end of list
   if trivstate <> 0 then

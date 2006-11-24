@@ -2,19 +2,8 @@
 ##
 ##  PackageInfo.g for the package `automata'
 ##
-##  @(#)$Id$
-##
 
-##  For the LoadPackage mechanism in GAP >= 4.4 only the entries
-##  .PackageName, .Version, .PackageDoc, .Dependencies, .AvailabilityTest
-##  .Autoload   are needed. The other entries are relevant if the
-##  package shall be distributed for other GAP users, in particular if it
-##  shall be redistributed via the GAP Website.
-
-##  With a new release of the package at least the entries .Version, .Date and
-##  .ArchiveURL must be updated.
-
-SetPackageInfo( rec(
+SetPackageInfo(rec(
 
 ##  This is case sensitive, use your preferred spelling.
 #

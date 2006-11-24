@@ -130,7 +130,11 @@ InstallMethod(GroupOfAutomFamily, "GroupOfAutomFamily(IsAutomFamily)",
               [IsAutomFamily],
 function(fam)
   local g;
-  g := GroupWithGenerators(fam!.automgens{[1..fam!.numstates]});
+  if fam!.numstates > 0 then
+    g := GroupWithGenerators(fam!.automgens{[1..fam!.numstates]});
+  else
+    g := Group(One(fam));
+  fi;
   SetUnderlyingAutomFamily(g, fam);
   SetIsGroupOfAutomFamily(g, true);
   SetGeneratingAutomatonList(g, fam!.automatonlist);

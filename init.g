@@ -7,11 +7,7 @@
 #Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-Revision.init_g :=
-  "@(#)$Id$";
-
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
-
 
 ReadPkg("automata", "globals.g");
 

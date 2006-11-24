@@ -4,7 +4,7 @@
 #W                                                             Dmytro Savchuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -18,8 +18,8 @@ function(perms, deg, round, stacksize)
   temp_dir, temp_file, temp_file_name, sci_temp_file, sci_temp_file_name,
   plot_spectra_func_file, exec_string;
 
-  plot_spectra_func_file := Filename( DirectoriesPackageLibrary("automata",""),
-                                      "scilab/PlotSpectraPermsInScilab.sci");
+  plot_spectra_func_file := Filename(DirectoriesPackageLibrary("automata","scilab"),
+                                     "scilab/PlotSpectraPermsInScilab.sci");
   if plot_spectra_func_file = fail then
     Print("error in PlotSpectraPermsInScilab:\n  scilab file not found\n");
     return fail;

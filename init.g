@@ -4,49 +4,26 @@
 #W                                                             Dmytro Savchuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
 
-ReadPkg("automata", "globals.g");
+ReadPkg("automata", "gap/treeautobj.gd");
+ReadPkg("automata", "gap/treeaut.gd");
+ReadPkg("automata", "gap/treeautgrp.gd");
+ReadPkg("automata", "gap/automatonobj.gd");
+ReadPkg("automata", "gap/automaton.gd");
+ReadPkg("automata", "gap/automatagroup.gd");
+ReadPkg("automata", "gap/autom.gd");
+ReadPkg("automata", "gap/automfam.gd");
+ReadPkg("automata", "gap/automgroup.gd");
 
-ReadPkg("automata", "treeautobj.gd");
-ReadPkg("automata", "treeaut.gd");
-ReadPkg("automata", "treeautgrp.gd");
-ReadPkg("automata", "automatonobj.gd");
-ReadPkg("automata", "automaton.gd");
-ReadPkg("automata", "automatagroup.gd");
-ReadPkg("automata", "autom.gd");
-ReadPkg("automata", "automfam.gd");
-ReadPkg("automata", "automgroup.gd");
-ReadPkg("automata", "knowngroups.gd");
-
-ReadPkg("automata", "listops.gd");
-ReadPkg("automata", "utils.gd");
-ReadPkg("automata", "utilsfrgrp.gd");
-ReadPkg("automata", "utilsratfun.gd");
-ReadPkg("automata", "scilab.gd");
-
-ReadPkg("automata", "treeautobj.gi");
-ReadPkg("automata", "treeaut.gi");
-ReadPkg("automata", "treeautgrp.gi");
-ReadPkg("automata", "automatonobj.gi");
-ReadPkg("automata", "automaton.gi");
-ReadPkg("automata", "automatagroup.gi");
-ReadPkg("automata", "autom.gi");
-ReadPkg("automata", "automfam.gi");
-ReadPkg("automata", "automgroup.gi");
-ReadPkg("automata", "knowngroups.gi");
-
-ReadPkg("automata", "listops.gi");
-ReadPkg("automata", "utils.gi");
-ReadPkg("automata", "utilsfrgrp.gi");
-ReadPkg("automata", "utilsratfun.gi");
-ReadPkg("automata", "scilab.gi");
-
-#ReadPkg("automata", "selfs.g");
-#ReadPkg("automata", "autom32.g");
+ReadPkg("automata", "gap/listops.gd");
+ReadPkg("automata", "gap/utils.gd");
+ReadPkg("automata", "gap/utilsfrgrp.gd");
+ReadPkg("automata", "gap/utilsratfun.gd");
+ReadPkg("automata", "gap/scilab.gd");
 
 
 #E

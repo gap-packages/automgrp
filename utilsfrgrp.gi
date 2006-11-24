@@ -7,10 +7,6 @@
 #Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-Revision.utilsfrgrp_gi :=
-  "@(#)$Id$";
-
-
 ##  TODO everything
 
 

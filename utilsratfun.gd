@@ -10,9 +10,6 @@
 ##  subgroup, i.e. with the additive group of rational functions over Z_2.
 ##
 
-Revision.utilsratfun_gd :=
-  "@(#)$Id$";
-
 
 BindGlobal("AutomataAbelImageIndeterminate", Indeterminate(GF(2), "x"));
 BindGlobal("AutomataAbelImageSpherTrans",

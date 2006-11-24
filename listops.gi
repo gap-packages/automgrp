@@ -7,9 +7,6 @@
 #Y  Copyright (C) 2003-2004 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-Revision.listops_gd :=
-  "@(#)$Id$";
-
 
 ###############################################################################
 ##

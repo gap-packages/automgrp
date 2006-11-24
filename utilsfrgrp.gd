@@ -9,9 +9,6 @@
 ##  Here are utility functions dealing with free groups, words, etc.
 ##
 
-Revision.utilsfrgrp_gd :=
-  "@(#)$Id$";
-
 
 #############################################################################
 ##

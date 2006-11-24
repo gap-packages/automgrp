@@ -7,6 +7,8 @@
 #Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
 ##
 
+ReadPkg("automata", "gap/globals.g");
+
 ReadPkg("automata", "gap/treeautobj.gi");
 ReadPkg("automata", "gap/treeaut.gi");
 ReadPkg("automata", "gap/treeautgrp.gi");

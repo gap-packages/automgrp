@@ -25,5 +25,6 @@ ReadPkg("automata", "gap/utilsfrgrp.gd");
 ReadPkg("automata", "gap/utilsratfun.gd");
 ReadPkg("automata", "gap/scilab.gd");
 
+ReadPkg("automata", "gap/selfs.gd");
 
 #E

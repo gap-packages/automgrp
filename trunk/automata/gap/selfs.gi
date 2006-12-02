@@ -2595,7 +2595,8 @@ function(G,size,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
 
   AssocW:=function(w)
-     return Product(List(w, i -> gens[track_s[i]]));
+     #Print(w);
+     return Product(List(w, i -> gens[i]));
   end;
 
 
@@ -2669,11 +2670,13 @@ function(G,size,num_of_rels)
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
 #        Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
-        if Length(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word)>0 and IsOneWord(Concatenation(subs[i],subs[j]),G) then
+        if IsOneWord(Concatenation(subs[i],subs[j]),G) then
           invslist[i]:=j; invslist[j]:=i;
-          Add(rels,[i,j]);
-          Add(AssocWrels,AssocW([Gi[2][i+1],Gi[2][j+1]]));
-          Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
+          if Length(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word)>0 then
+            Add(rels,[i,j]);
+            Add(AssocWrels,AssocW([Gi[2][i+1],Gi[2][j+1]]));
+            Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
+          fi;
         fi;
       od;
     od;
@@ -2770,7 +2773,8 @@ function(G,size,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
 
   AssocW:=function(w)
-     return Product(List(w, i -> gens[track_s[i]]));
+     #Print(w);
+     return Product(List(w, i -> gens[i]));
   end;
 
 
@@ -2844,11 +2848,13 @@ function(G,size,num_of_rels)
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
 #        Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
-        if Length(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word)>0 and IsOneWord(Concatenation(subs[i],subs[j]),G) then
+        if IsOneWord(Concatenation(subs[i],subs[j]),G) then
           invslist[i]:=j; invslist[j]:=i;
-          Add(rels,[i,j]);
-          Add(AssocWrels,AssocW([Gi[2][i+1],Gi[2][j+1]]));
-          Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
+          if Length(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word)>0 then
+            Add(rels,[i,j]);
+            Add(AssocWrels,AssocW([Gi[2][i+1],Gi[2][j+1]]));
+            Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
+          fi;
         fi;
       od;
     od;

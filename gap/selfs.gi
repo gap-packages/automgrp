@@ -2589,13 +2589,13 @@ end);
 #M FindRels . . . . . . . . . Fing relatoins in terms of the original generators
 ##
 ##
-InstallOtherMethod(FindRels, "FindRels(IsAutomGroup, IsPosInt, IsPosInt)", true, 
+InstallOtherMethod(FindRels, "FindRels(IsAutomGroup, IsPosInt, IsPosInt)", true,
               [IsAutomGroup, IsPosInt, IsPosInt],
 function(G,size,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
 
   AssocW:=function(w)
-     return Product(List(w, i -> gens[i]));
+     return Product(List(w, i -> gens[track_s[i]]));
   end;
 
 
@@ -2770,7 +2770,7 @@ function(G,size,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
 
   AssocW:=function(w)
-     return Product(List(w, i -> gens[i]));
+     return Product(List(w, i -> gens[track_s[i]]));
   end;
 
 

@@ -26,8 +26,8 @@ ReadPkg("automata", "gap/utilsfrgrp.gi");
 ReadPkg("automata", "gap/utilsratfun.gi");
 ReadPkg("automata", "gap/scilab.gi");
 
-ReadPkg("automata", "selfs.gi");
-#ReadPkg("automata", "autom32.g");
+ReadPkg("automata", "gap/selfs.gi");
+#ReadPkg("automata", "gap/autom32.g");
 
 
 #E

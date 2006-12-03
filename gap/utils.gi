@@ -14,16 +14,15 @@
 ##
 InstallMethod(CalculateWord, [IsAssocWord, IsList],
 function(w, dom)
-    local result, i;
+  local result, i;
 
-    result := One(dom[1]);
+  result := One(dom[1]);
 
-    for i in [1..NumberSyllables(w)] do
-        result := result *
-                    dom[GeneratorSyllable(w, i)]^ExponentSyllable(w, i);
-    od;
+  for i in [1..NumberSyllables(w)] do
+    result := result * dom[GeneratorSyllable(w, i)]^ExponentSyllable(w, i);
+  od;
 
-    return result;
+  return result;
 end);
 
 
@@ -33,14 +32,14 @@ end);
 ##
 InstallMethod(CalculateWords, [IsList, IsList],
 function(words, domain)
-    local result, i;
+  local result, i;
 
-    result := [];
-    for i in [1..Length(words)] do
-        result[i] := CalculateWord(words[i], domain);
-    od;
+  result := [];
+  for i in [1..Length(words)] do
+    result[i] := CalculateWord(words[i], domain);
+  od;
 
-    return result;
+  return result;
 end);
 
 
@@ -163,296 +162,292 @@ end);
 ##
 InstallGlobalFunction("ParseAutomatonString",
 function(string)
-    local parse_states, strstates, states, ids, nstates, need_trivial,
-          alph, s, p, i, j, perm;
+  local parse_states, strstates, states, ids, nstates, need_trivial,
+        alph, s, p, i, j, perm;
 
-    parse_states := function (string)
-        local strip, tokenize, isletter, isdigit, isspace, isseparator,
-              aux, input, tokens, c, i, remove_punct, split, pointer,
-              state, states, is_identifier, is_number, perm;
+  parse_states := function (string)
+    local strip, tokenize, isspace, isseparator,
+          aux, input, tokens, c, i, remove_punct, split, pointer,
+          state, states, is_identifier, is_number, perm;
 
-        isletter := function (c)
-            return ('a' <= c and c < 'z') or
-                ('A' <= c and c <= 'Z') or
-                c = '_';
-        end;
-
-        isdigit := function (c)
-            return '0' <= c and c < '9';
-        end;
-
-        isspace := function (c)
-            return c = ' ' or c = '\n' or c = '\t';
-        end;
-
-        isseparator := function (c)
-            return isspace (c) or
-                c = ',' or c = ';';
-        end;
-
-        strip := function (string)
-            local add, c, i, result;
-
-            result := "";
-            for c in string do
-                if not isspace (c) then add := true;
-                elif IsEmpty (result) then add := false;
-                elif isseparator (result[Length (result)]) then add := false;
-                else add := true;
-                fi;
-
-                if add then Add (result, c); fi;
-            od;
-
-            if IsEmpty (result) then return result; fi;
-            i := Length (result) + 1;
-            while isspace (result[i - 1]) do
-                i := i - 1;
-            od;
-            result := result{[1..i-1]};
-            if IsEmpty (result) then return result; fi;
-
-            string := ShallowCopy (result);
-            result := "";
-            for i in [1..Length (string)] do
-                if not isspace (string[i]) then add := true;
-                elif IsEmpty (result) then add := false;
-                elif isseparator (result[Length (result)]) then add := false;
-                elif i < Length (string) and isseparator (string[i+1]) then add := false;
-                else add := true;
-                fi;
-
-                if add then Add (result, string[i]); fi;
-            od;
-
-            return result;
-        end;
-
-        remove_punct := function (string)
-            local result, c;
-            result := "";
-            for c in string do
-                if isseparator (c) then
-                    Add (result, ' ');
-                else
-                    Add (result, c);
-                fi;
-            od;
-            return result;
-        end;
-
-        split := function (string)
-            local result, s, i, len, split_braces;
-            result := [];
-            len := Length (string);
-
-            if len = 0 then
-                return result;
-            fi;
-
-            split_braces := function (string)
-                local result, s, i, len;
-
-                result := [];
-                len := Length (string);
-                i := 1;
-                while i <= len do
-                    s := "";
-                    if string[i] = '(' then
-                        s := "(";
-                        i := i + 1;
-                    elif string[i] = ')' then
-                        s := ")";
-                        i := i + 1;
-                    else
-                        while i <= len and string[i] <> '(' and string[i] <> ')' do
-                            Add (s, string[i]);
-                            i := i + 1;
-                        od;
-                    fi;
-                    if Length (s) > 0 then
-                        Add (result, s);
-                    fi;
-                od;
-
-                return result;
-            end;
-
-            i := 1;
-            while true do
-                while i <= len and isspace (string[i]) do
-                    i := i + 1;
-                od;
-                if i > len then break; fi;
-                s := "";
-                while i <= len and not isspace (string[i]) do
-                    Add (s, string[i]);
-                    i := i + 1;
-                od;
-                if Length (s) > 0 then
-                    Append (result, split_braces (s));
-                else
-                    break;
-                fi;
-            od;
-
-            return result;
-        end;
-
-        is_identifier := function (string)
-            local c;
-            if IsEmpty (string) then return false; fi;
-            if not isletter (string[1]) then return false; fi;
-            for c in string do
-                if not isletter (c) and not isdigit (c) then
-                    return false;
-                fi;
-            od;
-            return true;
-        end;
-
-        is_number := function (string)
-            local c;
-            if IsEmpty (string) then return false; fi;
-            for c in string do
-                if not isdigit (c) then
-                    return false;
-                fi;
-            od;
-            return true;
-        end;
-
-        string := remove_punct (string);
-        string := strip (string);
-        tokens := split (string);
-
-        pointer := 1;
-        states := [];
-
-        while pointer <= Length (tokens) do
-            state := [];
-            Add (states, state);
-
-            if not is_identifier (tokens[pointer]) then
-                Error ("expected identifier, got ", tokens[pointer]);
-            else
-                Add (state, tokens[pointer]);
-                Add (state, []);
-                pointer := pointer + 1;
-            fi;
-
-            if pointer > Length (tokens) then break; fi;
-            if tokens[pointer] <> "=" then
-                Error ("expected '=', got ", tokens[pointer]);
-            else
-                pointer := pointer + 1;
-            fi;
-            if tokens[pointer] <> "(" then
-                Error ("expected '(', got ", tokens[pointer]);
-            else
-                pointer := pointer + 1;
-            fi;
-
-            while pointer <= Length (tokens) do
-                if is_identifier (tokens[pointer]) or tokens[pointer] = "1" then
-                    Add (state[2], tokens[pointer]);
-                elif tokens[pointer] = ")" then
-                    pointer := pointer + 1;
-                    break;
-                else
-                    Error ("expected state identifier or ')', got ", tokens[pointer]);
-                fi;
-                pointer := pointer + 1;
-            od;
-
-            if pointer > Length (tokens) then break; fi;
-            if tokens[pointer] = "(" then
-                pointer := pointer + 1;
-                perm := [];
-                while pointer <= Length (tokens) do
-                    if is_number (tokens[pointer]) then
-                        Add (perm, tokens[pointer]);
-                    elif tokens[pointer] = ")" then
-                        pointer := pointer + 1;
-                        break;
-                    else
-                        Error ("expected number or ')', got ", tokens[pointer]);
-                    fi;
-                    pointer := pointer + 1;
-                od;
-                Add (state, perm);
-            fi;
-        od;
-
-        return states;
+    isspace := function (c)
+      return c in " \r\n\t";
     end;
 
-    strstates := parse_states (string);
-    ids := List (strstates, i->i[1]);
-    if Length (ids) <> Length (strstates) then
-        Error ();
-    fi;
+    isseparator := function (c)
+      return isspace(c) or c in ",;";
+    end;
 
-    alph := Length (strstates[1][2]);
-    if alph = 0 then
-        Error ();
-    fi;
-    for s in strstates do
-        if Length (s[2]) <> alph then
-            Error ("number of states in ", s, "is different from the first state");
+    strip := function (string)
+      local add, c, i, result;
+
+      result := "";
+
+      for c in string do
+        if not isspace (c) then add := true;
+        elif IsEmpty (result) then add := false;
+        elif isseparator (result[Length (result)]) then add := false;
+        else add := true;
         fi;
-    od;
 
-    for s in strstates do
-        if not IsBound (s[3]) then s[3] := (); fi;
-        perm := s[3];
-        if not IsPerm (perm) then
-            if IsList (perm) and IsEmpty (perm) then
-                perm := ();
-            elif IsList (perm) then
-                p := "(";
-                for i in [1..Length(perm)] do
-                    if i <> 1 then Append (p, ", "); fi;
-                    Append (p, perm[i]);
-                od;
-                Append (p, ")");
-                perm := EvalString (p);
-            else
-                Error ("could not parse permutation '", perm, "'");
+        if add then Add (result, c); fi;
+      od;
+
+      if IsEmpty (result) then return result; fi;
+      i := Length (result) + 1;
+      while isspace (result[i - 1]) do
+        i := i - 1;
+      od;
+      result := result{[1..i-1]};
+      if IsEmpty (result) then return result; fi;
+
+      string := ShallowCopy (result);
+      result := "";
+      for i in [1..Length (string)] do
+        if not isspace (string[i]) then add := true;
+        elif IsEmpty (result) then add := false;
+        elif isseparator (result[Length (result)]) then add := false;
+        elif i < Length (string) and isseparator (string[i+1]) then add := false;
+        else add := true;
+        fi;
+
+        if add then Add (result, string[i]); fi;
+      od;
+
+      return result;
+    end;
+
+    remove_punct := function (string)
+      local result, c;
+      result := "";
+      for c in string do
+        if isseparator (c) then
+          Add (result, ' ');
+        else
+          Add (result, c);
+        fi;
+      od;
+      return result;
+    end;
+
+    split := function (string)
+      local result, s, i, len, split_braces;
+      result := [];
+      len := Length (string);
+
+      if len = 0 then
+        return result;
+      fi;
+
+      split_braces := function (string)
+        local result, s, i, len;
+
+        result := [];
+        len := Length (string);
+        i := 1;
+        while i <= len do
+          s := "";
+          if string[i] in "()=" then
+            s := [string[i]];
+            i := i + 1;
+          else
+            while i <= len and not string[i] in "()=" do
+              Add (s, string[i]);
+              i := i + 1;
+            od;
+          fi;
+          if Length (s) > 0 then
+            Add (result, s);
+          fi;
+        od;
+
+        return result;
+      end;
+
+      i := 1;
+      while true do
+          while i <= len and isspace (string[i]) do
+              i := i + 1;
+          od;
+          if i > len then break; fi;
+          s := "";
+          while i <= len and not isspace (string[i]) do
+              Add (s, string[i]);
+              i := i + 1;
+          od;
+          if Length (s) > 0 then
+              Append (result, split_braces (s));
+          else
+              break;
+          fi;
+      od;
+
+      return result;
+    end;
+
+    is_identifier := function (string)
+      local c;
+
+      if IsEmpty (string) then
+        return false;
+      fi;
+
+      if not IsAlphaChar(string[1]) and string[1] <> '_' then
+        return false;
+      fi;
+
+      for c in string do
+        if not IsAlphaChar(c) and not IsDigitChar(c) and string[1] <> '_' then
+          return false;
+        fi;
+      od;
+
+      return true;
+    end;
+
+    is_number := function (string)
+        local c;
+        if IsEmpty (string) then return false; fi;
+        for c in string do
+            if not IsDigitChar(c) then
+                return false;
             fi;
-        fi;
-        if not perm in SymmetricGroup (alph) then
-            Error ("permutation ", perm, " is not in Sym(", alph, ")");
-        fi;
-        s[3] := perm;
-    od;
+        od;
+        return true;
+    end;
 
-    nstates := Length (ids);
-    need_trivial := false;
+    string := remove_punct (string);
+    string := strip (string);
+    tokens := split (string);
+
+    pointer := 1;
     states := [];
 
-    for i in [1..nstates] do
-        states[i] := [];
-        states[i][alph + 1] := strstates[i][3];
-        for j in [1..alph] do
-            s := strstates[i][2][j];
-            if IsEmpty (s) or s = "1" or
-               (s = "e" and not s in ids)
-            then s := nstates + 1; need_trivial := true;
-            elif s in ids then s := Position (ids, s);
-            else Error ("unknown state '", s, "' in ", strstates[i]);
-            fi;
-            states[i][j] := s;
-        od;
+    while pointer <= Length (tokens) do
+      state := [];
+      Add (states, state);
+
+      if not is_identifier (tokens[pointer]) then
+          Error ("expected identifier, got ", tokens[pointer]);
+      else
+          Add (state, tokens[pointer]);
+          Add (state, []);
+          pointer := pointer + 1;
+      fi;
+
+      if pointer > Length (tokens) then break; fi;
+      if tokens[pointer] <> "=" then
+          Error ("expected '=', got ", tokens[pointer]);
+      else
+          pointer := pointer + 1;
+      fi;
+      if tokens[pointer] <> "(" then
+          Error ("expected '(', got ", tokens[pointer]);
+      else
+          pointer := pointer + 1;
+      fi;
+
+      while pointer <= Length (tokens) do
+          if is_identifier (tokens[pointer]) or tokens[pointer] = "1" then
+              Add (state[2], tokens[pointer]);
+          elif tokens[pointer] = ")" then
+              pointer := pointer + 1;
+              break;
+          else
+              Error ("expected state identifier or ')', got ", tokens[pointer]);
+          fi;
+          pointer := pointer + 1;
+      od;
+
+      if pointer > Length (tokens) then break; fi;
+      if tokens[pointer] = "(" then
+          pointer := pointer + 1;
+          perm := [];
+          while pointer <= Length (tokens) do
+              if is_number (tokens[pointer]) then
+                  Add (perm, tokens[pointer]);
+              elif tokens[pointer] = ")" then
+                  pointer := pointer + 1;
+                  break;
+              else
+                  Error ("expected number or ')', got ", tokens[pointer]);
+              fi;
+              pointer := pointer + 1;
+          od;
+          Add (state, perm);
+      fi;
     od;
 
-    if need_trivial then
-        states[nstates + 1] := List([1..alph], i -> nstates + 1);
-        states[nstates + 1][alph + 1] := ();
-        ids[nstates + 1] := "";
-    fi;
+    return states;
+  end;
 
-    return [ids, states];
+  strstates := parse_states (string);
+  ids := List (strstates, i->i[1]);
+  if Length (ids) <> Length (strstates) then
+    Error ();
+  fi;
+
+  alph := Length (strstates[1][2]);
+  if alph = 0 then
+    Error ();
+  fi;
+  for s in strstates do
+    if Length (s[2]) <> alph then
+      Error ("number of states in ", s, "is different from the first state");
+    fi;
+  od;
+
+  for s in strstates do
+    if not IsBound (s[3]) then s[3] := (); fi;
+    perm := s[3];
+    if not IsPerm (perm) then
+      if IsList (perm) and IsEmpty (perm) then
+        perm := ();
+      elif IsList (perm) then
+        p := "(";
+        for i in [1..Length(perm)] do
+          if i <> 1 then Append (p, ", "); fi;
+          Append (p, perm[i]);
+        od;
+        Append (p, ")");
+        perm := EvalString (p);
+      else
+        Error ("could not parse permutation '", perm, "'");
+      fi;
+    fi;
+    if not perm in SymmetricGroup (alph) then
+      Error ("permutation ", perm, " is not in Sym(", alph, ")");
+    fi;
+    s[3] := perm;
+  od;
+
+  nstates := Length (ids);
+  need_trivial := false;
+  states := [];
+
+  for i in [1..nstates] do
+    states[i] := [];
+    states[i][alph + 1] := strstates[i][3];
+    for j in [1..alph] do
+      s := strstates[i][2][j];
+      if IsEmpty (s) or s = "1" or (s = "e" and not s in ids) then
+        s := nstates + 1; need_trivial := true;
+      elif s in ids then
+        s := Position (ids, s);
+      else
+        Error ("unknown state '", s, "' in ", strstates[i]);
+      fi;
+      states[i][j] := s;
+    od;
+  od;
+
+  if need_trivial then
+    states[nstates + 1] := List([1..alph], i -> nstates + 1);
+    states[nstates + 1][alph + 1] := ();
+    ids[nstates + 1] := "";
+  fi;
+
+  return [ids, states];
 end);
 
 

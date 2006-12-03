@@ -159,8 +159,8 @@ function (list, names, bind_global)
       BindGlobal(family!.names[i], family!.automgens[i]);
       MakeReadWriteGlobal(family!.names[i]);
     od;
-    BindGlobal(AutomataParameters.identity_symbol, One(family));
-    MakeReadWriteGlobal(AutomataParameters.identity_symbol);
+    #BindGlobal(AutomataParameters.identity_symbol, One(family));
+    #MakeReadWriteGlobal(AutomataParameters.identity_symbol);
   fi;
 
   return family;

@@ -781,20 +781,6 @@ end);
 
 ###############################################################################
 ##
-#M  Order(<a>)
-##
-InstallMethod(Order, "Order(IsAutom)",
-              [IsAutom],
-function(a)
-  if IsOne(a) then return 1; fi;
-  if CanEasilyTestSphericalTransitivity(a) and
-      IsSphericallyTransitive(a) then return infinity; fi;
-  TryNextMethod();
-end);
-
-
-###############################################################################
-##
 #M  <l1> * <l2>
 ##
 InstallOtherMethod(\*, "", [IsList, IsList], 50,

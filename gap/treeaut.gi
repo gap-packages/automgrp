@@ -305,6 +305,43 @@ end);
 
 ###############################################################################
 ##
+#M  Order(<a>)
+##
+InstallMethod(Order, "Order(IsTreeAutomorphism)", [IsTreeAutomorphism],
+function(a)
+  local pow, ord;
+
+  if IsOne(a) then
+    return 1;
+  fi;
+
+  if CanEasilyTestSphericalTransitivity(a) and
+     IsSphericallyTransitive(a)
+  then
+    return infinity;
+  fi;
+
+  if IsActingOnBinaryTree(a) then
+    ord := 2;
+    pow := a^2;
+    while true do
+      if IsOne(pow) then
+        return ord;
+      else
+        ord := ord * 2;
+        pow := pow^2;
+      fi;
+    od;
+  fi;
+
+  # TODO: do the same for other trees
+
+  TryNextMethod();
+end);
+
+
+###############################################################################
+##
 #M  State(<a>, <k>)
 ##
 InstallOtherMethod(State, [IsTreeAutomorphism and IsTreeAutomorphismRep, IsPosInt],

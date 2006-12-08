@@ -35,8 +35,7 @@ InstallGlobalFunction(ProjectWord, function(w,s,G)
   local i,perm,d,proj;
   d:=Length(G[1][1])-1;
   if s>d then
-    Print("Incorrect index of a subtree\n");
-    return fail;
+    Error("Incorrect index of a subtree");
   fi;
   proj:=[];
   perm:=();
@@ -84,18 +83,9 @@ end);
 #M OrbitOfVertex . . . .Computes the first n elements of the orbit of vertex
 ##                                   under the element g of self-similat group G
 
-InstallOtherMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsAutomaton,IsPosInt)", true, [IsList,IsAutomaton,IsPosInt],
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsAutomaton,IsCyclotomic)", true, [IsList,IsAutomaton,IsCyclotomic],
 function(ver,g,n)
   local i, ver_tmp, orb;
-
-  if IsString(ver) then
-    ver_tmp:=[];
-    for i in [1..Length(ver)] do
-      Add(ver_tmp,Int(String([ver[i]])));
-    od;
-    ver:=ver_tmp;
-  fi;
-
   i:=0; orb:=[];
   ver_tmp:=ver;
   while i<n and (ver<>ver_tmp or i=0) do
@@ -113,19 +103,32 @@ end);
 
 InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsAutomaton)", [IsList,IsAutomaton],
 function(ver,g)
-  local i, ver_tmp, orb;
+  return OrbitOfVertex(ver,g,infinity);
+end);
 
-  if IsString(ver) then
-    ver_tmp:=[];
-    for i in [1..Length(ver)] do
-      Add(ver_tmp,Int(String([ver[i]])));
-    od;
-    ver:=ver_tmp;
-  fi;
+
+################################################################################
+##
+#M OrbitOfVertex . . . .Computes the first n elements of the orbit of vertex
+##                                   under the element g of self-similat group G
+
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsAutomaton,IsCyclotomic)", true, [IsString,IsAutomaton,IsCyclotomic],
+function(ver,g,n)
+  local i, ver_tmp, orb, ch;
+
+  ver_tmp:=[];
+  for i in [1..Length(ver)] do
+    ch:=Int(String([ver[i]]));
+    if ch<1 or ch>g!.deg then
+      Error("received string ", ver, " does not represent a valid vertex");
+    fi;
+    Add(ver_tmp,ch);
+  od;
+  ver:=ver_tmp;
 
   i:=0; orb:=[];
   ver_tmp:=ver;
-  while (ver<>ver_tmp or i=0) do
+  while i<n and (ver<>ver_tmp or i=0) do
     Add(orb, ver_tmp);
     ver_tmp:=ver_tmp^g;
     i:=i+1;
@@ -133,6 +136,44 @@ function(ver,g)
   return orb;
 end);
 
+################################################################################
+##
+#M OrbitOfVertex . . . .Computes the orbit of vertex
+##                                   under the element g of self-similat group G
+
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsAutomaton)", [IsString,IsAutomaton],
+function(ver,g)
+  return OrbitOfVertex(ver,g,infinity);
+end);
+
+
+
+################################################################################
+##
+#F PrintOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
+##                                   under the element w of self-similat group G
+
+InstallGlobalFunction(PrintOrbitOfVertex,function(ver,w,n)
+  local orb,i,j;
+  orb:=OrbitOfVertex(ver,w,n);
+  if w!.deg=2 then
+    for i in [1..Length(orb)] do
+      for j in [1..Length(orb[1])] do
+        #  Print(orb[i][j]);
+        if orb[i][j]=1 then Print(" "); else Print("x"); fi;
+      od;
+      Print("\n");
+    od;
+  else
+     for i in [1..Length(orb)] do
+      for j in [1..Length(orb[1])] do
+        Print(orb[i][j]);
+      od;
+      Print("\n");
+    od;
+  fi;
+#  Return true;
+end);
 
 ################################################################################
 ##
@@ -246,7 +287,7 @@ end);
 #M OrderOfElement. . . . . . . Tries to find the order of a periodic element
 ##                                                       Checks up to order size
 
-InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsPosInt)", true, 
+InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsPosInt)", true,
               [IsList, IsList, IsPosInt],
 function(v,G,size)
   local w,k;
@@ -273,7 +314,7 @@ end);
 #M OrderOfElement. . . . . . . Tries to find the order of a periodic element
 ##                                                       Checks up to order size
 
-InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsInfinity)", true, 
+InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsInfinity)", true,
               [IsList, IsList, IsInfinity],
 function(v,G,size)
   local w,k;
@@ -402,27 +443,6 @@ InstallGlobalFunction(WordActionOnLevel,function(G,w,n)
   od;
   return perm;
 end);
-
-
-
-################################################################################
-##
-#F ShowOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
-##                                   under the element w of self-similat group G
-
-InstallGlobalFunction(ShowOrbitOfVertex,function(ver,w,n,G)
-  local orb,i,j;
-  orb:=OrbitOfVertex(ver,w,n,G);
-  for i in [1..Length(orb)] do
-    for j in [1..Length(orb[1])] do
-      #  Print(orb[i][j]);
-      if orb[i][j]=1 then Print(" "); else Print("x"); fi;
-    od;
-    Print("\n");
-  od;
-#  Return true;
-end);
-
 
 
 ################################################################################
@@ -632,7 +652,7 @@ InstallGlobalFunction(ContractingLevel,function(G)
       fi;
     od;
   od;
-  Print(ContPairs,"\n");
+  #Print(ContPairs,"\n");
   i:=1;
   d:=Length(G[1][1])-1;
   while res and (i<=n) do
@@ -644,7 +664,7 @@ InstallGlobalFunction(ContractingLevel,function(G)
     od;
     i:=i+1;
   od;
-  Print(ContPairs);
+  #Print(ContPairs);
   if res then return maxlev;
          else return -1;
   fi;
@@ -770,8 +790,7 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
 
 
   if Length(track_list_short)<>Length(G[1]) then
-    Print("Error: length of track_list_short is wrong\n");
-    return fail;
+    Error("length of track_list_short is wrong\n");
   fi;
 
   n:=Length(G[1]);
@@ -979,7 +998,8 @@ InstallGlobalFunction(FindNucleus,function(H)
     res:=true; maxlev:=0; ContPairs:=[];
     Pairs:=InvestigatePairs(G);
     n:=Length(G[1]);
-    Print("n=",n,"\n");
+#    Print("n=",n,"\n");
+    Info(InfoAutomata, 3, "n=",n);
     for i in [1..n] do
       Add(ContPairs,[1]);
       for j in [1..n-1] do
@@ -1002,7 +1022,7 @@ InstallGlobalFunction(FindNucleus,function(H)
           num:=n+1;
           AssocWPairsToAdd:=[];
           AddPairs(i,j);
-          Print("Elements added:",List(AssocWPairsToAdd,x->x!.word),"\n");
+          Info(InfoAutomata, 3, "Elements added:",List(AssocWPairsToAdd,x->x!.word));
           Append(G[1],PairsToAdd);
 #          Print("G=",G,"\n");
           Append(cur_nucl,AssocWPairsToAdd);
@@ -1223,7 +1243,7 @@ InstallGlobalFunction(AutomGroupGrowth,function(n,G)
   gr:=1; len:=1;
   H:=AddInverses(G);
   if G<>H then
-    Print("Inverses were added. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -1251,7 +1271,7 @@ InstallGlobalFunction(AutomGroupGrowth,function(n,G)
       od;
     od;
     Add(GrList,Length(ElList));
-    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
+    Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList));
     len:=len+1;
   od;
 
@@ -1279,7 +1299,7 @@ InstallGlobalFunction(AutomGroupGrowthFast,function(n,m,G)
   gr:=1; len:=1;
   H:=AddInverses(G);
   if G<>H then
-    Print("Inverses were added. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -1307,7 +1327,7 @@ InstallGlobalFunction(AutomGroupGrowthFast,function(n,m,G)
       od;
     od;
     Add(GrList,Length(ElList));
-    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
+    Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList));
     len:=len+1;
   od;
 
@@ -1336,7 +1356,7 @@ InstallGlobalFunction(AutomGroupElements,function(n,G)
   gr:=1; len:=1;
   H:=AddInverses(G);
   if [G[1]]<>H then
-    Print("Inverses were added. Automaton was minimized. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -1364,7 +1384,7 @@ InstallGlobalFunction(AutomGroupElements,function(n,G)
       od;
     od;
     Add(GrList,Length(ElList));
-    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
+    Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList));
     len:=len+1;
   od;
 
@@ -1433,7 +1453,7 @@ function(G,size)
   gr:=1; len:=1;
   H:=AddInverses(G);
   if [G[1]]<>H then
-    Print("Inverses were added. Automaton has been minimized. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -1459,7 +1479,7 @@ function(G,size)
 ## show relations
               if IsNewRel(tmpv) then
                 Add(rels,tmpv);
-                Print(v,"*",ElList[k],"^(-1)=1\n");
+                Info(InfoAutomata, 3, v,"*",ElList[k],"^(-1)=1");
 #               Print(tmpv,"\n");
               fi;
             fi;
@@ -1470,7 +1490,7 @@ function(G,size)
       od;
     od;
     Add(GrList,Length(ElList));
-    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
+    Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList));
     len:=len+1;
   od;
 
@@ -1628,8 +1648,7 @@ function(subs_words,names,G,size,num_of_rels)
   #check if there are any identity elements in subs list
     for i in [1..Length(subs)] do
       if IsOneWord(subs[i],G) then
-        Print(AssocW([i]),"=id, remove this element from a list and try again\n");
-        return fail;
+        Error(AssocW([i]),"=id, remove this element from a list and try again");
       fi;
     od;
 
@@ -1640,8 +1659,7 @@ function(subs_words,names,G,size,num_of_rels)
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
         if i<>j and IsOneWord(Concatenation(subs[i],inverse(subs[j])),G) then
-          Print(AssocW([i]),"=",AssocW([j]),", remove one of these elements from a list and try again\n");
-          return fail;
+          Error(AssocW([i]),"=",AssocW([j]),", remove one of these elements from a list and try again");
         fi;
 
   #      Print(IsOneWord(Append(StructuralCopy(subs[i]),subs[j]),G),"\n");
@@ -1651,7 +1669,7 @@ function(subs_words,names,G,size,num_of_rels)
           invslist[i]:=j; invslist[j]:=i;
           Add(rels,[i,j]);
           Add(AssocWrels,AssocW([i,j]));
-          Print(AssocW([i,j]),"\n");
+          Info(InfoAutomata, 3, AssocW([i,j]));
         fi;
       od;
     od;
@@ -1699,7 +1717,7 @@ function(subs_words,names,G,size,num_of_rels)
                   Add(rels,tmpv);
                   if Length(AssocW(tmpv))>0 then
                     Add(AssocWrels,AssocW(tmpv));
-                    Print(AssocW(tmpv),"\n");
+                    Info(InfoAutomata, 3, AssocW(tmpv));
                   fi;
                 fi;
               fi;
@@ -1711,7 +1729,7 @@ function(subs_words,names,G,size,num_of_rels)
       od;
       Add(GrList,Length(ElList)+1);
   #    Print("ElList[",len,"]=",ElList,"\n");
-      Print("Length not greater than ",len+1,": ",Length(ElList)+1,"\n");
+      Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList)+1);
       len:=len+1;
     od;
     return AssocWrels;
@@ -1721,8 +1739,7 @@ function(subs_words,names,G,size,num_of_rels)
 #************************ FindRelsSubsMain itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
-    Print("Error: The number of names must coincide with the number of generators\n");
-    return fail;
+    Error("The number of names must coincide with the number of generators");
   fi;
   F:=FreeGroup(names);
 
@@ -1866,8 +1883,7 @@ function(subs_words,names,G,size,num_of_rels)
   #check if there are any identity elements in subs list
     for i in [1..Length(subs)] do
       if IsOneWord(subs[i],G) then
-        Print(AssocW([i]),"=id, remove this element from the list and try again\n");
-        return fail;
+        Error(AssocW([i]),"=id, remove this element from the list and try again");
       fi;
     od;
 
@@ -1876,8 +1892,7 @@ function(subs_words,names,G,size,num_of_rels)
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
         if i<>j and IsOneWord(Concatenation(subs[i],inverse(subs[j])),G) then
-          Print(AssocW([i]),"=",AssocW([j]),", remove one of these elements from the list and try again\n");
-          return fail;
+          Error(AssocW([i]),"=",AssocW([j]),", remove one of these elements from the list and try again");
         fi;
 
   #      Print(IsOneWord(Append(StructuralCopy(subs[i]),subs[j]),G),"\n");
@@ -1912,7 +1927,7 @@ function(subs_words,names,G,size,num_of_rels)
             Add(rels,[v,1]);
             if Length(AssocW(v))>0 then
               Add(AssocWrels,[AssocW(v),One(F)]);
-              Print(AssocW(v),"=e\n");
+              Info(InfoAutomata, 3, AssocW(v),"=e");
             fi;
           else
             k:=1;
@@ -1931,7 +1946,7 @@ function(subs_words,names,G,size,num_of_rels)
                   Add(rels,[v,ElList[k]]);
 #                  if Length(AssocW(v))>0 then
                   Add(AssocWrels,[AssocW(v),AssocW(ElList[k])]);
-                  Print(AssocW(v),"=",AssocW(ElList[k]),"\n");
+                  Info(InfoAutomata, 3, AssocW(v),"=",AssocW(ElList[k]));
 #                  fi;
                 fi;
               fi;
@@ -1943,7 +1958,7 @@ function(subs_words,names,G,size,num_of_rels)
         od;
       od;
       Add(GrList,Length(ElList)+1);
-      Print("Length not greater than ",len+1,": ",Length(ElList)+1,"\n");
+      Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList)+1);
       len:=len+1;
     od;
     return AssocWrels;
@@ -1952,8 +1967,7 @@ function(subs_words,names,G,size,num_of_rels)
 #  *********************** FindRelsSubsSGMain itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
-    Print("Error: The number of names must coincide with the number of generators\n");
-    return fail;
+    Error("The number of names must coincide with the number of generators");
   fi;
   F:=FreeGroup(names);
 
@@ -2132,7 +2146,7 @@ function(G,size,num_of_rels)
           if Length(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word)>0 then
             Add(rels,[i,j]);
             Add(AssocWrels,AssocW([Gi[2][i+1],Gi[2][j+1]]));
-            Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
+            Info(InfoAutomata, 3, AssocW([Gi[2][i+1],Gi[2][j+1]])!.word);
           fi;
         fi;
       od;
@@ -2173,7 +2187,7 @@ function(G,size,num_of_rels)
                   Add(rels,tmpv);
                   if Length(AssocW(tmpv_orig)!.word)>0 then
                     Add(AssocWrels,AssocW(tmpv_orig));
-                    Print(AssocW(tmpv_orig)!.word,"\n");
+                    Info(InfoAutomata, 3, AssocW(tmpv_orig)!.word);
                   fi;
 #                 Print(tmpv,"\n");
                 fi;
@@ -2186,7 +2200,7 @@ function(G,size,num_of_rels)
       od;
       Add(GrList,Length(ElList)+1);
  #    Print("ElList[",len,"]=",ElList,"\n");
-      Print("Length not greater than ",len+1,": ",Length(ElList)+1,"\n");
+      Info(InfoAutomata, 3, "Length not greater than ",len+1,": ",Length(ElList)+1);
       len:=len+1;
     od;
     return AssocWrels;
@@ -2279,7 +2293,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
 
   H:=AddInverses(G);
   if [G[1]]<>H then
-    Print("Inverses were added. Automaton was minimized. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -2291,7 +2305,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
 
   for v in ElList do
     order_v:=OrderOfElement(v,G,O);
-    Print("Order of ", v, ": ", order_v,"\n");
+    Info(InfoAutomata, 3, "Order of ", v, ": ", order_v);
     if order_v = fail then
       if stop then return fail;
         else periodic:=fail;
@@ -2316,7 +2330,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
         if New then
           Add(ElList,v);
           order_v:=OrderOfElement(v,G,O);
-          Print("Order of ", v, ": ", order_v,"\n");
+          Info(InfoAutomata, 3, "Order of ", v, ": ", order_v);
 
           if order_v = fail then
             if stop then return fail;
@@ -2381,7 +2395,7 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
 
   H:=AddInverses(G);
   if [G[1]]<>H then
-    Print("Inverses were added. Automaton was minimized. Now generator set is:\n",H,"\n");
+    Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
@@ -2435,3 +2449,4 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
   return TransElList;
 end);
 
+#E

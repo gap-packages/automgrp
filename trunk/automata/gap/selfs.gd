@@ -41,7 +41,15 @@ DeclareGlobalFunction("WordActionOnVertex");
 #O OrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
 ##                                   under the element w of self-similat group G
 DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton]);
-#DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton,IsPosInt]);
+DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton,IsCyclotomic]);
+
+
+################################################################################
+##
+#F PrintOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
+##                                   under the element w of self-similat group G
+DeclareGlobalFunction("PrintOrbitOfVertex");
+
 
 ################################################################################
 ##
@@ -112,15 +120,6 @@ DeclareGlobalFunction("GeneratorActionOnLevel");
 #F WordActionOnLevel . . . . . . . . . . . . . . . . . . .Computes the action of
 ##                                              the given word on the n-th level
 DeclareGlobalFunction("WordActionOnLevel");
-
-
-################################################################################
-##
-#F ShowOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
-##                                   under the element w of self-similat group G
-
-DeclareGlobalFunction("ShowOrbitOfVertex");
-
 
 
 ################################################################################
@@ -352,3 +351,5 @@ DeclareGlobalFunction("PeriodicityGuess");
 ##                      transitive on a level lev and have length no more than n
 ##                in case stop=true stops when it finds first transitive element
 DeclareGlobalFunction("FindTransitiveElements");
+
+#E

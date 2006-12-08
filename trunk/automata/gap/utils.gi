@@ -393,7 +393,7 @@ function(string)
   fi;
   for s in strstates do
     if Length (s[2]) <> alph then
-      Error ("number of states in ", s, "is different from the first state");
+      Error ("number of states in ", s, " is different from the first state");
     fi;
   od;
 

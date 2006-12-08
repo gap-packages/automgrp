@@ -202,7 +202,7 @@ end);
 ##
 #M  IsOne(a)
 ##
-InstallOtherMethod(IsOne, "IsOne(IsAutom", [IsAutom],
+InstallOtherMethod(IsOne, "IsOne(IsAutom)", [IsAutom],
 function(a)
   local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp;
 
@@ -431,7 +431,7 @@ end);
 ##
 #M  InverseOp(<a>)
 ##
-InstallMethod(InverseOp, "InnverseOp(IsAutom)", [IsAutom],
+InstallMethod(InverseOp, "InverseOp(IsAutom)", [IsAutom],
 function(a)
   local inv;
   inv := Objectify(NewType(FamilyObj(a), IsAutom and IsAutomRep),

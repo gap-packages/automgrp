@@ -9,6 +9,11 @@
 
 
 
+InstallOtherMethod(\^,"list^perm",true,[IsList,IsPerm],0,
+function(l,p)
+  return Permuted(l,p);
+end);
+
 ################################################################################
 ##
 #F ReduceWord . . . . . . . . . . . . . . . . . . . . . . .cuts 1s from the word
@@ -33,15 +38,15 @@ end);
 
 InstallGlobalFunction(ProjectWord, function(w,s,G)
   local i,perm,d,proj;
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   if s>d then
     Error("Incorrect index of a subtree");
   fi;
   proj:=[];
   perm:=();
   for i in [1..Length(w)] do
-    Add(proj,G[1][w[i]][s^perm]);
-    perm:=perm*G[1][w[i]][d+1];
+    Add(proj,G[w[i]][s^perm]);
+    perm:=perm*G[w[i]][d+1];
   od;
   return proj;
 end);
@@ -53,9 +58,9 @@ end);
 
 InstallGlobalFunction(WordActionOnFirstLevel,function(w,G)
   local i,perm,d;
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   perm:=();
-  for i in [1..Length(w)] do perm:=perm*G[1][w[i]][d+1]; od;
+  for i in [1..Length(w)] do perm:=perm*G[w[i]][d+1]; od;
   return perm;
 end);
 
@@ -188,7 +193,7 @@ InstallGlobalFunction(IsOneWordSelfSim,function(w,G)
     if v in ReachedWords then return true;
     else
       perm:=();
-      for i in [1..Length(v)] do perm:=perm*G[1][v[i]][d+1]; od;
+      for i in [1..Length(v)] do perm:=perm*G[v[i]][d+1]; od;
       if perm<>() then return false; fi;
       Add(ReachedWords,v);
       for j in [1..d] do
@@ -198,7 +203,7 @@ InstallGlobalFunction(IsOneWordSelfSim,function(w,G)
     fi;
   end;
 
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   if Length(w)=0 then return true; fi;
   ReachedWords:=[];
   return IsOneWordIter(w);
@@ -211,47 +216,54 @@ end);
 ##                                                          in contracting group
 
 InstallGlobalFunction(IsOneWordContr,function(word,G)
-  local i,b,l,v,c,k,res,t,w;
-  w:=ShallowCopy(word);
-  if Length(w)=0 then return true; fi;
-  if Length(w)=1 then
-    if w=[1] then return true;
-             else return false;
+  local IsOneWordContrLocal;
+
+  IsOneWordContrLocal:=function(word)
+    local i,b,l,v,c,k,res,t,w;
+    w:=ShallowCopy(word);
+    if Length(w)=0 then return true; fi;
+    if Length(w)=1 then
+      if w=[1] then return true;
+               else return false;
+      fi;
     fi;
-  fi;
-  if Length(w) mod 2=1 then Add(w,1); fi;
-  l:=[];
-  for i in [1..Length(w)/2] do
-    Add(l,StructuralCopy(G[w[2*i-1]][w[2*i]]));
-  od;
-#  Print("l=",l);
-  c:=[(),l[1][Length(l[1])]];
-  t:=Length(l);
-  for i in [2..t] do
-#    Print("c[",i,"]=",c[i],",l[",i,"]=",l[i][Length(l[i])],";");
-    Add(c,c[i]*l[i][Length(l[i])]);
-    l[i][Length(l[i])]:=c[i];
-  od;
-  if c[Length(c)]<>() then
-    return false;
-  fi;
-  l[1][Length(l[1])]:=();
-  b:=[];
-  for i in [1..Length(l)] do
-    b[i]:=l[i]^((l[i][Length(l[i])])^(-1));
-  od;
-  i:=1;
-  res:=true;
-  while res and (i<=Length(b[1])-1) do
-    v:=[];
-    for k in [1..Length(b)] do
-      Add(v,b[k][i]);
+    if Length(w) mod 2=1 then Add(w,1); fi;
+    l:=[];
+    for i in [1..Length(w)/2] do
+      Add(l,StructuralCopy(G[w[2*i-1]][w[2*i]]));
     od;
-    v:=ReduceWord(v);
-    res:=IsOneWordContr(v,G);
-    i:=i+1;
-  od;
-  return res;
+  #  Print("l=",l);
+  # list c contains permutations c[i+1]=pi[1]*pi[2]*...*pi[i]
+    c:=[(),l[1][Length(l[1])]];
+    t:=Length(l);
+    for i in [2..t] do
+  #    Print("c[",i,"]=",c[i],",l[",i,"]=",l[i][Length(l[i])],";");
+      Add(c,c[i]*l[i][Length(l[i])]);
+      l[i][Length(l[i])]:=c[i];
+    od;
+    if c[Length(c)]<>() then
+      return false;
+    fi;
+    l[1][Length(l[1])]:=();
+    b:=[];
+    for i in [1..Length(l)] do
+      b[i]:=l[i]^((l[i][Length(l[i])])^(-1));
+    od;
+    i:=1;
+    res:=true;
+    while res and (i<=Length(b[1])-1) do
+      v:=[];
+      for k in [1..Length(b)] do
+        Add(v,b[k][i]);
+      od;
+      v:=ReduceWord(v);
+      res:=IsOneWordContrLocal(v);
+      i:=i+1;
+    od;
+    return res;
+  end;
+
+  return IsOneWordContrLocal(word);
 end);
 
 
@@ -261,10 +273,94 @@ end);
 ##                     in any self-similar group (chooses appropriate algorithm)
 
 InstallGlobalFunction(IsOneWord,function(w,G)
-  if Length(G)>1 then return IsOneWordContr(w,G);
-                 else return IsOneWordSelfSim(w,G);
+  if IsList(G[1][1]) then return IsOneWordContr(w,G);
+                     else return IsOneWordSelfSim(w,G);
   fi;
 end);
+
+
+################################################################################
+##
+#M  MINIMIZED_AUTOMATON_LIST                 AddInversesTrack(AutomatonList(H));
+##
+
+InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomGroup)", [IsAutomGroup],
+function(H)
+  return AddInversesTrack(AutomatonList(H));
+end);
+
+
+################################################################################
+##
+#F CONVERT_ASSOCW_TO_LIST. . . . . . .Converts elements of AutomGroup into lists
+##
+InstallGlobalFunction(CONVERT_ASSOCW_TO_LIST,function(w)
+  local w_list, w_ext, i, j, numstates, cur_gen;
+  numstates:=FamilyObj(w)!.numstates;
+  w_list:=[];
+  w_ext:=ExtRepOfObj(w!.word);
+  for i in [1..Length(w_ext)/2] do
+    if w_ext[2*i]>0 then
+      cur_gen:=w_ext[2*i-1];
+    else
+      cur_gen:=w_ext[2*i-1]+numstates;
+    fi;
+    for j in [1..AbsInt(w_ext[2*i])] do Add(w_list,cur_gen); od;
+  od;
+  return w_list;
+end);
+
+
+###############################################################################
+##
+#M  IsOneContr(a)      for contracting groups
+##
+InstallGlobalFunction(IsOneContr,
+function(a)
+  local a_list, a_list_orig, track_l, Gi, i;
+  if not UseContraction(GroupOfAutomFamily(FamilyObj(a))) then TryNextMethod(); fi;
+
+  a_list_orig:=CONVERT_ASSOCW_TO_LIST(a);
+
+
+  Gi:=MINIMIZED_AUTOMATON_LIST(GroupOfAutomFamily(FamilyObj(a)));
+  track_l:=Gi[3];
+
+  a_list:=[];
+  for i in [1..Length(a_list_orig)] do Add(a_list,track_l[a_list_orig[i]]); od;
+
+  return IsOneWordContr(a_list,ContractingTable(GroupOfAutomFamily(FamilyObj(a))));
+end);
+
+
+###############################################################################
+##
+#M  IS_ONE_LIST(w,G)      (IsList, IsAutomGroup)
+##
+#InstallGlobalFunction(IS_ONE_LIST,
+#function(w,G)
+#  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+#    return IsOneWordContr(w,ContractingTable(G));
+#  else
+#    return IsOneWordSelfSim(w,MINIMIZED_AUTOMATON_LIST(G)[1]);
+#  fi;
+#end);
+
+
+
+###############################################################################
+##
+#M  CHOOSE_AUTOMATON_LIST(G)      [IsAutomGroup]
+##
+InstallGlobalFunction(CHOOSE_AUTOMATON_LIST,
+function(G)
+  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+    return ContractingTable(G);
+  else
+    return MINIMIZED_AUTOMATON_LIST(G)[1];
+  fi;
+end);
+
 
 
 ################################################################################
@@ -284,43 +380,16 @@ end);
 
 ################################################################################
 ##
-#M OrderOfElement. . . . . . . Tries to find the order of a periodic element
+#M ORDER_OF_ELEMENT. . . . . . . Tries to find the order of a periodic element
 ##                                                       Checks up to order size
 
-InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsPosInt)", true,
-              [IsList, IsList, IsPosInt],
+InstallMethod(ORDER_OF_ELEMENT, "ORDER_OF_ELEMENT(IsList, IsList, IsCyclotomic)", true,
+              [IsList, IsList, IsCyclotomic],
 function(v,G,size)
   local w,k;
   v:=ReduceWord(v);
   w:=StructuralCopy(v); k:=1;
-  if Length(G[1][1])=3 then
-    while (not IsOneWord(w,G)) and k<size do
-      Append(w,w);
-#     Print(w,";");
-      k:=2*k;
-    od;
-  else
-    while (not IsOneWord(w,G)) and k<size do
-      Append(w,v);
-#     Print(w,";");
-      k:=k+1;
-    od;
-  fi;
-  if IsOneWord(w,G) then return k; else return fail; fi;
-end);
-
-################################################################################
-##
-#M OrderOfElement. . . . . . . Tries to find the order of a periodic element
-##                                                       Checks up to order size
-
-InstallOtherMethod(OrderOfElement, "OrderOfElement(IsList, IsList, IsInfinity)", true,
-              [IsList, IsList, IsInfinity],
-function(v,G,size)
-  local w,k;
-  v:=ReduceWord(v);
-  w:=StructuralCopy(v); k:=1;
-  if Length(G[1][1])=3 then
+  if Length(G[1])=3 then
     while (not IsOneWord(w,G)) and k<size do
       Append(w,w);
 #     Print(w,";");
@@ -339,26 +408,26 @@ end);
 
 ################################################################################
 ##
-#M OrderOfElement. . . . . . . . . . . . . . . . . .Finds the order of a periodic element
+#M ORDER_OF_ELEMENT. . . . . . . . . . . . . . . . . .Finds the order of a periodic element
 ##
-InstallMethod(OrderOfElement, "OrderOfElementMain(IsList, IsList, IsPosInt)",
+InstallMethod(ORDER_OF_ELEMENT, "OrderOfElementMain(IsList, IsList, IsPosInt)",
               [IsList, IsList],
 function(v,G)
-  return OrderOfElement(v,G,infinity);
+  return ORDER_OF_ELEMENT(v,G,infinity);
 end);
+
 
 ################################################################################
 ##
 #F GeneratorActionOnVertex. . . . . . . . . . . . . . . . Computes the action of
 ##                                             the generator on the fixed vertex
-
 InstallGlobalFunction(GeneratorActionOnVertex,function(G,g,w)
   local i,v,gen,d;
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   gen:=g; v:=[];
   for i in [1..Length(w)] do
-    Add(v,(w[i]+1)^G[1][gen][d+1]-1);
-    gen:=G[1][gen][w[i]+1];
+    Add(v,(w[i]+1)^G[gen][d+1]-1);
+    gen:=G[gen][w[i]+1];
   od;
   return v;
 end);
@@ -405,7 +474,7 @@ end);
 
 InstallGlobalFunction(GeneratorActionOnLevel,function(G,g,n)
   local l,d,i,s,v,w,k;
-  s:=(); d:=Length(G[1][1])-1;
+  s:=(); d:=Length(G[1])-1;
   l:=[];
   for i in [1..d^n] do Add(l,0); od;
   i:=0;
@@ -451,7 +520,7 @@ end);
 ##                                 transitively on level lev and false otherwise
 
 InstallGlobalFunction(IsWordTransitiveOnLevel,function(G,w,lev)
-  return Length(OrbitPerms([WordActionOnLevel(G,w,lev)],1))=(Length(G[1][1])-1)^lev;
+  return Length(OrbitPerms([WordActionOnLevel(G,w,lev)],1))=(Length(G[1])-1)^lev;
 end);
 
 
@@ -464,7 +533,7 @@ end);
 InstallGlobalFunction(GeneratorActionOnLevelAsMatrix,function(G,g,n)
   local perm,i,j,m,d;
   perm:=GeneratorActionOnLevel(G,g,n);
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   m:=[];
   for i in [1..d^n] do Add(m,[]); od;
   for i in [1..d^n] do
@@ -484,7 +553,7 @@ end);
 InstallGlobalFunction(NthFactor,function(G,n)
   local  i,l;
   l:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(l,GeneratorActionOnLevel(G,i,n));
   od;
   return Group(l);
@@ -534,7 +603,7 @@ InstallGlobalFunction(InvestigatePairs,function(G)
       fi;
       if Trip[i][j][k]=0 then return false;
       else
-        if G[1][i][d+1]*G[1][j][d+1]<>G[1][k][d+1] then
+        if G[i][d+1]*G[j][d+1]<>G[k][d+1] then
           Trip[i][j][k]:=0;
           return false;
         fi;
@@ -542,7 +611,7 @@ InstallGlobalFunction(InvestigatePairs,function(G)
         t:=1; res:=true;
         while res and (t<=d) do
 #          Print("i=",i,",j=",j,",k=",k,",t=",t,";   ");
-          res:=IsPairEq(G[1][i][t],G[1][j][t^G[1][i][d+1]],G[1][k][t]);
+          res:=IsPairEq(G[i][t],G[j][t^G[i][d+1]],G[k][t]);
           t:=t+1;
         od;
         if res then
@@ -565,8 +634,8 @@ InstallGlobalFunction(InvestigatePairs,function(G)
   end;
 
   Pairs:=[[]]; Trip:=[];
-  n:=Length(G[1]);
-  d:=Length(G[1][1])-1;
+  n:=Length(G);
+  d:=Length(G[1])-1;
   for j in [1..n] do Add(Pairs[1],j); od;
   for i in [2..n] do
     Add(Pairs,[i]);
@@ -604,118 +673,137 @@ end);
 
 ################################################################################
 ##
-#F ContractingLevel . . . . . . . . . . . . . . . . . . Computes the level where
+#M ContractingLevel . . . . . . . . . . . . . . . . . . Computes the level where
 ##                                              all pairs contract to the kernel
 
-InstallGlobalFunction(ContractingLevel,function(G)
-  local i,j,res,ContPairs,d,maxlev,n,Pairs,DoesPairContract;
+InstallMethod(ContractingLevel, "ContractingLevel(IsAutomGroup)", [IsAutomGroup],
+function(H)
+  local ContractingLevelLocal;
 
-  DoesPairContract:=function(i,j,lev)
-    local t,res,localmaxlev;
-    if lev>maxlev then maxlev:=lev; fi;
-    if IsList(ContPairs[i][j]) then
-      if lev+ContPairs[i][j][1]>maxlev then maxlev:=lev+ContPairs[i][j][1]; fi;
-      return true;
-    fi;
-    if Pairs[i][j]<>0 then
-      ContPairs[i][j]:=[0];
-      return true;
-    fi;
-    if ContPairs[i][j]=2 then return false; fi;
-    t:=1; res:=true;
-    ContPairs[i][j]:=2;
-    localmaxlev:=0;
-    while res and (t<=d) do
-      res:=DoesPairContract(G[1][i][t],G[1][j][t^G[1][i][d+1]],lev+1);
-      if res then
-        if ContPairs[G[1][i][t]][G[1][j][t^G[1][i][d+1]]][1]+1>localmaxlev then
-          localmaxlev:=ContPairs[G[1][i][t]][G[1][j][t^G[1][i][d+1]]][1]+1;
-        fi;
+  ContractingLevelLocal:=function(G)
+    local i,j,res,ContPairs,d,maxlev,n,Pairs,DoesPairContract;
+    DoesPairContract:=function(i,j,lev)
+      local t,res,localmaxlev;
+      if lev>maxlev then maxlev:=lev; fi;
+      if IsList(ContPairs[i][j]) then
+        if lev+ContPairs[i][j][1]>maxlev then maxlev:=lev+ContPairs[i][j][1]; fi;
+        return true;
       fi;
-      t:=t+1;
+      if Pairs[i][j]<>0 then
+        ContPairs[i][j]:=[0];
+        return true;
+      fi;
+      if ContPairs[i][j]=2 then return false; fi;
+      t:=1; res:=true;
+      ContPairs[i][j]:=2;
+      localmaxlev:=0;
+      while res and (t<=d) do
+        res:=DoesPairContract(G[i][t],G[j][t^G[i][d+1]],lev+1);
+        if res then
+          if ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1>localmaxlev then
+            localmaxlev:=ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1;
+          fi;
+        fi;
+        t:=t+1;
+      od;
+      if res then
+               ContPairs[i][j]:=[localmaxlev];
+               return true;
+             else return false;
+      fi;
+    end;
+
+    res:=true; maxlev:=0; ContPairs:=[];
+    Pairs:=InvestigatePairs(G);
+    n:=Length(G);
+    for i in [1..n] do
+      Add(ContPairs,[[0]]);
+      for j in [1..n-1] do
+        if i=1 then Add(ContPairs[i],[0]);
+               else Add(ContPairs[i],-1);
+        fi;
+      od;
     od;
-    if res then
-             ContPairs[i][j]:=[localmaxlev];
-             return true;
-           else return false;
+    #Print(ContPairs,"\n");
+    i:=1;
+    d:=Length(G[1])-1;
+    while res and (i<=n) do
+      j:=1;
+      while res and (j<=n) do
+        if ContPairs[i][j]=0 then return -1; fi;
+        if ContPairs[i][j]=-1 then res:=DoesPairContract(i,j,0); fi;
+        j:=j+1;
+      od;
+      i:=i+1;
+    od;
+    #Print(ContPairs);
+    if res then return maxlev;
+           else return -1;
     fi;
   end;
+################ ContractingLevel itself #################################
 
-  res:=true; maxlev:=0; ContPairs:=[];
-  Pairs:=InvestigatePairs(G);
-  n:=Length(G[1]);
-  for i in [1..n] do
-    Add(ContPairs,[[0]]);
-    for j in [1..n-1] do
-      if i=1 then Add(ContPairs[i],[0]);
-             else Add(ContPairs[i],-1);
-      fi;
-    od;
-  od;
-  #Print(ContPairs,"\n");
-  i:=1;
-  d:=Length(G[1][1])-1;
-  while res and (i<=n) do
-    j:=1;
-    while res and (j<=n) do
-      if ContPairs[i][j]=0 then return -1; fi;
-      if ContPairs[i][j]=-1 then res:=DoesPairContract(i,j,0); fi;
-      j:=j+1;
-    od;
-    i:=i+1;
-  od;
-  #Print(ContPairs);
-  if res then return maxlev;
-         else return -1;
+  if not HasIsContracting(H) then
+    Info(InfoWarning, 1, "If <H> is not contracting, the algorithm will never stop");
   fi;
+  return ContractingLevelLocal(NucleusIncludingGeneratingSetAutom(H));
 end);
+
+
 
 
 ################################################################################
 ##
-#F ContractingTable . . . . . . . . . . . . . . . . . . Computes the contracting
+#M ContractingTable . . . . . . . . . . . . . . . . . . Computes the contracting
 ##                                                           table of the kernel
-
-InstallGlobalFunction(ContractingTable,function(G)
-  local lev,n,d,i,j, ContractingPair, Pairs, ContTable;
-
-  ContractingPair:=function(i,j)
-    local l,k,t, PairAct, TmpList, g1, g2;
-    if Pairs[i][j]<>0 then PairAct:=[Pairs[i][j]];
-                      else PairAct:=[[i,j]];
-    fi;
-    for l in [1..lev] do
-      TmpList:=[];
-      for t in [1..Length(PairAct)] do
-        if not IsList(PairAct[t]) then
-          for k in [1..d] do Add(TmpList,G[1][PairAct[t]][k]); od;
-        else
-          for k in [1..d] do
-            g1:=G[1][PairAct[t][1]][k];
-            g2:=G[1][PairAct[t][2]][k^G[1][PairAct[t][1]][d+1]];
-            if Pairs[g1][g2]<>0 then Add(TmpList,Pairs[g1][g2]);
-                                else Add(TmpList,[g1,g2]);
-            fi;
-          od;
-        fi;
+InstallMethod(ContractingTable, "ContractingTable(IsAutomGroup)", [IsAutomGroup],
+function(H)
+  local ContractingTableLocal;
+  ContractingTableLocal:=function(G)
+    local lev,n,d,i,j, ContractingPair, Pairs, ContTable;
+    ContractingPair:=function(i,j)
+      local l,k,t, PairAct, TmpList, g1, g2;
+      if Pairs[i][j]<>0 then PairAct:=[Pairs[i][j]];
+                        else PairAct:=[[i,j]];
+      fi;
+      for l in [1..lev] do
+        TmpList:=[];
+        for t in [1..Length(PairAct)] do
+          if not IsList(PairAct[t]) then
+            for k in [1..d] do Add(TmpList,G[PairAct[t]][k]); od;
+          else
+            for k in [1..d] do
+              g1:=G[PairAct[t][1]][k];
+              g2:=G[PairAct[t][2]][k^G[PairAct[t][1]][d+1]];
+              if Pairs[g1][g2]<>0 then Add(TmpList,Pairs[g1][g2]);
+                                  else Add(TmpList,[g1,g2]);
+              fi;
+            od;
+          fi;
+        od;
+        PairAct:=StructuralCopy(TmpList);
       od;
-      PairAct:=StructuralCopy(TmpList);
-    od;
-    Add(PairAct,GeneratorActionOnLevel(G,i,lev)*GeneratorActionOnLevel(G,j,lev));
-    return PairAct;
-  end;
+      Add(PairAct,GeneratorActionOnLevel(G,i,lev)*GeneratorActionOnLevel(G,j,lev));
+      return PairAct;
+    end;
 
-  lev:=ContractingLevel(G);
-  if lev=-1 then return false; fi;
-  Pairs:=InvestigatePairs(G);
-  n:=Length(G[1]);
-  d:=Length(G[1][1])-1;
-  ContTable:=[];
-  for i in [1..n] do
-    Add(ContTable,[]);
-    for j in [1..n] do Add(ContTable[i],ContractingPair(i,j)); od;
-  od;
-  return ContTable;
+    lev:=ContractingLevel(H);
+    Pairs:=InvestigatePairs(G);
+    n:=Length(G);
+    d:=Length(G[1])-1;
+    ContTable:=[];
+    for i in [1..n] do
+      Add(ContTable,[]);
+      for j in [1..n] do Add(ContTable[i],ContractingPair(i,j)); od;
+    od;
+    return ContTable;
+  end;
+################ ContractingLevel itself #################################
+
+  if not HasIsContracting(H) then
+    Info(InfoWarning, 1, "If <H> is not contracting, the algorithm will never stop");
+  fi;
+  return ContractingTableLocal(NucleusIncludingGeneratingSetAutom(H));
 end);
 
 
@@ -731,17 +819,17 @@ InstallGlobalFunction(MinimizeAutom,function(G)
   AreEqualStates:=function(st1,st2)
     local eq,i;
     if st1=st2 or ([st1,st2] in Pairs) or ([st2,st1] in Pairs) then return true; fi;
-    if G[1][st1][d+1]<>G[1][st2][d+1] then return false; fi;
+    if G[st1][d+1]<>G[st2][d+1] then return false; fi;
     Add(Pairs, [st1,st2]);
     eq:=true;
     for i in [1..d] do
-      if not AreEqualStates(G[1][st1][i],G[1][st2][i]) then eq:=false; break; fi;
+      if not AreEqualStates(G[st1][i],G[st2][i]) then eq:=false; break; fi;
     od;
     return eq;
   end;
 
-  n:=Length(G[1]);
-  d:=Length(G[1][1])-1;
+  n:=Length(G);
+  d:=Length(G[1])-1;
   for i in [1..n-1] do
     for j in [i+1..n] do
       Pairs:=[];
@@ -749,7 +837,7 @@ InstallGlobalFunction(MinimizeAutom,function(G)
         tmpG:=[];  #can be maid better by gluing all pairs from Pairs.
         for k in [1..n] do
           if k<>j then
-            st:=StructuralCopy(G[1][k]);
+            st:=StructuralCopy(G[k]);
             for l in [1..d] do
               if st[l]=j then st[l]:=i;
               elif st[l]>j then st[l]:=st[l]-1;
@@ -758,7 +846,7 @@ InstallGlobalFunction(MinimizeAutom,function(G)
             Add(tmpG,st);
           fi;
         od;
-        return MinimizeAutom([tmpG]);
+        return MinimizeAutom(tmpG);
       fi;
     od;
   od;
@@ -779,22 +867,22 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
   AreEqualStates:=function(st1,st2)
     local eq,i;
     if st1=st2 or ([st1,st2] in Pairs) or ([st2,st1] in Pairs) then return true; fi;
-    if G[1][st1][d+1]<>G[1][st2][d+1] then return false; fi;
+    if G[st1][d+1]<>G[st2][d+1] then return false; fi;
     Add(Pairs, [st1,st2]);
     eq:=true;
     for i in [1..d] do
-      if not AreEqualStates(G[1][st1][i],G[1][st2][i]) then eq:=false; break; fi;
+      if not AreEqualStates(G[st1][i],G[st2][i]) then eq:=false; break; fi;
     od;
     return eq;
   end;
 
 
-  if Length(track_list_short)<>Length(G[1]) then
+  if Length(track_list_short)<>Length(G) then
     Error("length of track_list_short is wrong\n");
   fi;
 
-  n:=Length(G[1]);
-  d:=Length(G[1][1])-1;
+  n:=Length(G);
+  d:=Length(G[1])-1;
   track_s:=StructuralCopy(track_list_short);
   track_l:=StructuralCopy(track_list_long);
   for i in [1..n-1] do
@@ -804,7 +892,7 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
         tmpG:=[];  #can be maid better by gluing all pairs from Pairs.
         for k in [1..n] do
           if k<>j then
-            st:=StructuralCopy(G[1][k]);
+            st:=StructuralCopy(G[k]);
             for l in [1..d] do
               if st[l]=j then st[l]:=i;
               elif st[l]>j then st[l]:=st[l]-1;
@@ -824,7 +912,7 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
             elif track_l[k]=j then track_l[k]:=i;
           fi;
         od;
-        return MinimizeAutomTrack([tmpG],track_s,track_l);
+        return MinimizeAutomTrack(tmpG,track_s,track_l);
       fi;
     od;
   od;
@@ -840,25 +928,25 @@ end);
 InstallGlobalFunction(AddInverses,function(H)
   local d,n,G,idEl,st,i,perm,inv;
 
-  d:=Length(H[1][1])-1;
-  n:=Length(H[1]);
+  d:=Length(H[1])-1;
+  n:=Length(H);
   if n<1 or d<1 then return fail; fi;
   idEl:=[];
   for i in [1..d] do Add(idEl,1); od;
   Add(idEl,());
-  G:=[[idEl]];
-  for i in [1..n] do Add(G[1],StructuralCopy(H[1][i])); od;
+  G:=[idEl];
+  for i in [1..n] do Add(G,StructuralCopy(H[i])); od;
 
   for st in [2..n+1] do
-    for i in [1..d] do G[1][st][i]:=G[1][st][i]+1; od;
+    for i in [1..d] do G[st][i]:=G[st][i]+1; od;
   od;
 
   for st in [2..n+1] do
     inv:=[];
-    perm:=G[1][st][d+1]^(-1);
-    for i in [1..d] do Add(inv, G[1][st][i^perm]+n); od;
+    perm:=G[st][d+1]^(-1);
+    for i in [1..d] do Add(inv, G[st][i^perm]+n); od;
     Add(inv,perm);
-    Add(G[1],inv);
+    Add(G,inv);
   od;
 
   return MinimizeAutom(G);
@@ -877,31 +965,55 @@ InstallGlobalFunction(AddInversesTrack,function(H)
 ##  track_s - new generators in terms of old ones
 ##  track_l - old generators in terms of new ones
 
-  d:=Length(H[1][1])-1;
-  n:=Length(H[1]);
+  d:=Length(H[1])-1;
+  n:=Length(H);
   if n<1 or d<1 then return fail; fi;
   idEl:=[];
   for i in [1..d] do Add(idEl,1); od;
   Add(idEl,());
-  G:=[[idEl]];
-  for i in [1..n] do Add(G[1],StructuralCopy(H[1][i])); od;
+  G:=[idEl];
+  for i in [1..n] do Add(G,StructuralCopy(H[i])); od;
 
   for st in [2..n+1] do
-    for i in [1..d] do G[1][st][i]:=G[1][st][i]+1; od;
+    for i in [1..d] do G[st][i]:=G[st][i]+1; od;
   od;
 
   for st in [2..n+1] do
     inv:=[];
-    perm:=G[1][st][d+1]^(-1);
-    for i in [1..d] do Add(inv, G[1][st][i^perm]+n); od;
+    perm:=G[st][d+1]^(-1);
+    for i in [1..d] do Add(inv, G[st][i^perm]+n); od;
     Add(inv,perm);
-    Add(G[1],inv);
+    Add(G,inv);
   od;
 #  Print("G=",G,"\n");
   track_s:=[0];
-  Append(track_s,[1..Length(G[1])-1]);
-  return MinimizeAutomTrack(G,track_s,[2..Length(G[1])]);
+  Append(track_s,[1..Length(G)-1]);
+  return MinimizeAutomTrack(G,track_s,[2..Length(G)]);
 end);
+
+
+################################################################################
+##
+#M UseContraction . . . . . . . . . .internal use only
+##
+InstallMethod(UseContraction, "UseContraction(IsTreeAutomorphismGroup)", true,
+              [IsTreeAutomorphismGroup], 
+function(G)
+  if IsContracting(G) then 
+    return false;
+  else return fail;
+  fi;
+end);
+
+
+
+################################################################################
+##
+#M INFO_FLAG . . . . . . . . . .internal use only
+##
+InstallMethod(INFO_FLAG, "INFO_FLAG(IsTreeAutomorphismGroup)", true,
+              [IsTreeAutomorphismGroup], function(G) return 0; end);
+
 
 
 ################################################################################
@@ -911,7 +1023,7 @@ end);
 
 InstallGlobalFunction(FindNucleus,function(H)
   local G,g,Pairs,i,j,PairsToAdd,AssocWPairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus,
-    nucl_final, cur_nucl, cur_nucl_tmp, Hi, track_s, track_l, G_track, automgens, cur_nucl_length;
+    nucl_final, cur_nucl, cur_nucl_tmp, Hi, track_s, track_l, G_track, automgens, cur_nucl_length, info;
   IsPairContracts:=function(i,j,lev)
     local t,res;
     if lev>maxlev then maxlev:=lev; fi;
@@ -930,7 +1042,7 @@ InstallGlobalFunction(FindNucleus,function(H)
     t:=1; res:=true;
     ContPairs[i][j]:=2;
     while res and (t<=d) do
-      res:=IsPairContracts(G[1][i][t],G[1][j][t^G[1][i][d+1]],lev+1);
+      res:=IsPairContracts(G[i][t],G[j][t^G[i][d+1]],lev+1);
       t:=t+1;
     od;
     if res then
@@ -949,9 +1061,9 @@ InstallGlobalFunction(FindNucleus,function(H)
     num:=num+1;
     tmp:=[];
     for l in [1..d] do
-      Add(tmp,AddPairs(G[1][i][l],G[1][j][l^G[1][i][d+1]]));
+      Add(tmp,AddPairs(G[i][l],G[j][l^G[i][d+1]]));
     od;
-    Add(tmp,G[1][i][d+1]*G[1][j][d+1]);
+    Add(tmp,G[i][d+1]*G[j][d+1]);
     Append(PairsToAdd[CurNum-n],tmp);
     AssocWPairsToAdd[CurNum-n]:=cur_nucl[i]*cur_nucl[j];
     return CurNum;
@@ -968,7 +1080,7 @@ InstallGlobalFunction(FindNucleus,function(H)
     Add(tmp,g);
     res:=false; i:=1;
     while (not res) and i<=d do
-      res:=IsElemInNucleus(G[1][g][i]);
+      res:=IsElemInNucleus(G[g][i]);
       i:=i+1;
     od;
     tmp:=tmp{[1..Length(tmp)-1]};
@@ -978,12 +1090,14 @@ InstallGlobalFunction(FindNucleus,function(H)
 #  ******************  FindNucleus itself *******************************
 
 
+  info:=InfoLevel(InfoAutomata);
+  if INFO_FLAG(H)=0 then SetInfoLevel(InfoAutomata,5); fi;
 
   automgens:=UnderlyingAutomFamily(H)!.automgens;
   d:=UnderlyingAutomFamily(H)!.deg;
   cur_nucl:=[One(UnderlyingAutomFamily(H))];
 
-  Hi:=AddInversesTrack([AutomatonList(H)]);
+  Hi:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(H));
 #  Print("Gi=",Gi,"\n");
   G:=Hi[1];
 
@@ -997,7 +1111,7 @@ InstallGlobalFunction(FindNucleus,function(H)
   while not found do
     res:=true; maxlev:=0; ContPairs:=[];
     Pairs:=InvestigatePairs(G);
-    n:=Length(G[1]);
+    n:=Length(G);
 #    Print("n=",n,"\n");
     Info(InfoAutomata, 3, "n=",n);
     for i in [1..n] do
@@ -1023,7 +1137,7 @@ InstallGlobalFunction(FindNucleus,function(H)
           AssocWPairsToAdd:=[];
           AddPairs(i,j);
           Info(InfoAutomata, 3, "Elements added:",List(AssocWPairsToAdd,x->x!.word));
-          Append(G[1],PairsToAdd);
+          Append(G,PairsToAdd);
 #          Print("G=",G,"\n");
           Append(cur_nucl,AssocWPairsToAdd);
           G_track:=AddInversesTrack(G);
@@ -1052,19 +1166,19 @@ InstallGlobalFunction(FindNucleus,function(H)
 
   Nucl:=[];
 # first add elements of cycles
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     tmp:=[];
     if not (i in Nucl) then IsElemInNucleus(i); fi;
   od;
 
-# now add sections of elements of cycles
+# now add sections of elemen
   repeat
     found:=false;
     for g in Nucl do
       for i in [1..d] do
-        if not (G[1][g][i] in Nucl) then
+        if not (G[g][i] in Nucl) then
           found:=true;
-          Add(Nucl,G[1][g][i]);
+          Add(Nucl,G[g][i]);
         fi;
       od;
     od;
@@ -1073,7 +1187,85 @@ InstallGlobalFunction(FindNucleus,function(H)
 
   nucl_final:=[];
   for i in Nucl do Add(nucl_final,cur_nucl[i]); od;
-  return [nucl_final,cur_nucl,G[1]];
+
+  SetIsContracting(H, true);
+  SetAutomNucleus(H, nucl_final);
+  SetNucleusIncludingGeneratingSet(H, cur_nucl);
+  SetNucleusIncludingGeneratingSetAutom(H, G);
+  SetContractingLevel(H, maxlev);
+  SetInfoLevel(InfoAutomata,info);
+
+  return [nucl_final,cur_nucl,G];
+end);
+
+
+################################################################################
+##
+#M IsContracting . . . . . . . . . .
+##
+
+InstallMethod(IsContracting, "IsContracting(IsAutomGroup)", true,
+              [IsAutomGroup],
+function(G)
+  local info, res;
+  info:=INFO_FLAG(G);
+  SetINFO_FLAG(G, 1);
+  FindNucleus(G);
+  res:=IsContracting(G);
+  SetINFO_FLAG(G, info);
+  return res;
+end);
+
+
+################################################################################
+##
+#M AutomNucleus . . . . . . . . . . Computes nucleus
+##
+
+InstallMethod(AutomNucleus, "IsContracting(IsAutomGroup)", true,
+              [IsAutomGroup],
+function(G)
+  local info,res;
+  info:=INFO_FLAG(G);
+  SetINFO_FLAG(G, 1);
+  FindNucleus(G);
+  res:=AutomNucleus(G);
+  SetINFO_FLAG(G, info);
+  return res;
+end);
+
+
+################################################################################
+##
+#M NucleusIncludingGeneratingSet . . . . . . . . . . Computes nucleus including
+##                                                   generating set
+InstallMethod(NucleusIncludingGeneratingSet, "NucleusIncludingGeneratingSet(IsAutomGroup)", true,
+              [IsAutomGroup],
+function(G)
+  local info,res;
+  info:=INFO_FLAG(G);
+  SetINFO_FLAG(G, 1);
+  FindNucleus(G);
+  res:=NucleusIncludingGeneratingSet(G);
+  SetINFO_FLAG(G, info);
+  return res;
+end);
+
+
+################################################################################
+##
+#M NucleusIncludingGeneratingSetAutom . . . . . . . . . . Computes automaton of nucleus
+##
+InstallMethod(NucleusIncludingGeneratingSetAutom, "NucleusIncludingGeneratingSetAutom(IsAutomGroup)", true,
+              [IsAutomGroup],
+function(G)
+  local info,res;
+  info:=INFO_FLAG(G);
+  SetINFO_FLAG(G, 1);
+  FindNucleus(G);
+  res:=NucleusIncludingGeneratingSetAutom(G);
+  SetINFO_FLAG(G, info);
+  return res;
 end);
 
 
@@ -1086,10 +1278,10 @@ end);
 InstallGlobalFunction(InversePerm,function(G)
   local i,j,viewed,inv,found;
   viewed:=[]; inv:=();
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     if not (i in viewed) then
       j:=1; found:=false;
-      while j<=Length(G[1]) and not found do
+      while j<=Length(G) and not found do
         #Print("[",i,",",j,"]\n");
         if IsOneWord([i,j],G) then
           found:=true;
@@ -1119,7 +1311,7 @@ InstallGlobalFunction(PortraitOfWord,function(w,G)
 
   PortraitIter:=function(v,lev,plist)
     local i,j,tmpv,sigma;
-    for i in [1..Length(G[1])] do
+    for i in [1..Length(G)] do
       tmpv:=StructuralCopy(v);
       Add(tmpv,i);
       if IsOneWord(tmpv,G) then
@@ -1131,8 +1323,8 @@ InstallGlobalFunction(PortraitOfWord,function(w,G)
     for i in [1..d] do
       tmpv:=[]; sigma:=();
       for j in v do
-        Add(tmpv,G[1][j][i^sigma]);
-        sigma:=sigma*G[1][j][d+1];
+        Add(tmpv,G[j][i^sigma]);
+        sigma:=sigma*G[j][d+1];
       od;
       if i=1 then Add(plist,sigma);fi;
       Add(plist,[]);
@@ -1140,7 +1332,7 @@ InstallGlobalFunction(PortraitOfWord,function(w,G)
     od;
   end;
 
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   bndry:=[d];
   PermList:=[];
   inv:=InversePerm(G);
@@ -1213,7 +1405,7 @@ end);
 InstallGlobalFunction(PortraitsOfWordPowers,function(w,G)
   local list,d,v;
   v:=StructuralCopy(w);
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   list:=[StructuralCopy(w),PortraitOfWord(v,G)];
   while list[Length(list)]<>[[d,[0,1]],[]] do
     Append(v,w);
@@ -1247,16 +1439,16 @@ InstallGlobalFunction(AutomGroupGrowth,function(n,G)
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
 
   while len<n do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         Add(v,j);
         New:=true;
@@ -1303,16 +1495,16 @@ InstallGlobalFunction(AutomGroupGrowthFast,function(n,m,G)
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
 
   while Length(ElList)<n and len<m do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         Add(v,j);
         New:=true;
@@ -1355,21 +1547,21 @@ InstallGlobalFunction(AutomGroupElements,function(n,G)
 
   gr:=1; len:=1;
   H:=AddInverses(G);
-  if [G[1]]<>H then
+  if G<>H then
     Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
 
   while len<n do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         Add(v,j);
         New:=true;
@@ -1452,20 +1644,20 @@ function(G,size)
 
   gr:=1; len:=1;
   H:=AddInverses(G);
-  if [G[1]]<>H then
+  if G<>H then
     Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[]; rels:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
   while GrList[len+1]>GrList[len] and GrList[len+1]<size do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         if j<>v[Length(v)]^inv then
           Add(v,j);
@@ -1539,7 +1731,7 @@ end);
 
 InstallGlobalFunction(MarkovOperator,function(G,n)
   local H,inv,i,el,j,m,d;
-  d:=Length(G[1][1])-1;
+  d:=Length(G[1])-1;
   H:=AddInverses(G);
   inv:= InversePerm(H);
   m:=[];
@@ -1547,7 +1739,7 @@ InstallGlobalFunction(MarkovOperator,function(G,n)
   for i in [1..d^n] do
     for j in [1..d^n] do m[i][j]:=0; od;
   od;
-  for el in [2..Length(H[1])] do
+  for el in [2..Length(H)] do
     m:=m+GeneratorActionOnLevelAsMatrix(H,el,n);
   od;
   return m;
@@ -1754,21 +1946,11 @@ function(subs_words,names,G,size,num_of_rels)
 
 #convert associative words into lists
   for w in subs_words do
-    w_list:=[];
-    w_ext:=ExtRepOfObj(w!.word);
-    for i in [1..Length(w_ext)/2] do
-      if w_ext[2*i]>0 then
-        cur_gen:=w_ext[2*i-1];
-      else
-        cur_gen:=w_ext[2*i-1]+numstates;
-      fi;
-      for j in [1..AbsInt(w_ext[2*i])] do Add(w_list,cur_gen); od;
-    od;
-    Add(subs1,ShallowCopy(w_list));
+    Add(subs1,CONVERT_ASSOCW_TO_LIST(w));
   od;
 
 
-  Gi:=AddInversesTrack([AutomatonList(G)]);
+  Gi:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(G));
 #  Print("Gi=",Gi,"\n");
   H:=Gi[1];
 
@@ -1792,7 +1974,7 @@ function(subs_words,names,G,size,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsSubsLocal(subs,H);
+  rels:=FindRelsSubsLocal(subs,CHOOSE_AUTOMATON_LIST(G));
   if rels=fail then return fail; fi;
   Append(rels0,rels);
 #  Print(rels0);
@@ -1964,7 +2146,7 @@ function(subs_words,names,G,size,num_of_rels)
     return AssocWrels;
   end;
 
-#  *********************** FindRelsSubsSGMain itself ****************************************************
+#  *********************** FindRelsSubsSG itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
     Error("The number of names must coincide with the number of generators");
@@ -1982,21 +2164,11 @@ function(subs_words,names,G,size,num_of_rels)
 
 #convert associative words into lists
   for w in subs_words do
-    w_list:=[];
-    w_ext:=ExtRepOfObj(w!.word);
-    for i in [1..Length(w_ext)/2] do
-      if w_ext[2*i]>0 then
-        cur_gen:=w_ext[2*i-1];
-      else
-        cur_gen:=w_ext[2*i-1]+numstates;
-      fi;
-      for j in [1..AbsInt(w_ext[2*i])] do Add(w_list,cur_gen); od;
-    od;
-    Add(subs1,ShallowCopy(w_list));
+    Add(subs1,CONVERT_ASSOCW_TO_LIST(w));
   od;
 
 
-  Gi:=AddInversesTrack([AutomatonList(G)]);
+  Gi:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(G));
 #  Print("Gi=",Gi,"\n");
   H:=Gi[1];
 
@@ -2020,7 +2192,7 @@ function(subs_words,names,G,size,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsSubsSGLocal(subs,H);
+  rels:=FindRelsSubsSGLocal(subs,CHOOSE_AUTOMATON_LIST(G));
   if rels=fail then return fail; fi;
   Append(rels0,rels);
 #  Print(rels0);
@@ -2210,7 +2382,7 @@ function(G,size,num_of_rels)
 
   gens:=UnderlyingAutomFamily(G)!.automgens;
 
-  Gi:=AddInversesTrack([AutomatonList(G)]);
+  Gi:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(G));
 #  Print("Gi=",Gi,"\n");
   H:=Gi[1];
 
@@ -2226,7 +2398,7 @@ function(G,size,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsLocal(List([2..Length(H[1])],i->[i]),H);
+  rels:=FindRelsLocal(List([2..Length(H)],i->[i]),CHOOSE_AUTOMATON_LIST(G));
   Append(rels0,rels);
 #  Print(rels0);
   return rels0;
@@ -2292,19 +2464,19 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
   gr:=1; len:=1; periodic:=true;
 
   H:=AddInverses(G);
-  if [G[1]]<>H then
+  if G<>H then
     Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[];
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
 
   for v in ElList do
-    order_v:=OrderOfElement(v,G,O);
+    order_v:=ORDER_OF_ELEMENT(v,G,O);
     Info(InfoAutomata, 3, "Order of ", v, ": ", order_v);
     if order_v = fail then
       if stop then return fail;
@@ -2316,7 +2488,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
   while len<n do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         Add(v,j);
         New:=true;
@@ -2329,7 +2501,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
         od;
         if New then
           Add(ElList,v);
-          order_v:=OrderOfElement(v,G,O);
+          order_v:=ORDER_OF_ELEMENT(v,G,O);
           Info(InfoAutomata, 3, "Order of ", v, ": ", order_v);
 
           if order_v = fail then
@@ -2394,16 +2566,16 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
   gr:=1; len:=1;
 
   H:=AddInverses(G);
-  if [G[1]]<>H then
+  if G<>H then
     Info(InfoAutomata, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
   fi;
   inv:=InversePerm(G);
-  GrList:=[1,Length(G[1])];
+  GrList:=[1,Length(G)];
   ElList:=[];
   TransElList:=[];
 
-  for i in [1..Length(G[1])] do
+  for i in [1..Length(G)] do
     Add(ElList,[i]);
   od;
 
@@ -2418,7 +2590,7 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
   while len<n do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G[1])] do
+      for j in [2..Length(G)] do
         v:=StructuralCopy(ElList[i]);
         Add(v,j);
         New:=true;

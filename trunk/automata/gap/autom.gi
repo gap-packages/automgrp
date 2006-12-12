@@ -204,9 +204,14 @@ end);
 ##
 InstallOtherMethod(IsOne, "IsOne(IsAutom)", [IsAutom],
 function(a)
-  local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp;
+  local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp, G;
 
   if IsOne(a!.word) then return true; fi;
+
+  G:=GroupOfAutomFamily(FamilyObj(a));
+  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then 
+    return IsOneContr(a);
+  fi;
 
   d := a!.deg;
   autlist := FamilyObj(a)!.automatonlist;
@@ -820,5 +825,15 @@ function(l)
   return one;
 end);
 
+
+#########################################################################
+##
+#M IsContracting(<a>) . . . . . . . . . .
+##
+InstallOtherMethod(IsContracting, "IsContracting(IsAutom)", true,
+              [IsAutom],
+function(a)
+  return IsContracting(GroupOfAutomFamily(FamilyObj(a)));
+end);
 
 #E

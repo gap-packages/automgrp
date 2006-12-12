@@ -8,6 +8,68 @@
 ##
 
 
+###############################################################################
+##
+#A  AutomNucleus (<G>)
+##
+DeclareAttribute( "AutomNucleus", IsTreeAutomorphismGroup);
+
+
+###############################################################################
+##
+#A  NucleusIncludingGeneratingSet (<G>)
+##
+DeclareAttribute( "NucleusIncludingGeneratingSet", IsTreeAutomorphismGroup);
+
+
+###############################################################################
+##
+#A  NucleusIncludingGeneratingSetAutom (<G>)
+##
+DeclareAttribute( "NucleusIncludingGeneratingSetAutom", IsTreeAutomorphismGroup);
+
+
+###############################################################################
+##
+#A  ContractingLevel (<G>)                             Computes the level where
+##                           all pairs from the nucleus contract to the nucleus
+DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
+
+
+###############################################################################
+##
+#A  ContractingTable (<G>)         Computes the contracting table of the kernel
+##
+DeclareAttribute( "ContractingTable", IsTreeAutomorphismGroup, "mutable" );
+
+###############################################################################
+##
+#A  UseContraction (<G>)          If 'true', the contraction algorithm for word
+##                                          problem is used. By default 'false'
+DeclareAttribute( "UseContraction", IsTreeAutomorphismGroup, "mutable");
+
+
+###############################################################################
+##
+#A  MINIMIZED_AUTOMATON_LIST (<G>)       AddInversesTrack(AutomatonList(H));
+##
+DeclareAttribute( "MINIMIZED_AUTOMATON_LIST", IsTreeAutomorphismGroup, "mutable" );
+
+
+################################################################################
+##
+#F CONVERT_ASSOCW_TO_LIST. . . . . . .Converts elements of AutomGroup into lists
+##
+DeclareGlobalFunction("CONVERT_ASSOCW_TO_LIST");
+
+
+###############################################################################
+##
+#A  INFO_FLAG (<G>)
+##
+DeclareAttribute( "INFO_FLAG", IsTreeAutomorphismGroup, "mutable" );
+
+
 ################################################################################
 ##
 #F ReduceWord . . . . . . . . . . . . . . . . . . . . . . .cuts 1s from the word
@@ -70,6 +132,21 @@ DeclareGlobalFunction("IsOneWordContr");
 ##                     in any self-similar group (chooses appropriate algorithm)
 DeclareGlobalFunction("IsOneWord");
 
+
+################################################################################
+##
+#F IsOneWord. . . . . . . . . . . . . . . . . . . .checks if the word is trivial
+##                     in any self-similar group
+DeclareGlobalFunction("IsOneContr");
+
+
+################################################################################
+##
+#F CHOOSE_AUTOMATON_LIST        chooses appropriate representation for G
+##
+DeclareGlobalFunction("CHOOSE_AUTOMATON_LIST");
+
+
 ################################################################################
 ##
 #F PowerOfWord. . . . . . . . . . . . . . . . . . Construct n-th power of a given word
@@ -79,12 +156,12 @@ DeclareGlobalFunction("PowerOfWord");
 
 ################################################################################
 ##
-#O OrderOfElement. . . . . . . . . Tries to find the order of a periodic element
+#O ORDER_OF_ELEMENT. . . . . . . . . Tries to find the order of a periodic element
 ##                                                       Checks up to order size
 
-DeclareOperation("OrderOfElement",[IsList,IsList]);
-#DeclareOperation("OrderOfElement",[IsList,IsList,IsPosInt]);
-#DeclareOperation("OrderOfElement",[IsList,IsList,IsInfinity]);
+DeclareOperation("ORDER_OF_ELEMENT",[IsList,IsList]);
+DeclareOperation("ORDER_OF_ELEMENT",[IsList,IsList,IsCyclotomic]);
+
 
 
 ################################################################################
@@ -156,20 +233,6 @@ DeclareGlobalFunction("SubgroupNthFactor");
 #F InvestigatePairs . . . . . . . . . . . . . . . . . . . Searches out relations
 ##                                               in the recurent group like ab=c
 DeclareGlobalFunction("InvestigatePairs");
-
-
-################################################################################
-##
-#F ContractingLevel . . . . . . . . . . . . . . . . . . Computes the level where
-##                                              all pairs contract to the kernel
-DeclareGlobalFunction("ContractingLevel");
-
-
-################################################################################
-##
-#F ContractingTable . . . . . . . . . . . . . . . . . . Computes the contracting
-##                                                           table of the kernel
-DeclareGlobalFunction("ContractingTable");
 
 
 ################################################################################

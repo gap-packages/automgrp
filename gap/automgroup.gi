@@ -341,7 +341,8 @@ function (G)
     return infinity;
   fi;
 
-  TryNextMethod();
+  return Size(FiniteGroupId(G)); ;
+#  TryNextMethod();
 end);
 
 

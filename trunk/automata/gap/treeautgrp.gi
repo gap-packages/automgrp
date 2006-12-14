@@ -363,7 +363,7 @@ function(G, k)
   if pgens = [] then
     return Group(());
   else
-    pgroup := Group(pgens);
+    pgroup := GroupWithGenerators(pgens);
     if IsActingOnBinaryTree(G) then
       SetIsPGroup(pgroup, true);
       if IsTrivial(pgroup) then

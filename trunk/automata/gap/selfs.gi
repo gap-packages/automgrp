@@ -1645,7 +1645,7 @@ function(H,size)
 #######################   FiniteGroupId  itself #########################################
   gr:=1; len:=1;
 
-  G:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(H)[1]);
+  G:=CHOOSE_AUTOMATON_LIST(H);
 
   inv:=InversePerm(G);
   if not HasIsFinite(H) then 
@@ -1716,19 +1716,18 @@ end);
 
 
 
+##  Inefficient regular representation
 ################################################################################
 ##
 #F IsomorphismPermGroup . . . . . . . . Computes an isomorphism from AutomGroup G
 ##    to a permutational group via regular representation (if G is finite)
-
-
-InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
-              [IsAutomGroup],
-function(G)
-  local H;
-  H:=FiniteGroupId(G);
-  return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
-end);
+#InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
+#              [IsAutomGroup],
+#function(G)
+#  local H;
+#  H:=FiniteGroupId(G);
+#  return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
+#end);
 
 
 

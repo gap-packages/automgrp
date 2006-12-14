@@ -92,5 +92,4 @@ DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
 ##
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
-
 #E

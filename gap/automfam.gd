@@ -47,6 +47,13 @@ DeclareOperation("ComputedRelatorsOfAutomFamily", [IsAutomFamily]);
 DeclareAttribute("AbelImagesGenerators", IsAutomFamily);
 
 
+#############################################################################
+##
+#A  GroupOfAutomFamily(<fam>)
+##
+DeclareAttribute("GroupOfAutomFamily", IsAutomFamily);
+
+
 ###############################################################################
 ##
 #O  DiagonalAction(<fam>)

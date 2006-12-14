@@ -41,10 +41,8 @@ InstallSubsetMaintenance(UnderlyingAutomFamily, IsCollection, IsCollection);
 #############################################################################
 ##
 #P  IsGroupOfAutomFamily(<G>)
-#A  GroupOfAutomFamily(<fam>)
 ##
 DeclareProperty("IsGroupOfAutomFamily", IsAutomGroup);
-DeclareAttribute("GroupOfAutomFamily", IsAutomFamily);
 InstallTrueMethod(IsSelfSimilar, IsGroupOfAutomFamily);
 
 

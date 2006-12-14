@@ -286,6 +286,30 @@ end);
 
 ###############################################################################
 ##
+#M  GroupOfAutomFamily(<fam>)
+##
+InstallMethod(GroupOfAutomFamily, "GroupOfAutomFamily(IsAutomFamily)",
+              [IsAutomFamily],
+function(fam)
+  local g;
+  if fam!.numstates > 0 then
+    g := GroupWithGenerators(fam!.automgens{[1..fam!.numstates]});
+  else
+    g := Group(One(fam));
+  fi;
+  SetUnderlyingAutomFamily(g, fam);
+  SetIsGroupOfAutomFamily(g, true);
+  SetGeneratingAutomatonList(g, fam!.automatonlist);
+  SetAutomatonList(g, fam!.automatonlist);
+  SetAutomatonListInitialStatesGenerators(g, [1..fam!.numstates]);
+  SetDegreeOfTree(g, fam!.deg);
+  SetIsActingOnBinaryTree(g, fam!.deg = 2);
+  return g;
+end);
+
+
+###############################################################################
+##
 #M  ComputedRelatorsOfAutomFamily(<fam>)
 ##
 InstallMethod(ComputedRelatorsOfAutomFamily, [IsAutomFamily],

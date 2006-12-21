@@ -67,6 +67,11 @@ KeyDependentOperation("DiagonalAction", IsAutomFamily, IsPosInt, ReturnTrue);
 ##
 KeyDependentOperation("MultAutomAlphabet", IsAutomFamily, IsPosInt, ReturnTrue);
 
+#############################################################################
+##
+#A  GeneratorsOfOrderTwo(<fam>)
+##
+DeclareAttribute("GeneratorsOfOrderTwo", IsAutomFamily);
 
 
 #E

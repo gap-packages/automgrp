@@ -267,9 +267,10 @@ DeclareGlobalFunction("AddInversesTrack");
 
 ################################################################################
 ##
-#F FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
+#O FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
 ##                                                     of the self-similar group
-DeclareGlobalFunction("FindNucleus");
+DeclareOperation("FindNucleus",[IsAutomatonGroup]);
+DeclareOperation("FindNucleus",[IsAutomatonGroup, IsCyclotomic]);
 
 
 ################################################################################
@@ -396,6 +397,33 @@ DeclareOperation("HAS_INFINITE_ORDER",[IsAutom,IsCyclotomic]);
 #F SUSPICIOUS_FOR_NONCONTRACTION   returns 'true' if there is a vertex v,
 ##                                        such that a(v)=v, a|_v=a or a|_v=a^-1
 DeclareGlobalFunction("SUSPICIOUS_FOR_NONCONTRACTION");
+
+
+################################################################################
+##
+#F FindGroupElement              enumerates elements of the group until it finds
+##          an element g of length at most n, for which func(g)=val. Returns g
+##
+DeclareGlobalFunction("FindGroupElement");
+
+
+################################################################################
+##
+#F FindElementOfInfiniteOrder   enumerates elements of the group until it finds
+##                              an element of infinite order of length at most <n>
+##                              each element is investigated up to depth <depth>
+DeclareGlobalFunction("FindElementOfInfiniteOrder");
+
+################################################################################
+##
+#F IsNoncontracting             enumerates elements of the group until it finds
+##                              an element of infinite order of length at most <n>
+##                              which stabilizes some vertex and has itself as a
+##                              section at this vertex
+##                              each element is investigated up to depth <depth>
+DeclareGlobalFunction("IsNoncontracting");
+
+
 
 
 ################################################################################

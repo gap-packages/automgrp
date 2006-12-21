@@ -317,8 +317,42 @@ function (G)
     return infinity;
   fi;
 
-  return Size(PermGroupOnLevel(G,LevelOfFaithfulAction(G)));
-#  TryNextMethod();
+  if LevelOfFaithfulAction(G,8)<>fail then
+    return Size(G);
+  fi;
+
+  if FindElementOfInfiniteOrder(G,10,10)<>fail then
+    return Size(G);
+  fi;
+
+  Info(InfoAutomata,1,"You can try to use IsomorphismPermGroup(<G>) or\n   FindElementOfInfiniteOrder(<G>,<length>,<depth>) with bigger bounds");
+  TryNextMethod();
+end);
+
+
+###############################################################################
+##
+#A  LevelOfFaithfulAction (<G>,<max_lev>)
+##
+InstallOtherMethod(LevelOfFaithfulAction, "method for IsAutomGroup and IsSelfSimilar",
+              [IsAutomGroup and IsSelfSimilar,IsCyclotomic],
+function(G,max_lev)
+  local s,s_next,lev;
+  if HasIsFinite(G) and not IsFinite(G) then return fail; fi;
+  if HasLevelOfFaithfulAction(G) then return LevelOfFaithfulAction(G); fi;
+  lev:=0; s:=1; s_next:=Size(PermGroupOnLevel(G,1));
+  while s<s_next and lev<max_lev do
+    lev:=lev+1;
+    s:=s_next;
+    s_next:=Size(PermGroupOnLevel(G,lev+1));
+  od;
+  if s=s_next then
+    SetSize(G,s);
+    SetLevelOfFaithfulAction(G,lev);
+    return lev;
+  else
+    return fail;
+  fi;
 end);
 
 
@@ -329,25 +363,33 @@ end);
 InstallMethod(LevelOfFaithfulAction, "method for IsAutomGroup and IsSelfSimilar",
               [IsAutomGroup and IsSelfSimilar],
 function(G)
-  local s,s_next,lev;
-  if HasIsFinite(G) and not IsFinite(G) then return fail; fi;
-  lev:=0; s:=1; s_next:=Size(PermGroupOnLevel(G,1));
-  while s<s_next do
-    lev:=lev+1;
-    s:=s_next;
-    s_next:=Size(PermGroupOnLevel(G,lev+1));
-  od;
-  SetSize(G,s);
-  return lev;
+  return LevelOfFaithfulAction(G,infinity);
 end);
 
 
 ################################################################################
 ##
-#F IsomorphismPermGroup . . . . . . . . Computes an isomorphism from AutomGroup G
+#M IsomorphismPermGroup . . . . . . . . Computes an isomorphism from AutomGroup G
 ##    to a permutational group via regular representation (if G is finite)
-InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup and IsSelfSimilar)",
-             [IsAutomGroup and IsSelfSimilar],
+InstallOtherMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomatonGroup,IsCyclotomic)",
+             [IsAutomGroup and IsSelfSimilar,IsCyclotomic],
+function(G,n)
+ local H,lev;
+ lev:=LevelOfFaithfulAction(G,n);
+ if lev<>fail then
+   H:=PermGroupOnLevel(G,LevelOfFaithfulAction(G));
+   return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
+ fi;
+ return fail;
+end);
+
+
+################################################################################
+##
+#M IsomorphismPermGroup . . . . . . . . Computes an isomorphism from AutomGroup G
+##    to a permutational group via regular representation (if G is finite)
+InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomaton)",
+             [IsAutomatonGroup],
 function(G)
  local H;
  H:=PermGroupOnLevel(G,LevelOfFaithfulAction(G));

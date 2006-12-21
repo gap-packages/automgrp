@@ -1018,10 +1018,11 @@ InstallMethod(INFO_FLAG, "INFO_FLAG(IsTreeAutomorphismGroup)", true,
 
 ################################################################################
 ##
-#F FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
+#M FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
 ##                                                     of the self-similar group
-
-InstallGlobalFunction(FindNucleus,function(H)
+InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic]", true,
+                                    [IsAutomatonGroup, IsCyclotomic],
+function(H,max_nucl)
   local G,g,Pairs,i,j,PairsToAdd,AssocWPairsToAdd,res,ContPairs,n,d,found,num,IsPairContracts,AddPairs,lev,maxlev,tmp,Nucl,IsElemInNucleus,
     nucl_final, cur_nucl, cur_nucl_tmp, Hi, track_s, track_l, G_track, automgens, cur_nucl_length, info;
   IsPairContracts:=function(i,j,lev)
@@ -1089,6 +1090,10 @@ InstallGlobalFunction(FindNucleus,function(H)
 
 #  ******************  FindNucleus itself *******************************
 
+  if HasIsContracting(H) and not IsContracting(H) then 
+    return fail;
+  fi;
+
 
   info:=InfoLevel(InfoAutomata);
   if INFO_FLAG(H)=0 then SetInfoLevel(InfoAutomata,5); fi;
@@ -1108,7 +1113,7 @@ InstallGlobalFunction(FindNucleus,function(H)
 
   found:=false;
 
-  while not found do
+  while (not found) and Length(G)<max_nucl do
     res:=true; maxlev:=0; ContPairs:=[];
     Pairs:=InvestigatePairs(G);
     n:=Length(G);
@@ -1164,6 +1169,7 @@ InstallGlobalFunction(FindNucleus,function(H)
     fi;
   od;
 
+  if not found then return fail; fi;
   Nucl:=[];
 # first add elements of cycles
   for i in [1..Length(G)] do
@@ -1201,6 +1207,17 @@ end);
 
 ################################################################################
 ##
+#M FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
+##                                                     of the self-similar group
+InstallMethod(FindNucleus, "for [IsAutomatonGroup]", true,
+                                    [IsAutomatonGroup],
+function(H)
+  return FindNucleus(H,infinity);
+end);
+
+
+################################################################################
+##
 #M IsContracting . . . . . . . . . .
 ##
 
@@ -1210,10 +1227,14 @@ function(G)
   local info, res;
   info:=INFO_FLAG(G);
   SetINFO_FLAG(G, 1);
-  FindNucleus(G);
-  res:=IsContracting(G);
+  res:=FindNucleus(G,50);
   SetINFO_FLAG(G, info);
-  return res;
+  if res<>fail then return true; fi;
+  res:=IsNoncontracting(G,10,10);
+  if res=true then return false; fi;
+  Info(InfoAutomata,1,"You can try FindNucleus(<G>,<max_nucl>) or");
+  Info(InfoAutomata,1,"            IsNoncontracting(<G>,<lengh>,<depth>) with bigger bounds");
+  TryNextMethod();
 end);
 
 
@@ -1287,8 +1308,7 @@ InstallGlobalFunction(InversePerm,function(G)
           found:=true;
           if i<>j then
             inv:=inv*(i,j);
-            Add(viewed,i);
-            Add(viewed,j);
+            Append(viewed,[i,j]);
           else
             Add(viewed,i);
           fi;
@@ -1784,12 +1804,12 @@ end);
 ################################################################################
 ##
 #M FindRelsSubs. . . . . . . . . . . .Finds group relations between given elements
-##                                     stops after investigating "size" elements
+##                                     stops after investigating elements of length max_len
 ##                                      or when it finds "num_of_rels" relations
 
-InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,G,size,num_of_rels)", true,
+InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,G,max_len,num_of_rels)", true,
               [IsList, IsList, IsAutomGroup, IsCyclotomic, IsCyclotomic],
-function(subs_words,names,G,size,num_of_rels)
+function(subs_words,names,G,max_len,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal, gens_autom, i, j, subs, subs1, w_list, FindRelsSubsLocal, w_ext, w, automgens, numstates, F, cur_gen;
 
   AssocW:=function(w)
@@ -1911,7 +1931,7 @@ function(subs_words,names,G,size,num_of_rels)
     for i in [1..Length(subs)] do
       Add(ElList,[i]);
     od;
-    while GrList[len+1]>GrList[len] and GrList[len+1]<size and Length(rels)<num_of_rels do
+    while GrList[len+1]>GrList[len] and len<max_len and Length(rels)<num_of_rels do
       for i in [GrList[len]..GrList[len+1]-1] do
         oldgr:=Length(ElList);
         for j in [1..Length(subs)] do
@@ -2006,13 +2026,13 @@ end);
 ################################################################################
 ##
 #M FindRelsSubs. . . . . . . . . . . . . .Finds group relations between given elements
-##                                     stops after investigating "size" elements
+##                                     stops after investigating elements of length max_len
 ##
 
-InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,G,size)", true,
+InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,G,max_len)", true,
               [IsList, IsList, IsAutomGroup, IsCyclotomic],
-function(subs_words,names,G,size)
-  return FindRelsSubs(subs_words,names,G,size,infinity);
+function(subs_words,names,G,max_len)
+  return FindRelsSubs(subs_words,names,G,max_len,infinity);
 end);
 
 
@@ -2032,12 +2052,12 @@ end);
 ##
 #M FindRelsSubsSG. . . . . . . . . . .Finds relations between given elements
 ##                                         in the subsemigroup generated by them
-##                                     stops after investigating "size" elements
+##                                     stops after investigating elements of length max_len
 ##                                     and when it finds "num_of_rels" relations
 
-InstallOtherMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,G,size,num_of_rels)", true,
+InstallOtherMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,G,max_len,num_of_rels)", true,
               [IsList, IsList, IsAutomGroup, IsCyclotomic, IsCyclotomic],
-function(subs_words,names,G,size,num_of_rels)
+function(subs_words,names,G,max_len,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, gens_autom, i, j, subs, subs1, w_list, FindRelsSubsSGLocal, w_ext, w, automgens, numstates, F, cur_gen;
 
   AssocW:=function(w)
@@ -2118,7 +2138,7 @@ function(subs_words,names,G,size,num_of_rels)
     for i in [1..Length(subs)] do
       Add(ElList,[i]);
     od;
-    while GrList[len+1]>GrList[len] and GrList[len+1]<size and Length(rels)<num_of_rels do
+    while GrList[len+1]>GrList[len] and len<max_len and Length(rels)<num_of_rels do
       for i in [GrList[len]..GrList[len+1]-1] do
         oldgr:=Length(ElList);
         for j in [1..Length(subs)] do
@@ -2226,12 +2246,12 @@ end);
 ##
 #M FindRelsSubsSG. . . . . . . . . . .Finds relations between given elements
 ##                                         in the subsemigroup generated by them
-##                                     stops after investigating "size" elements
+##                                     stops after investigating elements of length max_len
 
-InstallMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,G,size)", true,
+InstallMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,G,max_len)", true,
               [IsList, IsList, IsAutomGroup, IsCyclotomic],
-function(subs_words,names,G,size)
-  return FindRelsSubsSG(subs_words,names,G,size,infinity);
+function(subs_words,names,G,max_len)
+  return FindRelsSubsSG(subs_words,names,G,max_len,infinity);
 end);
 
 
@@ -2251,12 +2271,12 @@ end);
 
 ################################################################################
 ##
-#M FindRels . . . . . . . . . Fing relatoins in terms of the original generators
+#M FindRels . . . . . . . . . finds relators in terms of the original generators
 ##
 ##
-InstallMethod(FindRels, "FindRels(G,size,num_of_rels)", true,
+InstallMethod(FindRels, "FindRels(G,max_len,num_of_rels)", true,
               [IsAutomGroup, IsCyclotomic, IsCyclotomic],
-function(G,size,num_of_rels)
+function(G,max_len,num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
 
   AssocW:=function(w)
@@ -2299,8 +2319,7 @@ function(G,size,num_of_rels)
 
     LongCycle:=function(n)
       local l,i;
-      l:=[];
-      for i in [2..n] do Add(l,i); od;
+      l:=[2..n];
       Add(l,1);
       return PermList(l);
     end;
@@ -2356,7 +2375,7 @@ function(G,size,num_of_rels)
     for i in [1..Length(subs)] do
       Add(ElList,[i]);
     od;
-    while GrList[len+1]>GrList[len] and GrList[len+1]<size and Length(rels)<num_of_rels do
+    while GrList[len+1]>GrList[len] and len<max_len and Length(rels)<num_of_rels do
       for i in [GrList[len]..GrList[len+1]-1] do
         oldgr:=Length(ElList);
         for j in [1..Length(subs)] do
@@ -2432,10 +2451,10 @@ end);
 #M FindRels . . . . . . . . . Finds relatoins in terms of the original generators
 ##
 ##
-InstallMethod(FindRels, "FindRels(G,size)", true,
+InstallMethod(FindRels, "FindRels(G,max_len)", true,
               [IsAutomGroup, IsCyclotomic],
-function(G,size)
-  return FindRels(G,size,infinity);
+function(G,max_len)
+  return FindRels(G,max_len,infinity);
 end);
 
 
@@ -2473,20 +2492,68 @@ end);
 InstallMethod(HAS_INFINITE_ORDER, "HAS_INFINITE_ORDER(IsAutom,IsCyclotomic)", true,
               [IsAutom, IsCyclotomic],
 function(a, max_depth)
-  local HAS_INFINITE_ORDER_LOCAL, cur_list, F, degs, vertex;
+  local HAS_INFINITE_ORDER_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce;
+
+  CyclicallyReduce:=function(w)
+    local i,j,wtmp,reduced;
+
+    for i in [1..Length(w)] do
+      if -w[i] in gens_ord2 then w[i]:=-w[i]; fi;
+    od;
+
+    repeat
+      reduced:=true;
+      j:=1;
+      while reduced  and j<Length(w) do
+        if w[j]=-w[j+1] or (w[j]=w[j+1] and w[j] in gens_ord2) then
+          reduced:=false;
+          wtmp:=ShallowCopy(w{[1..j-1]});
+          Append(wtmp,w{[j+2..Length(w)]});
+          w:=wtmp;
+        fi;
+        j:=j+1;
+      od;
+    until reduced;
+
+    repeat
+      if Length(w)<2 then return w; fi;
+      reduced:=true;
+      if w[1]=-w[Length(w)] or (w[1]=w[Length(w)] and w[1] in gens_ord2) then
+        w:=w{[2..Length(w)-1]};
+        reduced:=false;
+      fi;
+    until reduced;
+
+    return w;
+  end;
+
+  AreConjugateUsingSmallRels:=function(g,h)
+    local i, g_list, h_list,long_cycle,l;
+    g_list:=CyclicallyReduce(LetterRepAssocWord(g));
+    h_list:=CyclicallyReduce(LetterRepAssocWord(h));
+    if Length(g_list)<>Length(h_list) then return false; fi;
+    l:=[2..Length(g_list)];
+    Add(l,1);
+    long_cycle:=PermList(l);
+    for i in [0..Length(g_list)-1] do
+      if h_list=Permuted(g_list,long_cycle^i) then return true; fi;
+    od;
+    return false;
+  end;
 
   HAS_INFINITE_ORDER_LOCAL:=function(g)
-  local i,el,orb,Orbs,res,st;
+    local i,el,orb,Orbs,res,st,reduced_word;
     if IsOne(g) then return fail; fi;
     for i in [1..Length(cur_list)] do
       el:=cur_list[i];
-      if (IsConjugate(F,g!.word, el!.word) or IsConjugate(F,(g!.word)^(-1), el!.word)) then
+      if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
         if Product(degs{[i..Length(degs)]})>1 then
-          Info(InfoAutomata,3,"(",a!.word,")^",Product(degs{[1..i-1]})," has ", g!.word, " as a section at vertex ",vertex{[1..i-1]});
+          Info(InfoAutomata,3,"(",a!.word,")^",Product(degs{[1..i-1]})," has ", el!.word, " as a section at vertex ",vertex{[1..i-1]});
           Info(InfoAutomata,3,"(",el!.word,")^",Product(degs{[i..Length(degs)]})," has congutate of ",g!.word, " as a section at vertex ",vertex{[i..Length(degs)]});
+          SetIsFinite(GroupOfAutomFamily(FamilyObj(a)),false);
           return true;
         else
-          Info(InfoAutomata,3,"The group <G> might not be contracting, ",g," has itself as a section.");
+#          Info(InfoAutomata,3,"The group <G> might not be contracting, ",g," has itself as a section.");
           return fail;
         fi;
       fi;
@@ -2501,8 +2568,9 @@ function(a, max_depth)
 #      res:=HAS_INFINITE_ORDER_LOCAL(Autom(CyclicallyReducedWord(State(g^Length(orb),orb[1])!.word),FamilyObj(g)));
 #      Print(g^Length(orb),"\n");
       st:=State(g^Length(orb),orb[1]);
+      reduced_word:=AssocWordByLetterRep(FamilyObj(st!.word),CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word," at ",vertex,"\n");
-      res:=HAS_INFINITE_ORDER_LOCAL(Autom(st!.word,FamilyObj(g)));
+      res:=HAS_INFINITE_ORDER_LOCAL(Autom(reduced_word,FamilyObj(g)));
       if res=true then return true; fi;
       Unbind(degs[Length(degs)]);
       Unbind(vertex[Length(vertex)]);
@@ -2512,6 +2580,7 @@ function(a, max_depth)
   end;
 
   F:=FamilyObj(a)!.freegroup;
+  gens_ord2:=GeneratorsOfOrderTwo(FamilyObj(a));
   cur_list:=[];
 # degs traces at what positions we raise to what power
   degs:=[]; vertex:=[];
@@ -2532,7 +2601,7 @@ InstallGlobalFunction(SUSPICIOUS_FOR_NONCONTRACTION, function(a)
 
     if (g!.word in cur_list) or (g!.word^(-1) in cur_list) then
       if g=a or g=a^-1 then
-        Info(InfoAutomata,3,a!.word," has ",g!.word," as a section at vertex ",vertex);
+#        Info(InfoAutomata,3,a!.word," has ",g!.word," as a section at vertex ",vertex);
         return true;
       else return false;  fi;
     fi;
@@ -2556,6 +2625,102 @@ InstallGlobalFunction(SUSPICIOUS_FOR_NONCONTRACTION, function(a)
 end);
 
 
+
+################################################################################
+##
+#F FindGroupElement              enumerates elements of the group until it finds
+##          an element g of length at most n, for which func(g)=val. Returns g
+##
+InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
+  local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k;
+
+  orig_gens:=ShallowCopy(GeneratorsOfSemigroup(G));
+  gens:=[];
+
+# select pairwise different generators
+  for i in [1..Length(orig_gens)] do
+    if IsOne(orig_gens[i]) then
+      new_gen:=false;
+    else
+      new_gen:=true;
+      for j in [1..i-1] do if orig_gens[i]=orig_gens[j] then new_gen:=false; fi; od;
+      if new_gen then Add(gens,orig_gens[i]); fi;
+    fi;
+  od;
+
+  if func(One(G))=val then return One(g); fi;
+  for g in gens do
+    if func(g)=val then return g; fi;
+  od;
+
+  ElList:=[One(G)]; Append(ElList,ShallowCopy(gens));
+  GrList:=[1,Length(gens)+1];
+  len:=1;
+
+  while len<n do
+    for i in [GrList[len]+1..GrList[len+1]] do
+      oldgr:=Length(ElList);
+      for gen in gens do
+        g:=ElList[i]*gen;
+        New:=true;
+        if len=1 then k:=1; else k:=GrList[len-1]; fi;
+        while New and k<=oldgr do
+          if IsOne(g*ElList[k]^-1) then New:=false; fi;
+          k:=k+1;
+        od;
+        if New then
+          if func(g)=val then return g; fi;
+          Add(ElList,g);
+        fi;
+      od;
+    od;
+    Add(GrList,Length(ElList));
+    Info(InfoAutomata,3,"Length not greater than ",len+1,": ",Length(ElList));
+    len:=len+1;
+  od;
+  return fail;
+end);
+
+
+################################################################################
+##
+#F FindElementOfInfiniteOrder   enumerates elements of the group until it finds
+##                              an element of infinite order of length at most <n>
+##                              each element is investigated up to depth <depth>
+InstallGlobalFunction(FindElementOfInfiniteOrder,function(G,n,depth)
+  local CheckOrder, res;
+  CheckOrder:=function(g) return HAS_INFINITE_ORDER(g,depth); end;
+  res:=FindGroupElement(G,CheckOrder,true,n);
+  if res<>fail then SetIsFinite(G,false); fi;
+  return res;
+end);
+
+
+
+################################################################################
+##
+#F IsNoncontracting             enumerates elements of the group until it finds
+##                              an element of infinite order of length at most <n>
+##                              which stabilizes some vertex and has itself as a
+##                              section at this vertex
+##                              each element is investigated up to depth <depth>
+InstallGlobalFunction(IsNoncontracting,function(G,n,depth)
+  local IsNoncontrElement, res;
+  IsNoncontrElement:=function(g)
+    if SUSPICIOUS_FOR_NONCONTRACTION(g) then
+      return HAS_INFINITE_ORDER(g,depth);
+    fi;
+    return false;
+  end;
+
+  res:=FindGroupElement(G,IsNoncontrElement,true,n);
+  if res<>fail then
+    SetIsFinite(G,false);
+    SetIsContracting(G,false);
+    return true;
+  fi;
+  return fail;
+end);
 
 
 ################################################################################

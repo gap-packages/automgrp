@@ -34,7 +34,7 @@ InstallMethod(Autom, "method for IsAssocWord and IsAutomFamily",
               [IsAssocWord, IsAutomFamily],
 function(w, fam)
   local exp, wstates, curstate, newstate, curletter, newletter,
-        nperm, i, j, perm, a;
+        nperm, i, j, perm, a, wtmp, reduced;
 
   if Length(w) = 0 then
     return One(fam);
@@ -59,17 +59,49 @@ function(w, fam)
     for i in [1..fam!.deg] do
       wstates[i] := [];
       perm:=();
+
       for j in [1..Length(exp)] do
         newstate := fam!.automatonlist[exp[j]][i^perm];
         if newstate <> fam!.trivstate then
-          Add(wstates[i], newstate);
+          if newstate > fam!.numstates then
+            newstate := -(newstate - fam!.numstates);
+          fi;
+          if Length(wstates[i]) > 0 and wstates[i][Length(wstates[i])] = -newstate then
+            Remove(wstates[i], Length(wstates[i]));
+          else
+            Add(wstates[i], newstate);
+          fi;
         fi;
         perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
       od;
-      for j in [1..Length(wstates[i])] do
-        if wstates[i][j] > fam!.numstates then
-          wstates[i][j] := -(wstates[i][j] - fam!.numstates); fi;
-      od;
+
+
+#       for j in [1..Length(exp)] do
+#         newstate := fam!.automatonlist[exp[j]][i^perm];
+#         if newstate <> fam!.trivstate then
+#           Add(wstates[i], newstate);
+#         fi;
+#         perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
+#       od;
+#       for j in [1..Length(wstates[i])] do
+#         if wstates[i][j] > fam!.numstates then
+#           wstates[i][j] := -(wstates[i][j] - fam!.numstates); fi;
+#       od;
+#
+#       repeat
+#         reduced:=true;
+#         j:=1;
+#         while reduced  and j<Length(wstates[i]) do
+#           if wstates[i][j]=-wstates[i][j+1] then
+#             reduced:=false;
+#             wtmp:=ShallowCopy(wstates[i]{[1..j-1]});
+#             Append(wtmp,wstates[i]{[j+2..Length(wstates[i])]});
+#             wstates[i]:=wtmp;
+#           fi;
+#           j:=j+1;
+#         od;
+#       until reduced;
+
       wstates[i] := AssocWordByLetterRep(FamilyObj(w), wstates[i]);
     od;
 
@@ -209,7 +241,7 @@ function(a)
   if IsOne(a!.word) then return true; fi;
 
   G:=GroupOfAutomFamily(FamilyObj(a));
-  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then 
+  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
     return IsOneContr(a);
   fi;
 
@@ -288,7 +320,12 @@ end);
 ## TODO
 InstallMethod(\=, "\=(IsAutom, IsAutom)", IsIdenticalObj, [IsAutom, IsAutom],
 function(a1, a2)
-  local areequalstates, exp, i, d, checked, autlist;
+  local areequalstates, exp, i, d, checked, autlist, G;
+
+  G:=GroupOfAutomFamily(FamilyObj(a1));
+  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+    return IsOneContr(a1*a2^-1);
+  fi;
 
   d := a1!.deg;
   checked := [];

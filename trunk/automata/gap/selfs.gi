@@ -1648,7 +1648,7 @@ function(H,size)
   G:=CHOOSE_AUTOMATON_LIST(H);
 
   inv:=InversePerm(G);
-  if not HasIsFinite(H) then 
+  if not HasIsFinite(H) then
     Info(InfoWarning,2,"warning, if <H> is infinite the algorithm will never stop");
   fi;
   GrList:=[1,Length(G)];
@@ -2466,6 +2466,100 @@ end);
 
 ################################################################################
 ##
+#M HAS_INFINITE_ORDER     returns true if there is a section h<>1 of a
+##   such that h^k has h as a section
+##
+
+InstallMethod(HAS_INFINITE_ORDER, "HAS_INFINITE_ORDER(IsAutom,IsCyclotomic)", true,
+              [IsAutom, IsCyclotomic],
+function(a, max_depth)
+  local HAS_INFINITE_ORDER_LOCAL, cur_list, F, degs, vertex;
+
+  HAS_INFINITE_ORDER_LOCAL:=function(g)
+  local i,el,orb,Orbs,res,st;
+    if IsOne(g) then return fail; fi;
+    for i in [1..Length(cur_list)] do
+      el:=cur_list[i];
+      if (IsConjugate(F,g!.word, el!.word) or IsConjugate(F,(g!.word)^(-1), el!.word)) then
+        if Product(degs{[i..Length(degs)]})>1 then
+          Info(InfoAutomata,3,"(",a!.word,")^",Product(degs{[1..i-1]})," has ", g!.word, " as a section at vertex ",vertex{[1..i-1]});
+          Info(InfoAutomata,3,"(",el!.word,")^",Product(degs{[i..Length(degs)]})," has congutate of ",g!.word, " as a section at vertex ",vertex{[i..Length(degs)]});
+          return true;
+        else
+          Info(InfoAutomata,3,"The group <G> might not be contracting, ",g," has itself as a section.");
+          return fail;
+        fi;
+      fi;
+    od;
+    if Length(cur_list)>=max_depth then return fail; fi;
+    Add(cur_list,g);
+    Orbs:=OrbitsPerms([g!.perm],[1..g!.deg]);
+
+    for orb in Orbs do
+      Add(degs,Length(orb));
+      Add(vertex,orb[1]);
+#      res:=HAS_INFINITE_ORDER_LOCAL(Autom(CyclicallyReducedWord(State(g^Length(orb),orb[1])!.word),FamilyObj(g)));
+#      Print(g^Length(orb),"\n");
+      st:=State(g^Length(orb),orb[1]);
+#      Print(st!.word," at ",vertex,"\n");
+      res:=HAS_INFINITE_ORDER_LOCAL(Autom(st!.word,FamilyObj(g)));
+      if res=true then return true; fi;
+      Unbind(degs[Length(degs)]);
+      Unbind(vertex[Length(vertex)]);
+    od;
+    Unbind(cur_list[Length(cur_list)]);
+    return fail;
+  end;
+
+  F:=FamilyObj(a)!.freegroup;
+  cur_list:=[];
+# degs traces at what positions we raise to what power
+  degs:=[]; vertex:=[];
+  return HAS_INFINITE_ORDER_LOCAL(a);
+end);
+
+
+################################################################################
+##
+#F SUSPICIOUS_FOR_NONCONTRACTION   returns 'true' if there is a vertex v,
+##                                        such that a(v)=v, a|_v=a or a|_v=a^-1
+InstallGlobalFunction(SUSPICIOUS_FOR_NONCONTRACTION, function(a)
+  local SUSPICIOUS_FOR_NONCONTRACTION_LOCAL, cur_list, F, vertex;
+
+  SUSPICIOUS_FOR_NONCONTRACTION_LOCAL:=function(g)
+  local i,res;
+    if IsOne(g) or g!.perm<>() then return false; fi;
+
+    if (g!.word in cur_list) or (g!.word^(-1) in cur_list) then
+      if g=a or g=a^-1 then
+        Info(InfoAutomata,3,a!.word," has ",g!.word," as a section at vertex ",vertex);
+        return true;
+      else return false;  fi;
+    fi;
+
+    Add(cur_list,g!.word);
+
+    for i in [1..FamilyObj(a)!.deg] do
+      Add(vertex,i);
+      res:=SUSPICIOUS_FOR_NONCONTRACTION_LOCAL(State(g,i));
+      if res then return true; fi;
+      Unbind(vertex[Length(vertex)]);
+    od;
+    return false;
+  end;
+
+  F:=FamilyObj(a)!.freegroup;
+  cur_list:=[];
+# degs traces at what positions we raise to what power
+  vertex:=[];
+  return SUSPICIOUS_FOR_NONCONTRACTION_LOCAL(a);
+end);
+
+
+
+
+################################################################################
+##
 #F OrdersOfGroupElementsMain . . . . . Enumerates all elements of a self-similar
 ##             group up to length n and tries to find their orders up to order O
 ##                  returns true if all the orders are finite and fail otherwise
@@ -2542,6 +2636,9 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
 
   return periodic;
 end);
+
+
+
 
 
 ################################################################################

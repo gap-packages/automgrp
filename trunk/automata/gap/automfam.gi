@@ -413,6 +413,19 @@ function(obj)
 end);
 
 
-
+#############################################################################
+##
+#M  GeneratorsOfOrderTwo(<fam>)
+##
+InstallOtherMethod(GeneratorsOfOrderTwo, "MultAutomAlphabet(IsObject)", [IsObject],
+function(fam)
+  local g,G,res,i;
+  G:=GroupOfAutomFamily(fam);
+  res:=[];
+  for i in [1..fam!.numstates] do
+    if IsOne(GeneratorsOfGroup(G)[i]^2) then Add(res,i); fi;
+  od;
+  return res;
+end);
 
 #E

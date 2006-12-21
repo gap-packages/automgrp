@@ -384,6 +384,22 @@ DeclareOperation("FindRels",[IsAutomGroup,IsCyclotomic,IsCyclotomic]);
 
 ################################################################################
 ##
+#M HAS_INFINITE_ORDER     returns true if there is a section h<>1 of a
+##   such that h^k has h as a section
+##
+DeclareOperation("HAS_INFINITE_ORDER",[IsAutom]);
+DeclareOperation("HAS_INFINITE_ORDER",[IsAutom,IsCyclotomic]);
+
+
+################################################################################
+##
+#F SUSPICIOUS_FOR_NONCONTRACTION   returns 'true' if there is a vertex v,
+##                                        such that a(v)=v, a|_v=a or a|_v=a^-1
+DeclareGlobalFunction("SUSPICIOUS_FOR_NONCONTRACTION");
+
+
+################################################################################
+##
 #F OrdersOfGroupElementsMain . . . . . Enumerates all elements of a self-similar
 ##             group up to length n and tries to find their orders up to order O
 ##                  returns true if all the orders are finite and fail otherwise

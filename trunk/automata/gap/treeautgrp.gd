@@ -92,4 +92,10 @@ DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
 ##
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
+
+###############################################################################
+##
+#P  IsAmenable (<G>)
+##
+DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
 #E

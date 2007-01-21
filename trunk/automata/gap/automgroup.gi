@@ -317,7 +317,7 @@ function (G)
     return infinity;
   fi;
 
-  if LevelOfFaithfulAction(G,8)<>fail then
+  if IsAutomatonGroup(G) and LevelOfFaithfulAction(G,8)<>fail then
     return Size(G);
   fi;
 

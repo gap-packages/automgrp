@@ -873,4 +873,15 @@ function(a)
   return IsContracting(GroupOfAutomFamily(FamilyObj(a)));
 end);
 
+
+#########################################################################
+##
+#M Order(<a>) . . . . . . . . . .
+##
+InstallOtherMethod(Order, "Order(IsAutom)", true,
+              [IsAutom],
+function(a)
+  if HAS_INFINITE_ORDER(a,10)=true then return infinity; fi;
+  TryNextMethod();
+end);
 #E

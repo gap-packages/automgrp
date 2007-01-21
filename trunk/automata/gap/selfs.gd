@@ -459,4 +459,5 @@ DeclareGlobalFunction("PeriodicityGuess");
 ##                in case stop=true stops when it finds first transitive element
 DeclareGlobalFunction("FindTransitiveElements");
 
+
 #E

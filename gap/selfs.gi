@@ -2492,7 +2492,7 @@ end);
 InstallMethod(HAS_INFINITE_ORDER, "HAS_INFINITE_ORDER(IsAutom,IsCyclotomic)", true,
               [IsAutom, IsCyclotomic],
 function(a, max_depth)
-  local HAS_INFINITE_ORDER_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce;
+  local HAS_INFINITE_ORDER_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
 
   CyclicallyReduce:=function(w)
     local i,j,wtmp,reduced;
@@ -2584,7 +2584,9 @@ function(a, max_depth)
   cur_list:=[];
 # degs traces at what positions we raise to what power
   degs:=[]; vertex:=[];
-  return HAS_INFINITE_ORDER_LOCAL(a);
+  res:=HAS_INFINITE_ORDER_LOCAL(a);
+  if res=true then SetOrder(a,infinity); fi;
+  return res;
 end);
 
 
@@ -2903,6 +2905,185 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
   od;
 
   return TransElList;
+end);
+
+
+################################################################################
+##
+#M IsGeneratedByAutomatonOfPolynomialGrowth
+##
+##
+
+InstallMethod(IsGeneratedByAutomatonOfPolynomialGrowth,"IsGeneratedByAutomatonOfPolynomialGrowth(IsAutomatonGroup)",true,
+              [IsAutomatonGroup],
+function(G)
+  local i,d,ver,nstates,cycles,cycle_of_vertex, IsNewCycle,known_vertices,aut_list,HasPolyGrowth,cycle_order,next_cycles,cur_cycles,cur_path,cycles_of_level,lev;
+
+  IsNewCycle:=function(C)
+    local i, l, cur_cycle, long_cycle;
+    l:=[2..Length(C)];
+    Add(l,1);
+    long_cycle:=PermList(l);
+
+    for cur_cycle in cycles do
+      if Intersection(cur_cycle,C)<>[] then
+#        if Length(C)<>Length(cur_cycle) then return fail; fi;
+#        for i in [0..Length(C)-1] do
+#          if cur_cycle=Permuted(C,long_cycle^i) then return false; fi;
+#        od;
+        Print("cycle1=",cur_cycle,"cycle2=",C,"\n");
+        return fail;
+      fi;
+    od;
+    return true;
+  end;
+
+#  Example:
+#  cycles = [[1,2,4],[3,5,6],[7]]
+#  cur_cycles = [1,3] (the first and the third cycles)
+#  cycle_order = [[2,3],[3],[]] (means 1->2->3,  1->3)
+
+  HasPolyGrowth:=function(v)
+    local i,v_next,is_new,C,ver;
+#    Print("v=",v,"\n");
+    Add(cur_path,v);
+    for i in [1..d] do
+      v_next:=aut_list[v][i];
+      if not (v_next in known_vertices or v_next=2*nstates+1) then
+        if v_next in cur_path then
+          C:=cur_path{[Position(cur_path,v_next)..Length(cur_path)]};
+          is_new:=IsNewCycle(C);
+          if is_new=fail then
+            return false;
+          else
+            Add(cycles,C);
+            Add(cycle_order,[]);
+            for ver in C do
+#              Print("next_cycles = ",next_cycles);
+              UniteSet(cycle_order[Length(cycles)],next_cycles[ver]);
+              cycle_of_vertex[ver]:=Length(cycles);
+              next_cycles[ver]:=[Length(cycles)];
+            od;
+          fi;
+        else
+          if not HasPolyGrowth(v_next) then
+            return false;
+          fi;
+          if cycle_of_vertex[v]=0 then
+            UniteSet(next_cycles[v],next_cycles[v_next]);
+          elif cycle_of_vertex[v]<>cycle_of_vertex[v_next] then
+            UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
+#           Print("v=",v,"; v_next=",v_next,"\n");
+#           Print("cycle_order (local) = ",cycle_order);
+          fi;
+        fi;
+      elif v_next in known_vertices then
+        if cycle_of_vertex[v]=0 then
+          UniteSet(next_cycles[v],next_cycles[v_next]);
+        elif cycle_of_vertex[v]=cycle_of_vertex[v_next] then
+          return false;
+        else
+          UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
+        fi;
+
+      fi;
+    od;
+    Remove(cur_path);
+    Add(known_vertices,v);
+    return true;
+  end;
+
+  nstates:=UnderlyingAutomFamily(G)!.numstates;
+  aut_list:=AutomatonList(G);
+  d:=UnderlyingAutomFamily(G)!.deg;
+  cycles:=[];
+  cycle_of_vertex:=List([1..nstates],x->0);  #if vertex i is in cycle j, then cycle_of_vertex[i]=j
+  next_cycles:=List([1..nstates],x->[]); #if vertex i is not in a cycle, next_cycles[i] stores the list of cycles, that can be reached immediately (with no cycles in between) from this vertex
+  known_vertices:=[];
+  cur_path:=[];
+  cycle_order:=[];
+
+  while Length(known_vertices)<nstates do
+    ver:=Difference([1..nstates],known_vertices)[1];
+    if not HasPolyGrowth(ver) then
+      SetIsGeneratedByBoundedAutomaton(G,false);
+      return false;
+    fi;
+  od;
+
+# Now we find the longest chain in the poset of cycles
+  cycles_of_level:=[[]];
+  for i in [1..Length(cycles)] do
+    if cycle_order[i]=[] then Add(cycles_of_level[1],i); fi;
+  od;
+
+  lev:=1;
+
+  while cycles_of_level[Length(cycles_of_level)]<>[] do
+    Add(cycles_of_level,[]);
+    for i in [1..Length(cycles)] do
+      if Intersection(cycles_of_level[lev],cycle_order[i])<>[] then
+        Add(cycles_of_level[lev+1],i);
+      fi;
+    od;
+    lev:=lev+1;
+  od;
+
+  if lev=2 then 
+    SetIsGeneratedByBoundedAutomaton(G,true);
+    SetIsAmenable(G,true);
+  fi;
+  SetPolynomialDegreeOfGrowthOfAutomaton(G,lev-2);
+#  Print("Cycles = ", cycles,"\n");
+#  Print("cycle_order = ", cycle_order,"\n");
+#  Print("next_cycles = ", next_cycles,"\n");
+  return true;
+end);
+
+
+################################################################################
+##
+#M IsGeneratedByBoundedAutomaton
+##
+##
+InstallMethod(IsGeneratedByBoundedAutomaton,"IsGeneratedByBoundedAutomaton(IsAutomatonGroup)",true,
+              [IsAutomatonGroup],
+function(G)
+  local res;
+  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
+  return IsGeneratedByBoundedAutomaton(G);
+end);
+
+
+################################################################################
+##
+#M PolynomialDegreeOfGrowthOfAutomaton
+##
+##
+InstallMethod(PolynomialDegreeOfGrowthOfAutomaton,"PolynomialDegreeOfGrowthOfAutomaton(IsAutomatonGroup)",true,
+              [IsAutomatonGroup],
+function(G)
+  local res;
+  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
+  if not res then
+    Info(InfoAutomata,"Error: the automaton generating <G> has exponenetial growth");
+    return fail;
+  fi;
+  return PolynomialDegreeOfGrowthOfAutomaton(G);
+end);
+
+
+################################################################################
+##
+#M IsAmenable
+##
+##
+InstallMethod(IsAmenable,"IsAmenable(IsAutomGroup)",true,
+              [IsAutomGroup],
+function(G)
+  if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(G)) then return true; fi;
+  if IsAutomatonGroup(G) and IsAbelian(StabilizerOfLevel(G,2)) then return true; fi;
+  TryNextMethod();
 end);
 
 #E

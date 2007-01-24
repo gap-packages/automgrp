@@ -181,13 +181,13 @@ function(G)
   gens := GeneratorsOfGroup(G);
   if gens = [] then Print("< >"); fi;
   if Length(gens) = 1 then
-    Print("< ", gens[1], " >\n");
+    Print("< ", gens[1], " >");
   else
     Print("< ", gens[1], ", \n");
     for i in [2..Length(gens)-1] do
       Print("  ", gens[i], ", \n");
     od;
-    Print("  ", gens[Length(gens)], " >\n");
+    Print("  ", gens[Length(gens)], " >");
   fi;
 end);
 

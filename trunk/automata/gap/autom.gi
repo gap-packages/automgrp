@@ -62,10 +62,10 @@ function(w, fam)
 
       for j in [1..Length(exp)] do
         newstate := fam!.automatonlist[exp[j]][i^perm];
+        if newstate > fam!.numstates then
+          newstate := -(newstate - fam!.numstates);
+        fi;
         if newstate <> fam!.trivstate then
-          if newstate > fam!.numstates then
-            newstate := -(newstate - fam!.numstates);
-          fi;
           if Length(wstates[i]) > 0 and wstates[i][Length(wstates[i])] = -newstate then
             Remove(wstates[i], Length(wstates[i]));
           else
@@ -74,35 +74,11 @@ function(w, fam)
         fi;
         perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
       od;
-
-
-#       for j in [1..Length(exp)] do
-#         newstate := fam!.automatonlist[exp[j]][i^perm];
-#         if newstate <> fam!.trivstate then
-#           Add(wstates[i], newstate);
-#         fi;
-#         perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
-#       od;
-#       for j in [1..Length(wstates[i])] do
-#         if wstates[i][j] > fam!.numstates then
-#           wstates[i][j] := -(wstates[i][j] - fam!.numstates); fi;
-#       od;
-#
-#       repeat
-#         reduced:=true;
-#         j:=1;
-#         while reduced  and j<Length(wstates[i]) do
-#           if wstates[i][j]=-wstates[i][j+1] then
-#             reduced:=false;
-#             wtmp:=ShallowCopy(wstates[i]{[1..j-1]});
-#             Append(wtmp,wstates[i]{[j+2..Length(wstates[i])]});
-#             wstates[i]:=wtmp;
-#           fi;
-#           j:=j+1;
-#         od;
-#       until reduced;
-
-      wstates[i] := AssocWordByLetterRep(FamilyObj(w), wstates[i]);
+      if Length(wstates[i]) > 0 then
+        wstates[i] := AssocWordByLetterRep(FamilyObj(w), wstates[i]);
+      else
+        wstates[i] := One(fam!.freegroup);
+      fi;
     od;
 
     a := Objectify(NewType(fam, IsAutom and IsAutomRep),

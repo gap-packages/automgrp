@@ -238,7 +238,7 @@ Dependencies := rec(
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
   # NeededOtherPackages := [["GAPDoc", ">= 0.99"]],
-  NeededOtherPackages := [],
+  NeededOtherPackages := [["FGA", ">= 1.1.0.1"]],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
   SuggestedOtherPackages := [],
@@ -250,7 +250,6 @@ Dependencies := rec(
   # 'AvailabilityTest' function below)
   # ExternalConditions := []
   ExternalConditions := []
-
 ),
 
 ##  Provide a test function for the availability of this package.

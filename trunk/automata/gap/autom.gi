@@ -62,10 +62,10 @@ function(w, fam)
 
       for j in [1..Length(exp)] do
         newstate := fam!.automatonlist[exp[j]][i^perm];
-        if newstate > fam!.numstates then
-          newstate := -(newstate - fam!.numstates);
-        fi;
         if newstate <> fam!.trivstate then
+          if newstate > fam!.numstates then
+            newstate := -(newstate - fam!.numstates);
+          fi;
           if Length(wstates[i]) > 0 and wstates[i][Length(wstates[i])] = -newstate then
             Remove(wstates[i], Length(wstates[i]));
           else

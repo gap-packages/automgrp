@@ -2650,7 +2650,7 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
     fi;
   od;
 
-  if func(One(G))=val then return One(g); fi;
+  if func(One(G))=val then return One(G); fi;
   for g in gens do
     if func(g)=val then return g; fi;
   od;
@@ -2973,8 +2973,8 @@ function(G)
             UniteSet(next_cycles[v],next_cycles[v_next]);
           elif cycle_of_vertex[v]<>cycle_of_vertex[v_next] then
             UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
-#           Print("v=",v,"; v_next=",v_next,"\n");
-#           Print("cycle_order (local) = ",cycle_order);
+            Info(InfoAutomata,5,"v=",v,"; v_next=",v_next,"\n");
+            Info(InfoAutomata,5,"cycle_order (local) = ",cycle_order);
           fi;
         fi;
       elif v_next in known_vertices then
@@ -3029,14 +3029,19 @@ function(G)
     lev:=lev+1;
   od;
 
-  if lev=2 then 
+  if lev=2 then
     SetIsGeneratedByBoundedAutomaton(G,true);
     SetIsAmenable(G,true);
+  elif lev=1 then
+    SetIsGeneratedByBoundedAutomaton(G,true);
+    SetIsFinite(G,true);
+  else
+    SetIsGeneratedByBoundedAutomaton(G,false);
   fi;
   SetPolynomialDegreeOfGrowthOfAutomaton(G,lev-2);
-#  Print("Cycles = ", cycles,"\n");
-#  Print("cycle_order = ", cycle_order,"\n");
-#  Print("next_cycles = ", next_cycles,"\n");
+  Info(InfoAutomata,5,"Cycles = ", cycles);
+  Info(InfoAutomata,5,"cycle_order = ", cycle_order);
+  Info(InfoAutomata,5,"next_cycles = ", next_cycles);
   return true;
 end);
 

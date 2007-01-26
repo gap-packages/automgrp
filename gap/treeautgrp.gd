@@ -98,4 +98,6 @@ KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, Ret
 #P  IsAmenable (<G>)
 ##
 DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
+InstallTrueMethod(IsAmenable, IsAbelian);
+InstallTrueMethod(IsAmenable, IsFinite);
 #E

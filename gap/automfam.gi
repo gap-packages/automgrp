@@ -195,7 +195,7 @@ function(list, names)
     Print("error in AutomFamily(IsList, IsList):\n  given list is not a correct list representing automaton\n");
     return fail;
   fi;
-  return AutomFamily(list, names, true);
+  return AutomFamily(list, names, AutomataParameters.bind_vars_autom_family);
 end);
 
 

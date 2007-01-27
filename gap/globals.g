@@ -23,7 +23,8 @@ BindGlobal ( "AutomataParameters", rec (
   bind_vars_autom_family := true,
   round_spectra := 7,
   scilab_stacksize := 100000000,
-  use_inv_order_in_apply_nielsen := true
+  use_inv_order_in_apply_nielsen := true,
+  run_tests_forever := false,
 ));
 
 

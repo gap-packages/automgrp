@@ -501,6 +501,22 @@ end);
 
 ################################################################################
 ##
+#F PermActionOnLevel            Given a permutation on <big_lev>-th level
+##of <deg>-ary tree computes a permutation on <sm_lev>-th level, sm_lev<=big_lev
+##
+InstallGlobalFunction(PermActionOnLevel,function(perm,big_lev,sm_lev,deg)
+  local l,i;
+  l:=[];
+  for i in [0..deg^sm_lev-1] do
+    Add(l,Int(((1+i*deg^(big_lev-sm_lev))^perm-1)/(deg^(big_lev-sm_lev)))+1);
+  od;
+  return PermList(l);
+end);
+
+
+
+################################################################################
+##
 #F WordActionOnLevel . . . . . . . . . . . . . . . . . . .Computes the action of
 ##                                              the given word on the n-th level
 
@@ -2664,9 +2680,11 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
       oldgr:=Length(ElList);
       for gen in gens do
         g:=ElList[i]*gen;
+#       Print("g=",g,"\n\n");
         New:=true;
         if len=1 then k:=1; else k:=GrList[len-1]; fi;
         while New and k<=oldgr do
+#          Print(g*ElList[k]^-1,"\n");
           if IsOne(g*ElList[k]^-1) then New:=false; fi;
           k:=k+1;
         od;
@@ -2682,6 +2700,67 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
   od;
   return fail;
 end);
+
+
+################################################################################
+##
+#F FindGroupElements              enumerates elements of the group of length at most n
+##          and returns the list of elements g, for which func(g)=val.
+##
+InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
+  local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
+
+  orig_gens:=ShallowCopy(GeneratorsOfSemigroup(G));
+  gens:=[];
+
+# select pairwise different generators
+  for i in [1..Length(orig_gens)] do
+    if IsOne(orig_gens[i]) then
+      new_gen:=false;
+    else
+      new_gen:=true;
+      for j in [1..i-1] do if orig_gens[i]=orig_gens[j] then new_gen:=false; fi; od;
+      if new_gen then Add(gens,orig_gens[i]); fi;
+    fi;
+  od;
+
+  if func(One(G))=val then Add(cur_els,One(G)); fi;
+  for g in gens do
+    if func(g)=val then Add(cur_els,g); fi;
+  od;
+
+  ElList:=[One(G)]; Append(ElList,ShallowCopy(gens));
+  GrList:=[1,Length(gens)+1];
+  cur_els:=[];
+  len:=1;
+
+  while len<n do
+    for i in [GrList[len]+1..GrList[len+1]] do
+      oldgr:=Length(ElList);
+      for gen in gens do
+        g:=ElList[i]*gen;
+        New:=true;
+        if len=1 then k:=1; else k:=GrList[len-1]; fi;
+        while New and k<=oldgr do
+          if IsOne(g*ElList[k]^-1) then New:=false; fi;
+          k:=k+1;
+        od;
+        if New then
+          if func(g)=val then 
+            Add(cur_els,g);
+            Print(g,"\n");
+          fi;
+          Add(ElList,g);
+        fi;
+      od;
+    od;
+    Add(GrList,Length(ElList));
+    Info(InfoAutomata,3,"Length not greater than ",len+1,": ",Length(ElList));
+    len:=len+1;
+  od;
+  return cur_els;
+end);
+
 
 
 ################################################################################

@@ -194,6 +194,13 @@ DeclareGlobalFunction("GeneratorActionOnLevel");
 
 ################################################################################
 ##
+#F PermActionOnLevel            Given a permutation on <big_lev>-th level
+##of <deg>-ary tree computes a permutation on <sm_lev>-th level, sm_lev<=big_lev
+##
+DeclareGlobalFunction("PermActionOnLevel");
+
+################################################################################
+##
 #F WordActionOnLevel . . . . . . . . . . . . . . . . . . .Computes the action of
 ##                                              the given word on the n-th level
 DeclareGlobalFunction("WordActionOnLevel");
@@ -405,6 +412,14 @@ DeclareGlobalFunction("SUSPICIOUS_FOR_NONCONTRACTION");
 ##          an element g of length at most n, for which func(g)=val. Returns g
 ##
 DeclareGlobalFunction("FindGroupElement");
+
+
+################################################################################
+##
+#F FindGroupElements              enumerates elements of the group of length at most n
+##          and returns the list of elements g, for which func(g)=val.
+##
+DeclareGlobalFunction("FindGroupElements");
 
 
 ################################################################################

@@ -797,48 +797,6 @@ function(a)
 end);
 
 
-###############################################################################
-##
-#M  <l1> * <l2>
-##
-InstallOtherMethod(\*, "", [IsList, IsList], 50,
-function(a1, a2)
-    local d, prod;
-    d := Length(a1) - 1;
-    prod := List([1..d], i -> a1[i] * a2[i^a1[d+1]]);
-    Add(prod, a1[d+1]*a2[d+1]);
-    return prod;
-end);
-
-
-###############################################################################
-##
-#M  InverseOp(<l>)
-##
-InstallOtherMethod(InverseOp, "", [IsList], 50,
-function(l)
-  local inv, d;
-  d := Length(l) - 1;
-  inv := List([1..d], i -> l[i^(l[d+1]^-1)]^-1);
-  Add(inv, l[d+1]^-1);
-  return inv;
-end);
-
-
-###############################################################################
-##
-#M  One(<l>)
-##
-InstallOtherMethod(OneOp, "", [IsList], 50,
-function(l)
-  local one, d;
-  d := Length(l) - 1;
-  one := List([1..d], i -> One(l[1]));
-  Add(one, ());
-  return one;
-end);
-
-
 #########################################################################
 ##
 #M IsContracting(<a>) . . . . . . . . . .

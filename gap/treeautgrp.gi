@@ -738,6 +738,10 @@ function(g, G)
     fi;
   od;
 
+  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then 
+    return true;
+  fi;
+
   TryNextMethod();
 end);
 

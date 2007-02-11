@@ -108,9 +108,10 @@ DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton,IsCyclotomic]);
 
 ################################################################################
 ##
-#F PrintOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
+#O PrintOrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
 ##                                   under the element w of self-similat group G
-DeclareGlobalFunction("PrintOrbitOfVertex");
+DeclareOperation("PrintOrbitOfVertex",[IsList,IsAutomaton]);
+DeclareOperation("PrintOrbitOfVertex",[IsList,IsAutomaton,IsCyclotomic]);
 
 
 ################################################################################
@@ -171,17 +172,22 @@ DeclareOperation("ORDER_OF_ELEMENT",[IsList,IsList,IsCyclotomic]);
 DeclareGlobalFunction("GeneratorActionOnVertex");
 
 
+
+
+
 ################################################################################
 ##
-#F NumberOfWord. . . . . . . . . . . . . . .Computes the number (1..d^Length(w))
+#F NumberOfVertex. . . . . . . . . . . . . . .Computes the number (1..d^Length(w))
 ##                                           of a given vertex w of a d-ary tree
-DeclareGlobalFunction("NumberOfWord");
+DeclareGlobalFunction("_NumberOfVertex");
+DeclareGlobalFunction("NumberOfVertex");
 
 
 ################################################################################
 ##
 #F VertexNumber. . . . . . . . . . . . . Constructs the vertex on the n-th level
 ##                                               of the d-ary tree with number k
+DeclareGlobalFunction("_VertexNumber");
 DeclareGlobalFunction("VertexNumber");
 
 

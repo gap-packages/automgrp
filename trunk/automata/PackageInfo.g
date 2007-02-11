@@ -20,7 +20,7 @@ Version := "0.91",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "01/01/2005",
+Date := "02/10/2007",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
@@ -137,7 +137,7 @@ Persons := [
 ##    "other"         for all other packages
 ##
 # Status := "accepted",
-#Status := "deposited",
+Status := "dev",
 
 ##  You must provide the next two entries if and only if the status is
 ##  "accepted" because is was successfully refereed:

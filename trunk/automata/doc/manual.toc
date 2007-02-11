@@ -1,0 +1,12 @@
+\contentsline {chapter}{\numberline {1}\leavevmode {\color {Chapter }Introduction}}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}\leavevmode {\color {Chapter }Mathematical Background}}{4}{section.1.1}
+\contentsline {section}{\numberline {1.2}\leavevmode {\color {Chapter }Notations and Agreements}}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}\leavevmode {\color {Chapter }Quick Example}}{4}{section.1.3}
+\contentsline {chapter}{\numberline {2}\leavevmode {\color {Chapter }Automata groups}}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}\leavevmode {\color {Chapter }Trees}}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\leavevmode {\color {Chapter }VertexNumber}}{5}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}\leavevmode {\color {Chapter }NumberOfVertex}}{5}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}\leavevmode {\color {Chapter }Tree Automorphisms}}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}\leavevmode {\color {Chapter }OrbitOfVertex}}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}\leavevmode {\color {Chapter }PrintOrbitOfVertex}}{6}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}\leavevmode {\color {Chapter }Contracting groups}}{7}{chapter.3}

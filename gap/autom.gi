@@ -818,4 +818,16 @@ function(a)
   if HAS_INFINITE_ORDER(a,10)=true then return infinity; fi;
   TryNextMethod();
 end);
+
+
+#########################################################################
+##
+#M IsTransitiveOnLevel(<a>,<lev>) . . . . . . . . . .
+##
+InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsAutom,IsPosInt)",
+              [IsAutom,IsPosInt],
+function(a,lev)
+  return Length(OrbitPerms([PermOnLevel(a,lev)],1))=a!.deg^lev;
+end);
+
 #E

@@ -1809,7 +1809,18 @@ end);
 ##  that all sections of <a> at this level belong to the nucleus of $G$.
 ##
 ##  \beginexample
-##
+##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
+##  < a, b >
+##  gap> AutomPortrait(a^3*b^-2*a);
+##  [ (), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ (), [ (), [ b ], [ a^-1*b ] ], [ b^-1 ] ] ]
+##  gap> AutomPortrait(a^3*b^-2*a^3);
+##  [ (), [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ b ] ], [ e ] ],
+##    [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ a^-1*b ] ], [ b^-1 ] ] ]
+##  gap> AutomPortraitBoundary(a^3*b^-2*a^3);
+##  [ 2, [ [ 5, b ], [ 5, b ], [ 4, e ], [ 3, b ], [ 2, e ], [ 5, b ], [ 5, b ], [ 4, e ], [ 3, a^-1*b ],
+##        [ 2, b^-1 ] ] ]
+##  gap> AutomPortraitDepth(a^3*b^-2*a^3);
+##  5
 ##  \endexample
 ##
 InstallGlobalFunction(_AutomPortraitMain,function(w)
@@ -1872,36 +1883,40 @@ end);
 
 
 
+asdasd
+asdasdfasdf
+asdasdf
+
 
 ################################################################################
 ##
 #F WritePortraitToFile. . . . . . . . . . .Writes portrait in a file in the form
 ##                                                       understandable by Maple
 
-InstallGlobalFunction(WritePortraitToFile,function(p,file,add)
-  local WritePerm,l;
-
-  WritePerm:=function(perm)
-    local j;
-    AppendTo(file,"[ ");
-    if Length(perm)>0 then
-      AppendTo(file,"`",perm[1],"`");
-      for j in [2..Length(perm)] do
-        AppendTo(file,", ");
-        WritePerm(perm[j]);
-      od;
-    fi;
-    AppendTo(file," ]");
-  end;
-
-
-  l:=[p[1],List(p[2],x->[x[1],x[2]!.word])];
-  if add then AppendTo(file,"[ ",l[1],", ");
-    else PrintTo(file,"[ ",l[2],", ");
-  fi;
-  WritePerm(p[3]);
-  AppendTo(file, " ]");
-end);
+# InstallGlobalFunction(WritePortraitToFile,function(p,file,add)
+#   local WritePerm,l;
+# 
+#   WritePerm:=function(perm)
+#     local j;
+#     AppendTo(file,"[ ");
+#     if Length(perm)>0 then
+#       AppendTo(file,"`",perm[1],"`");
+#       for j in [2..Length(perm)] do
+#         AppendTo(file,", ");
+#         WritePerm(perm[j]);
+#       od;
+#     fi;
+#     AppendTo(file," ]");
+#   end;
+#
+#
+#   l:=[p[1],List(p[2],x->[x[1],x[2]!.word])];
+#   if add then AppendTo(file,"[ ",l[1],", ");
+#     else PrintTo(file,"[ ",l[2],", ");
+#   fi;
+#   WritePerm(p[3]);
+#   AppendTo(file, " ]");
+# end);
 
 
 ################################################################################
@@ -1909,43 +1924,25 @@ end);
 #F WritePortraitsToFile. . . . . . . . . . . . .Writes portraitso of elements of
 ##                          a list in a file in the form understandable by Maple
 
-InstallGlobalFunction(WritePortraitsToFile,function(lst,G,file,add)
-  local WritePerm,i,p;
-
-  if add then AppendTo(file,"[ ");
-    else PrintTo(file,"[ ");
-  fi;
-
-  for i in [1..Length(lst)] do
-    if i=1 then
-        AppendTo(file,"[ ",lst[i],", ");
-    else
-        AppendTo(file,", [ ",lst[i],", ");
-    fi;
-    p:=AutomPortrait(lst[i],G);
-    WritePortraitToFile(p,file,true);
-    AppendTo(file,"]");
-
-  od;
-end);
-
-
-################################################################################
-##
-#F PortraitsOfWordPowers. . . . . . Finds the sequence of portrait boundaries of
-##                                          word's powers in a contracting group
-
-InstallGlobalFunction(PortraitsOfWordPowers,function(w,G)
-  local list,d,v;
-  v:=StructuralCopy(w);
-  d:=Length(G[1])-1;
-  list:=[StructuralCopy(w),AutomPortrait(v,G)];
-  while list[Length(list)]<>[[d,[0,1]],[]] do
-    Append(v,w);
-    Add(list, AutomPortrait(v,G));
-  od;
-  return list;
-end);
+# InstallGlobalFunction(WritePortraitsToFile,function(lst,G,file,add)
+#   local WritePerm,i,p;
+#
+#   if add then AppendTo(file,"[ ");
+#     else PrintTo(file,"[ ");
+#   fi;
+#
+#   for i in [1..Length(lst)] do
+#     if i=1 then
+#         AppendTo(file,"[ ",lst[i],", ");
+#     else
+#         AppendTo(file,", [ ",lst[i],", ");
+#     fi;
+#     p:=AutomPortrait(lst[i],G);
+#     WritePortraitToFile(p,file,true);
+#     AppendTo(file,"]");
+#
+#   od;
+# end);
 
 
 ################################################################################

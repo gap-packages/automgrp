@@ -815,7 +815,12 @@ end);
 InstallOtherMethod(Order, "Order(IsAutom)", true,
               [IsAutom],
 function(a)
-  if HAS_INFINITE_ORDER(a,10)=true then return infinity; fi;
+  local ord_loc;
+  if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
+    return ORDER_USING_SECTIONS(a,infinity);
+  fi;
+  ord_loc:=ORDER_USING_SECTIONS(a,10);
+  if ord_loc<>fail then return ord_loc; fi;
   TryNextMethod();
 end);
 

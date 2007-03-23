@@ -160,294 +160,208 @@ end);
 ##
 #F  ParseAutomatonString(<str>)
 ##
-InstallGlobalFunction("ParseAutomatonString",
-function(string)
-  local parse_states, strstates, states, ids, nstates, need_trivial,
-        alph, s, p, i, j, perm;
+__FA_split_states := function(str)
+  local states, s, c, i, parens;
 
-  parse_states := function (string)
-    local strip, tokenize, isspace, isseparator,
-          aux, input, tokens, c, i, remove_punct, split, pointer,
-          state, states, is_identifier, is_number, perm;
-
-    isspace := function (c)
-      return c in " \r\n\t";
-    end;
-
-    isseparator := function (c)
-      return isspace(c) or c in ",;";
-    end;
-
-    strip := function (string)
-      local add, c, i, result;
-
-      result := "";
-
-      for c in string do
-        if not isspace (c) then add := true;
-        elif IsEmpty (result) then add := false;
-        elif isseparator (result[Length (result)]) then add := false;
-        else add := true;
-        fi;
-
-        if add then Add (result, c); fi;
-      od;
-
-      if IsEmpty (result) then return result; fi;
-      i := Length (result) + 1;
-      while isspace (result[i - 1]) do
-        i := i - 1;
-      od;
-      result := result{[1..i-1]};
-      if IsEmpty (result) then return result; fi;
-
-      string := ShallowCopy (result);
-      result := "";
-      for i in [1..Length (string)] do
-        if not isspace (string[i]) then add := true;
-        elif IsEmpty (result) then add := false;
-        elif isseparator (result[Length (result)]) then add := false;
-        elif i < Length (string) and isseparator (string[i+1]) then add := false;
-        else add := true;
-        fi;
-
-        if add then Add (result, string[i]); fi;
-      od;
-
-      return result;
-    end;
-
-    remove_punct := function (string)
-      local result, c;
-      result := "";
-      for c in string do
-        if isseparator (c) then
-          Add (result, ' ');
-        else
-          Add (result, c);
-        fi;
-      od;
-      return result;
-    end;
-
-    split := function (string)
-      local result, s, i, len, split_braces;
-      result := [];
-      len := Length (string);
-
-      if len = 0 then
-        return result;
-      fi;
-
-      split_braces := function (string)
-        local result, s, i, len;
-
-        result := [];
-        len := Length (string);
-        i := 1;
-        while i <= len do
-          s := "";
-          if string[i] in "()=" then
-            s := [string[i]];
-            i := i + 1;
-          else
-            while i <= len and not string[i] in "()=" do
-              Add (s, string[i]);
-              i := i + 1;
-            od;
-          fi;
-          if Length (s) > 0 then
-            Add (result, s);
-          fi;
-        od;
-
-        return result;
-      end;
-
-      i := 1;
-      while true do
-          while i <= len and isspace (string[i]) do
-              i := i + 1;
-          od;
-          if i > len then break; fi;
-          s := "";
-          while i <= len and not isspace (string[i]) do
-              Add (s, string[i]);
-              i := i + 1;
-          od;
-          if Length (s) > 0 then
-              Append (result, split_braces (s));
-          else
-              break;
-          fi;
-      od;
-
-      return result;
-    end;
-
-    is_identifier := function (string)
-      local c;
-
-      if IsEmpty (string) then
-        return false;
-      fi;
-
-      if not IsAlphaChar(string[1]) and string[1] <> '_' then
-        return false;
-      fi;
-
-      for c in string do
-        if not IsAlphaChar(c) and not IsDigitChar(c) and string[1] <> '_' then
-          return false;
-        fi;
-      od;
-
-      return true;
-    end;
-
-    is_number := function (string)
-        local c;
-        if IsEmpty (string) then return false; fi;
-        for c in string do
-            if not IsDigitChar(c) then
-                return false;
-            fi;
-        od;
-        return true;
-    end;
-
-    string := remove_punct (string);
-    string := strip (string);
-    tokens := split (string);
-
-    pointer := 1;
-    states := [];
-
-    while pointer <= Length (tokens) do
-      state := [];
-      Add (states, state);
-
-      if not is_identifier (tokens[pointer]) then
-          Error ("expected identifier, got ", tokens[pointer]);
-      else
-          Add (state, tokens[pointer]);
-          Add (state, []);
-          pointer := pointer + 1;
-      fi;
-
-      if pointer > Length (tokens) then break; fi;
-      if tokens[pointer] <> "=" then
-          Error ("expected '=', got ", tokens[pointer]);
-      else
-          pointer := pointer + 1;
-      fi;
-      if tokens[pointer] <> "(" then
-          Error ("expected '(', got ", tokens[pointer]);
-      else
-          pointer := pointer + 1;
-      fi;
-
-      while pointer <= Length (tokens) do
-          if is_identifier (tokens[pointer]) or tokens[pointer] = "1" then
-              Add (state[2], tokens[pointer]);
-          elif tokens[pointer] = ")" then
-              pointer := pointer + 1;
-              break;
-          else
-              Error ("expected state identifier or ')', got ", tokens[pointer]);
-          fi;
-          pointer := pointer + 1;
-      od;
-
-      if pointer > Length (tokens) then break; fi;
-      if tokens[pointer] = "(" then
-          pointer := pointer + 1;
-          perm := [];
-          while pointer <= Length (tokens) do
-              if is_number (tokens[pointer]) then
-                  Add (perm, tokens[pointer]);
-              elif tokens[pointer] = ")" then
-                  pointer := pointer + 1;
-                  break;
-              else
-                  Error ("expected number or ')', got ", tokens[pointer]);
-              fi;
-              pointer := pointer + 1;
-          od;
-          Add (state, perm);
-      fi;
-    od;
-
-    return states;
-  end;
-
-  strstates := parse_states (string);
-  ids := List (strstates, i->i[1]);
-  if Length (ids) <> Length (strstates) then
-    Error ();
-  fi;
-
-  alph := Length (strstates[1][2]);
-  if alph = 0 then
-    Error ();
-  fi;
-  for s in strstates do
-    if Length (s[2]) <> alph then
-      Error ("number of states in ", s, " is different from the first state");
-    fi;
-  od;
-
-  for s in strstates do
-    if not IsBound (s[3]) then s[3] := (); fi;
-    perm := s[3];
-    if not IsPerm (perm) then
-      if IsList (perm) and IsEmpty (perm) then
-        perm := ();
-      elif IsList (perm) then
-        p := "(";
-        for i in [1..Length(perm)] do
-          if i <> 1 then Append (p, ", "); fi;
-          Append (p, perm[i]);
-        od;
-        Append (p, ")");
-        perm := EvalString (p);
-      else
-        Error ("could not parse permutation '", perm, "'");
-      fi;
-    fi;
-    if not perm in SymmetricGroup (alph) then
-      Error ("permutation ", perm, " is not in Sym(", alph, ")");
-    fi;
-    s[3] := perm;
-  od;
-
-  nstates := Length (ids);
-  need_trivial := false;
   states := [];
+  parens := 0;
+  s := "";
 
-  for i in [1..nstates] do
-    states[i] := [];
-    states[i][alph + 1] := strstates[i][3];
-    for j in [1..alph] do
-      s := strstates[i][2][j];
-      if IsEmpty (s) or s = "1" or (s = "e" and not s in ids) then
-        s := nstates + 1; need_trivial := true;
-      elif s in ids then
-        s := Position (ids, s);
-      else
-        Error ("unknown state '", s, "' in ", strstates[i]);
+  for i in [1..Length(str)] do
+    c := str[i];
+    if c = '(' then
+      parens := parens + 1;
+      Add(s, c);
+    elif c = ')' then
+      if parens = 0 then
+        Error("Unmatched parenthesis: ", str{[i..Length(str)]});
       fi;
-      states[i][j] := s;
-    od;
+      parens := parens - 1;
+      Add(s, c);
+    elif c = ',' and parens = 0 then
+      NormalizeWhitespace(s);
+      Add(states, s);
+      s := "";
+    else
+      Add(s, c);
+    fi;
   od;
 
-  if need_trivial then
-    states[nstates + 1] := List([1..alph], i -> nstates + 1);
-    states[nstates + 1][alph + 1] := ();
-    ids[nstates + 1] := "";
+  Add(states, s);
+
+  return states;
+end;
+
+__FA_split_perms := function(str)
+  local s, perms, elms, cl, op;
+
+  s := 0;
+  perms := [];
+
+  while s < Length(str) do
+    op := Position(str, '(', s);
+    if op = fail then
+      Error("Invalid state string '", str, "'");
+    fi;
+    cl := Position(str, ')', op);
+    if cl = fail then
+      Error("Invalid state string '", str, "'");
+    fi;
+    elms := SplitString(str{[op+1 .. cl-1]}, ",");
+    Perform(elms, NormalizeWhitespace);
+    Add(perms, elms);
+    s := cl;
+  od;
+
+  return perms;
+end;
+
+__FA_is_permutation := function(list)
+  local s, d, one;
+  one := true;
+  for s in list do
+    d := Int(s);
+    if d = fail or d < 0 then
+      return false;
+    elif d > 1 then
+      one := false;
+    fi;
+  od;
+  return not one;
+end;
+
+__FA_make_states := function(list, str)
+  local states, s;
+
+  states := [];
+  for s in list do
+    if IsEmpty(s) or s = "1" then
+      Add(states, 1);
+    else
+      if (not IsAlphaChar(s[1]) and s[1] <> '_') or
+         PositionProperty(s, c -> not IsAlphaChar(c) and not IsDigitChar(c) and c <> '_') <> fail
+      then
+        Error("Invalid state name '", s, "' in '", str, "'");
+      fi;
+      Add(states, s);
+    fi;
+  od;
+
+  return states;
+end;
+
+__FA_make_permutation := function(list)
+  local indices, s, d;
+
+  indices := [];
+  for s in list do
+    d := Int(s);
+    if d = fail then
+      return fail;
+    fi;
+    Add(indices, d);
+  od;
+
+  if Length(indices) < 2 then
+    return ();
+  else
+    return MappingPermListList(indices,
+                               Concatenation(indices{[2..Length(indices)]},
+                                             [indices[1]]));
+  fi;
+end;
+
+__FA_parse_state := function(str)
+  local id_and_def, id, def,
+        states, perm, i, p;
+
+  id_and_def := SplitString(str, "=");
+  Perform(id_and_def, NormalizeWhitespace);
+
+  if Length(id_and_def) <> 2 or not IsEmpty(Filtered(id_and_def, IsEmpty)) then
+    Error("Invalid state '", str, "'");
   fi;
 
-  return [ids, states];
+  id := id_and_def[1];
+  def := __FA_split_perms(id_and_def[2]);
+
+  if IsEmpty(def) then
+    Error("Invalid state '", str, "'");
+  fi;
+
+  states := [];
+  perm := ();
+
+  for i in [1..Length(def)] do
+    if i = 1 and not __FA_is_permutation(def[i]) then
+      states := __FA_make_states(def[i], str);
+    else
+      p := __FA_make_permutation(def[i]);
+      if states = fail then
+        Error("Invalid permutation ", def[i], " in '", str, "'");
+      fi;
+      perm := perm * p;
+    fi;
+  od;
+
+  return [id, states, perm];
+end;
+
+InstallGlobalFunction("ParseAutomatonString",
+function(str)
+  local states, aut_list, aut_states, need_one, alph, i, j, s;
+
+  states := __FA_split_states(str);
+  Apply(states, __FA_parse_state);
+#   Display(states);
+
+  need_one := false;
+  aut_states := [];
+  alph := Maximum(List(states, s -> LargestMovedPointPerm(s[3])));
+
+  for s in states do
+    if s[1] in aut_states then
+      Error("Duplicate state name '", s[1], "' in '", str, "'");
+    fi;
+    Add(aut_states, s[1]);
+    if Position(s[2], 1) <> fail then
+      need_one := true;
+    fi;
+    if Length(s[2]) < alph then
+      need_one := true;
+    else
+      alph := Length(s[2]);
+    fi;
+  od;
+
+  if need_one then
+    Add(aut_states, 1);
+  fi;
+
+  aut_list := [];
+
+  for i in [1..Length(states)] do
+    Add(aut_list, []);
+    for j in [1..Length(states[i][2])] do
+      if not states[i][2][j] in aut_states then
+        Error("Unknown state name '", states[i][2][j], "' in '", str, "'");
+      fi;
+      aut_list[i][j] := Position(aut_states, states[i][2][j]);
+    od;
+    if Length(aut_list[i]) < alph then
+      Append(aut_list[i], List([1..(alph - Length(aut_list[i]))],
+                               i -> Position(aut_states, 1)));
+    fi;
+    Add(aut_list[i], states[i][3]);
+  od;
+
+  if need_one then
+    s := List([1..alph], i -> Length(aut_states));
+    Add(s, ());
+    Add(aut_list, s);
+  fi;
+
+  return [aut_states, aut_list];
 end);
 
 

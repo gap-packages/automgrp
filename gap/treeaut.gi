@@ -160,8 +160,27 @@ end);
 InstallMethod(PermOnLevelOp, "method for IsTreeAutomorphism and IsPosInt",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
-  if k = 1 then return Perm(a); fi;
-  Error("implement me: PermOnLevelOp(IsTreeAutomorphism, IsPosInt)");
+  local top, first_level, i, j, d1, d2, permuted;
+
+  if k = 1 then
+    return Perm(a);
+  fi;
+
+  # XXX test this function
+
+  # TODO: it goes through all vertices of the second level, it may be
+  # unnecessary for sparse actions
+  d1 := a!.deg;
+  d2 := TopDegreeOfTree(a!.states[1]);
+  top := Perm(a);
+  first_level := List(a!.states, s -> PermOnLevel(s, k-1));
+  permuted := [];
+  for i in [1..d1] do
+    for j in [1..d2] do
+      permuted[d2*(i-1) + j] := d2*(i^top - 1) + j^first_level[i];
+    od;
+  od;
+  return PermList(permuted);
 end);
 
 

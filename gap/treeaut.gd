@@ -50,8 +50,9 @@ KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 
 ###############################################################################
 ##
-#C  State(<a>, <k>)
-#C  State(<a>, <vertex>)
+#O  State(<a>, <k>)
+#O  State(<a>, <vertex>)
+#O  States(<a>)
 ##
 ##  This is the 'state' or 'projection' of given automorphism in given vertex.
 ##  <vertex> is a list representing vertex;
@@ -59,6 +60,14 @@ KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 ##  tree is taken.
 ##
 DeclareOperation("State", [IsTreeAutomorphism, IsList]);
+DeclareOperation("States", [IsTreeAutomorphism]);
+
+
+###############################################################################
+##
+#O  Expand(<a>, <k>)
+##
+DeclareOperation("Expand", [IsTreeAutomorphism, IsPosInt]);
 
 
 ###############################################################################

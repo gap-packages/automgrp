@@ -30,4 +30,8 @@ ReadPkg("automata", "gap/selfs.gi");
 #ReadPkg("automata", "gap/autom32.g");
 
 
+if Filename(DirectoriesLibrary("pkg/automata/gap"), "data.g") <> fail then
+  ReadPkg("automata", "gap/data.g");
+fi;
+
 #E

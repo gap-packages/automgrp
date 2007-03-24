@@ -151,7 +151,10 @@ function(arg)
     Add(args, function(arg) return arg; end);
     return CallFuncList(ListX, args);
   else
-    Error("in TreeLevelTuples\n  usage: TreeLevelTuples([n_1, n_2, ..., n_k])\n         TreeLevelTuples(<spher_ind>, k)\n         TreeLevelTuples(start, period, k)\n");
+    Error("in TreeLevelTuples\n",
+          "  usage: TreeLevelTuples([n_1, n_2, ..., n_k])\n",
+          "         TreeLevelTuples(<spher_ind>, k)\n",
+          "         TreeLevelTuples(start, period, k)\n");
   fi;
 end);
 

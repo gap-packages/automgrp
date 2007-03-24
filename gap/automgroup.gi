@@ -222,7 +222,7 @@ end);
 ##
 #M  MihaylovSystem(G)
 ##
-## TODO
+## TODO XXX it's broken, test it
 InstallMethod(MihaylovSystem, "MihaylovSystem(IsAutomGroup)", [IsAutomGroup],
 function (G)
   local gens, mih, mih_gens, i;
@@ -344,7 +344,7 @@ end);
 ##  stabilizers are different. If <max_lev> is given it finds only first <max_lev>
 ##  quotients by stabilizers and if all of them have different size returns 'fail'.
 ##  If <G> is infinite and <max_lev> is not specified will loop forever.
-##  
+##
 ##  See also "IsomorphismPermGroup".
 ##  \beginexample
 ##  gap> H:=AutomGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");

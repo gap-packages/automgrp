@@ -81,6 +81,18 @@ end);
 
 ###############################################################################
 ##
+#M  TreeAutomorphism(<state_1>, <state_2>, ..., <state_n>, <perm>)
+##
+InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsPerm],
+  function(a1, a2, perm) return TreeAutomorphism([a1, a2], perm); end);
+InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsAutomaton, IsPerm],
+  function(a1, a2, a3, perm) return TreeAutomorphism([a1, a2, a3], perm); end);
+InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsAutomaton, IsAutomaton, IsPerm],
+  function(a1, a2, a3, a4, perm) return TreeAutomorphism([a1, a2, a3, a4], perm); end);
+
+
+###############################################################################
+##
 #M  ViewObj(<a>)
 ##
 InstallMethod(ViewObj, [IsTreeAutomorphism],
@@ -171,7 +183,10 @@ function(a, k)
   # TODO: it goes through all vertices of the second level, it may be
   # unnecessary for sparse actions
   d1 := a!.deg;
-  d2 := TopDegreeOfTree(a!.states[1]);
+  d2 := 1;
+  for i in [1 .. k-1] do
+    d2 := d2 * DegreeOfLevel(a, i);
+  od;
   top := Perm(a);
   first_level := List(a!.states, s -> PermOnLevel(s, k-1));
   permuted := [];

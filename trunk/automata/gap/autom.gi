@@ -484,6 +484,16 @@ end);
 
 ###############################################################################
 ##
+#M  States(a)
+##
+InstallMethod(States, "States(IsAutom)", [IsAutom],
+function(a)
+  return List(a!.states, s -> Autom(s, a));
+end);
+
+
+###############################################################################
+##
 #M  State(a, k)
 ##
 InstallOtherMethod(State, "State(IsAutom, IsPosInt)", [IsAutom, IsPosInt],

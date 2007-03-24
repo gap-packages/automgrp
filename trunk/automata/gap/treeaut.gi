@@ -184,7 +184,7 @@ function(a, k)
   # unnecessary for sparse actions
   d1 := a!.deg;
   d2 := 1;
-  for i in [1 .. k-1] do
+  for i in [2 .. k] do
     d2 := d2 * DegreeOfLevel(a, i);
   od;
   top := Perm(a);
@@ -393,6 +393,45 @@ InstallMethod(State, [IsTreeAutomorphism, IsList],
 function(a, v)
   if Length(v) = 1 then return State(a, v[1]);
   else return State(State(a, v[1]), v{[2..Length(v)]});
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  States(<a>)
+##
+InstallMethod(States, [IsTreeAutomorphism and IsTreeAutomorphismRep],
+function(a)
+  return a!.states;
+end);
+
+
+###############################################################################
+##
+#M  States(a, k)
+##
+InstallOtherMethod(States, "States(IsTreeAutomorphism, IsPosInt)",
+                   [IsTreeAutomorphism, IsPosInt],
+function(a, level)
+  if level = 1 then
+    return States(a);
+  else
+    return Concatenation(List(States(a), s -> States(s, level-1)));
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  Expand(<a>, <k>)
+##
+InstallMethod(Expand, [IsTreeAutomorphism, IsPosInt],
+function(a, level)
+  if level = 1 then
+    return a;
+  else
+    return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
   fi;
 end);
 

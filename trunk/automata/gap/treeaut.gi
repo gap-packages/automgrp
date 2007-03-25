@@ -620,6 +620,16 @@ end);
 
 ###############################################################################
 ##
+#M  \[\](<a1>, <a2>)
+##
+InstallOtherMethod(\[\], [IsTreeAutomorphism, IsPosInt],
+function(a, k)
+  return State(a, k);
+end);
+
+
+###############################################################################
+##
 #M  InverseOp(<a>)
 ##
 InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism and IsTreeAutomorphismRep)",

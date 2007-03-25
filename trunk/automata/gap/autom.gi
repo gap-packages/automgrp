@@ -127,22 +127,27 @@ end);
 InstallMethod(PrintObj, "method for IsAutom",
               [IsAutom],
 function (a)
-    local deg, printword, i;
+  local deg, printword, i;
 
-    printword := function(w)
-        if IsOne(w) then Print(AutomataParameters.identity_symbol);
-        else Print(w); fi;
-    end;
+  printword := function(w)
+    if IsOne(w) then Print(AutomataParameters.identity_symbol);
+    else Print(w); fi;
+  end;
 
-    deg := a!.deg;
-    printword(a!.word);
-    Print(" = (");
-    for i in [1..deg] do
-        printword(a!.states[i]);
-        if i <> deg then Print(", "); fi;
-    od;
-    Print(")");
-    if not IsOne(a!.perm) then Print(a!.perm); fi;
+  if true then
+    View(a);
+    return;
+  fi;
+
+  deg := a!.deg;
+  printword(a!.word);
+  Print(" = (");
+  for i in [1..deg] do
+    printword(a!.states[i]);
+    if i <> deg then Print(", "); fi;
+  od;
+  Print(")");
+  if not IsOne(a!.perm) then Print(a!.perm); fi;
 end);
 
 

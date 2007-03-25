@@ -1071,7 +1071,7 @@ end);
 ##  'NucleusIncludingGeneratingSet(<G>)' (see "NucleusIncludingGeneratingSet") computes the
 ##  $k\times k$ table, whose '[i][j]'-th entry contains decomposition of 'N[i]*N[j]' on
 ##  the 'ContractingLevel(<G>)' level. By construction the sections of 'N[i]*N[j]' on this level
-##  belong to 'N'. This table is used in the algorithm solving the word problem in polynomial 
+##  belong to 'N'. This table is used in the algorithm solving the word problem in polynomial
 ##  time.
 ##
 ##  In case if it is not known whether <G> is contracting it first tries to compute
@@ -1889,7 +1889,7 @@ end);
 
 # InstallGlobalFunction(WritePortraitToFile,function(p,file,add)
 #   local WritePerm,l;
-# 
+#
 #   WritePerm:=function(perm)
 #     local j;
 #     AppendTo(file,"[ ");
@@ -3676,7 +3676,7 @@ function(G)
 #        for i in [0..Length(C)-1] do
 #          if cur_cycle=Permuted(C,long_cycle^i) then return false; fi;
 #        od;
-        Print("cycle1=",cur_cycle,"cycle2=",C,"\n");
+        Info(InfoAutomata,5,"cycle1=",cur_cycle,"cycle2=",C,"\n");
         return fail;
       fi;
     od;

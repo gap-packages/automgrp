@@ -31,7 +31,6 @@ DeclareRepresentation("IsTreeAutomorphismFamilyRep",
 #V  CreatedTreeAutomorphismFamilies
 ##
 BindGlobal("CreatedTreeAutomorphismFamilies", []);
-MakeReadWriteGlobal("CreatedTreeAutomorphismFamilies");
 
 
 ###############################################################################
@@ -66,7 +65,7 @@ function(list_states, permutation)
   local top_deg, bot_deg, ind, fam;
   top_deg := Length(list_states);
   if not IsOne(permutation) and
-      top_deg < Maximum(MovedPointsPerms([permutation])) then
+      top_deg < Maximum(MovedPoints(permutation)) then
     Error();
   fi;
   bot_deg := DegreeOfTree(list_states[1]);
@@ -81,14 +80,54 @@ end);
 
 ###############################################################################
 ##
+#M  TreeAutomorphism(<states_list>, <perm>)
+##
+InstallMethod(TreeAutomorphism, [IsList, IsPerm],
+function(states, perm)
+  local autom, nstates, s;
+
+  autom := fail;
+
+  for s in states do
+    if IsTreeAutomorphism(s) then
+      autom := s;
+      break;
+    elif not IsOne(s) then
+      Error("Invalid state `", s, "'");
+    fi;
+  od;
+
+  if autom = fail then
+    Error("Can't create an automaton with all trivial states ",
+          "without information about the tree");
+  fi;
+
+  nstates := List(states, function(s)
+                            if IsOne(s) then
+                              return One(autom);
+                            else
+                              return s;
+                            fi;
+                          end);
+
+  return TreeAutomorphism(nstates, perm);
+end);
+
+
+###############################################################################
+##
 #M  TreeAutomorphism(<state_1>, <state_2>, ..., <state_n>, <perm>)
 ##
-InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsPerm],
+InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsPerm],
   function(a1, a2, perm) return TreeAutomorphism([a1, a2], perm); end);
-InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsAutomaton, IsPerm],
+InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, perm) return TreeAutomorphism([a1, a2, a3], perm); end);
-InstallOtherMethod(TreeAutomorphism, [IsAutomaton, IsAutomaton, IsAutomaton, IsAutomaton, IsPerm],
+InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, a4, perm) return TreeAutomorphism([a1, a2, a3, a4], perm); end);
+InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
+  function(a1, a2, a3, a4, a5, perm) return TreeAutomorphism([a1, a2, a3, a4, a5], perm); end);
+InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
+  function(a1, a2, a3, a4, a5, a6, perm) return TreeAutomorphism([a1, a2, a3, a4, a5, a6], perm); end);
 
 
 ###############################################################################
@@ -172,7 +211,7 @@ end);
 InstallMethod(PermOnLevelOp, "method for IsTreeAutomorphism and IsPosInt",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
-  local top, first_level, i, j, d1, d2, permuted;
+  local states, top, first_level, i, j, d1, d2, permuted;
 
   if k = 1 then
     return Perm(a);
@@ -187,8 +226,9 @@ function(a, k)
   for i in [2 .. k] do
     d2 := d2 * DegreeOfLevel(a, i);
   od;
+  states := States(a);
   top := Perm(a);
-  first_level := List(a!.states, s -> PermOnLevel(s, k-1));
+  first_level := List(states, s -> PermOnLevel(s, k-1));
   permuted := [];
   for i in [1..d1] do
     for j in [1..d2] do
@@ -341,36 +381,49 @@ end);
 ##
 #M  Order(<a>)
 ##
+__FA_perm_exponent := function(perm)
+  local cycles;
+  cycles := CycleStructurePerm(perm);
+  return Product(List([1..Length(cycles)],
+                      function(i)
+                        if IsBound(cycles[i]) then
+                          return i+1;
+                        else
+                          return 1;
+                        fi;
+                      end));
+end;
+
 InstallMethod(Order, "Order(IsTreeAutomorphism)", [IsTreeAutomorphism],
 function(a)
-  local pow, ord;
+  local i, perm, stab, stab_order, ord, exp, states;
 
-  if IsOne(a) then
-    return 1;
+  perm := Perm(a);
+  if IsOne(perm) then
+    exp := 1;
+    stab := a;
+  else
+    exp := Order(perm);
+    stab := a^exp;
   fi;
 
-  if CanEasilyTestSphericalTransitivity(a) and
-     IsSphericallyTransitive(a)
-  then
-    return infinity;
+  if IsOne(stab) then
+    return exp;
   fi;
 
-  if IsActingOnBinaryTree(a) then
-    ord := 2;
-    pow := a^2;
-    while true do
-      if IsOne(pow) then
-        return ord;
-      else
-        ord := ord * 2;
-        pow := pow^2;
-      fi;
-    od;
-  fi;
+  states := States(stab);
+  stab_order := 1;
 
-  # TODO: do the same for other trees
+  for i in [1..Length(states)] do
+    ord := Order(states[i]);
+    if ord = infinity then
+      return infinity;
+    else
+      stab_order := Lcm(stab_order, ord);
+    fi;
+  od;
 
-  TryNextMethod();
+  return exp * stab_order;
 end);
 
 
@@ -378,9 +431,13 @@ end);
 ##
 #M  State(<a>, <k>)
 ##
+InstallOtherMethod(State, [IsTreeAutomorphism, IsPosInt],
+function(a, k)
+  return States(a)[k];
+end);
+
 InstallOtherMethod(State, [IsTreeAutomorphism and IsTreeAutomorphismRep, IsPosInt],
 function(a, k)
-  if k > a!.deg then Error(); fi;
   return a!.states[k];
 end);
 
@@ -494,12 +551,7 @@ end);
 ##
 InstallMethod(\=, [IsTreeAutomorphism, IsTreeAutomorphism],
 function(a1, a2)
-  local i;
-  if Perm(a1) <> Perm(a2) then return false; fi;
-  for i in [1..TopDegreeOfTree(a1)] do
-    if State(a1, i) <> State(a2, i) then return false; fi;
-  od;
-  return true;
+  return Perm(a1) = Perm(a2) and States(a1) = States(a2);
 end);
 
 
@@ -507,8 +559,8 @@ end);
 ##
 #M  \<(<a1>, <a2>)
 ##
-InstallMethod(\<, [ IsTreeAutomorphism and IsTreeAutomorphismRep,
-                    IsTreeAutomorphism and IsTreeAutomorphismRep ],
+InstallMethod(\<, [IsTreeAutomorphism and IsTreeAutomorphismRep,
+                   IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a1, a2)
   local i;
   if a1!.perm < a2!.perm then return true;
@@ -516,23 +568,6 @@ function(a1, a2)
   for i in [1..a1!.deg] do
     if a1!.states[i] < a2!.states[i] then return true;
     elif a1!.states[i] > a2!.states[i] then return false; fi;
-  od;
-  return false;
-end);
-
-
-###############################################################################
-##
-#M  \<(<a1>, <a2>)
-##
-InstallMethod(\<, [IsTreeAutomorphism, IsTreeAutomorphism],
-function(a1, a2)
-  local i;
-  if Perm(a1) < Perm(a2) then return true;
-  elif Perm(a1) > Perm(a2) then return false; fi;
-  for i in [1..TopDegreeOfTree(a1)] do
-    if State(a1, i) < State(a2, i) then return true;
-    elif State(a1, i) > State(a2, i) then return false; fi;
   od;
   return false;
 end);
@@ -555,8 +590,8 @@ end);
 ##
 #M  \*(<a1>, <a2>)
 ##
-InstallMethod(\*, [ IsTreeAutomorphism and IsTreeAutomorphismRep,
-                    IsTreeAutomorphism and IsTreeAutomorphismRep ],
+InstallMethod(\*, [IsTreeAutomorphism and IsTreeAutomorphismRep,
+                   IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a1, a2)
   local a;
   a := Objectify(NewType(FamilyObj(a1), IsTreeAutomorphism and IsTreeAutomorphismRep),
@@ -598,6 +633,15 @@ function(a)
   SetIsActingOnBinaryTree(inv, IsActingOnBinaryTree(a));
   SetIsActingOnHomogeneousTree(inv, IsActingOnHomogeneousTree(a));
   return inv;
+end);
+
+InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism)", [IsTreeAutomorphism],
+function(a)
+  local states, inv_states, perm;
+  states := States(a);
+  perm := Inverse(Perm(a));
+  inv_states := List([1..Length(states)], i -> Inverse(states[i^perm]));
+  return TreeAutomorphism(inv_states, perm);
 end);
 
 

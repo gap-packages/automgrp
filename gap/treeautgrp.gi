@@ -94,24 +94,10 @@ function(G)
   TryNextMethod();
 end);
 
-InstallMethod(IsSphericallyTransitive, [IsTreeAutomorphismGroup and IsActingOnBinaryTree],
-function(G)
-  if AutomataAbelImageSpherTrans in AbelImage(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
-    Info(InfoAutomata, 3, "  using AbelImage");
-    Info(InfoAutomata, 3, "  G = ", G);
-    return true;
-  fi;
-  TryNextMethod();
-end);
-
-RedispatchOnCondition(IsSphericallyTransitive, true, [IsTreeAutomorphismGroup],
-                      [IsTreeAutomorphismGroup and IsActingOnBinaryTree], 0);
-
 InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsTreeAutomorphismGroup)",
               [IsTreeAutomorphismGroup],
 function (G)
-  local i, k;
+  local i, k, stab;
 
   if CanEasilyComputeSize(G) and Size(G) < infinity then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
@@ -120,17 +106,26 @@ function (G)
     return false;
   fi;
 
-  k := 3;
-  for i in [1..k] do
-    if not IsTransitiveOnLevel(G, i) then
-      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-      Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
+  if not IsTransitiveOnLevel(G, 1) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
+    Info(InfoAutomata, 3, "  G = ", G);
+    return false;
+  fi;
+
+  if IsActingOnBinaryTree(G) then
+    if AutomataAbelImageSpherTrans in AbelImage(G) then
+      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
+      Info(InfoAutomata, 3, "  using AbelImage");
       Info(InfoAutomata, 3, "  G = ", G);
-      return false;
+      return true;
     fi;
-  od;
-  Info(InfoAutomata, 3, "IsSphericallyTransitive(G): G is transitive on ", k, "-th level");
-  Info(InfoAutomata, 3, "  G = ", G);
+  fi;
+
+  if not IsAutomGroup(G) then
+    stab := StabilizerOfVertex(G, 1);
+    return IsSphericallyTransitive(Projection(stab, 1));
+  fi;
 
   TryNextMethod();
 end);
@@ -214,13 +209,6 @@ function(G)
   Info(InfoAutomata, 3, "  ProjStab(G, 1) = G and G is transitive on first level");
   return true;
 end);
-
-
-###############################################################################
-##
-#M  CanEasilyTestSelfSimilarity (<G>)
-##
-InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 
 
 ###############################################################################
@@ -738,7 +726,7 @@ function(g, G)
     fi;
   od;
 
-  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then 
+  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then
     return true;
   fi;
 

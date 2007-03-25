@@ -716,4 +716,21 @@ function(words)
 end);
 
 
+#############################################################################
+##
+#M  ReducedByNielsen(<autom_list>)
+##
+InstallMethod(ReducedByNielsen,
+              "ReducedByNielsen(IsList and IsAutomCollection)",
+              [IsList and IsAutomCollection],
+function(automs)
+  local words;
+  if IsEmpty(automs) then
+    return [];
+  fi;
+  words := ReducedByNielsen(List(automs, a -> a!.word));
+  return List(words, w -> Autom(w, automs[1]));
+end);
+
+
 #E

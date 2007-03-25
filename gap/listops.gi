@@ -217,6 +217,8 @@ end);
 ##
 ##  Does not check correctness of list.
 ##
+##  WARNING: do *NOT* change it.
+##
 InstallGlobalFunction(ReducedAutomatonInList,
 function(list)
   local   i, n, triv_states, equiv_classes, checked_states, s, s1, s2,
@@ -288,7 +290,7 @@ function(list)
     new_list := Concatenation(new_list, [state]);
   od;
 
-  return [new_list, new_states];
+  return [new_list, new_states, List([1..n], i -> Position(new_states, states_reprs[i]))];
 end);
 
 

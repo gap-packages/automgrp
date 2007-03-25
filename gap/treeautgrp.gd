@@ -33,7 +33,7 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 ##
 DeclareProperty("IsSelfSimilar", IsTreeAutomorphismGroup and IsActingOnHomogeneousTree);
 DeclareFilter("CanEasilyTestSelfSimilarity");
-InstallTrueMethod(CanEasilyTestSelfSimilarity, IsSelfSimilar);
+InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 
 
 ###############################################################################

@@ -450,6 +450,27 @@ end);
 
 
 
+BindGlobal("TestSelfSimilarity",
+function(G)
+  if CanEasilyTestSelfSimilarity(G) then
+    IsSelfSimilar(G);
+    return true;
+  fi;
+
+  if IsTrivial(G) then
+    SetIsSelfSimilar(G, true);
+    return true;
+  fi;
+
+  if Set(GeneratorsOfGroup(G)) = Set(GeneratorsOfGroup(GroupOfAutomFamily(UnderlyingAutomFamily(G)))) then
+    SetIsSelfSimilar(G, true);
+    return true;
+  fi;
+
+  return false;
+end);
+
+
 ###############################################################################
 ##
 #M  IsSphericallyTransitive(G)
@@ -458,6 +479,12 @@ InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsAutomGroup)",
               [IsAutomGroup],
 function (G)
   local x, rat_gens, abel_hom;
+
+  if IsFractalByWords(G) then
+    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
+    Info(InfoAutomata, 3, "  G is fractal");
+    return true;
+  fi;
 
   if IsTrivial(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
@@ -477,7 +504,7 @@ function (G)
     return false;
   fi;
 
-  if UnderlyingAutomFamily(G)!.deg=2 and HasIsSelfSimilar(G) and IsSelfSimilar(G) then
+  if DegreeOfTree(G) = 2 and TestSelfSimilarity(G) and IsSelfSimilar(G) then
     if HasIsFinite(G) and IsFinite(G)=false then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomata, 3, "  <G> is infinite self-similar acting on binary tree");
@@ -490,19 +517,6 @@ function (G)
     fi;
   fi;
 
-  TryNextMethod();
-end);
-
-
-InstallMethod(IsSphericallyTransitive,
-              "method for wreath product of AutomGroup and Symmetric group",
-              [IsTreeAutomorphismGroup], 10,
-function (G)
-  if not IsAutomGroup(G) and IsAutom(State(GeneratorsOfGroup(G)[1], 1)) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): checking");
-    Info(InfoAutomata, 3, "IsTransitiveOnLevel(G, 1) and IsSphericallyTransitive(ProjStab(G, 1))");
-    return IsTransitiveOnLevel(G, 1) and IsSphericallyTransitive(ProjStab(G, 1));
-  fi;
   TryNextMethod();
 end);
 

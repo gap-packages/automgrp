@@ -22,10 +22,22 @@
 ##
 DeclareRepresentation("IsAutomFamilyRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
-                      [ "freegroup", "freegens",
-                        "numstates", "deg", "trivstate",
-                        "names", "automatonlist",
-                        "relators" ]);
+                      [ "freegroup",      # IsAutom objects store words from this group
+                        "freegens",       # list [f1, f2, ..., fn, f1^-1, ..., fn^-1, 1]
+                                          # where f1..fn are generators of freegroup,
+                                          # n is numstates; 1 is stored if and only if
+                                          # trivstate is not zero
+                        "numstates",      # number of non-trivial generating states
+                        "deg",
+                        "trivstate",      # 0 or 2*numstates+1
+                        "names",          # list of non-trivial generating states
+                        "automatonlist",  # the automaton table, states correspond to freegens
+                        "relators",
+                        "oldstates"       # mapping from states in the original table used to
+                                          # define the group to the states in automatonlist:
+                                          # Autom(fam!.freegens[oldtstates[k]], fam) is the element
+                                          # which corresponds to k-th state in the original automaton
+                      ]);
 
 
 ###############################################################################
@@ -36,7 +48,7 @@ InstallOtherMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
               [IsList, IsList, IsBool],
 function (list, names, bind_global)
   local deg, tmp, trivstate, numstates, numallstates, i, j, perm,
-        freegroup, freegens, a, family;
+        freegroup, freegens, a, family, oldstates;
 
   if not IsCorrectAutomatonList(list) then
     Print("error in AutomFamily(IsList, IsList, IsString):\n  given list is not a correct list representing automaton\n");
@@ -53,6 +65,7 @@ function (list, names, bind_global)
 
   tmp := ReducedAutomatonInList(list);
   list := tmp[1];
+  oldstates := tmp[3];
   names := List(tmp[2], x->names[x]);
 
   trivstate := 0;
@@ -67,6 +80,14 @@ function (list, names, bind_global)
     numstates := Length(list);
   else
     numstates := Length(list) - 1;
+  fi;
+
+  if trivstate <> 0 then
+    for i in [1..Length(oldstates)] do
+      if oldstates[i] = trivstate then
+        oldstates[i] := 2*numstates + 1;
+      fi;
+    od;
   fi;
 
 #  if numstates = 0 then
@@ -138,6 +159,7 @@ function (list, names, bind_global)
   family!.freegens := freegens;
   family!.automatonlist := list;
   family!.relators := [];
+  family!.oldstates := oldstates;
 
   family!.automgens := [];
   for i in [1..Length(list)] do
@@ -156,6 +178,10 @@ function (list, names, bind_global)
     for i in [1..family!.numstates] do
       # I don't make it read'n'write intentionally, in order
       # to avoid accidental overwriting some variable.
+      # XXX
+      if IsBoundGlobal(family!.names[i]) then
+        UnbindGlobal(family!.names[i]);
+      fi;
       BindGlobal(family!.names[i], family!.automgens[i]);
       MakeReadWriteGlobal(family!.names[i]);
     od;

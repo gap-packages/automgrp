@@ -177,17 +177,22 @@ end);
 InstallMethod(PrintObj, "PrintObj(IsAutomGroup)",
               [IsAutomGroup],
 function(G)
-  local i, gens;
+  local i, gens, printone;
+
+  printone := function(a)
+    Print(a, " = ", Expand(a));
+  end;
+
   gens := GeneratorsOfGroup(G);
   if gens = [] then Print("< >"); fi;
   if Length(gens) = 1 then
-    Print("< ", gens[1], " >");
+    Print("< "); printone(gens[1]); Print(" >");
   else
-    Print("< ", gens[1], ", \n");
+    Print("< "); printone(gens[1]); Print(", \n");
     for i in [2..Length(gens)-1] do
-      Print("  ", gens[i], ", \n");
+      Print("  "); printone(gens[i]); Print(", \n");
     od;
-    Print("  ", gens[Length(gens)], " >");
+    Print("  "); printone(gens[Length(gens)]); Print(" >");
   fi;
 end);
 

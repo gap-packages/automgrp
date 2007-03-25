@@ -571,6 +571,20 @@ end);
 
 ###############################################################################
 ##
+#M  \*(<a1>, <a2>)
+##
+InstallMethod(\*, [IsTreeAutomorphism, IsTreeAutomorphism],
+function(a1, a2)
+  local s1, s2, p1, p2, states, perm, d, a;
+  s1 := States(a1); p1 := Perm(a1);
+  s2 := States(a2); p2 := Perm(a2);
+  states := List([1..Length(s1)], i -> s1[i] * s2[i^p1]);
+  return TreeAutomorphism(states, p1*p2);
+end);
+
+
+###############################################################################
+##
 #M  InverseOp(<a>)
 ##
 InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism and IsTreeAutomorphismRep)",

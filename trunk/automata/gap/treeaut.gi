@@ -428,11 +428,17 @@ end);
 ##
 InstallMethod(Expand, [IsTreeAutomorphism, IsPosInt],
 function(a, level)
-  if level = 1 then
-    return a;
-  else
-    return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
-  fi;
+  return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
+end);
+
+
+###############################################################################
+##
+#M  Expand(<a>)
+##
+InstallOtherMethod(Expand, [IsTreeAutomorphism],
+function(a)
+  return Expand(a, 1);
 end);
 
 

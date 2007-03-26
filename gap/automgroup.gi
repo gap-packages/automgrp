@@ -462,6 +462,11 @@ function(G)
     return true;
   fi;
 
+  if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
+    SetIsSelfSimilar(G, true);
+    return true;
+  fi;
+
   if Set(GeneratorsOfGroup(G)) = Set(GeneratorsOfGroup(GroupOfAutomFamily(UnderlyingAutomFamily(G)))) then
     SetIsSelfSimilar(G, true);
     return true;

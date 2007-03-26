@@ -548,13 +548,18 @@ end);
 InstallMethod(ProjectionOp, "ProjectionOp(IsTreeAutomorphismGroup, IsPosInt)",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
-  local gens, pgens;
+  local gens, pgens, a;
 
   if k > TopDegreeOfTree(G) then return fail; fi;
   if not FixesVertex(G, k) then return fail; fi;
 
   gens := GeneratorsOfGroup(G);
   pgens := List(gens, g -> State(g, k));
+  a := pgens[1];
+  pgens := Difference(pgens, [One(a)]);
+  if IsEmpty(pgens) then
+    pgens := [One(a)];
+  fi;
   return Group(pgens);
 end);
 

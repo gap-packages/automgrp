@@ -3209,7 +3209,7 @@ InstallGlobalFunction(SUSPICIOUS_FOR_NONCONTRACTION, function(a)
 
     if (g!.word in cur_list) or (g!.word^(-1) in cur_list) then
       if g=a or g=a^-1 then
-#        Info(InfoAutomata,3,a!.word," has ",g!.word," as a section at vertex ",vertex);
+        Info(InfoAutomata,3,a!.word," has ",g!.word," as a section at vertex ",vertex);
         return true;
       else return false;  fi;
     fi;

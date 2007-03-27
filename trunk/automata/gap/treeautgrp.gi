@@ -724,7 +724,7 @@ function(g, G)
   for i in [1..10] do
     if not PermOnLevel(g, i) in PermGroupOnLevel(G, i) then
       Info(InfoAutomata, 3, "g in G: false");
-      Info(InfoAutomata, 3, "  not PermOnLevel(g ",i,",) in PermGroupOnLevel(G, ",i,")");
+      Info(InfoAutomata, 3, "  not PermOnLevel(g, ",i,") in PermGroupOnLevel(G, ",i,")");
       Info(InfoAutomata, 3, "  g = ", g);
       Info(InfoAutomata, 3, "  G = ", G);
       return false;

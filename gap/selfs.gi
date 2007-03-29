@@ -3676,7 +3676,7 @@ function(G)
 #        for i in [0..Length(C)-1] do
 #          if cur_cycle=Permuted(C,long_cycle^i) then return false; fi;
 #        od;
-        Info(InfoAutomata,5,"cycle1=",cur_cycle,"cycle2=",C,"\n");
+        Info(InfoAutomata,5,"cycle1=",cur_cycle,"cycle2=",C);
         return fail;
       fi;
     od;
@@ -3718,7 +3718,7 @@ function(G)
             UniteSet(next_cycles[v],next_cycles[v_next]);
           elif cycle_of_vertex[v]<>cycle_of_vertex[v_next] then
             UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
-            Info(InfoAutomata,5,"v=",v,"; v_next=",v_next,"\n");
+            Info(InfoAutomata,5,"v=",v,"; v_next=",v_next);
             Info(InfoAutomata,5,"cycle_order (local) = ",cycle_order);
           fi;
         fi;

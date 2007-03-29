@@ -33,10 +33,12 @@ DeclareRepresentation("IsAutomFamilyRep",
                         "names",          # list of non-trivial generating states
                         "automatonlist",  # the automaton table, states correspond to freegens
                         "relators",
-                        "oldstates"       # mapping from states in the original table used to
+                        "oldstates",      # mapping from states in the original table used to
                                           # define the group to the states in automatonlist:
                                           # Autom(fam!.freegens[oldtstates[k]], fam) is the element
                                           # which corresponds to k-th state in the original automaton
+                        "rws",            # rewriting system
+                        "use_rws"         # whether to use rewriting system in multiplication
                       ]);
 
 
@@ -160,6 +162,8 @@ function (list, names, bind_global)
   family!.automatonlist := list;
   family!.relators := [];
   family!.oldstates := oldstates;
+  family!.use_rws := false;
+  family!.rws := fail;
 
   family!.automgens := [];
   for i in [1..Length(list)] do

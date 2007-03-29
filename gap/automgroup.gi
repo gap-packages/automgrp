@@ -557,7 +557,7 @@ end);
 InstallMethod(\=, "\=(IsAutomGroup, IsAutomGroup)",
               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 function(G, H)
-  local fgens1, fgens2;
+  local fgens1, fgens2, fam;
 
   if HasIsGroupOfAutomFamily(G) and HasIsGroupOfAutomFamily(H)
     and IsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
@@ -568,6 +568,13 @@ function(G, H)
 
   fgens1 := List(GeneratorsOfGroup(G), g -> Word(g));
   fgens2 := List(GeneratorsOfGroup(H), g -> Word(g));
+  fam := UnderlyingAutomFamily(G);
+
+  if fam!.rws <> fail then
+    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
+    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+  fi;
+
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
     Info(InfoAutomata, 3, "G = H: true");
     Info(InfoAutomata, 3, "  by subgroups of free group");
@@ -585,7 +592,7 @@ end);
 InstallMethod(IsSubset, "IsSubset(IsAutomGroup, IsAutomGroup)",
               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 function(G, H)
-  local h, gens1, gens2, fgens1, fgens2;
+  local h, fam, fgens1, fgens2;
 
   if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
     Info(InfoAutomata, 3, "IsSubgroup(G, H): true");
@@ -594,8 +601,14 @@ function(G, H)
   fi;
 
   fgens1 := List(GeneratorsOfGroup(G), g -> Word(g));
-  gens2 := GeneratorsOfGroup(H);
-  fgens2 := List(gens2, g -> Word(g));
+  fgens2 := List(GeneratorsOfGroup(H), g -> Word(g));
+  fam := UnderlyingAutomFamily(G);
+
+  if fam!.rws <> fail then
+    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
+    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+  fi;
+
   if IsSubgroup(GroupWithGenerators(fgens1), GroupWithGenerators(fgens2)) then
     Info(InfoAutomata, 3, "IsSubgroup(G, H): true");
     Info(InfoAutomata, 3, "  by subgroups of free group");
@@ -613,10 +626,19 @@ end);
 InstallMethod(\in, "\in(IsAutom, IsAutomGroup)",
               [IsAutom, IsAutomGroup],
 function(g, G)
-  local fgens, w;
+  local fam, fgens, w;
 
   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
-  if Word(g) in GroupWithGenerators(fgens) then
+  w := Word(g);
+
+  fam := UnderlyingAutomFamily(G);
+
+  if fam!.rws <> fail then
+    fgens := AsSet(ReducedForm(fam!.rws, fgens));
+    w := ReducedForm(fam!.rws, w);
+  fi;
+
+  if w in GroupWithGenerators(fgens) then
     Info(InfoAutomata, 3, "g in G: true");
     Info(InfoAutomata, 3, "  by elements of free group");
     Info(InfoAutomata, 3, "  g = ", g, "; G = ", G);
@@ -732,7 +754,8 @@ InstallImmediateMethod(IsAutomatonGroup,IsAutomGroup,0,
 function(G)
   local fam;
   fam:=UnderlyingAutomFamily(G);
-  return GeneratorsOfGroup(G)=fam!.automgens{[1..fam!.numstates]};
+  return fam!.numstates = 0 or
+         GeneratorsOfGroup(G)=fam!.automgens{[1..fam!.numstates]};
 end);
 
 

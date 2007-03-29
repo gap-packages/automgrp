@@ -163,7 +163,7 @@ end);
 ##
 #F  ParseAutomatonString(<str>)
 ##
-__FA_split_states := function(str)
+$FA_split_states := function(str)
   local states, s, c, i, parens;
 
   states := [];
@@ -195,7 +195,7 @@ __FA_split_states := function(str)
   return states;
 end;
 
-__FA_split_perms := function(str)
+$FA_split_perms := function(str)
   local s, perms, elms, cl, op;
 
   s := 0;
@@ -219,7 +219,7 @@ __FA_split_perms := function(str)
   return perms;
 end;
 
-__FA_is_permutation := function(list)
+$FA_is_permutation := function(list)
   local s, d, one;
   one := true;
   for s in list do
@@ -233,7 +233,7 @@ __FA_is_permutation := function(list)
   return not one;
 end;
 
-__FA_make_states := function(list, str)
+$FA_make_states := function(list, str)
   local states, s;
 
   states := [];
@@ -253,7 +253,7 @@ __FA_make_states := function(list, str)
   return states;
 end;
 
-__FA_make_permutation := function(list)
+$FA_make_permutation := function(list)
   local indices, s, d;
 
   indices := [];
@@ -274,7 +274,7 @@ __FA_make_permutation := function(list)
   fi;
 end;
 
-__FA_parse_state := function(str)
+$FA_parse_state := function(str)
   local id_and_def, id, def,
         states, perm, i, p;
 
@@ -286,7 +286,7 @@ __FA_parse_state := function(str)
   fi;
 
   id := id_and_def[1];
-  def := __FA_split_perms(id_and_def[2]);
+  def := $FA_split_perms(id_and_def[2]);
 
   if IsEmpty(def) then
     Error("Invalid state '", str, "'");
@@ -296,10 +296,10 @@ __FA_parse_state := function(str)
   perm := ();
 
   for i in [1..Length(def)] do
-    if i = 1 and not __FA_is_permutation(def[i]) then
-      states := __FA_make_states(def[i], str);
+    if i = 1 and not $FA_is_permutation(def[i]) then
+      states := $FA_make_states(def[i], str);
     else
-      p := __FA_make_permutation(def[i]);
+      p := $FA_make_permutation(def[i]);
       if states = fail then
         Error("Invalid permutation ", def[i], " in '", str, "'");
       fi;
@@ -314,8 +314,8 @@ InstallGlobalFunction("ParseAutomatonString",
 function(str)
   local states, aut_list, aut_states, need_one, alph, i, j, s;
 
-  states := __FA_split_states(str);
-  Apply(states, __FA_parse_state);
+  states := $FA_split_states(str);
+  Apply(states, $FA_parse_state);
 #   Display(states);
 
   need_one := false;

@@ -4,7 +4,7 @@
 #W                                                             Dmytro Savchuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 ReadPkg("automata", "gap/globals.g");
@@ -25,6 +25,7 @@ ReadPkg("automata", "gap/utils.gi");
 ReadPkg("automata", "gap/utilsfrgrp.gi");
 ReadPkg("automata", "gap/utilsratfun.gi");
 ReadPkg("automata", "gap/scilab.gi");
+ReadPkg("automata", "gap/rws.gi");
 
 ReadPkg("automata", "gap/selfs.gi");
 #ReadPkg("automata", "gap/autom32.g");

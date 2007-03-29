@@ -137,9 +137,24 @@ AssertEqual := function(arg)
           ["assertion '", targ1, " = ", targ2, "' failed"]);
 end;
 
+AssertLess := function(arg)
+  Assert_(arg[1] < arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
+          ["assertion '", targ1, " < ", targ2, "' failed"]);
+end;
+
+AssertLessOrEqualThan := function(arg)
+  Assert_(arg[1] <= arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
+          ["assertion '", targ1, " <= ", targ2, "' failed"]);
+end;
+
 AssertNotEqual := function(arg)
   Assert_(arg[1] <> arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
           ["assertion '", targ1, " <> ", targ2, "' failed"]);
+end;
+
+AssertIn := function(arg)
+  Assert_(arg[1] in arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
+          ["assertion '", targ1, " in ", targ2, "' failed"]);
 end;
 
 AssertNotReached := function(arg)

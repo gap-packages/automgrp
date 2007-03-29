@@ -381,19 +381,6 @@ end);
 ##
 #M  Order(<a>)
 ##
-__FA_perm_exponent := function(perm)
-  local cycles;
-  cycles := CycleStructurePerm(perm);
-  return Product(List([1..Length(cycles)],
-                      function(i)
-                        if IsBound(cycles[i]) then
-                          return i+1;
-                        else
-                          return 1;
-                        fi;
-                      end));
-end;
-
 InstallMethod(Order, "Order(IsTreeAutomorphism)", [IsTreeAutomorphism],
 function(a)
   local i, perm, stab, stab_order, ord, exp, states;
@@ -486,6 +473,11 @@ end);
 InstallMethod(Expand, [IsTreeAutomorphism, IsPosInt],
 function(a, level)
   return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
+end);
+
+InstallOtherMethod(Expand, [IsTreeAutomorphism, IsInt and IsZero],
+function(a, level)
+  return a;
 end);
 
 

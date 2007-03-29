@@ -36,6 +36,10 @@ function(w, fam)
   local exp, wstates, curstate, newstate, curletter, newletter,
         nperm, i, j, perm, a, wtmp, reduced;
 
+  if fam!.use_rws then
+    w := ReducedForm(fam!.rws, w);
+  fi;
+
   if Length(w) = 0 then
     return One(fam);
   elif Length(w) = 1 then
@@ -44,52 +48,55 @@ function(w, fam)
     else
       return fam!.automgens[GeneratorSyllable(w, 1) + fam!.numstates];
     fi;
-  else
-    # TODO
-    exp := LetterRepAssocWord(w);
-    for i in [1..Length(exp)] do
-      if exp[i] < 0 then exp[i] := -exp[i] + fam!.numstates; fi;
-    od;
-    wstates := [];
-    nperm := ();
-    for i in [1..Length(exp)] do
-      nperm := nperm * fam!.automatonlist[exp[i]][fam!.deg+1];
-    od;
-
-    for i in [1..fam!.deg] do
-      wstates[i] := [];
-      perm:=();
-
-      for j in [1..Length(exp)] do
-        newstate := fam!.automatonlist[exp[j]][i^perm];
-        if newstate <> fam!.trivstate then
-          if newstate > fam!.numstates then
-            newstate := -(newstate - fam!.numstates);
-          fi;
-          if Length(wstates[i]) > 0 and wstates[i][Length(wstates[i])] = -newstate then
-            Remove(wstates[i], Length(wstates[i]));
-          else
-            Add(wstates[i], newstate);
-          fi;
-        fi;
-        perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
-      od;
-      if Length(wstates[i]) > 0 then
-        wstates[i] := AssocWordByLetterRep(FamilyObj(w), wstates[i]);
-      else
-        wstates[i] := One(fam!.freegroup);
-      fi;
-    od;
-
-    a := Objectify(NewType(fam, IsAutom and IsAutomRep),
-            rec(word := w,
-                states := wstates,
-                perm := nperm,
-                deg := fam!.deg) );
-    SetIsActingOnBinaryTree(a, fam!.deg = 2);
-
-    return a;
   fi;
+
+  # TODO
+  exp := LetterRepAssocWord(w);
+  for i in [1..Length(exp)] do
+    if exp[i] < 0 then exp[i] := -exp[i] + fam!.numstates; fi;
+  od;
+  wstates := [];
+  nperm := ();
+  for i in [1..Length(exp)] do
+    nperm := nperm * fam!.automatonlist[exp[i]][fam!.deg+1];
+  od;
+
+  for i in [1..fam!.deg] do
+    wstates[i] := [];
+    perm:=();
+
+    for j in [1..Length(exp)] do
+      newstate := fam!.automatonlist[exp[j]][i^perm];
+      if newstate <> fam!.trivstate then
+        if newstate > fam!.numstates then
+          newstate := -(newstate - fam!.numstates);
+        fi;
+        if Length(wstates[i]) > 0 and wstates[i][Length(wstates[i])] = -newstate then
+          Remove(wstates[i], Length(wstates[i]));
+        else
+          Add(wstates[i], newstate);
+        fi;
+      fi;
+      perm := perm * fam!.automatonlist[exp[j]][fam!.deg+1];
+    od;
+    if fam!.use_rws and Length(wstates[i]) > 0 then
+      wstates[i] := ReducedForm(fam!.rws, wstates[i]);
+    fi;
+    if Length(wstates[i]) > 0 then
+      wstates[i] := AssocWordByLetterRep(FamilyObj(w), wstates[i]);
+    else
+      wstates[i] := One(fam!.freegroup);
+    fi;
+  od;
+
+  a := Objectify(NewType(fam, IsAutom and IsAutomRep),
+          rec(word := w,
+              states := wstates,
+              perm := nperm,
+              deg := fam!.deg) );
+  SetIsActingOnBinaryTree(a, fam!.deg = 2);
+
+  return a;
 end);
 
 
@@ -199,13 +206,33 @@ end);
 ##
 InstallMethod(\*, "\*(IsAutom, IsAutom)", [IsAutom, IsAutom],
 function(a1, a2)
-    local a;
-    a := Objectify(
-        NewType(FamilyObj(a1), IsAutom and IsAutomRep),
-        rec(word := a1!.word * a2!.word,
-            states := List([1..a1!.deg], i -> a1!.states[i] * a2!.states[i^(a1!.perm)]),
-            perm := a1!.perm * a2!.perm,
-            deg := a1!.deg) );
+    local a, i, fam, word, states;
+
+    fam := FamilyObj(a1);
+    word := a1!.word * a2!.word;
+
+    if fam!.use_rws then
+      word := ReducedForm(fam!.rws, word);
+    fi;
+
+    if IsOne(word) then
+      return One(a1);
+    fi;
+
+    states := List([1..a1!.deg], i -> a1!.states[i] * a2!.states[i^(a1!.perm)]);
+
+    if fam!.use_rws then
+      for i in [1..a1!.deg] do
+        states[i] := ReducedForm(fam!.rws, states[i]);
+      od;
+    fi;
+
+    a := Objectify(NewType(FamilyObj(a1), IsAutom and IsAutomRep),
+                   rec(word := word,
+                       states := states,
+                       perm := a1!.perm * a2!.perm,
+                       deg := a1!.deg));
+
     SetIsActingOnBinaryTree(a, a1!.deg = 2);
     return a;
 end);
@@ -456,12 +483,31 @@ end);
 ##
 InstallMethod(InverseOp, "InverseOp(IsAutom)", [IsAutom],
 function(a)
-  local inv;
+  local i, inv, fam, word, states;
+
+  fam := FamilyObj(a);
+  word := a!.word ^ -1;
+  if fam!.use_rws then
+    word := ReducedForm(fam!.rws, word);
+    if IsOne(word) then
+      return One(a);
+    fi;
+  fi;
+
+  states := List([1..a!.deg], i -> a!.states[i^(a!.perm^-1)]^-1);
+
+  if fam!.use_rws then
+    for i in [1..a!.deg] do
+      states[i] := ReducedForm(fam!.rws, states[i]);
+    od;
+  fi;
+
   inv := Objectify(NewType(FamilyObj(a), IsAutom and IsAutomRep),
-            rec(word := a!.word ^ -1,
-                states := List([1..a!.deg], i -> a!.states[i^(a!.perm^-1)]^-1),
-                perm := a!.perm ^ -1,
-                deg := a!.deg) );
+                   rec(word := word,
+                       states := states,
+                       perm := a!.perm ^ -1,
+                       deg := a!.deg));
+
   SetIsActingOnBinaryTree(inv, a!.deg = 2);
   return inv;
 end);

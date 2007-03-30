@@ -161,6 +161,64 @@ end);
 
 ###############################################################################
 ##
+#M  $SubgroupOnLevel(<G>, <gens>, <level>)
+##
+InstallMethod($SubgroupOnLevel, [IsAutomGroup,
+                                 IsList and IsTreeAutomorphismCollection,
+                                 IsPosInt],
+function(G, gens, level)
+  local overgroup;
+
+  if IsEmpty(gens) or (Length(gens) = 1 and IsOne(gens[1])) then
+    return TrivialSubgroup(G);
+  fi;
+
+  if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
+    overgroup := G;
+  else
+    overgroup := GroupOfAutomFamily(UnderlyingAutomFamily(G));
+  fi;
+
+  return SubgroupNC(overgroup, gens);
+end);
+
+InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                 IsList and IsAutomCollection,
+                                 IsPosInt],
+function(G, gens, level)
+  local overgroup;
+
+  overgroup := GroupOfAutomFamily(FamilyObj(gens[1]));
+
+  if Length(gens) = 1 and IsOne(gens[1]) then
+    return TrivialSubgroup(overgroup);
+  fi;
+
+  return SubgroupNC(overgroup, gens);
+end);
+
+InstallMethod($SimplifyGenerators, [IsList and IsAutomCollection],
+function(gens)
+  local words, fam;
+
+  if IsEmpty(gens) then
+    return [];
+  fi;
+
+  fam := FamilyObj(gens[1]);
+  words := FreeGeneratorsOfGroup(Group(List(gens, a -> a!.word)));
+
+  if fam!.use_rws then
+    words := ReducedForm(fam!.rws, words);
+    words := FreeGeneratorsOfGroup(Group(words));
+  fi;
+
+  return List(words, w -> Autom(w, fam));
+end);
+
+
+###############################################################################
+##
 #M  DegreeOfTree(<G>)
 ##
 InstallMethod(DegreeOfTree, "DegreeOfTree(IsAutomGroup)",
@@ -288,38 +346,32 @@ InstallMethod(Size, "Size(IsAutomGroup)", [IsAutomGroup],
 function (G)
   local f;
   if IsTrivial(G) then
-    Info(InfoAutomata, 3, "Size(G): 1");
-    Info(InfoAutomata, 3, "  G is trivial");
+    Info(InfoAutomata, 3, "Size(G): 1, G is trivial");
     return 1;
   fi;
 
   if CanEasilyTestSphericalTransitivity(G) and IsSphericallyTransitive(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity");
-    Info(InfoAutomata, 3, "  G is spherically transitive");
+    Info(InfoAutomata, 3, "Size(G): infinity, G is spherically transitive");
     return infinity;
   fi;
 
   if IsFractalByWords(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity");
-    Info(InfoAutomata, 3, "  G is fractal by words");
+    Info(InfoAutomata, 3, "Size(G): infinity, G is fractal by words");
     return infinity;
   fi;
 
   if CanEasilyTestFractalness(G) and IsFractal(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity");
-    Info(InfoAutomata, 3, "  G is fractal");
+    Info(InfoAutomata, 3, "Size(G): infinity, G is fractal");
     return infinity;
   fi;
 
   if CanEasilyTestBeingFreeNonabelian(G) and IsFreeNonabelian(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity");
-    Info(InfoAutomata, 3, "  G is free nonabelian");
+    Info(InfoAutomata, 3, "Size(G): infinity, G is free nonabelian");
     return infinity;
   fi;
 
   if CanEasilyTestBeingFreeAbelian(G) and IsFreeAbelian(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity");
-    Info(InfoAutomata, 3, "  G is free abelian");
+    Info(InfoAutomata, 3, "Size(G): infinity, G is free abelian");
     return infinity;
   fi;
 
@@ -327,13 +379,14 @@ function (G)
     return Size(G);
   fi;
 
-  f:=FindElementOfInfiniteOrder(G,10,10);
+  f := FindElementOfInfiniteOrder(G,10,10);
 
-  if HasSize(G) or f<>fail then
+  if HasSize(G) or f <> fail then
     return Size(G);
   fi;
 
-  Info(InfoAutomata,1,"You can try to use IsomorphismPermGroup(<G>) or\n   FindElementOfInfiniteOrder(<G>,<length>,<depth>) with bigger bounds");
+  Info(InfoAutomata, 1, "You can try to use IsomorphismPermGroup(<G>) or\n",
+                        "   FindElementOfInfiniteOrder(<G>,<length>,<depth>) with bigger bounds");
   TryNextMethod();
 end);
 
@@ -559,11 +612,15 @@ InstallMethod(\=, "\=(IsAutomGroup, IsAutomGroup)",
 function(G, H)
   local fgens1, fgens2, fam;
 
-  if HasIsGroupOfAutomFamily(G) and HasIsGroupOfAutomFamily(H)
-    and IsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
-      Info(InfoAutomata, 3, "G = H: true");
-      Info(InfoAutomata, 3, "  both are GroupOfAutomFamily");
+  if HasIsGroupOfAutomFamily(G) and HasIsGroupOfAutomFamily(H) then
+    if IsGroupOfAutomFamily(G) <> IsGroupOfAutomFamily(H) then
+      Info(InfoAutomata, 3, "G = H: false, exactly one is GroupOfAutomFamily");
+      return false;
+    fi;
+    if IsGroupOfAutomFamily(G) then
+      Info(InfoAutomata, 3, "G = H: true, both are GroupOfAutomFamily");
       return true;
+    fi;
   fi;
 
   fgens1 := List(GeneratorsOfGroup(G), g -> Word(g));
@@ -576,8 +633,7 @@ function(G, H)
   fi;
 
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
-    Info(InfoAutomata, 3, "G = H: true");
-    Info(InfoAutomata, 3, "  by subgroups of free group");
+    Info(InfoAutomata, 3, "G = H: true, by subgroups of free group");
     return true;
   fi;
 
@@ -627,6 +683,10 @@ InstallMethod(\in, "\in(IsAutom, IsAutomGroup)",
               [IsAutom, IsAutomGroup],
 function(g, G)
   local fam, fgens, w;
+
+  if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
+    return true;
+  fi;
 
   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
   w := Word(g);

@@ -56,7 +56,7 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 #O  FixesLevel
 #A  FirstMovedLevel
 ##
-DeclareOperation("FixesVertex", [IsTreeAutObject, IsList]);
+DeclareOperation("FixesVertex", [IsTreeAutObject, IsObject]);
 DeclareOperation("FixesLevel", [IsTreeAutObject, IsPosInt]);
 DeclareAttribute("FirstMovedLevel", IsTreeAutObject);
 

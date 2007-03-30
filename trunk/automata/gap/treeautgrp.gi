@@ -399,10 +399,10 @@ function (G, k)
   S := GroupWithGenerators(perms);
   F := FreeGroup(Length(perms));
   hom := GroupHomomorphismByImagesNC(F, S, GeneratorsOfGroup(F), perms);
-  gens := GeneratorsOfGroup(Kernel(hom));
+  gens := FreeGeneratorsOfGroup(Kernel(hom));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
-  gens := Difference(gens, [One(gens[1])]);
+  gens := $SimplifyGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -415,9 +415,9 @@ end);
 ##
 #M  StabilizerOfVertex(G, k)
 ##
-InstallOtherMethod( StabilizerOfVertex,
-                    "StabilizerOfVertex(IsTreeAutomorphismGroup, IsPosInt)",
-                    [IsTreeAutomorphismGroup, IsPosInt],
+InstallMethod(StabilizerOfVertex,
+              "StabilizerOfVertex(IsTreeAutomorphismGroup, IsPosInt)",
+              [IsTreeAutomorphismGroup, IsPosInt],
 function (G, k)
   local X, S, F, hom, s, f, gens, i, action;
 
@@ -446,10 +446,10 @@ function (G, k)
   action := function(k, w)
       return k^Image(hom, w);
   end;
-  gens := GeneratorsOfGroup(Stabilizer(F, k, action));
+  gens := FreeGeneratorsOfGroup(Stabilizer(F, k, action));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
-  gens := Difference(gens, [One(gens[1])]);
+  gens := $SimplifyGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -468,10 +468,14 @@ InstallMethod(StabilizerOfVertex,
 function (G, seq)
   local X, S, F, hom, s, f, gens, stab, action, i, v;
 
-  if Length(seq) = 0 then return G; fi;
+  if Length(seq) = 0 then
+    return G;
+  fi;
+
   if TopDegreeOfTree(G) = 2 and Length(seq) = 1 then
     return StabilizerOfFirstLevel(G);
   fi;
+
   if FixesVertex(G, seq) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G fixes vertex", seq);
@@ -490,10 +494,10 @@ function (G, seq)
   action := function(k, w)
       return k^Image(hom, w);
   end;
-  gens := GeneratorsOfGroup(Stabilizer(F, v, action));
-  gens := Difference(gens, [One(gens[1])]);
+  gens := FreeGeneratorsOfGroup(Stabilizer(F, v, action));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
+  gens := $SimplifyGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -525,8 +529,8 @@ end);
 ##
 #M  FixesVertex(<G>, <v>)
 ##
-InstallOtherMethod(FixesVertex, "method for IsTreeAutomorphismGroup and IsPosInt",
-                   [IsTreeAutomorphismGroup, IsObject],
+InstallMethod(FixesVertex, "method for IsTreeAutomorphismGroup and IsPosInt",
+              [IsTreeAutomorphismGroup, IsObject],
 function(G, v)
   local gens, g;
   gens := GeneratorsOfGroup(G);
@@ -548,21 +552,53 @@ end);
 InstallMethod(ProjectionOp, "ProjectionOp(IsTreeAutomorphismGroup, IsPosInt)",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
-  local gens, pgens, a;
-
-  if k > TopDegreeOfTree(G) then return fail; fi;
-  if not FixesVertex(G, k) then return fail; fi;
-
-  gens := GeneratorsOfGroup(G);
-  pgens := List(gens, g -> State(g, k));
-  a := pgens[1];
-  pgens := Difference(pgens, [One(a)]);
-  if IsEmpty(pgens) then
-    pgens := [One(a)];
-  fi;
-  return Group(pgens);
+  return Projection(G, [k]);
 end);
 
+
+# TODO: check whether gens are from the same overgroup;
+# check degree of tree and stuff
+InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                 IsList and IsTreeAutomorphismCollection,
+                                 IsPosInt],
+function(G, gens, level)
+  local a;
+  if IsEmpty(gens) then
+    a := State(One(G), List([1..level], i->1));
+    gens := [a];
+  fi;
+  return Group(gens);
+end);
+
+InstallMethod($SimplifyGenerators, [IsList and IsTreeAutomorphismCollection],
+function(gens)
+  if IsEmpty(gens) then
+    return [];
+  else
+    return Difference(gens, [One(gens[1])]);
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  ProjectionNC(<G>, <v>)
+##
+InstallMethod(ProjectionNC, "Projection(IsTreeAutomorphismGroup, IsList)",
+              [IsTreeAutomorphismGroup, IsList],
+function(G, v)
+  local gens, pgens, a;
+
+  if IsEmpty(v) then
+    return G;
+  fi;
+
+  gens := GeneratorsOfGroup(G);
+  pgens := List(gens, g -> State(g, v));
+  pgens := $SimplifyGenerators(pgens);
+
+  return $SubgroupOnLevel(G, pgens, Length(v));
+end);
 
 ###############################################################################
 ##
@@ -571,24 +607,28 @@ end);
 InstallOtherMethod(Projection, "Projection(IsTreeAutomorphismGroup, IsList)",
                    [IsTreeAutomorphismGroup, IsList],
 function(G, v)
-  local gens, pgens;
-
-  if not FixesVertex(G, v) then return fail; fi;
-
-  gens := GeneratorsOfGroup(G);
-  pgens := List(gens, g -> State(g, v));
-  return Group(pgens);
+  if not FixesVertex(G, v) then
+    Error("in Projection(G, v): G does not fix vertex v");
+  fi;
+  return ProjectionNC(G, v);
 end);
 
 
 ###############################################################################
 ##
-#M  ProjStab (<G>, <v>)
+#M  ProjStab(<G>, <v>)
 ##
 InstallMethod(ProjStab, "ProjStab(IsTreeAutomorphismGroup, IsObject)",
               [IsTreeAutomorphismGroup, IsObject],
-function(G, k)
-  return Projection(StabilizerOfVertex(G, k), k);
+function(G, v)
+  if HasIsFractal(G) and IsFractal(G) then
+    return G;
+  else
+    if IsPosInt(v) then
+      v := [v];
+    fi;
+    return ProjectionNC(StabilizerOfVertex(G, v), v);
+  fi;
 end);
 
 
@@ -676,6 +716,9 @@ function(G, H)
     return false;
   fi;
 
+  G := ReducedForm(G);
+  H := ReducedForm(H);
+
   gens := GeneratorsOfGroup(H);
   for h in gens do
     if not h in G then
@@ -720,6 +763,14 @@ function(g, G)
     return false;
   fi;
 
+  G := ReducedForm(G);
+  g := ReducedForm(g);
+
+  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then
+    Info(InfoAutomata, 3, "g in G: FindGroupElement returned true");
+    return true;
+  fi;
+
 #TODO
   for i in [1..10] do
     if not PermOnLevel(g, i) in PermGroupOnLevel(G, i) then
@@ -730,10 +781,6 @@ function(g, G)
       return false;
     fi;
   od;
-
-  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then
-    return true;
-  fi;
 
   TryNextMethod();
 end);

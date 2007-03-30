@@ -8,9 +8,8 @@
 ##
 
 
-DeclareCategory("IsFARewritingSystem", IsRewritingSystem);
+DeclareCategory("IsFARewritingSystem", IsRewritingSystem and IsBuiltFromGroup);
 
-DeclareOperation("FARewritingSystem", [IsAutomFamily]);
 DeclareOperation("FARewritingSystem", [IsPosInt]);
 DeclareOperation("FARewritingSystem", [IsPosInt, IsObject]);
 
@@ -19,3 +18,6 @@ DeclareOperation("AddRule", [IsFARewritingSystem, IsObject, IsBool]);
 DeclareOperation("AddRules", [IsFARewritingSystem, IsObject]);
 DeclareOperation("AddRules", [IsFARewritingSystem, IsObject, IsBool]);
 DeclareOperation("SetRwRules", [IsFARewritingSystem, IsObject]);
+
+DeclareOperation("FARewritingSystem", [IsAutomFamily]);
+DeclareOperation("UseFARewritingSystem", [IsAutomFamily, IsBool]);

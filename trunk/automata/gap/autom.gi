@@ -111,6 +111,16 @@ function(w, a)
 end);
 
 
+InstallMethod(MappedWord, [IsAssocWord,
+                           IsList and IsAssocWordCollection,
+                           IsList and IsAutomCollection],
+function(w, fgens, agens)
+  local img;
+  img := MappedWord(w, fgens, List(agens, a -> a!.word));
+  return Autom(img, FamilyObj(agens[1]));
+end);
+
+
 ###############################################################################
 ##
 #M  Autom(<word>, <list>)
@@ -550,8 +560,7 @@ end);
 InstallOtherMethod(State, "State(IsAutom, IsPosInt)", [IsAutom, IsPosInt],
 function(a, k)
   if k > a!.deg then
-    Print("error in State(IsAutom, IsPosInt): wrong vertex number\n");
-    return fail;
+    Error("in State(IsAutom, IsPosInt): invalid vertex ", k);
   fi;
   return Autom(a!.states[k], a);
 end);

@@ -72,7 +72,7 @@ DeclareFilter("CanEasilyComputeSize");
 ##
 DeclareAttribute("StabilizerOfFirstLevel", IsTreeAutomorphismGroup);
 KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
-DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsList]);
+DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 
 
 ###############################################################################
@@ -83,7 +83,13 @@ DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsList]);
 #O  ProjStab (<G>, <vertex>)
 ##
 KeyDependentOperation("Projection", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
+DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
+
+DeclareOperation("$SubgroupOnLevel", [IsTreeAutomorphismGroup,
+                                      IsList and IsTreeAutomorphismCollection,
+                                      IsPosInt]);
+DeclareOperation("$SimplifyGenerators", [IsList and IsTreeAutomorphismCollection]);
 
 
 ###############################################################################

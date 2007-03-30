@@ -29,8 +29,6 @@ function(n)
                        ngens := n,
                        names := names));
 
-  SetIsBuiltFromGroup(rws,true);
-
   return rws;
 end);
 
@@ -86,7 +84,65 @@ function(rws)
 end);
 
 
-mult := function(w1, w2)
+$FA_rws_print_word := function(rws, word)
+  local s, i, j, len;
+
+  s := "";
+  len := Length(word);
+
+  if len = 0 then
+    return AutomataParameters.identity_symbol;
+  fi;
+
+  i := 1;
+  while i <= len do
+    j := i + 1;
+    while j <= len and word[j] = word[i] do j := j + 1; od;
+    if i > 1 then
+      Append(s, "*");
+    fi;
+    Append(s, rws!.names[AbsInt(word[i])]);
+    if j - i > 1 or word[i] < 0 then
+      Append(s, "^");
+      if word[i] < 0 then
+        Append(s, "-");
+      fi;
+      Append(s, String(j - i));
+    fi;
+    i := j;
+  od;
+
+  return s;
+end;
+
+InstallMethod(PrintObj, [IsFARewritingSystem],
+function(rws)
+  local i;
+
+  Print("<< ");
+
+  for i in [1..Length(rws!.rules)] do
+    if i <> 1 then
+      Print(", ");
+    fi;
+    Print($FA_rws_print_word(rws, rws!.rules[i][1]), " -> ",
+          $FA_rws_print_word(rws, rws!.rules[i][2]));
+  od;
+
+  Print(" >>");
+end);
+
+InstallMethod(ViewObj, [IsFARewritingSystem],
+function(rws)
+  Print("<< ");
+  if IsEmpty(rws!.rules) then
+    Print("empty ");
+  fi;
+  Print("rewriting system on ", rws!.ngens, " generators >>");
+end);
+
+
+$FA_rws_mult := function(w1, w2)
   local s, e, len;
 
   e := Length(w1);
@@ -122,7 +178,7 @@ function(rws, w)
 #           Print("replacing with ", r[2], "\n");
           again := true;
           reduced := true;
-          w := mult(mult(w{[1 .. pos-1]}, r[2]), w{[pos+Length(r[1]) .. Length(w)]});
+          w := $FA_rws_mult($FA_rws_mult(w{[1 .. pos-1]}, r[2]), w{[pos+Length(r[1]) .. Length(w)]});
           start := pos;
           break;
         fi;
@@ -143,15 +199,42 @@ function(rws, a)
   return Autom(ReducedForm(rws, a!.word), a);
 end);
 
+InstallOtherMethod(ReducedForm, [IsAutom],
+function(a)
+  local rws;
+  rws := FARewritingSystem(FamilyObj(a));
+  if rws = fail then
+    return fail;
+  else
+    return ReducedForm(rws, a);
+  fi;
+end);
+
 InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsList and IsAutomCollection],
 function(rws, list)
-  return List(list, a -> ReducedForm(rws, a));
+  if IsEmpty(list) then
+    return [];
+  else
+    return Difference(List(list, a -> ReducedForm(rws, a)), [One(list[1])]);
+  fi;
+end);
+
+InstallOtherMethod(ReducedForm, [IsList and IsAutomCollection],
+function(list)
+  local rws;
+  rws := FARewritingSystem(FamilyObj(list[1]));
+  if rws = fail then
+    return fail;
+  else
+    return ReducedForm(rws, list);
+  fi;
 end);
 
 InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsAutomGroup],
 function(rws, grp)
   local gens;
-  gens := ReducedForm(rws, ReducedByNielsen(ReducedForm(rws, GeneratorsOfGroup(grp))));
+  gens := Difference(ReducedForm(rws, GeneratorsOfGroup(grp)), [One(grp)]);
+  gens := ReducedForm(rws, ReducedByNielsen(gens));
   gens := Difference(gens, [One(grp)]);
   if IsEmpty(gens) then
     return Group(One(grp));
@@ -160,6 +243,35 @@ function(rws, grp)
   fi;
 end);
 
+InstallOtherMethod(ReducedForm, [IsAutomGroup],
+function(grp)
+  local fam, rws;
+  fam := UnderlyingAutomFamily(grp);
+  if fam!.use_rws then
+    return ReducedForm(fam!.rws, grp);
+  else
+    return grp;
+  fi;
+end);
+
+InstallOtherMethod(ReducedForm, [IsTreeAutomorphism],
+function(a)
+  return a;
+end);
+
+InstallOtherMethod(ReducedForm, [IsList and IsTreeAutomorphismCollection],
+function(list)
+  if not IsEmpty(list) then
+    return Difference(list, One(list[1]));
+  else
+    return [];
+  fi;
+end);
+
+InstallOtherMethod(ReducedForm, [IsTreeAutomorphismGroup],
+function(grp)
+  return grp;
+end);
 
 
 $FA_rws_get_rels :=
@@ -246,6 +358,7 @@ function(arg)
 
   rels := $FA_rws_get_rels(fam, limit)[2];
   rws := FARewritingSystem(fam!.numstates, init_rules);
+  rws!.names := ShallowCopy(fam!.names);
 
   for w in rels do
     len := Length(w);
@@ -262,3 +375,49 @@ function(arg)
 
   return rws;
 end;
+
+
+InstallMethod(FARewritingSystem, [IsAutomFamily],
+function(fam)
+  if fam!.rws = fail then
+    BuildFARewritingSystem(fam);
+    if fam!.rws = fail then
+      fam!.rws := FARewritingSystem(fam!.numstates);
+      fam!.rws!.names := ShallowCopy(fam!.names);
+    fi;
+  fi;
+  return fam!.rws;
+end);
+
+InstallOtherMethod(FARewritingSystem, [IsGroupOfAutomFamily],
+function(grp)
+  return FARewritingSystem(UnderlyingAutomFamily(grp));
+end);
+
+
+InstallMethod(UseFARewritingSystem, [IsAutomFamily, IsBool],
+function(fam, use)
+  if fam!.use_rws <> use then
+    if use then
+      if FARewritingSystem(fam) = fail then
+        return fail;
+      fi;
+      fam!.use_rws := true;
+    else
+      fam!.use_rws := false;
+    fi;
+  fi;
+
+  return fam!.use_rws;
+end);
+
+InstallOtherMethod(UseFARewritingSystem, [IsGroupOfAutomFamily, IsBool],
+function(grp, use)
+  return UseFARewritingSystem(UnderlyingAutomFamily(grp), use);
+end);
+
+InstallOtherMethod(UseFARewritingSystem, [IsAutomFamily],
+function(fam) return UseFARewritingSystem(fam, true); end);
+
+InstallOtherMethod(UseFARewritingSystem, [IsGroupOfAutomFamily],
+function(grp) return UseFARewritingSystem(grp, true); end);

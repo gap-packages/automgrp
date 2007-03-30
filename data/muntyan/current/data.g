@@ -21,3 +21,5 @@ end;
 
 TA := TreeAutomorphism;
 AG := AutomGroup;
+Gens := GeneratorsOfGroup;
+FreeGens := FreeGeneratorsOfGroup;

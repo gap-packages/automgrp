@@ -34,22 +34,6 @@ end);
 InstallMethod(UseSubsetRelation, "method for two IsTreeAutomorphismGroup's",
               [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup],
 function(super, sub)
-  if HasIsFreeAbelian(super) then
-    if IsFreeAbelian(super) then
-      if not IsTrivial(sub) then SetIsFreeAbelian(sub, true); fi;
-    else
-      SetIsFreeAbelian(sub, false);
-    fi;
-  fi;
-
-  if HasIsFreeNonabelian(super) then
-    if IsFreeNonabelian(super) then
-      if not IsTrivial(sub) then SetIsFreeNonabelian(sub, true); fi;
-    else
-      SetIsFreeNonabelian(sub, false);
-    fi;
-  fi;
-
   if HasIsSphericallyTransitive(super) then
     if not IsSphericallyTransitive(super) then
       Info(InfoAutomata, 3, "IsSphericallyTransitive(sub): false");
@@ -213,101 +197,6 @@ end);
 
 ###############################################################################
 ##
-#M  IsFreeNonabelian (<G>)
-#M  CanEasilyTestBeingFreeNonabelian (<G>)
-##
-InstallTrueMethod(CanEasilyTestBeingFreeNonabelian, HasIsFreeNonabelian);
-InstallTrueMethod(CanEasilyTestBeingFreeNonabelian, IsTrivial);
-
-InstallImmediateMethod(IsFreeNonabelian, IsTreeAutomorphismGroup and HasIsAbelian, 0,
-function(G)
-  if IsAbelian(G) then return false; fi;
-  TryNextMethod();
-end);
-
-InstallImmediateMethod(IsFreeNonabelian, IsTreeAutomorphismGroup and HasIsFinite, 0,
-function(G)
-  if IsFinite(G) then return false; fi;
-  TryNextMethod();
-end);
-
-
-###############################################################################
-##
-#M  IsFreeNonabelian(G)
-##
-InstallMethod(IsFreeNonabelian, "IsFreeNonabelian(IsTreeAutomorphismGroup)",
-              [IsTreeAutomorphismGroup],
-function (G)
-  if IsTrivial(G) then
-    Info(InfoAutomata, 3, "IsFreeNonabelian(G): false");
-    Info(InfoAutomata, 3, "  G is trivial");
-    return false;
-  fi;
-
-  if IsAbelian(G) then
-    Info(InfoAutomata, 3, "IsFreeNonabelian(G): false");
-    Info(InfoAutomata, 3, "  G is abelian");
-    return false;
-  fi;
-
-  if CanEasilyComputeSize(G) and Size(G) < infinity then
-    Info(InfoAutomata, 3, "IsFreeNonabelian(G): false");
-    Info(InfoAutomata, 3, "  Size(G) < infinity");
-    return false;
-  fi;
-
-  TryNextMethod();
-end);
-
-
-###############################################################################
-##
-#M  IsFreeAbelian (<G>)
-#M  CanEasilyTestBeingFreeAbelian (<G>)
-##
-InstallTrueMethod(CanEasilyTestBeingFreeAbelian, HasIsFreeAbelian);
-InstallTrueMethod(CanEasilyTestBeingFreeAbelian, IsTrivial);
-
-InstallImmediateMethod(IsFreeAbelian, IsTreeAutomorphismGroup and HasIsAbelian, 0,
-function(G)
-  if not IsAbelian(G) then return false; fi;
-  TryNextMethod();
-end);
-
-InstallImmediateMethod(IsFreeAbelian, IsTreeAutomorphismGroup and HasIsFinite, 0,
-function(G)
-  if IsFinite(G) then return false; fi;
-  TryNextMethod();
-end);
-
-InstallMethod(IsFreeAbelian, "IsFreeAbelian(IsTreeAutomorphismGroup)",
-              [IsTreeAutomorphismGroup],
-function (G)
-  if IsTrivial(G) then
-    Info(InfoAutomata, 3, "IsFreeAbelian(G): false");
-    Info(InfoAutomata, 3, "  G is trivial");
-    return false;
-  fi;
-
-  if not IsAbelian(G) then
-    Info(InfoAutomata, 3, "IsFreeAbelian(G): false");
-    Info(InfoAutomata, 3, "  G is not abelian");
-    return false;
-  fi;
-
-  if CanEasilyComputeSize(G) and Size(G) < infinity then
-    Info(InfoAutomata, 3, "IsFreeAbelian(G): false");
-    Info(InfoAutomata, 3, "  Size(G) < infinity");
-    return false;
-  fi;
-
-  TryNextMethod();
-end);
-
-
-###############################################################################
-##
 #M  Size (<G>)
 #M  CanEasilyComputeSize (<G>)
 ##
@@ -322,18 +211,6 @@ end);
 InstallImmediateMethod(Size, HasIsSphericallyTransitive, 0,
 function(G)
   if IsSphericallyTransitive(G) then return infinity; fi;
-  TryNextMethod();
-end);
-
-InstallImmediateMethod(Size, HasIsFreeAbelian, 0,
-function(G)
-  if IsFreeAbelian(G) then return infinity; fi;
-  TryNextMethod();
-end);
-
-InstallImmediateMethod(Size, HasIsFreeNonabelian, 0,
-function(G)
-  if IsFreeNonabelian(G) then return infinity; fi;
   TryNextMethod();
 end);
 

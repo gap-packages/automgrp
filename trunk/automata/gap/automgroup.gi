@@ -365,16 +365,6 @@ function (G)
     return infinity;
   fi;
 
-  if CanEasilyTestBeingFreeNonabelian(G) and IsFreeNonabelian(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity, G is free nonabelian");
-    return infinity;
-  fi;
-
-  if CanEasilyTestBeingFreeAbelian(G) and IsFreeAbelian(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity, G is free abelian");
-    return infinity;
-  fi;
-
   if IsAutomatonGroup(G) and LevelOfFaithfulAction(G,8)<>fail then
     return Size(G);
   fi;

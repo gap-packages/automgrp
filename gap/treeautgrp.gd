@@ -40,21 +40,14 @@ InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 ##
 #P  IsFractal (<G>)
 #P  IsContracting (<G>)
-#P  IsFreeNonabelian (<G>)
-#P  IsFreeAbelian (<G>)
 ##
 ##  Fractal means that Projection(St_G(x),x) > G for any x\in X and G is
 ##  spherically transitive.
-##  Trivial group is not IsFreeAbelian nor FreeNonabelian.
 ##
 DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
-DeclareProperty("IsFreeNonabelian", IsTreeAutomorphismGroup);
-DeclareProperty("IsFreeAbelian", IsTreeAutomorphismGroup);
 DeclareFilter("CanEasilyTestFractalness");
 DeclareFilter("CanEasilyTestContractingProperty");
-DeclareFilter("CanEasilyTestBeingFreeNonabelian");
-DeclareFilter("CanEasilyTestBeingFreeAbelian");
 
 
 ###############################################################################

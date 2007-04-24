@@ -1,0 +1,20 @@
+\Chapter{Data structures}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \Section{Trees}
+    NumberOfVertex
+    VertexNumber
+    how to construct all leaves of the finite tree
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \Section{Objects acting on trees}
+    TreeAutomorphism
+    Autom
+    PermActionOnLevel
+    AutomFamily
+    AutomGroup
+    AutomGroupNoBindGlobal
+    IsTreeAutomGroup
+    IsAutomGroup
+    IsAutomatonGroup
+    IsAutomatonGroup

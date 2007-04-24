@@ -1,0 +1,39 @@
+\Chapter{Properties and operations for all groups acting on trees}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \Section{Operations with group elements}
+    IsOne (=)
+    \in
+    Perm
+    Word
+    State
+    Expand
+    [1,2,1,2]^a
+    k^a
+    PermOnLevel
+    PermOnLevelAsMatrix
+    Order
+    IsSphericallyTransitive
+    IsTransitiveOnLevel
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \Section{Operations with groups}
+    IsFractal
+    IsSphericallyTransitive
+    IsTransitiveOnLevel
+    IsSelfSimilar
+    AbelImage
+    PermGroupOnLevel
+    StabilizerOfLevel
+    StabilizerOfFirstLevel
+    StabilizerOfVertex
+    FixesLevel
+    FixesVertex
+    Projection
+    ProjStab
+    FindGroupElement
+    FindGroupElements
+    FindElementOfInfiniteOrder
+    FindElementsOfInfiniteOrder
+    AutomGroupGrowth
+    AutomGroupElements

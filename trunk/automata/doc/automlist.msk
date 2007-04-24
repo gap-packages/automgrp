@@ -4,30 +4,30 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Automata}
   Internal structure
-  MinimizeAutom
-  MinimizeAutomTrack
-  AddInverses
-  AddInversesTrack
+\Declaration{MinimizeAutom}
+\Declaration{MinimizeAutomTrack}
+\Declaration{AddInverses}
+\Declaration{AddInversesTrack}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{tools}
-  IsCorrectAutomatonList
-  ConnectedStatesInList
-  IsTrivialStateInList
-  AreEquivalentStatesInList
-  AreEquivalentStatesInLists
-  ReducedAutomatonInList
-  MinimalSubAutomatonInlist
-  PermuteStatesInList
-  WordStateInList
-  WordStateAndPermInList
-  ImageOfVertexInList
-  DiagonalActionInList
-  MultAlphabetInList
-  HasDualInList
-  DualAutomatonList
-  HasDualOfInverseInList
-  InverseAutomatonList
-  MultAutomAlphabet
+\Declaration{IsCorrectAutomatonList}
+\Declaration{ConnectedStatesInList}
+\Declaration{IsTrivialStateInList}
+\Declaration{AreEquivalentStatesInList}
+\Declaration{AreEquivalentStatesInLists}
+\Declaration{ReducedAutomatonInList}
+\Declaration{MinimalSubAutomatonInlist}
+\Declaration{PermuteStatesInList}
+\Declaration{WordStateInList}
+\Declaration{WordStateAndPermInList}
+\Declaration{ImageOfVertexInList}
+\Declaration{DiagonalActionInList}
+\Declaration{MultAlphabetInList}
+\Declaration{HasDualInList}
+\Declaration{DualAutomatonList}
+\Declaration{HasDualOfInverseInList}
+\Declaration{InverseAutomatonList}
+\Declaration{MultAutomAlphabet}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

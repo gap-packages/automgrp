@@ -21,4 +21,16 @@ DeclareGlobalFunction("TreeLevelTuples");
 DeclareGlobalFunction("ParseAutomatonString");
 
 
+BindGlobal("AutomataAbelImageIndeterminate", Indeterminate(GF(2), "x"));
+BindGlobal("AutomataAbelImageSpherTrans",
+  One($AutomataAbelImageIndeterminate)/
+    (One($AutomataAbelImageIndeterminate)+$AutomataAbelImageIndeterminate));
+
+#############################################################################
+##
+#F  AbelImageAutomatonInList(<list>)
+##
+DeclareGlobalFunction("AbelImageAutomatonInList");
+
+
 #E

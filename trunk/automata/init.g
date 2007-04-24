@@ -22,7 +22,6 @@ ReadPkg("automata", "gap/automgroup.gd");
 ReadPkg("automata", "gap/listops.gd");
 ReadPkg("automata", "gap/utils.gd");
 ReadPkg("automata", "gap/utilsfrgrp.gd");
-ReadPkg("automata", "gap/utilsratfun.gd");
 ReadPkg("automata", "gap/scilab.gd");
 ReadPkg("automata", "gap/rws.gd");
 

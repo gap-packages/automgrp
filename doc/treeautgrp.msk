@@ -3,40 +3,43 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with group elements}
-  IsOne (=)
-  \in
-  Perm
-  Word
-  State
-  Expand
+
+\Declaration{IsOne}
+\Declaration{\\in}
+\Declaration{Perm}
+\Declaration{Word}
+\Declaration{State}
+\Declaration{Expand}
+\Declaration{PermOnLevel}
+\Declaration{PermOnLevelAsMatrix}
+\Declaration{Order}
+\Declaration{IsSphericallyTransitive}
+\Declaration{IsTransitiveOnLevel}
+
+
   [1,2,1,2]^a
   k^a
-  PermOnLevel
-  PermOnLevelAsMatrix
-  Order
-  IsSphericallyTransitive
-  IsTransitiveOnLevel
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with groups}
-  IsFractal
-  IsSphericallyTransitive
-  IsTransitiveOnLevel
-  IsSelfSimilar
-  AbelImage
-  PermGroupOnLevel
-  StabilizerOfLevel
-  StabilizerOfFirstLevel
-  StabilizerOfVertex
-  FixesLevel
-  FixesVertex
-  Projection
-  ProjStab
-  FindGroupElement
-  FindGroupElements
-  FindElementOfInfiniteOrder
-  FindElementsOfInfiniteOrder
-  AutomGroupGrowth
-  AutomGroupElements
+\Declaration{IsFractal}
+\Declaration{IsSphericallyTransitive}
+\Declaration{IsTransitiveOnLevel}
+\Declaration{IsSelfSimilar}
+\Declaration{AbelImage}
+\Declaration{PermGroupOnLevel}
+\Declaration{StabilizerOfLevel}
+\Declaration{StabilizerOfFirstLevel}
+\Declaration{StabilizerOfVertex}
+\Declaration{FixesLevel}
+\Declaration{FixesVertex}
+\Declaration{Projection}
+\Declaration{ProjStab}
+\Declaration{FindGroupElement}
+\Declaration{FindGroupElements}
+\Declaration{FindElementOfInfiniteOrder}
+\Declaration{FindElementsOfInfiniteOrder}
+\Declaration{AutomGroupGrowth}
+\Declaration{AutomGroupElements}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

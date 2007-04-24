@@ -54,17 +54,22 @@ tst_files =			\
 
 all:
 
+distdir = automata
 distdir:
-	(rm -fr automata && mkdir -p automata/gap && mkdir -p automata/scilab && mkdir -p automata/tst && \
-	  cp $(top_files) automata/ && \
-	  cp $(gap_files) automata/gap && \
-	  cp $(scilab_files) automata/scilab && \
-	  cp $(tst_files) automata/tst && \
-	 cd doc && make dist distdir=../automata) || rm -fr automata
+	(rm -fr $(distdir) && mkdir -p $(distdir)/gap && mkdir -p $(distdir)/scilab && mkdir -p $(distdir)/tst && \
+	  cp $(top_files) $(distdir) && \
+	  cp $(gap_files) $(distdir)/gap && \
+	  cp $(scilab_files) $(distdir)/scilab && \
+	  cp $(tst_files) $(distdir)/tst && \
+	 cd doc && make dist distdir=../$(distdir)) || rm -fr $(distdir)
 dist:
 	rm -f automata.tar.bz2 automata.tar.gz automata.zip && \
 	make distdir && \
-	tar cjf automata.tar.bz2 automata/ && \
-	tar czf automata.tar.gz automata/ && \
-	zip -r automata.zip automata/ && \
-	rm -fr automata
+	tar cjf automata.tar.bz2 $(distdir) && \
+	tar czf automata.tar.gz $(distdir) && \
+	zip -r automata.zip $(distdir) && \
+	rm -fr $(distdir)
+
+clean:
+	rm -rf automata.tar.bz2 automata.tar.gz automata.zip $(distdir)
+	cd doc && make clean

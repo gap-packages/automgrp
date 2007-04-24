@@ -32,8 +32,8 @@
 \Declaration{TrivialSubgroup}
 \Declaration{IsSelfSimilar}
 \Declaration{FindNucleus}
-\Declaration{IsNoncontracting}
 \Declaration{IsContracting}
+\Declaration{IsNoncontracting}
 \Declaration{FindRelsSubs}
 \Declaration{FindRelsSubsSG}
 \Declaration{FindRels}

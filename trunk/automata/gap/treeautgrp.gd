@@ -39,15 +39,22 @@ InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 ###############################################################################
 ##
 #P  IsFractal (<G>)
-#P  IsContracting (<G>)
 ##
 ##  Fractal means that $Projection(St_G(x),x) > G$ for any $x\in X$ and $G$ is
 ##  spherically transitive.
 ##
 DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
-DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 DeclareFilter("CanEasilyTestFractalness");
+
+
+###############################################################################
+##
+#P  IsContracting (<G>)
+##
+##  Whether group <G> is contracting.
+##
 DeclareFilter("CanEasilyTestContractingProperty");
+DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 
 
 ###############################################################################
@@ -96,7 +103,11 @@ KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, Ret
 ##
 #P  IsAmenable (<G>)
 ##
+##  Whether group <G> is amenable.
+##
 DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
 InstallTrueMethod(IsAmenable, IsAbelian);
 InstallTrueMethod(IsAmenable, IsFinite);
+
+
 #E

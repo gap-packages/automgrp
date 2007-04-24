@@ -27,7 +27,6 @@ g_files =						\
     ../gap/rws.gd	      ../gap/rws.gi		\
     ../gap/scilab.gd	      ../gap/scilab.gi		\
     ../gap/selfs.gd	      ../gap/selfs.gi		\
-    ../gap/semigrp.gd	      ../gap/semigrp.gi		\
     ../gap/treeaut.gd	      ../gap/treeaut.gi		\
     ../gap/treeautgrp.gd      ../gap/treeautgrp.gi	\
     ../gap/treeautobj.gd      ../gap/treeautobj.gi	\

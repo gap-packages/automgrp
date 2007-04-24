@@ -16,7 +16,7 @@ InstallMethod(AutomGroup, "AutomGroup(IsList)", [IsList],
 function (list)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list) then
+  if not IsCorrectAutomatonList(list, true) then
     Print("error in AutomGroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -36,7 +36,7 @@ InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsList)", [IsList]
 function (list)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list) then
+  if not IsCorrectAutomatonList(list, true) then
     Print("error in AutomGroupNoBindGlobal(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -56,7 +56,7 @@ InstallOtherMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
 function (list, names)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list) then
+  if not IsCorrectAutomatonList(list, true) then
     Print("error in AutomGroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -77,7 +77,7 @@ InstallOtherMethod(AutomGroupNoBindGlobal,
 function (list, names)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list) then
+  if not IsCorrectAutomatonList(list, true) then
     Print("error in AutomGroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;

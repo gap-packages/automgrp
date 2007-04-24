@@ -915,22 +915,7 @@ end);
 
 ######################################################################################
 ##
-#A  ContractingLevel (<G>)
-##
-##  Given a contracting group <G> with nucleus $\mathcal N$, stored in
-##  'NucleusIncludingGeneratingSet(<G>)' (see "NucleusIncludingGeneratingSet") computes the
-##  minimal level $n$, such that for every vertex $v$ of the $n$-th
-##  level and all $g,h\in\mathcal N$ the section $gh|_v\in\mathcal N$.<P/>
-##
-##  In case if it is not known whether <G> is contracting it first tries to compute
-##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
-##  also use "IsNoncontracting" or "FindNucleus" directly.
-##  \beginexample
-##  gap> ContractingLevel(GrigorchukGroup);
-##  1
-##  gap> ContractingLevel(Basilica);
-##  2
-##  \endexample
+#M  ContractingLevel (<G>)
 ##
 InstallMethod(ContractingLevel, "ContractingLevel(IsAutomGroup)", [IsAutomGroup],
 function(H)
@@ -1065,26 +1050,7 @@ end);
 
 ################################################################################
 ##
-#A  ContractingTable (<G>)
-##
-##  Given a contracting group <G> with nucleus 'N' of size $k$, stored in
-##  'NucleusIncludingGeneratingSet(<G>)' (see "NucleusIncludingGeneratingSet") computes the
-##  $k\times k$ table, whose '[i][j]'-th entry contains decomposition of 'N[i]*N[j]' on
-##  the 'ContractingLevel(<G>)' level. By construction the sections of 'N[i]*N[j]' on this level
-##  belong to 'N'. This table is used in the algorithm solving the word problem in polynomial
-##  time.
-##
-##  In case if it is not known whether <G> is contracting it first tries to compute
-##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
-##  also use "IsNoncontracting" or "FindNucleus" directly.
-##  \beginexample
-##  gap> ContractingTable(GrigorchukGroup);
-##  [ [ [ e, e, () ], [ e, e, (1,2) ], [ a, c, () ], [ a, d, () ], [ e, b, () ] ],
-##    [ [ e, e, (1,2) ], [ e, e, () ], [ c, a, (1,2) ], [ d, a, (1,2) ], [ b, e, (1,2) ] ],
-##    [ [ a, c, () ], [ a, c, (1,2) ], [ e, e, () ], [ e, b, () ], [ a, d, () ] ],
-##    [ [ a, d, () ], [ a, d, (1,2) ], [ e, b, () ], [ e, e, () ], [ a, c, () ] ],
-##    [ [ e, b, () ], [ e, b, (1,2) ], [ a, d, () ], [ a, c, () ], [ e, e, () ] ] ]
-##  \endexample
+#M  ContractingTable (<G>)
 ##
 InstallMethod(ContractingTable, "ContractingTable(IsAutomGroup)", [IsAutomGroup],
 function(H)
@@ -1342,52 +1308,7 @@ end);
 
 ################################################################################
 ##
-#A UseContraction (<G>)
-##
-##  For a contracting automaton group <G> determines whether to use the algorithm of polynomial
-##  complexity solving the word problem in the group. By default it is set to 'true'
-##  soon as the nucleus of the group was computed. Sometimes when the nucleus is very big, the
-##  standard algorithm of exponential complexity is faster for short words, but this heavily
-##  depends on the group. Therefore the decision on which algorithm to use is left to the user.
-##  To use the exponential algorithm one can change the value of 'UseContraction(G)' by
-##  'SetUseContraction(G,false)'.
-##
-##  Below we provide an example which shows that both methods can be of use.
-##  \beginexample
-##  gap> G:=AutomGroup("a=(b,b)(1,2),b=(c,a),c=(a,a)");;
-##  gap> IsContracting(G);
-##  true
-##  gap> Length(AutomNucleus(G));
-##  41
-##  gap> Order(a); Order(b); Order(c);
-##  2
-##  2
-##  2
-##  gap> SetUseContraction(G,true);
-##  gap> H:=Group(a*b,b*c);;
-##  gap> St2:=StabilizerOfLevel(H,2);time;
-##  < a*b*c^-1*b^-1*c^-1*b^-2*a^-1, c^-1*b^-1*c^-1*b^-1, b^-1*a^-1*b^-1*a^-1*b^-1*a^-1*b^-1*a^-1,
-##  b*c*a*b*c^-1*b^-1*a*b, a*b^2*c*b^-1*a^-1*c^-1*b^-2*a^-1*b^-1*a^-1,
-##  b*c*b^-1*a^-1*c^-1*b^-2*a^-1 >
-##  15723
-##  gap> IsAbelian(St2);time;
-##  true
-##  7832
-##  gap> SetUseContraction(G,false);
-##  gap> H:=Group(a*b,b*c);
-##  gap> St2:=StabilizerOfLevel(H,2);;time;
-##  8692
-##  gap> IsAbelian(St2);time;
-##  true
-##  216551
-##  </Example>
-##  Here we show that the group <G> is virtually abelian. First we check that the group
-##  is contracting. Then we see that the size of the nucleus is 41. Since all of generators have
-##  order 2, the subgroup $H=\langle ab,bc\rangle$ has index 2 in <G>. Now we compute
-##  the stabilizer of the second level in $H$ and verify, that it is abelian by 2 methods:
-##  with and without using the contraction. We see, that the time required to compute the stabilizer
-##  is approximately the same in both methods, while verification of commutativity works much faster
-##  with contraction.
+#M  UseContraction (<G>)
 ##
 InstallMethod(UseContraction, "UseContraction(IsTreeAutomorphismGroup)", true,
               [IsTreeAutomorphismGroup],
@@ -1411,25 +1332,7 @@ InstallMethod(INFO_FLAG, "INFO_FLAG(IsTreeAutomorphismGroup)", true,
 
 ################################################################################
 ##
-#O  FindNucleus (<G>)
 #O  FindNucleus (<G>, <max_nucl>)
-##
-##  Given a self-similar group <G> it tries to find its nucleus. If the group is not contracting
-##  it will loop forever (modulo memory constraints, of course). When it finds the nucleus
-##  it returns the triple
-##  '["NucleusIncludingGeneratingSet"(<G>), "AutomNucleus"(<G>), "NucleusIncludingGeneratingSetAutom"(<G>)]'
-##
-##  If <max_nucl> is given stops after finding <max_nucl> elements that need to be in
-##  the nucleus and returns 'fail' if the nucleus was not found.
-##
-##  Use '"IsNoncontracting"' to try to show that <G> is noncontracting.
-##
-##  \beginexample
-##  gap> FindNucleus(Basilica);
-##  [ [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ], [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ],
-##    [ [ 1, 1, () ], [ 3, 1, (1,2) ], [ 2, 1, () ], [ 1, 5, (1,2) ], [ 4, 1, () ], [ 1, 7, (1,2) ],
-##      [ 6, 1, (1,2) ] ] ]
-##  \endexample
 ##
 InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic]", true,
                                     [IsAutomatonGroup, IsCyclotomic],
@@ -1621,8 +1524,8 @@ end);
 
 ################################################################################
 ##
-#M FindNucleus. . . . . . . . . . . . . . . . . . . . .Tries to find the nucleus
-##                                                     of the self-similar group
+#O  FindNucleus (<G>)
+##
 InstallMethod(FindNucleus, "for [IsAutomatonGroup]", true,
                                     [IsAutomatonGroup],
 function(H)
@@ -1676,18 +1579,7 @@ end);
 
 ################################################################################
 ##
-#A  AutomNucleus (<G>)
-##
-##  Tries to compute the "nucleus" (the minimal set that need not contain original generators)
-##  of a self-similar group <G>. It uses "FindNucleus" operation
-##  and behaves accordingly: if the group is not contracting
-##  it will loop forever (modulo memory constraints, of course).
-##  See also "NucleusIncludingGeneratingSet".
-##
-##  \beginexample
-##  gap> AutomNucleus(Basilica);
-##  [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
-##  \endexample
+#M  AutomNucleus (<G>)
 ##
 InstallMethod(AutomNucleus, "IsContracting(IsAutomGroup)", true,
               [IsAutomGroup],
@@ -1704,19 +1596,7 @@ end);
 
 ################################################################################
 ##
-#A  NucleusIncludingGeneratingSet (<G>)
-##
-##  Tries to compute the generating set of the group which includes original
-##  generators and the "nucleus" (the minimal set that need not contain original generators)
-##  of a self-similar group <G>. It uses "FindNucleus" operation
-##  and behaves accordingly: if the group is not contracting
-##  it will loop forever (modulo memory constraints, of course).
-##  See also "AutomNucleus".
-##
-##  \beginexample
-##  gap> NucleusIncludingGeneratingSet(Basilica);
-##  [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
-##  \endexample
+#M  NucleusIncludingGeneratingSet (<G>)
 ##
 InstallMethod(NucleusIncludingGeneratingSet, "NucleusIncludingGeneratingSet(IsAutomGroup)", true,
               [IsAutomGroup],
@@ -1781,47 +1661,7 @@ end);
 
 ################################################################################
 ##
-#F  AutomPortrait (<a>)
-#F  AutomPortraitBoundary (<a>)
-#F  AutomPortraitDepth (<a>)
-##
-##  'AutomPortrait (<a>)' constructs the portrait of an element <a> of a contracting group $G$.
-##  The portrait of <a> is defined recursively as follows. For $g$ in the nucleus
-##  of $G$ the portrait is just $[g]$. For any other element $g=(g_1,g_2,...,g_d)\sigma$
-##  the portrait of $g$ is $[\sigma, 'AutomPortrait'(g_1),...,'AutomPortrait'(g_d)]$,
-##  where $d$ is the degree of the tree. This structure describes a tree whose inner
-##  vertices are labelled by permutations from $S_d$ and the leaves are labelled by
-##  the elements of the nucleus. The contraction in $G$ guarantees that the
-##  portrait of any element is finite.
-##
-##  The portraits may be considered as a ``normal forms''
-##  of the elements of $G$, since different elements have different portraits.
-##
-##  One also can be interested only in the boundary of a portrait, which consists
-##  of all leaves of the portrait. This boundary can be described by an ordered set of
-##  pairs $[level_i, g_i]$, $i=1..r$ representing the leaves of the tree ordered from left
-##  to right (where $level_i$ and $g_i$ are the level and the label if the $i$-th leaf
-##  correspondingly). 'AutomPortraitBoundary (<a>)' computes this boundary. It returns a list
-##  consisting of 2 components. The first one is just the degree of the tree, and the
-##  second one is a list of pairs described above.
-##
-##  'AutomPortraitDepth (<a>)' returns the depth of the portrait, i.e. the minimal level, such
-##  that all sections of <a> at this level belong to the nucleus of $G$.
-##
-##  \beginexample
-##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
-##  < a, b >
-##  gap> AutomPortrait(a^3*b^-2*a);
-##  [ (), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ (), [ (), [ b ], [ a^-1*b ] ], [ b^-1 ] ] ]
-##  gap> AutomPortrait(a^3*b^-2*a^3);
-##  [ (), [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ b ] ], [ e ] ],
-##    [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ e ] ], [ a^-1*b ] ], [ b^-1 ] ] ]
-##  gap> AutomPortraitBoundary(a^3*b^-2*a^3);
-##  [ 2, [ [ 5, b ], [ 5, b ], [ 4, e ], [ 3, b ], [ 2, e ], [ 5, b ], [ 5, b ], [ 4, e ], [ 3, a^-1*b ],
-##        [ 2, b^-1 ] ] ]
-##  gap> AutomPortraitDepth(a^3*b^-2*a^3);
-##  5
-##  \endexample
+#F  _AutomPortraitMain(<a>)
 ##
 InstallGlobalFunction(_AutomPortraitMain,function(w)
   local PortraitIter, bndry,inv,d,Perm_List,max_lev,G,w_list,w_list_orig,Gi,track_l,nucl;
@@ -3420,20 +3260,6 @@ end);
 ##
 #F  IsNoncontracting (<G>, <max_len>, <depth>)
 ##
-##  Tries to show that the group <G> is not contracting.
-##  Enumerates the elements of the group <G> up to length <max_len>
-##  until it finds an element, which has a section 'g' of infinite order, such that
-##  '"ORDER_USING_SECTIONS"(g,<depth>)' is 'infinity' and such that 'g'
-##  stabilizes some vertex and has itself as a section at this vertex.
-##  See also '"IsContracting"'.
-##
-##  \beginexample
-##  gap> G:=AutomGroup("a=(b,a)(1,2),b=(c,b)(),c=(c,a)");
-##  < a, b, c >
-##  gap> IsNoncontracting(G,10,10);
-##  true
-##  \endexample
-
 InstallGlobalFunction(IsNoncontracting,function(G,n,depth)
   local IsNoncontrElement, res;
   IsNoncontrElement:=function(g)

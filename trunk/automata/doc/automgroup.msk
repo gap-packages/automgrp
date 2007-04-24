@@ -41,8 +41,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and operations for contracting groups}
-\Declaration{IsOneWordContr}
-\Declaration{IsOneContr}
+
 \Declaration{AutomNucleus}
 \Declaration{NucleusIncludingGeneratingSet}
 \Declaration{NucleusIncludingGeneratingSetAutom}

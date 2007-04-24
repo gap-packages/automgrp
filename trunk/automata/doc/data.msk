@@ -18,7 +18,7 @@
 \Declaration{AutomFamily}
 \Declaration{AutomGroup}
 \Declaration{AutomGroupNoBindGlobal}
-\Declaration{IsTreeAutomGroup}
+\Declaration{IsTreeAutomorphismGroup}
 \Declaration{IsAutomGroup}
 \Declaration{IsAutomatonGroup}
 

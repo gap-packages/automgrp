@@ -1,25 +1,20 @@
 #############################################################################
 ##
-#W  listops.gd             automata package                    Yevgen Muntyan
+#W  listops.gi             automata package                    Yevgen Muntyan
 #W                                                             Dmytro Savchuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
 ###############################################################################
 ##
-#F  IsCorrectAutomatonList( <list> )
-##
-##  Checks whether the list is correct list to define automaton, i.e.:
-##  [[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]],
-##  where n >= 2, m >= 1, a_ij are IsInt in [1..m], and all p_i are
-##  in SymmetricalGroup(n).
+#F  IsCorrectAutomatonList( <list>, <invertible> )
 ##
 InstallGlobalFunction(IsCorrectAutomatonList,
-function(list)
-  local len, deg, i, j;
+function(list, invertible)
+  local len, deg, i, j, dom;
 
   if not IsDenseList(list) then
     return false;
@@ -44,6 +39,12 @@ function(list)
     return false;
   fi;
 
+  if invertible then
+    dom := SymmetricGroup(deg);
+  else
+    dom := FullTransformationSemigroup(deg);
+  fi;
+
   for i in [1..len] do
     for j in [1..deg] do
       if not IsInt(list[i][j]) then
@@ -53,7 +54,7 @@ function(list)
         return false;
       fi;
     od;
-    if not list[i][deg + 1] in SymmetricGroup(deg) then
+    if not list[i][deg + 1] in dom then
       return false;
     fi;
   od;
@@ -206,9 +207,11 @@ end);
 ##
 #F  ReducedAutomatonInList( <list> )
 ##
-##  Returns [new_list, list_of_states] where new_list is a new list which
-##  represents reduced form of given automaton, i-th elmt of list_of_states
+##  Returns [new_list, list_of_states, old_states] where new_list is a new list
+##  which represents reduced form of given automaton, i-th elmt of list_of_states
 ##  is the number of i-th state of new automaton in the old one.
+##  old_states[i] is the number of state which corresponds to the i-th state
+##  of the original automaton.
 ##
 ##  First state of returned list is always first state of given one.
 ##  It does not remove trivial state, so it's not really "reduced automaton",

@@ -10,7 +10,8 @@
 \Declaration{AddInversesTrack}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{tools}
+\Section{Tools}
+
 \Declaration{IsCorrectAutomatonList}
 \Declaration{ConnectedStatesInList}
 \Declaration{IsTrivialStateInList}

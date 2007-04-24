@@ -45,16 +45,16 @@ DeclareOperation("ReducedListOfWordsByNielsen", [IsAssocWordCollection]);
 DeclareOperation("ReducedListOfWordsByNielsenBack", [IsAssocWordCollection]);
 
 
-#############################################################################
-##
-#O  ReduceByNielsen(<obj>)
-#O  ApplyNielsen(<obj>)
-##
-##  It applies Nielsen transformations to <obj> or to generators of <obj> if
-##  <obj> is a group etc.
-##  ReduceByNielsen is nondestructive variant; ApplyNielsen changes object.
-##  They are not necessarily implemented both in the same for given type.
-##
+# #############################################################################
+# ##
+# #O  ReduceByNielsen(<obj>)
+# #O  ApplyNielsen(<obj>)
+# ##
+# ##  It applies Nielsen transformations to <obj> or to generators of <obj> if
+# ##  <obj> is a group etc.
+# ##  ReduceByNielsen is nondestructive variant; ApplyNielsen changes object.
+# ##  They are not necessarily implemented both in the same for given type.
+# ##
 DeclareOperation("ReducedByNielsen", [IsObject]);
 DeclareOperation("ApplyNielsen", [IsObject]);
 

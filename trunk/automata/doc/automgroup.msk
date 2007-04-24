@@ -3,6 +3,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with automata group elements}
+
+\Declaration{OrbitOfVertex}{OrbitOfVertex}
+
   OrbitOfVertex
   PrintOrbitOfVertex
   ORDER_USING_SECTIONS

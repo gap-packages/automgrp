@@ -14,6 +14,26 @@ tex_files =		\
     intro.tex		\
     treeautgrp.tex
 
+g_files =						\
+    ../gap/automatagroup.gd   ../gap/automatagroup.gi	\
+    ../gap/automaton.gd	      ../gap/automaton.gi	\
+    ../gap/automatonobj.gd    ../gap/automatonobj.gi	\
+    ../gap/automfam.gd	      ../gap/automfam.gi	\
+    ../gap/autom.gd	      ../gap/autom.gi		\
+    ../gap/automgroup.gd      ../gap/automgroup.gi	\
+    ../gap/listops.gd	      ../gap/listops.gi		\
+    ../gap/rws.gd	      ../gap/rws.gi		\
+    ../gap/scilab.gd	      ../gap/scilab.gi		\
+    ../gap/selfs.gd	      ../gap/selfs.gi		\
+    ../gap/semigrp.gd	      ../gap/semigrp.gi		\
+    ../gap/treeaut.gd	      ../gap/treeaut.gi		\
+    ../gap/treeautgrp.gd      ../gap/treeautgrp.gi	\
+    ../gap/treeautobj.gd      ../gap/treeautobj.gi	\
+    ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
+    ../gap/utils.gd	      ../gap/utils.gi		\
+    ../gap/utilsratfun.gd     ../gap/utilsratfun.gi	\
+    ../gap/globals.g
+
 dist_files =		\
     manual.pdf
 
@@ -21,7 +41,7 @@ all: pdf htm dvi
 
 dvi: manual
 manual: manual-stamp
-manual-stamp: $(msk_files) manual.tex
+manual-stamp: $(msk_files) $(g_files) manual.tex
 	./buildman.pe -f buildman.config && \
 	tex manual &&  \
 	bibtex manual && \

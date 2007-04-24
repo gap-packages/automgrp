@@ -101,8 +101,11 @@ DeclareGlobalFunction("WordActionOnVertex");
 
 ################################################################################
 ##
-#O  OrbitOfVertex . . . .Computes the first n elements of the orbit of vertex ver
-##                                   under the element w of self-similat group G
+#O  OrbitOfVertex(<v>, <g>)
+##
+##  Computes the first n elements of the orbit of vertex <v>
+##  under the element <g> of a self-similat group G
+##
 DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton]);
 DeclareOperation("OrbitOfVertex",[IsList,IsAutomaton,IsCyclotomic]);
 
@@ -137,8 +140,8 @@ DeclareGlobalFunction("IS_ONE_LIST");
 
 ################################################################################
 ##
-#F  IS_ONE_LIST. . . . . . . . . . . . . . . . . . . .checks if the word is trivial
-##                     in any self-similar group
+#F  IsOneContr. . . . . . . . . . . . . . . . . . . .does something
+##
 DeclareGlobalFunction("IsOneContr");
 
 
@@ -292,19 +295,19 @@ DeclareGlobalFunction("AutomPortraitDepth");
 
 
 
-################################################################################
-##
-#F  WritePortraitToFile. . . . . . . . . . .Writes portrait in a file in the form
-##                                                       understandable by Maple
-#DeclareGlobalFunction("WritePortraitToFile");
+# ################################################################################
+# ##
+# #F  WritePortraitToFile. . . . . . . . . . .Writes portrait in a file in the form
+# ##                                                       understandable by Maple
+# #DeclareGlobalFunction("WritePortraitToFile");
 
 
-################################################################################
-##
-#F  WritePortraitsToFile. . . . . . . . . . . . .Writes portraitso of elements of
-##                          a list in a file in the form understandable by Maple
-
-#DeclareGlobalFunction("WritePortraitsToFile");
+# ################################################################################
+# ##
+# #F  WritePortraitsToFile. . . . . . . . . . . . .Writes portraitso of elements of
+# ##                          a list in a file in the form understandable by Maple
+#
+# #DeclareGlobalFunction("WritePortraitsToFile");
 
 
 ################################################################################

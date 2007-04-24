@@ -4,7 +4,8 @@ msk_files =		\
     autom.msk		\
     data.msk		\
     intro.msk		\
-    treeautgrp.msk
+    treeautgrp.msk	\
+    manual.msk
 
 tex_files =		\
     automgroup.tex	\
@@ -12,7 +13,8 @@ tex_files =		\
     autom.tex		\
     data.tex		\
     intro.tex		\
-    treeautgrp.tex
+    treeautgrp.tex	\
+    manual.tex
 
 g_files =						\
     ../gap/automatagroup.gd   ../gap/automatagroup.gi	\
@@ -31,7 +33,6 @@ g_files =						\
     ../gap/treeautobj.gd      ../gap/treeautobj.gi	\
     ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
     ../gap/utils.gd	      ../gap/utils.gi		\
-    ../gap/utilsratfun.gd     ../gap/utilsratfun.gi	\
     ../gap/globals.g
 
 dist_files =		\
@@ -40,27 +41,27 @@ dist_files =		\
 all: pdf htm dvi
 
 dvi: manual
-manual: manual-stamp
-manual-stamp: $(msk_files) $(g_files) manual.tex
+manual: .manual-stamp
+.manual-stamp: $(msk_files) $(g_files) buildman.config
 	./buildman.pe -f buildman.config && \
 	tex manual &&  \
 	bibtex manual && \
 	tex manual && tex manual && \
 	./manualindex manual && \
 	tex manual && \
-	date > manual-stamp
+	date > .manual-stamp
 
-pdf: pdf-stamp
-pdf-stamp: manual.pdf
-	date > pdf-stamp
-manual.pdf: manual-stamp
+pdf: .pdf-stamp
+.pdf-stamp: manual.pdf
+	date > .pdf-stamp
+manual.pdf: .manual-stamp
 	pdftex manual
 
-htm: htm-stamp
-htm-stamp: manual-stamp
+htm: .htm-stamp
+.htm-stamp: .manual-stamp
 	mkdir -p ../htm && \
 	./convert.pl -c -t -n automgrp . ../htm && \
-	date > htm-stamp
+	date > .htm-stamp
 
 dist: pdf htm
 	mkdir -p $(distdir)/doc $(distdir)/htm && \
@@ -69,5 +70,5 @@ dist: pdf htm
 
 clean:
 	rm -f *.six *.blg *.ind *.ilg *.log *.dvi *.toc *.idx *.aux *.lab *.bbl *.pdf \
-		$(tex_files) notfound *-stamp tthout tthmacros.tex
+		$(tex_files) notfound .*-stamp tthout tthmacros.tex
 	rm -fr ../htm

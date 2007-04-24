@@ -23,7 +23,6 @@ ReadPkg("automata", "gap/knowngroups.gi");
 ReadPkg("automata", "gap/listops.gi");
 ReadPkg("automata", "gap/utils.gi");
 ReadPkg("automata", "gap/utilsfrgrp.gi");
-ReadPkg("automata", "gap/utilsratfun.gi");
 ReadPkg("automata", "gap/scilab.gi");
 ReadPkg("automata", "gap/rws.gi");
 

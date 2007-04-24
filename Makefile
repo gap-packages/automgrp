@@ -34,9 +34,7 @@ gap_files =			\
     gap/utilsfrgrp.gd		\
     gap/utilsfrgrp.gi		\
     gap/utils.gd		\
-    gap/utils.gi		\
-    gap/utilsratfun.gd		\
-    gap/utilsratfun.gi
+    gap/utils.gi
 
 scilab_files =				\
     scilab/calcnplot.sci		\

@@ -4,53 +4,53 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with automata group elements}
 
-\Declaration{OrbitOfVertex}{OrbitOfVertex}
-
-  OrbitOfVertex
-  PrintOrbitOfVertex
-  ORDER_USING_SECTIONS
-  IsOneWordSelfSim
+\Declaration{OrbitOfVertex}
+\Declaration{PrintOrbitOfVertex}
+\Declaration{ORDER_USING_SECTIONS}
+\Declaration{IsOneWordSelfSim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with automata groups}
-  UnderlyingAutomFamily
-  DegreeOfTree
-  MihaylovSystem
-  IsFractalByWords
-  LevelOfFaithfulAction
-  IsomorphismPermGroup
-  DiagonalAction
-  MultAutomAlphabet
-  Random
-  UnderlyingFreeGroup
-  UnderlyingFreeSubgroup
-  IndexInFreeGroup
-  UnderlyingFreeGenerators
-  ApplyNielsen
-  TrivialSubgroup
-  IsAutomatonGroup
-  AutomatonList
-  IsSelfSimilar
-  FindNucleus
-  IsNoncontracting
-  IsContracting
-  FindRelsSubs
-  FindRelsSubsSG
-  FindRels
-  MarkovOperator
+
+\Declaration{UnderlyingAutomFamily}
+\Declaration{DegreeOfTree}
+\Declaration{MihaylovSystem}
+\Declaration{IsFractalByWords}
+\Declaration{LevelOfFaithfulAction}
+\Declaration{IsomorphismPermGroup}
+\Declaration{DiagonalAction}
+\Declaration{MultAutomAlphabet}
+\Declaration{Random}
+\Declaration{UnderlyingFreeGroup}
+\Declaration{UnderlyingFreeSubgroup}
+\Declaration{IndexInFreeGroup}
+\Declaration{UnderlyingFreeGenerators}
+\Declaration{ApplyNielsen}
+\Declaration{TrivialSubgroup}
+\Declaration{IsAutomatonGroup}
+\Declaration{AutomatonList}
+\Declaration{TrivialSubgroup}
+\Declaration{IsSelfSimilar}
+\Declaration{FindNucleus}
+\Declaration{IsNoncontracting}
+\Declaration{IsContracting}
+\Declaration{FindRelsSubs}
+\Declaration{FindRelsSubsSG}
+\Declaration{FindRels}
+\Declaration{MarkovOperator}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and operations for contracting groups}
-  IsOneWordContr
-  IsOneContr
-  AutomNucleus
-  NucleusIncludingGeneratingSet
-  NucleusIncludingGeneratingSetAutom
-  ContractingLevel
-  ContractingTable
-  UseContraction
-  AutomPortrait
-  AutomPortraitBoundary
-  AutomPortraitDepth
+\Declaration{IsOneWordContr}
+\Declaration{IsOneContr}
+\Declaration{AutomNucleus}
+\Declaration{NucleusIncludingGeneratingSet}
+\Declaration{NucleusIncludingGeneratingSetAutom}
+\Declaration{ContractingLevel}
+\Declaration{ContractingTable}
+\Declaration{UseContraction}
+\Declaration{AutomPortrait}
+\Declaration{AutomPortraitBoundary}
+\Declaration{AutomPortraitDepth}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

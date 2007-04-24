@@ -3,21 +3,23 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Trees}
-  NumberOfVertex
-  VertexNumber
+
+\Declaration{NumberOfVertex}
+\Declaration{VertexNumber}
+
   how to construct all leaves of the finite tree
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Objects acting on trees}
-  TreeAutomorphism
-  Autom
-  PermActionOnLevel
-  AutomFamily
-  AutomGroup
-  AutomGroupNoBindGlobal
-  IsTreeAutomGroup
-  IsAutomGroup
-  IsAutomatonGroup
-  IsAutomatonGroup
+
+\Declaration{TreeAutomorphism}
+\Declaration{Autom}
+\Declaration{PermActionOnLevel}
+\Declaration{AutomFamily}
+\Declaration{AutomGroup}
+\Declaration{AutomGroupNoBindGlobal}
+\Declaration{IsTreeAutomGroup}
+\Declaration{IsAutomGroup}
+\Declaration{IsAutomatonGroup}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

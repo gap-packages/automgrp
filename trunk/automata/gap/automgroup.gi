@@ -182,6 +182,11 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
+InstallMethod($SubgroupOnLevel, [IsAutomGroup, IsList and IsEmpty, IsPosInt],
+function(G, gens, level)
+  return TrivialSubgroup(G);
+end);
+
 InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
                                  IsList and IsAutomCollection,
                                  IsPosInt],
@@ -208,7 +213,7 @@ function(gens)
   fam := FamilyObj(gens[1]);
   words := FreeGeneratorsOfGroup(Group(List(gens, a -> a!.word)));
 
-  if fam!.use_rws then
+  if fam!.use_rws and not IsEmpty(words) then
     words := ReducedForm(fam!.rws, words);
     words := FreeGeneratorsOfGroup(Group(words));
   fi;

@@ -447,6 +447,13 @@ function(G, gens, level)
   return Group(gens);
 end);
 
+InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                 IsList and IsEmpty,
+                                 IsPosInt],
+function(G, gens, level)
+  return Group(State(One(G), List([1..level], i->1)));
+end);
+
 InstallMethod($SimplifyGenerators, [IsList and IsTreeAutomorphismCollection],
 function(gens)
   if IsEmpty(gens) then

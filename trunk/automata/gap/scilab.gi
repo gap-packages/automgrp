@@ -19,7 +19,7 @@ function(perms, deg, round, stacksize)
   plot_spectra_func_file, exec_string;
 
   plot_spectra_func_file := Filename(DirectoriesPackageLibrary("automata","scilab"),
-                                     "scilab/PlotSpectraPermsInScilab.sci");
+                                     "PlotSpectraPermsInScilab.sci");
   if plot_spectra_func_file = fail then
     Print("error in PlotSpectraPermsInScilab:\n  scilab file not found\n");
     return fail;

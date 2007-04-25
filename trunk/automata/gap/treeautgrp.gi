@@ -141,13 +141,10 @@ end);
 ###############################################################################
 ##
 #M  IsFractal (<G>)
-#M  CanEasilyTestFractalness (<G>)
 ##
 ##  Fractalness implies spherical transitivity, hence not spherical transitive
 ##  group isn't fractal.
 ##
-InstallTrueMethod(CanEasilyTestFractalness, HasIsFractal);
-
 InstallImmediateMethod(IsFractal, HasIsSphericallyTransitive, 0,
 function(G)
   if not IsSphericallyTransitive(G) then return false; fi;
@@ -545,12 +542,12 @@ function(G, H)
         return false;
   fi;
 
-  if CanEasilyTestFractalness(G) and
-    CanEasilyTestFractalness(H) and
-      IsFractal(G) <> IsFractal(H) then
-        Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
-        Info(InfoAutomata, 3, "  IsFractal(G) <> IsFractal(H)");
-        return false;
+  if HasIsFractal(G) and HasIsFractal(H) and
+     IsFractal(G) <> IsFractal(H)
+  then
+    Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
+    Info(InfoAutomata, 3, "  IsFractal(G) <> IsFractal(H)");
+    return false;
   fi;
 
   return IsSubgroup(G, H) and IsSubgroup(H, G);

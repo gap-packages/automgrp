@@ -365,7 +365,7 @@ function (G)
     return infinity;
   fi;
 
-  if CanEasilyTestFractalness(G) and IsFractal(G) then
+  if HasIsFractal(G) and IsFractal(G) then
     Info(InfoAutomata, 3, "Size(G): infinity, G is fractal");
     return infinity;
   fi;

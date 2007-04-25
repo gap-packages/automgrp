@@ -40,11 +40,10 @@ InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 ##
 #P  IsFractal (<G>)
 ##
-##  Fractal means that $Projection(St_G(x),x) > G$ for any $x\in X$ and $G$ is
+##  <Fractal> means that $Projection(St_G(x),x) > G$ for any $x\in X$ and $G$ is
 ##  spherically transitive.
 ##
 DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
-DeclareFilter("CanEasilyTestFractalness");
 
 
 ###############################################################################

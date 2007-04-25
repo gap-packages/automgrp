@@ -12,6 +12,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with automata groups}
 
+\cite{harpe}
+
 \Declaration{UnderlyingAutomFamily}
 \Declaration{DegreeOfTree}
 \Declaration{MihaylovSystem}

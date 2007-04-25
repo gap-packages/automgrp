@@ -54,6 +54,9 @@ tst_files =			\
 
 all:
 
+docs:
+	cd doc && make
+
 distdir = automata
 distdir:
 	(rm -fr $(distdir) && mkdir -p $(distdir)/gap && mkdir -p $(distdir)/scilab && mkdir -p $(distdir)/tst && \

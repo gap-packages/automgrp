@@ -45,7 +45,7 @@ manual: .manual-stamp
 	./buildman.pe -f buildman.config && \
 	tex manual &&  \
 	bibtex manual && \
-	tex manual && tex manual && \
+	tex manual && \
 	./manualindex manual && \
 	tex manual && \
 	date > .manual-stamp
@@ -54,7 +54,7 @@ pdf: .pdf-stamp
 .pdf-stamp: manual.pdf
 	date > .pdf-stamp
 manual.pdf: .manual-stamp
-	pdftex manual
+	pdftex manual && pdftex manual
 
 htm: .htm-stamp
 .htm-stamp: .manual-stamp

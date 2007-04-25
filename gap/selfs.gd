@@ -31,8 +31,8 @@ DeclareAttribute( "AutomNucleus", IsTreeAutomorphismGroup, "mutable" );
 #A  NucleusIncludingGeneratingSet (<G>)
 ##
 ##  Tries to compute the generating set of the group which includes original
-##  generators and the "nucleus" (the minimal set that need not contain original generators)
-##  of a self-similar group <G>. It uses "FindNucleus" operation
+##  generators and the <nucleus> (the minimal set that need not contain original generators)
+##  of a self-similar group <G>. It uses FindNucleus operation
 ##  and behaves accordingly: if the group is not contracting
 ##  it will loop forever (modulo memory constraints, of course).
 ##  See also "AutomNucleus".
@@ -59,13 +59,13 @@ DeclareAttribute( "NucleusIncludingGeneratingSetAutom", IsTreeAutomorphismGroup,
 #A  ContractingLevel (<G>)
 ##
 ##  Given a contracting group <G> with nucleus $N$, stored in
-##  'NucleusIncludingGeneratingSet(<G>)' (see "NucleusIncludingGeneratingSet") computes the
+##  NucleusIncludingGeneratingSet(<G>) (see "NucleusIncludingGeneratingSet") computes the
 ##  minimal level $n$, such that for every vertex $v$ of the $n$-th
 ##  level and all $g, h \in N$ the section $gh|_v \in N$.<P/>
 ##
 ##  In case if it is not known whether <G> is contracting it first tries to compute
 ##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
-##  also use "IsNoncontracting" or "FindNucleus" directly.
+##  also use IsNoncontracting or FindNucleus directly.
 ##  \beginexample
 ##  gap> ContractingLevel(GrigorchukGroup);
 ##  1
@@ -81,15 +81,15 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 #A  ContractingTable (<G>)
 ##
 ##  Given a contracting group <G> with nucleus $N$ of size $k$, stored in
-##  "NucleusIncludingGeneratingSet"(<G>) computes the $k\times k$ table, whose
+##  NucleusIncludingGeneratingSet(<G>) computes the $k\times k$ table, whose
 ##  [i][j]-th entry contains decomposition of $N$[i]$N$[j] on
-##  the "ContractingLevel"(<G>) level. By construction the sections of
+##  the ContractingLevel(<G>) level. By construction the sections of
 ##  $N$[i]$N$[j] on this level belong to $N$. This table is used in the
 ##  algorithm solving the word problem in polynomial time.
 ##
 ##  In case if it is not known whether <G> is contracting it first tries to compute
 ##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
-##  also use "IsNoncontracting" or "FindNucleus" directly.
+##  also use IsNoncontracting or FindNucleus directly.
 ##  \beginexample
 ##  gap> ContractingTable(GrigorchukGroup);
 ##  [ [ [ e, e, () ], [ e, e, (1,2) ], [ a, c, () ], [ a, d, () ], [ e, b, () ] ],
@@ -612,6 +612,8 @@ DeclareGlobalFunction("FindElementsOfInfiniteOrder");
 
 ################################################################################
 ##
+#F  IsNoncontracting (<G>)
+#F  IsNoncontracting (<G>, <max_len>)
 #F  IsNoncontracting (<G>, <max_len>, <depth>)
 ##
 ##  Tries to show that the group <G> is not contracting.

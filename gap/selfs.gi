@@ -3260,8 +3260,10 @@ end);
 ##
 #F  IsNoncontracting (<G>, <max_len>, <depth>)
 ##
-InstallGlobalFunction(IsNoncontracting,function(G,n,depth)
-  local IsNoncontrElement, res;
+InstallGlobalFunction(IsNoncontracting, function(arg)
+  local IsNoncontrElement, res,
+        G,n,depth;
+
   IsNoncontrElement:=function(g)
     if SUSPICIOUS_FOR_NONCONTRACTION(g) then
       return ORDER_USING_SECTIONS(g,depth)=infinity;
@@ -3269,6 +3271,17 @@ InstallGlobalFunction(IsNoncontracting,function(G,n,depth)
     return false;
   end;
 
+  G := arg[1];
+  n := infinity;
+  depth := infinity;
+  if Length(arg) > 1 then n := arg[2]; fi;
+  if Length(arg) > 2 then depth := arg[3]; fi;
+  if Length(arg) > 3 then Error("invalid arguments for IsNoncontracting"); fi;
+
+  # XXX Dima, is the following right?
+  # IsNoncontracting must be true if group is not contracting, or not? (if not,
+  # then it should be an attribute too, so it won't be recomputed every time you
+  # call the function).
   if HasIsContracting(G) and IsContracting(G) then return false; fi;
 
   res:=FindGroupElement(G,IsNoncontrElement,true,n);

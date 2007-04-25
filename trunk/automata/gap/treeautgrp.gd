@@ -53,7 +53,6 @@ DeclareFilter("CanEasilyTestFractalness");
 ##
 ##  Whether group <G> is contracting.
 ##
-DeclareFilter("CanEasilyTestContractingProperty");
 DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 
 

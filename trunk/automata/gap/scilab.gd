@@ -24,16 +24,5 @@ DeclareGlobalFunction("PlotSpectraPermsInScilab");
 DeclareOperation("PlotSpectraInScilabAddInverses", [IsObject, IsPosInt, IsPosInt]);
 
 
-
-
-
-
-
-
-
-
-
-
 # DeclareOperation("PlotAutomatonSpectraInScilab", [IsList, IsInt, IsInt]);
 #E
-

@@ -21,3 +21,6 @@ DeclareOperation("SetRwRules", [IsFARewritingSystem, IsObject]);
 
 DeclareOperation("FARewritingSystem", [IsAutomFamily]);
 DeclareOperation("UseFARewritingSystem", [IsAutomFamily, IsBool]);
+
+
+#E

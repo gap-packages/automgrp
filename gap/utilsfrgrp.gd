@@ -12,10 +12,8 @@
 
 #############################################################################
 ##
-#O  ReducedListOfWordsByNielsen(<words_list>)
-#O  ReducedListOfWordsByNielsenBack(<words_list>)
-#O  ReducedListOfWordsByNielsen(<words_list>, <any_string>)
-#O  ReducedListOfWordsByNielsenBack(<words_list>, <any_string>)
+#O  ReducedListOfWordsByNielsen(<words_list>[, <any_string>])
+#O  ReducedListOfWordsByNielsenBack(<words_list>[, <any_string>])
 ##
 ##  It applies Nielsen transformations to <words_list>;
 ##  input is a list of associative words from the same family.

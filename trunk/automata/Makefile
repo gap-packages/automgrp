@@ -4,12 +4,8 @@ top_files =			\
     PackageInfo.g
 
 gap_files =			\
-    gap/automatagroup.gd	\
-    gap/automatagroup.gi	\
     gap/automaton.gd		\
     gap/automaton.gi		\
-    gap/automatonobj.gd		\
-    gap/automatonobj.gi		\
     gap/automfam.gd		\
     gap/automfam.gi		\
     gap/autom.gd		\
@@ -25,12 +21,15 @@ gap_files =			\
     gap/scilab.gi		\
     gap/selfs.gd		\
     gap/selfs.gi		\
+    gap/tree.gd			\
+    gap/tree.gi			\
     gap/treeaut.gd		\
     gap/treeaut.gi		\
     gap/treeautgrp.gd		\
     gap/treeautgrp.gi		\
-    gap/treeautobj.gd		\
-    gap/treeautobj.gi		\
+    gap/treehomsg.gd		\
+    gap/treehom.gd		\
+    gap/treehom.gi		\
     gap/utilsfrgrp.gd		\
     gap/utilsfrgrp.gi		\
     gap/utils.gd		\

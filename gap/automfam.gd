@@ -10,10 +10,8 @@
 
 ###############################################################################
 ##
-#O  AutomFamily(<list>)
-#O  AutomFamily(<list>, <names>)
-#O  AutomFamilyNoBindGlobal(<list>)
-#O  AutomFamilyNoBindGlobal(<list>, <names>)
+#O  AutomFamily(<list>[, <names>])
+#O  AutomFamilyNoBindGlobal(<list>[, <names>])
 ##
 DeclareOperation("AutomFamily", [IsList, IsList]);
 DeclareOperation("AutomFamilyNoBindGlobal", [IsList, IsList]);

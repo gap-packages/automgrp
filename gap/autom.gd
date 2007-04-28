@@ -29,6 +29,7 @@ DeclareOperation("Word", [IsGroup, IsGroup]);
 #O  Autom(<word>, <a>)
 #O  Autom(<word>, <fam>)
 ##
+DeclareOperation("Autom", [IsAssocWord, IsAutom]);
 DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
 
 

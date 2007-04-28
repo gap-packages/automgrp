@@ -104,8 +104,7 @@ end);
 ##
 #M  Autom(<word>, <a>)
 ##
-InstallOtherMethod(Autom, "method for IsAssocWord and IsAutom",
-                   [IsAssocWord, IsAutom],
+InstallMethod(Autom, "method for IsAssocWord and IsAutom", [IsAssocWord, IsAutom],
 function(w, a)
   return Autom(w, FamilyObj(a));
 end);

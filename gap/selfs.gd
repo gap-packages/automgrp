@@ -13,7 +13,7 @@
 ##  XXX rename to Nucleus or something like that, no need in "Autom".
 #A  AutomNucleus (<G>)
 ##
-##  Tries to compute the "nucleus" (the minimal set that need not contain original
+##  Tries to compute the <nucleus> (the minimal set that need not contain original
 ##  generators) of a self-similar group <G>. It uses `FindNucleus' (see "FindNucleus")
 ##  operation and behaves accordingly: if the group is not contracting it will loop
 ##  forever. See also "NucleusIncludingGeneratingSet".

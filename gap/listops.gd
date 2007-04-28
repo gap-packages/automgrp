@@ -76,7 +76,7 @@ DeclareGlobalFunction("AreEquivalentStatesInLists");
 ##  is the number of i-th state of new automaton in the old one.
 ##
 ##  First state of returned list is always first state of given one.
-##  It does not remove trivial state, so it's not really "reduced automaton",
+##  It does not remove trivial state, so it's not really ``reduced automaton'',
 ##  it just removes equivalent states.
 ##  TODO: write such function which removes trivial state
 ##

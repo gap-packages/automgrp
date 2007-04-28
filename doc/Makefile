@@ -17,9 +17,6 @@ tex_files =		\
     manual.tex
 
 g_files =						\
-    ../gap/automatagroup.gd   ../gap/automatagroup.gi	\
-    ../gap/automaton.gd	      ../gap/automaton.gi	\
-    ../gap/automatonobj.gd    ../gap/automatonobj.gi	\
     ../gap/automfam.gd	      ../gap/automfam.gi	\
     ../gap/autom.gd	      ../gap/autom.gi		\
     ../gap/automgroup.gd      ../gap/automgroup.gi	\
@@ -29,7 +26,10 @@ g_files =						\
     ../gap/selfs.gd	      ../gap/selfs.gi		\
     ../gap/treeaut.gd	      ../gap/treeaut.gi		\
     ../gap/treeautgrp.gd      ../gap/treeautgrp.gi	\
-    ../gap/treeautobj.gd      ../gap/treeautobj.gi	\
+    ../gap/tree.gd	      ../gap/tree.gi		\
+    ../gap/treehom.gd	      ../gap/treehom.gi		\
+    ../gap/treehomsg.gd					\
+    ../gap/treehom.gd	      ../gap/treehom.gi		\
     ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
     ../gap/utils.gd	      ../gap/utils.gi		\
     ../gap/globals.g
@@ -67,6 +67,6 @@ dist: pdf htm
 	cp ../htm/* $(distdir)/htm/
 
 clean:
-	rm -f *.six *.blg *.ind *.ilg *.log *.dvi *.toc *.idx *.aux *.lab *.bbl *.pdf \
+	rm -f *.blg *.ind *.ilg *.log *.dvi *.toc *.idx *.aux *.lab *.bbl *.pdf \
 		$(tex_files) notfound .*-stamp tthout tthmacros.tex
 	rm -fr ../htm

@@ -129,7 +129,7 @@ end);
 ##  [ 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ] ]
 ##  \endexample
 ##
-InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsAutomaton,IsCyclotomic)", true, [IsList,IsAutomaton,IsCyclotomic],
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsTreeHomomorphism,IsCyclotomic)", true, [IsList,IsTreeHomomorphism,IsCyclotomic],
 function(ver,g,n)
   local i, ver_tmp, orb;
   i:=0; orb:=[];
@@ -143,13 +143,13 @@ function(ver,g,n)
 end);
 
 
-InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsAutomaton)", [IsList,IsAutomaton],
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsList,IsTreeHomomorphism)", [IsList,IsTreeHomomorphism],
 function(ver,g)
   return OrbitOfVertex(ver,g,infinity);
 end);
 
 
-InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsAutomaton,IsCyclotomic)", true, [IsString,IsAutomaton,IsCyclotomic],
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsTreeHomomorphism,IsCyclotomic)", true, [IsString,IsTreeHomomorphism,IsCyclotomic],
 function(ver,g,n)
   local i, ver_tmp, orb, ch;
 
@@ -174,7 +174,7 @@ function(ver,g,n)
 end);
 
 
-InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsAutomaton)", [IsString,IsAutomaton],
+InstallMethod(OrbitOfVertex, "OrbitOfVertex(IsString,IsTreeHomomorphism)", [IsString,IsTreeHomomorphism],
 function(ver,g)
   return OrbitOfVertex(ver,g,infinity);
 end);
@@ -222,7 +222,7 @@ end);
 ##
 #O  PrintOrbitOfVertex (<ver>, <g>[, <n>])
 ##
-InstallMethod(PrintOrbitOfVertex, "PrintOrbitOfVertex(IsList,IsAutomaton,IsCyclotomic)", [IsString,IsAutomaton,IsCyclotomic],
+InstallMethod(PrintOrbitOfVertex, "PrintOrbitOfVertex(IsList,IsTreeHomomorphism,IsCyclotomic)", [IsString,IsTreeHomomorphism,IsCyclotomic],
 function(ver,w,n)
   local orb,i,j;
   orb:=OrbitOfVertex(ver,w,n);
@@ -244,7 +244,7 @@ function(ver,w,n)
   fi;
 end);
 
-InstallMethod(PrintOrbitOfVertex, "OrbitOfVertex(IsString,IsAutomaton)", [IsList,IsAutomaton],
+InstallMethod(PrintOrbitOfVertex, "OrbitOfVertex(IsString,IsTreeHomomorphism)", [IsList,IsTreeHomomorphism],
 function(ver,g)
   PrintOrbitOfVertex(ver,g,infinity);
 end);

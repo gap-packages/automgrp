@@ -4,77 +4,73 @@
 #W                                                             Dmytro Savchuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
 ###############################################################################
 ##
 #C  IsTreeAutomorphism
-#C  IsTreeAutomorphismFamily
-#C  IsTreeAutomorphismCollection
 ##
-DeclareCategory("IsTreeAutomorphism", IsTreeAutObject and
-                                      IsMultiplicativeElementWithInverse and
-                                      IsAssociativeElement);
+##  Category of rooted tree automorphisms.
+##
+DeclareCategory("IsTreeAutomorphism", IsTreeHomomorphism and
+                                      IsMultiplicativeElementWithInverse);
 DeclareCategoryFamily("IsTreeAutomorphism");
 DeclareCategoryCollections("IsTreeAutomorphism");
-InstallTrueMethod(IsTreeAutObject, IsTreeAutomorphismFamily);
-InstallTrueMethod(IsTreeAutObject, IsTreeAutomorphismCollection);
+InstallTrueMethod(IsActingOnTree, IsTreeAutomorphismFamily);
+InstallTrueMethod(IsActingOnTree, IsTreeAutomorphismCollection);
 InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection);
 
 
 ###############################################################################
 ##
-#O  TreeAutomorphismFamily(<spherical_index>)
-#O  TreeAutomorphism(<states>, <perm>)
+#O  TreeAutomorphism( <states>, <perm> )
 ##
-DeclareOperation("TreeAutomorphismFamily", [IsObject]);
+##  Constructs a tree automorphism with states <states> and acting
+##  on the first level as permutation <perm>.
+##
 DeclareOperation("TreeAutomorphism", [IsList, IsPerm]);
+DeclareOperation("TreeAutomorphismFamily", [IsObject]);
 
 
 ###############################################################################
 ##
-#C  Perm(<a>)
-#C  Perm(<a>, <k>)
-#O  PermOnLevel(<a>, <k>)
+#O  Perm( <a>[, <lev>] )
 ##
-##  In the first form Perm returns the permutation on the first level,
-##  in the second form - permutation on k-th level.
-##  PermOnLevel does the same. It's here for the reason that the name "Perm"
-##  is already taken, so we cannot declare it as KeyDependentOperation.
+##  Returns permutation induced by tree automorphism <a> on the level <lev>
+##  (or first level if <lev> is not given). See also
+##  `TransformationOnLevel'~("TransformationOnLevel").
 ##
 DeclareOperation("Perm", [IsTreeAutomorphism, IsPosInt]);
+
+###############################################################################
+##
+#O  PermOnLevel( <a>, <k> )
+##
+##  Does the same thing as `Perm'~("Perm").
+##
 KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 
+#############################################################################
+##
+#P  IsSphericallyTransitive( <a> )
+##
+##  Whether action of <a> is "spherically transitive".
+##
+DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphism);
+# XXX CanEasilyTestSphericalTransitivity isn't really used except for
+# automorphisms of binary tree
+DeclareFilter("CanEasilyTestSphericalTransitivity");
+InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 
-###############################################################################
+#############################################################################
 ##
-#O  State(<a>, <k>)
-#O  State(<a>, <vertex>)
-#O  States(<a>)
+#O  IsTransitiveOnLevel( <a>, <lev> )
 ##
-##  This is the 'state' or 'projection' of given automorphism in given vertex.
-##  <vertex> is a list representing vertex;
-##  if integer <k> is given, then corresponding vertex on the first level of
-##  tree is taken.
+##  Whether <a> acts transitively on level <lev>.
 ##
-DeclareOperation("State", [IsTreeAutomorphism, IsList]);
-DeclareOperation("States", [IsTreeAutomorphism]);
-
-
-###############################################################################
-##
-#O  Expand(<a>, <k>)
-##
-DeclareOperation("Expand", [IsTreeAutomorphism, IsPosInt]);
-
-
-###############################################################################
-##
-#A  CanEasilyComputeOrder(<a>)
-##
-DeclareFilter("CanEasilyComputeOrder");
+DeclareOperation("IsTransitiveOnLevel", [IsTreeAutomorphism, IsPosInt]);
 
 
 #E

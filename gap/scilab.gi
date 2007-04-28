@@ -68,7 +68,7 @@ end);
 #M  PlotSpectraInScilabAddInverses(<G>, <level>)
 ##
 InstallOtherMethod(PlotSpectraInScilabAddInverses,
-                   [IsAutomataGroup, IsPosInt],
+                   [IsTreeAutomorphismGroup, IsPosInt],
 function(G, lev)
   PlotSpectraInScilabAddInverses(G, lev, AutomataParameters.round_spectra);
 end);
@@ -79,7 +79,7 @@ end);
 #M  PlotSpectraInScilabAddInverses(<G>, <level>, <round>)
 ##
 InstallMethod(PlotSpectraInScilabAddInverses,
-              [IsAutomataGroup, IsPosInt, IsPosInt],
+              [IsTreeAutomorphismGroup, IsPosInt, IsPosInt],
 function(G, lev, round)
   local gens;
   gens := Filtered(List(GeneratorsOfGroup(G), g -> PermOnLevel(g, lev)),

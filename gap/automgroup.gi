@@ -52,7 +52,7 @@ end);
 ##
 #M  AutomGroup(<list>, <names>)
 ##
-InstallOtherMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
+InstallMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
 function (list, names)
   local fam, g;
 
@@ -72,8 +72,8 @@ end);
 ##
 #M  AutomGroupNoBindGlobal(<list>, <names>)
 ##
-InstallOtherMethod(AutomGroupNoBindGlobal,
-                   "AutomGroupNoBindGlobal(IsList, IsList)", [IsList, IsList],
+InstallMethod(AutomGroupNoBindGlobal,
+              "AutomGroupNoBindGlobal(IsList, IsList)", [IsList, IsList],
 function (list, names)
   local fam, g;
 
@@ -288,35 +288,6 @@ end);
 
 ###############################################################################
 ##
-#M  MihaylovSystem(G)
-##
-## TODO XXX it's broken, test it
-InstallMethod(MihaylovSystem, "MihaylovSystem(IsAutomGroup)", [IsAutomGroup],
-function (G)
-  local gens, mih, mih_gens, i;
-
-  if not IsActingOnBinaryTree(G) then
-    Error("MihaylovSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
-  fi;
-  if not IsFractalByWords(G) then
-    Info(InfoAutomata, 1, "given group is not IsFractalByWords");
-    return fail;
-  fi;
-
-  gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
-  mih := ComputeMihaylovSystemPairs(List(gens, a -> StatesWords(a)));
-  if not mih[3] then return gens; fi;
-
-  mih_gens := [];
-  for i in [1..Length(gens)] do
-    mih_gens[i] := CalculateWord(mih[2][i], gens);
-  od;
-  return mih_gens;
-end);
-
-
-###############################################################################
-##
 #M  IsFractalByWords(G)
 ##
 InstallMethod(IsFractalByWords, "IsFractalByWords(IsAutomGroup)",
@@ -469,31 +440,32 @@ end);
 ##  \endexample
 ##
 InstallOtherMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomatonGroup,IsCyclotomic)",
-             [IsAutomGroup and IsSelfSimilar,IsCyclotomic],
-function(G,n)
- local H,lev;
- lev:=LevelOfFaithfulAction(G,n);
- if lev<>fail then
-   H:=PermGroupOnLevel(G,LevelOfFaithfulAction(G));
-   return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
- fi;
- return fail;
+                   [IsAutomGroup and IsSelfSimilar, IsCyclotomic],
+function (G, n)
+  local H, lev;
+  lev := LevelOfFaithfulAction(G, n);
+  if lev <> fail then
+    H := PermGroupOnLevel(G,LevelOfFaithfulAction(G));
+    return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+  fi;
+  return fail;
 end);
 
-InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomaton)",
-             [IsAutomatonGroup],
-function(G)
- local H;
- H:=PermGroupOnLevel(G,LevelOfFaithfulAction(G));
- return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
-end);
-
-InstallOtherMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
-              [IsAutomGroup],
+## XXX need general method
+InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsTreeAutomorphismGroup)",
+              [IsTreeAutomorphismGroup],
 function(G)
   local H;
-  H:=_FiniteGroupId(G);
-  return GroupHomomorphismByImagesNC(G,H,GeneratorsOfGroup(G),GeneratorsOfGroup(H));
+  H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
+  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+end);
+
+InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
+              [IsAutomGroup],
+function (G)
+  local H;
+  H := _FiniteGroupId(G);
+  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
 end);
 
 
@@ -542,12 +514,6 @@ function (G)
   if IsTrivial(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is trivial: G = ", G);
-    return false;
-  fi;
-
-  if CanEasilyComputeSize(G) and Size(G) < infinity then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  Size(G) < infinity: G = ", G);
     return false;
   fi;
 

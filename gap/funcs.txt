@@ -41,7 +41,6 @@ treeautgrp.gd:
   DeclareFilter("CanEasilyTestSelfSimilarity");
   DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
   DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
-  DeclareFilter("CanEasilyComputeSize");
   DeclareAttribute("StabilizerOfFirstLevel", IsTreeAutomorphismGroup);
   KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
   DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
@@ -68,7 +67,6 @@ treeaut.gd:
   DeclareOperation("State", [IsTreeAutomorphism, IsList]);
   DeclareOperation("States", [IsTreeAutomorphism]);
   DeclareOperation("Expand", [IsTreeAutomorphism, IsPosInt]);
-  DeclareFilter("CanEasilyComputeOrder");
 
 selfs.gd:
   DeclareAttribute( "AutomNucleus", IsTreeAutomorphismGroup, "mutable" );
@@ -216,28 +214,6 @@ automfam.gd:
   KeyDependentOperation("DiagonalAction", IsAutomFamily, IsPosInt, ReturnTrue);
   KeyDependentOperation("MultAutomAlphabet", IsAutomFamily, IsPosInt, ReturnTrue);
   DeclareAttribute("GeneratorsOfOrderTwo", IsAutomFamily);
-
-automatonobj.gd:
-  DeclareCategory("IsAutomatonObject", IsTreeAutObject);
-  InstallTrueMethod(IsActingOnHomogeneousTree, IsAutomatonObject);
-  DeclareAttribute("AutomatonList", IsAutomatonObject, "mutable");
-
-automaton.gd:
-  DeclareCategory("IsAutomaton",  IsAutomatonObject and IsTreeAutomorphism);
-  DeclareCategoryFamily("IsAutomaton");
-  DeclareCategoryCollections("IsAutomaton");
-  DeclareAttribute( "AutomatonListInitialState", IsAutomaton, "mutable" );
-
-automatagroup.gd:
-  DeclareCategory("IsAutomataGroup", IsAutomatonObject and IsTreeAutomorphismGroup);
-  DeclareAttribute("AutomatonListInitialStatesGenerators", IsAutomataGroup, "mutable");
-  DeclareAttribute("GeneratingAutomatonList", IsAutomataGroup, "mutable");
-  KeyDependentOperation("LowerCentralSeriesOnLevel", IsAutomataGroup, IsPosInt, ReturnTrue);
-  KeyDependentOperation("PCentralSeriesOnLevel", IsAutomataGroup, IsPosInt, ReturnTrue);
-  KeyDependentOperation("JenningsSeriesOnLevel", IsAutomataGroup, IsPosInt, ReturnTrue);
-  KeyDependentOperation("LowerCentralSeriesRanksOnLevel", IsAutomataGroup and IsActingOnBinaryTree, IsPosInt, ReturnTrue);
-  KeyDependentOperation("PCentralSeriesRanksOnLevel", IsAutomataGroup and IsActingOnBinaryTree, IsPosInt, ReturnTrue);
-  KeyDependentOperation("JenningsSeriesRanksOnLevel", IsAutomataGroup and IsActingOnBinaryTree, IsPosInt, ReturnTrue);
 
 autom.gd:
   DeclareCategory("IsAutom", IsAutomaton);

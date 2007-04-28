@@ -11,17 +11,25 @@
 ###############################################################################
 ##
 #C  IsAutom
-#C  IsAutomCollection
-#C  IsAutomFamily
 ##
-DeclareCategory("IsAutom", IsAutomaton);
+##  A category of objects created using `AutomGroup'~("AutomGroup"). These
+##  objects are finite initial automata.
+##
+DeclareCategory("IsAutom", IsTreeAutomorphism);
 DeclareCategoryCollections("IsAutom");
 DeclareCategoryFamily("IsAutom");
-InstallTrueMethod(IsAutomatonObject, IsAutomCollection);
-InstallTrueMethod(IsAutomatonObject, IsAutomFamily);
+InstallTrueMethod(IsActingOnRegularTree, IsAutomCollection);
+InstallTrueMethod(IsActingOnRegularTree, IsAutom);
 
-DeclareOperation("Word", [IsObject]);
-DeclareOperation("Word", [IsGroup, IsGroup]);
+
+###############################################################################
+##
+#O  Word( <a> )
+##
+##  Returns <a> as an associative word in generators of the self-similar group
+##  to which <a> belongs.
+##
+DeclareOperation("Word", [IsAutom]);
 
 
 ###############################################################################

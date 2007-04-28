@@ -9,12 +9,10 @@
 
 ReadPkg("automata", "gap/globals.g");
 
-ReadPkg("automata", "gap/treeautobj.gi");
+ReadPkg("automata", "gap/tree.gi");
+ReadPkg("automata", "gap/treehom.gi");
 ReadPkg("automata", "gap/treeaut.gi");
 ReadPkg("automata", "gap/treeautgrp.gi");
-ReadPkg("automata", "gap/automatonobj.gi");
-ReadPkg("automata", "gap/automaton.gi");
-ReadPkg("automata", "gap/automatagroup.gi");
 ReadPkg("automata", "gap/autom.gi");
 ReadPkg("automata", "gap/automfam.gi");
 ReadPkg("automata", "gap/automgroup.gi");

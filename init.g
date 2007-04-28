@@ -9,12 +9,11 @@
 
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
 
-ReadPkg("automata", "gap/treeautobj.gd");
+ReadPkg("automata", "gap/tree.gd");
+ReadPkg("automata", "gap/treehom.gd");
+ReadPkg("automata", "gap/treehomsg.gd");
 ReadPkg("automata", "gap/treeaut.gd");
 ReadPkg("automata", "gap/treeautgrp.gd");
-ReadPkg("automata", "gap/automatonobj.gd");
-ReadPkg("automata", "gap/automaton.gd");
-ReadPkg("automata", "gap/automatagroup.gd");
 ReadPkg("automata", "gap/autom.gd");
 ReadPkg("automata", "gap/automfam.gd");
 ReadPkg("automata", "gap/automgroup.gd");

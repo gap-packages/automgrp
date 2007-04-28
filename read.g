@@ -9,6 +9,7 @@
 
 ReadPkg("automata", "gap/globals.g");
 
+ReadPkg("automata", "gap/automaton.gi");
 ReadPkg("automata", "gap/tree.gi");
 ReadPkg("automata", "gap/treehom.gi");
 ReadPkg("automata", "gap/treeaut.gi");

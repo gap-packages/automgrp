@@ -9,6 +9,7 @@
 
 DeclareAutoPackage("automata", "0.91", ReturnTrue);
 
+ReadPkg("automata", "gap/automaton.gd");
 ReadPkg("automata", "gap/tree.gd");
 ReadPkg("automata", "gap/treehom.gd");
 ReadPkg("automata", "gap/treehomsg.gd");

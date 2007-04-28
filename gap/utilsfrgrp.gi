@@ -4,7 +4,7 @@
 ##                                                              Dmytro Sachuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 ##  TODO everything

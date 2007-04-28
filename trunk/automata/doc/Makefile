@@ -51,10 +51,9 @@ manual: .manual-stamp
 	date > .manual-stamp
 
 pdf: .pdf-stamp
-.pdf-stamp: manual.pdf
+.pdf-stamp: .manual-stamp
+	pdftex manual && pdftex manual && \
 	date > .pdf-stamp
-manual.pdf: .manual-stamp
-	pdftex manual && pdftex manual
 
 htm: .htm-stamp
 .htm-stamp: .manual-stamp

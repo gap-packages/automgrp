@@ -30,15 +30,17 @@
 %   \Input{\copyright 2004--2006 by Yevgen Muntyan and Dmytro Savchuk}
 
 \Chapters
-  \Input{intro}
-  \Input{data}
-  \Input{treeautgrp}
-  \Input{automgroup}
-  \Input{autom}
+
+\Input{intro}
+\Input{data}
+\Input{treeautgrp}
+\Input{automgroup}
+\Input{autom}
 
 \Appendices
-  \Input{automlist}
-  \Index
+
+\Input{automlist}
+\Index
 
 \Bibliography
 

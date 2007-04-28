@@ -4,7 +4,7 @@
 #W                                                              Dmytro Sachuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -83,7 +83,7 @@ InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsTreeAutomorphi
 function (G)
   local i, k, stab;
 
-  if CanEasilyComputeSize(G) and Size(G) < infinity then
+  if HasIsFinite(G) and IsFinite(G) then
     Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomata, 3, "  G is finite");
     Info(InfoAutomata, 3, "  G = ", G);
@@ -169,7 +169,7 @@ function(G)
     return false;
   fi;
 
-  if CanEasilyComputeSize(G) and Size(G) < infinity then
+  if HasIsFinite(G) and IsFinite(G) then
     Info(InfoAutomata, 3, "IsFractal(G): false");
     Info(InfoAutomata, 3, "  G is finite");
     return false;
@@ -195,10 +195,7 @@ end);
 ###############################################################################
 ##
 #M  Size (<G>)
-#M  CanEasilyComputeSize (<G>)
 ##
-InstallTrueMethod(CanEasilyComputeSize, HasSize);
-
 InstallImmediateMethod(Size, HasIsFractal, 0,
 function(G)
   if IsFractal(G) then return infinity; fi;

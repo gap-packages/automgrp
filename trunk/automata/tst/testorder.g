@@ -22,6 +22,9 @@ UnitTest("Order", function()
     AssertEqual(Order(group.1 * group.2), 16);
     AssertEqual(Order(group.1 * group.3), 8);
     AssertEqual(Order(group.1 * group.4), 4);
+    AssertNotEqual(Order(group.1 * group.2 * group.1), infinity);
+    AssertNotEqual(Order(group.1 * group.3 * group.1), infinity);
+    AssertNotEqual(Order(group.1 * group.4 * group.1), infinity);
   od;
 
   group := AutomGroup("a=(1,b)(1,2), b=(1,a)");

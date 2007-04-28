@@ -203,7 +203,7 @@ end);
 ##
 #M  Word(<a>)
 ##
-InstallOtherMethod(Word, "method for IsAutom", [IsAutom],
+InstallMethod(Word, "method for IsAutom", [IsAutom],
 function(a)
     return a!.word;
 end);
@@ -264,10 +264,7 @@ function(a)
 
   d := a!.deg;
   autlist := FamilyObj(a)!.automatonlist;
-#  to_check := [ExpandExtRepOfWord(a!.word, FamilyObj(a)!.numstates)];
   checked := [];
-#  deb_i := 0;
-#  pos := 0;
 
   istrivstate := function(v)
     local i,j,perm;
@@ -289,44 +286,12 @@ function(a)
 
   exp := LetterRepAssocWord(a!.word);
   for i in [1..Length(exp)] do
-    if exp[i] < 0 then exp[i] := -exp[i] + FamilyObj(a)!.numstates; fi;
+    if exp[i] < 0 then
+      exp[i] := -exp[i] + FamilyObj(a)!.numstates;
+    fi;
   od;
-  if istrivstate(exp) then
-    Append(FamilyObj(a)!.relators, checked);
-    return true;
-  else
-    return false;
-  fi;
 
-#   while Length(to_check) > pos do
-#     pos := pos + 1;
-#     w := to_check[pos];
-#     Print(pos, " : ", Length(to_check), "\n");
-# #       deb_i := deb_i + 1;
-# #       Print(deb_i, "\n");
-#
-#     perm := ();
-#     for i in [1..Length(w)] do
-#       perm := perm * autlist[w[i]][d+1];
-#     od;
-#     if not IsOne(perm) then
-#       return false;
-#     fi;
-#
-#     for i in [1..d] do
-#       nw := StateOfWordInAutomatonList(w, i, autlist);
-#       if Length(nw) <> 0 then
-#         if not nw in checked then
-#           if not nw in to_check then
-#             Add(to_check, nw);
-#           fi;
-#         fi;
-#       fi;
-#     od;
-#     Add(checked, w);
-#   od;
-#
-#   return true;
+  return istrivstate(exp);
 end);
 
 
@@ -601,12 +566,6 @@ end);
 InstallOtherMethod(\^, "\^(IsList, IsAutom)", [IsList, IsAutom],
 function(seq, a)
     local i, deg, img, cur;
-
-    if HasAutomatonList(a) then
-      return ImageOfVertexInList( AutomatonList(a),
-                                  AutomatonListInitialState(a),
-                                  seq );
-    fi;
 
     deg := DegreeOfTree(a);
     for i in seq do

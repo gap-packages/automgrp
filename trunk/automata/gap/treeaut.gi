@@ -4,7 +4,7 @@
 #W                                                              Dmytro Sachuk
 ##  automata v 0.91 started June 07 2004
 ##
-#Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -60,7 +60,7 @@ end);
 ##
 #M  TreeAutomorphism(<states_list>, <perm>)
 ##
-InstallMethod(TreeAutomorphism, [IsList and IsAutomatonCollection, IsPerm],
+InstallMethod(TreeAutomorphism, [IsList and IsTreeAutomorphismCollection, IsPerm],
 function(list_states, permutation)
   local top_deg, bot_deg, ind, fam;
   top_deg := Length(list_states);
@@ -360,14 +360,6 @@ end);
 
 ###############################################################################
 ##
-#M  CanEasilyComputeOrder (<a>)
-##
-InstallTrueMethod(CanEasilyComputeOrder, HasOrder and IsTreeAutomorphism);
-InstallTrueMethod(CanEasilyComputeOrder, IsSphericallyTransitive and IsTreeAutomorphism);
-
-
-###############################################################################
-##
 #M  Order (<a>)
 ##
 InstallImmediateMethod(Order, IsTreeAutomorphism and HasIsSphericallyTransitive, 0,
@@ -591,7 +583,7 @@ function(a1, a2)
             perm := a1!.perm * a2!.perm,
             deg := a1!.deg));
   SetIsActingOnBinaryTree(a, IsActingOnBinaryTree(a1));
-  SetIsActingOnHomogeneousTree(a, IsActingOnHomogeneousTree(a1));
+  SetIsActingOnRegularTree(a, IsActingOnRegularTree(a1));
   return a;
 end);
 
@@ -633,7 +625,7 @@ function(a)
                 perm := a!.perm ^ -1,
                 deg := a!.deg) );
   SetIsActingOnBinaryTree(inv, IsActingOnBinaryTree(a));
-  SetIsActingOnHomogeneousTree(inv, IsActingOnHomogeneousTree(a));
+  SetIsActingOnRegularTree(inv, IsActingOnRegularTree(a));
   return inv;
 end);
 

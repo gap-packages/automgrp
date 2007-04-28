@@ -13,8 +13,16 @@
 #O  AutomFamily(<list>[, <names>])
 #O  AutomFamilyNoBindGlobal(<list>[, <names>])
 ##
+DeclareOperation("AutomFamily", [IsList]);
 DeclareOperation("AutomFamily", [IsList, IsList]);
+DeclareOperation("AutomFamilyNoBindGlobal", [IsList]);
 DeclareOperation("AutomFamilyNoBindGlobal", [IsList, IsList]);
+
+# XXX
+DeclareAttribute("AutomatonList", IsAutomFamily);
+DeclareAttribute("AutomatonListInitialState", IsAutomFamily);
+DeclareAttribute("GeneratingAutomatonList", IsAutomFamily);
+DeclareAttribute("AutomatonListInitialStatesGenerators", IsAutomFamily);
 
 
 ###############################################################################
@@ -29,13 +37,6 @@ DeclareAttribute("DualAutomFamily", IsAutomFamily);
 #A  One(<fam>)
 ##
 DeclareAttribute("One", IsAutomFamily);
-
-
-###############################################################################
-##
-#O  ComputedRelatorsOfAutomFamily(<fam>)
-##
-DeclareOperation("ComputedRelatorsOfAutomFamily", [IsAutomFamily]);
 
 
 ###############################################################################

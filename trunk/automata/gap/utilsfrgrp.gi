@@ -1,8 +1,8 @@
 #############################################################################
 ##
-#W  utilsfrgrp.gi              automata package                Yevgen Muntyan
+#W  utilsfrgrp.gi              automgrp package                Yevgen Muntyan
 ##                                                              Dmytro Sachuk
-##  automata v 0.91 started June 07 2004
+##  automgrp v 0.91 started June 07 2004
 ##
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##

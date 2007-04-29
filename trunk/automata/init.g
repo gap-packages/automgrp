@@ -1,30 +1,30 @@
 #############################################################################
 ##
-#W  init.g                  automata package                   Yevgen Muntyan
+#W  init.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automata v 0.91 started June 07 2004
+##  automgrp v 0.91 started June 07 2004
 ##
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-DeclareAutoPackage("automata", "0.91", ReturnTrue);
+DeclareAutoPackage("automgrp", "0.91", ReturnTrue);
 
-ReadPkg("automata", "gap/automaton.gd");
-ReadPkg("automata", "gap/tree.gd");
-ReadPkg("automata", "gap/treehom.gd");
-ReadPkg("automata", "gap/treehomsg.gd");
-ReadPkg("automata", "gap/treeaut.gd");
-ReadPkg("automata", "gap/treeautgrp.gd");
-ReadPkg("automata", "gap/autom.gd");
-ReadPkg("automata", "gap/automfam.gd");
-ReadPkg("automata", "gap/automgroup.gd");
+ReadPkg("automgrp", "gap/automaton.gd");
+ReadPkg("automgrp", "gap/tree.gd");
+ReadPkg("automgrp", "gap/treehom.gd");
+ReadPkg("automgrp", "gap/treehomsg.gd");
+ReadPkg("automgrp", "gap/treeaut.gd");
+ReadPkg("automgrp", "gap/treeautgrp.gd");
+ReadPkg("automgrp", "gap/autom.gd");
+ReadPkg("automgrp", "gap/automfam.gd");
+ReadPkg("automgrp", "gap/automgroup.gd");
 
-ReadPkg("automata", "gap/listops.gd");
-ReadPkg("automata", "gap/utils.gd");
-ReadPkg("automata", "gap/utilsfrgrp.gd");
-ReadPkg("automata", "gap/scilab.gd");
-ReadPkg("automata", "gap/rws.gd");
+ReadPkg("automgrp", "gap/listops.gd");
+ReadPkg("automgrp", "gap/utils.gd");
+ReadPkg("automgrp", "gap/utilsfrgrp.gd");
+ReadPkg("automgrp", "gap/scilab.gd");
+ReadPkg("automgrp", "gap/rws.gd");
 
-ReadPkg("automata", "gap/selfs.gd");
+ReadPkg("automgrp", "gap/selfs.gd");
 
 #E

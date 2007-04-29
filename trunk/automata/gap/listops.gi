@@ -1,8 +1,8 @@
 #############################################################################
 ##
-#W  listops.gi             automata package                    Yevgen Muntyan
+#W  listops.gi             automgrp package                    Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automata v 0.91 started June 07 2004
+##  automgrp v 0.91 started June 07 2004
 ##
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -14,7 +14,7 @@
 ##
 InstallGlobalFunction(IsCorrectAutomatonList,
 function(list, invertible)
-  local len, deg, i, j, dom;
+  local len, deg, i, j, sym, semi;
 
   if not IsDenseList(list) then
     return false;
@@ -39,11 +39,8 @@ function(list, invertible)
     return false;
   fi;
 
-  if invertible then
-    dom := SymmetricGroup(deg);
-  else
-    dom := FullTransformationSemigroup(deg);
-  fi;
+  sym := SymmetricGroup(deg);
+  semi := FullTransformationSemigroup(deg);
 
   for i in [1..len] do
     for j in [1..deg] do
@@ -54,8 +51,11 @@ function(list, invertible)
         return false;
       fi;
     od;
-    if not list[i][deg + 1] in dom then
-      return false;
+
+    if not list[i][deg + 1] in sym then
+      if invertible or not list[i][deg + 1] in semi then
+        return false;
+      fi;
     fi;
   od;
 

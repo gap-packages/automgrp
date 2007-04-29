@@ -1,17 +1,17 @@
 #############################################################################
 ##
-##  PackageInfo.g for the package `automata'
+##  PackageInfo.g for the package `automgrp'
 ##
 
 SetPackageInfo(rec(
 
 ##  This is case sensitive, use your preferred spelling.
 #
-PackageName := "automata",
+PackageName := "automgrp",
 
 ##  This may be used by a default banner or on a Web page, should fit on
 ##  one line.
-Subtitle := "automata",
+Subtitle := "Automata groups",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers. For an automatic package distribution update
@@ -207,25 +207,24 @@ PackageWWWHome := "http://sourceforge.net/projects/finautom",
 ##  position of the files as in a standard GAP installation.
 ##
 # in case of several help books give a list of such records here:
-#PackageDoc := rec(
-#  # use same as in GAP
-#  BookName  := "Example",
-#  # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
-#  Archive :=
-#      "http://www.math.rwth-aachen.de/~Greg.Gamble/Example/exampledoc-1.5.zoo",
-#  ArchiveURLSubset := ["doc", "htm"],
-#  HTMLStart := "htm/chapters.htm",
-#  PDFFile   := "doc/manual.pdf",
-#  # the path to the .six file used by GAP's help system
-#  SixFile   := "doc/manual.six",
-#  # a longer title of the book, this together with the book name should
-#  # fit on a single text line (appears with the '?books' command in GAP)
-#  # LongTitle := "Elementary Divisors of Integer Matrices",
-#  LongTitle := "",
-#  # Should this help book be autoloaded when GAP starts up? This should
-#  # usually be 'true', otherwise say 'false'.
-#  Autoload  := true
-#),
+PackageDoc := rec(
+ # use same as in GAP
+ BookName  := "automgrp",
+ # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
+ Archive := "",
+ ArchiveURLSubset := ["doc", "htm"],
+ HTMLStart := "htm/chapters.htm",
+ PDFFile   := "doc/manual.pdf",
+ # the path to the .six file used by GAP's help system
+ SixFile   := "doc/manual.six",
+ # a longer title of the book, this together with the book name should
+ # fit on a single text line (appears with the '?books' command in GAP)
+ # LongTitle := "Elementary Divisors of Integer Matrices",
+ LongTitle := "Automata Groups",
+ # Should this help book be autoloaded when GAP starts up? This should
+ # usually be 'true', otherwise say 'false'.
+ Autoload  := true
+),
 
 
 ##  Are there restrictions on the operating system for this package? Or does
@@ -233,7 +232,7 @@ PackageWWWHome := "http://sourceforge.net/projects/finautom",
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.3",
+  GAP := ">=4.4",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load

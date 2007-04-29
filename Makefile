@@ -1,3 +1,6 @@
+pkgname = automgrp
+pkgver  = 0.91
+
 top_files =			\
     init.g			\
     read.g			\
@@ -56,7 +59,7 @@ all:
 docs:
 	cd doc && make
 
-distdir = automata
+distdir = $(pkgname)-$(pkgver)
 distdir:
 	(rm -fr $(distdir) && mkdir -p $(distdir)/gap && mkdir -p $(distdir)/scilab && mkdir -p $(distdir)/tst && \
 	  cp $(top_files) $(distdir) && \
@@ -67,11 +70,11 @@ distdir:
 dist:
 	rm -f automata.tar.bz2 automata.tar.gz automata.zip && \
 	make distdir && \
-	tar cjf automata.tar.bz2 $(distdir) && \
-	tar czf automata.tar.gz $(distdir) && \
-	zip -r automata.zip $(distdir) && \
+	tar cjf $(pkgname)-$(pkgver).tar.bz2 $(distdir) && \
+	tar czf $(pkgname)-$(pkgver).tar.gz $(distdir) && \
+	zip -r $(pkgname)-$(pkgver).zip $(distdir) && \
 	rm -fr $(distdir)
 
 clean:
-	rm -rf automata.tar.bz2 automata.tar.gz automata.zip $(distdir)
+	rm -rf $(pkgname)-$(pkgver).tar.bz2 $(pkgname)-$(pkgver).tar.gz $(pkgname)-$(pkgver).zip $(distdir)
 	cd doc && make clean

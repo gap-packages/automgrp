@@ -36,7 +36,9 @@ g_files =						\
     ../gap/globals.g
 
 dist_files =		\
-    manual.pdf
+    manual.pdf		\
+    $(tex_files)	\
+    manual.six
 
 all: pdf htm dvi
 

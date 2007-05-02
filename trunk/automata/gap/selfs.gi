@@ -2289,7 +2289,7 @@ function(subs_words,names,max_len,num_of_rels)
 #************************ FindRelsSubsLocal itself ****************************************************
 
     rels:=[];
-    G := GroupOfAutomFamily(FamilyObj(subs_words[1]));
+#    G := GroupOfAutomFamily(FamilyObj(subs_words[1]));
     inv:=InversePerm(G);
   #check if there are any identity elements in subs list
     for i in [1..Length(subs)] do
@@ -2388,6 +2388,7 @@ function(subs_words,names,max_len,num_of_rels)
     Error("The number of names must coincide with the number of generators");
   fi;
   F:=FreeGroup(names);
+  G := GroupOfAutomFamily(FamilyObj(subs_words[1]));
 
 # gens is a mutable list of generators
   gens:=[];
@@ -3252,11 +3253,7 @@ InstallGlobalFunction(IsNoncontracting, function(arg)
   if Length(arg) > 2 then depth := arg[3]; fi;
   if Length(arg) > 3 then Error("invalid arguments for IsNoncontracting"); fi;
 
-  # XXX Dima, is the following right?
-  # IsNoncontracting must be true if group is not contracting, or not? (if not,
-  # then it should be an attribute too, so it won't be recomputed every time you
-  # call the function).
-  if HasIsContracting(G) and IsContracting(G) then return false; fi;
+  if HasIsContracting(G) then return not IsContracting(G); fi;
 
   res:=FindGroupElement(G,IsNoncontrElement,true,n);
   if res<>fail then

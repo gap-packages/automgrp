@@ -1,30 +1,22 @@
 #############################################################################
 ##
-#W  autom32.g                  automata package                Dmytro Savchuk
+#W  autom32.g                  automgrp package                Dmytro Savchuk
 ##
 ##  automata v 0.91 started June 07 2004
 ##
 #Y  Copyright (C) 2003-2006 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-InstallOtherMethod(\^,"list^perm",true,[IsList,IsPerm],0,
-function(l,p)
-  local i,b;
-  b:=[];
-  for i in [1..Length(l)] do
-    b[i^p]:=l[i];
-  od;
-  return b;
-end);
+
+Autom32File := Filename(DirectoriesLibrary("pkg/automgrp/gap"), "autom32.dat");
 
 
-file:="c:/gap4r3/pkg/automata/data/savchuk/list.dat";
-f:="c:/gap4r3/pkg/automata/data/savchuk/classification.tex";
 ################################################################################
 ##
-#F AutNum. . . . . . . . . . . . . . . . . . . . . . . . .generates automaton #n
+#F  AutNum(n)
 ##
-
+##  generates automaton #n
+##
 AutNum:=function(n)
   local i,col,row,aut,m;
   m:=n-1;
@@ -141,7 +133,7 @@ end;
 ##
 
 SaveList:=function(list)
-  PrintTo(file,"list:=",list,";");
+  PrintTo(Autom32File,"list:=",list,";");
 end;
 
 

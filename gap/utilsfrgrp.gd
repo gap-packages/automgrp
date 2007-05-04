@@ -57,24 +57,24 @@ DeclareOperation("ReducedByNielsen", [IsObject]);
 DeclareOperation("ApplyNielsen", [IsObject]);
 
 
-#############################################################################
-##
-#F  ComputeMihaylovSystemPairs(<pairs_list>)
-##
-##  For given list of pairs of free group words, it tries to compute the
-##    Mihaylov normal form.
-##
-##  Returned value is either fail in case of some error or
-##  triple [<result>, <transform>, <did_something>] :
-##    <result> is the list of pairs representing Mihaylov normal form;
-##    <transform> is the list of words for obtaining <result> from
-##      <list> by substituting: <transform> = [w_1, ..., w_n],
-##      where w_i are words on alphabet of Length(<pairs_list>) letters
-##      such that w_i(<pairs_list>[1], ..., <pairs_list>[n]) = <result>[i];
-##    <did_something> is true if <result> differs from <pairs_list> and is
-##      false otherwise
-##
-DeclareGlobalFunction("ComputeMihaylovSystemPairs");
+# #############################################################################
+# ##
+# #F  ComputeMihaylovSystemPairs(<pairs_list>)
+# ##
+# ##  For given list of pairs of free group words, it tries to compute the
+# ##    Mihaylov normal form.
+# ##
+# ##  Returned value is either fail in case of some error or
+# ##  triple [<result>, <transform>, <did_something>] :
+# ##    <result> is the list of pairs representing Mihaylov normal form;
+# ##    <transform> is the list of words for obtaining <result> from
+# ##      <list> by substituting: <transform> = [w_1, ..., w_n],
+# ##      where w_i are words on alphabet of Length(<pairs_list>) letters
+# ##      such that w_i(<pairs_list>[1], ..., <pairs_list>[n]) = <result>[i];
+# ##    <did_something> is true if <result> differs from <pairs_list> and is
+# ##      false otherwise
+# ##
+# DeclareGlobalFunction("ComputeMihaylovSystemPairs");
 
 
 #E

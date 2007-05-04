@@ -30,6 +30,9 @@
 
 \Chapters
 
+\cite{harpe}
+
+% \Input{allsyms}
 \Input{intro}
 \Input{data}
 \Input{treeautgrp}

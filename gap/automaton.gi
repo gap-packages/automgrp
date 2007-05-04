@@ -14,13 +14,28 @@
 ##
 DeclareRepresentation("IsAutomatonRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
-                      ["table", "alphabet", "states", "n_states", "degree"]);
-BindGlobal("AutomatonFamily", NewFamily("AutomatonFamily", IsAutomaton, IsAutomaton, IsAutomatonFamily));
+                      ["table",     # transitions: table[i][j] is the state automaton goes to after processing letter j
+                                    # if it was in state i
+                       "perms",     # output: perms[i] is the output function at state i. it is either IsPerm or IsTransformation
+                       "trans",     # images of elements of perms: i^perms[j] = trans[j][i]
+                       "alphabet",  # by default it's [1..degree]; may be something different e.g. after taking "cross product"
+                                    # it's used for pretty printing, internally only [1..degree] is used
+                       "degree",    # Length(alphabet)
+                       "states",    # names of the states
+                       "n_states",  # Length(states), Length(table)
+                       ]);
+BindGlobal("_AG_AutomatonFamily", NewFamily("AutomatonFamily", IsAutomaton, IsAutomaton, IsAutomatonFamily));
 
 
-BindGlobal("$AG_CreateAutomaton",
+BindGlobal("_AG_IsInvertible",
+function(t)
+  return RankOfTransformation(t) = DegreeOfTransformation(t);
+end);
+
+
+BindGlobal("_AG_CreateAutomaton",
 function(table, states, alphabet)
-  local a, s;
+  local a, s, i, n_states, invertible, degree, perms;
 
   if not IsCorrectAutomatonList(table, false) then
     Error("'", table, "' is not a correct table representing a finite automaton");
@@ -47,12 +62,37 @@ function(table, states, alphabet)
     alphabet := StructuralCopy(alphabet);
   fi;
 
-  a := Objectify(NewType(AutomatonFamily, IsAutomaton and IsAutomatonRep),
-                 rec(table := StructuralCopy(table),
+  n_states := Length(table);
+  degree := Length(alphabet);
+  perms := List(table, s->s[degree+1]);
+  table := List(table, s->s{[1..degree]});
+  invertible := true;
+
+  for i in [1..n_states] do
+    if not IsPerm(perms[i]) and not _AG_IsInvertible(perms[i]) then
+      invertible := false;
+      break;
+    fi;
+  od;
+
+  if not invertible then
+    for i in [1..n_states] do
+      if IsPerm(perms[i]) then
+        perms[i] := Transformation(List([1..degree], i -> i^perms[i]));
+      fi;
+    od;
+  fi;
+
+  a := Objectify(NewType(_AG_AutomatonFamily, IsAutomaton and IsAutomatonRep),
+                 rec(table := table,
+                     perms := perms,
+                     trans := List([1..n_states], i->List([1..degree], j->j^perms[i])),
                      states := states,
-                     n_states := Length(states),
+                     n_states := n_states,
                      alphabet := alphabet,
-                     degree := Length(alphabet)));
+                     degree := degree));
+
+  SetIsInvertible(a, invertible);
 
   return a;
 end);
@@ -70,17 +110,17 @@ end);
 
 InstallMethod(Automaton, [IsList, IsList, IsList],
 function(table, states, alphabet)
-  return $AG_CreateAutomaton(table, states, alphabet);
+  return _AG_CreateAutomaton(table, states, alphabet);
 end);
 
 InstallMethod(Automaton, [IsList, IsList],
 function(table, states)
-  return $AG_CreateAutomaton(table, states, fail);
+  return _AG_CreateAutomaton(table, states, fail);
 end);
 
 InstallMethod(Automaton, [IsList],
 function(table)
-  return $AG_CreateAutomaton(table, fail, fail);
+  return _AG_CreateAutomaton(table, fail, fail);
 end);
 
 InstallMethod(Automaton, [IsString],
@@ -108,12 +148,27 @@ function(a)
       fi;
     od;
     Print(")");
-    if not IsOne(a!.table[i][a!.degree+1]) then
-      $AG_PrintPerm(a!.table[i][a!.degree+1]);
+    if not IsOne(a!.perms[i]) then
+      $AG_PrintPerm(a!.perms[i]);
     fi;
     if i <> a!.n_states then
       Print(", ");
     fi;
+  od;
+end);
+
+
+BindGlobal("_AG_AutomatonTransform",
+function(a, q, x)
+  local i, j, nq, nx, t;
+  nq := Length(q);
+  nx := Length(x);
+  for i in [1..nq] do
+    for j in [1..nx] do
+      t := x[j];
+      x[j] := a!.trans[q[i]][t];
+      q[i] := a!.table[q[i]][t];
+    od;
   od;
 end);
 

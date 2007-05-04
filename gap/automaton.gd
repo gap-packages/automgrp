@@ -65,4 +65,7 @@ DeclareOperation("Automaton", [IsList, IsList, IsList]);
 # DeclareAttribute("OutputFunction", IsAutomaton);
 
 
+DeclareProperty("IsInvertible", IsAutomaton);
+
+
 #E

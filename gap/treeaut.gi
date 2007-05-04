@@ -28,9 +28,9 @@ DeclareRepresentation("IsTreeAutomorphismFamilyRep",
 
 ###############################################################################
 ##
-#V  CreatedTreeAutomorphismFamilies
+#V  AG_CreatedTreeAutomorphismFamilies
 ##
-BindGlobal("CreatedTreeAutomorphismFamilies", []);
+BindGlobal("AG_CreatedTreeAutomorphismFamilies", []);
 
 
 ###############################################################################
@@ -41,7 +41,7 @@ InstallMethod(TreeAutomorphismFamily, [IsRecord],
 function(sph_ind)
   local p, red_ind, fam;
   red_ind := ReducedSphericalIndex(sph_ind);
-  for p in CreatedTreeAutomorphismFamilies do
+  for p in AG_CreatedTreeAutomorphismFamilies do
     if p[1] = red_ind then
       return p[2]; fi;
   od;
@@ -51,7 +51,7 @@ function(sph_ind)
                     IsTreeAutomorphism,
                     IsTreeAutomorphismFamily and IsTreeAutomorphismFamilyRep);
   fam!.spher_index := red_ind;
-  AddSet(CreatedTreeAutomorphismFamilies, [red_ind, fam]);
+  AddSet(AG_CreatedTreeAutomorphismFamilies, [red_ind, fam]);
   return fam;
 end);
 

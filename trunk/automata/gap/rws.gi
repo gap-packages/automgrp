@@ -8,7 +8,7 @@
 ##
 
 
-DeclareRepresentation("IsFARewritingSystemRep",
+DeclareRepresentation("IsAGRewritingSystemRep",
                       IsComponentObjectRep, # must not be IsAttributeStoringRep
                       ["rules",   # list of pairs [v, w] where v and w are stored as
                                   # list of exponents of free generators, e.g.
@@ -18,13 +18,13 @@ DeclareRepresentation("IsFARewritingSystemRep",
                       ]);
 
 
-InstallMethod(FARewritingSystem, [IsPosInt],
+InstallMethod(AGRewritingSystem, [IsPosInt],
 function(n)
   local rws, names;
 
   names := List([1..n], i -> Concatenation("a", String(i)));
-  rws := Objectify(NewType(NewFamily("FARewritingSystem"),
-                           IsFARewritingSystem and IsFARewritingSystemRep),
+  rws := Objectify(NewType(NewFamily("AGRewritingSystem"),
+                           IsAGRewritingSystem and IsAGRewritingSystemRep),
                    rec(rules := [],
                        ngens := n,
                        names := names));
@@ -32,23 +32,23 @@ function(n)
   return rws;
 end);
 
-InstallMethod(FARewritingSystem, [IsPosInt, IsList],
+InstallMethod(AGRewritingSystem, [IsPosInt, IsList],
 function(n, rules)
   local rws, names;
 
-  rws := FARewritingSystem(n);
+  rws := AGRewritingSystem(n);
   AddRules(rws, rules);
 
   return rws;
 end);
 
 
-InstallMethod(AddRules, [IsFARewritingSystem, IsList],
+InstallMethod(AddRules, [IsAGRewritingSystem, IsList],
 function(rws, new_rules)
   AddRules(rws, new_rules, false);
 end);
 
-InstallMethod(AddRules, [IsFARewritingSystem, IsList, IsBool],
+InstallMethod(AddRules, [IsAGRewritingSystem, IsList, IsBool],
 function(rws, new_rules, start)
   local tmp;
   if start then
@@ -61,24 +61,24 @@ function(rws, new_rules, start)
 end);
 
 
-InstallMethod(SetRwRules, [IsFARewritingSystem, IsList],
+InstallMethod(SetRwRules, [IsAGRewritingSystem, IsList],
 function(rws, new_rules)
   rws!.rules := StructuralCopy(new_rules);
 end);
 
 
-InstallOtherMethod(AddRule, [IsFARewritingSystem, IsList],
+InstallOtherMethod(AddRule, [IsAGRewritingSystem, IsList],
 function(rws, rule)
   AddRules(rws, [rule], false);
 end);
 
-InstallOtherMethod(AddRule, [IsFARewritingSystem, IsList, IsBool],
+InstallOtherMethod(AddRule, [IsAGRewritingSystem, IsList, IsBool],
 function(rws, rule, start)
   AddRules(rws, [rule], start);
 end);
 
 
-InstallMethod(Rules, [IsFARewritingSystem],
+InstallMethod(Rules, [IsAGRewritingSystem],
 function(rws)
   return rws!.rules;
 end);
@@ -115,7 +115,7 @@ $FA_rws_print_word := function(rws, word)
   return s;
 end;
 
-InstallMethod(PrintObj, [IsFARewritingSystem],
+InstallMethod(PrintObj, [IsAGRewritingSystem],
 function(rws)
   local i;
 
@@ -132,7 +132,7 @@ function(rws)
   Print(" >>");
 end);
 
-InstallMethod(ViewObj, [IsFARewritingSystem],
+InstallMethod(ViewObj, [IsAGRewritingSystem],
 function(rws)
   Print("<< ");
   if IsEmpty(rws!.rules) then
@@ -157,7 +157,7 @@ $FA_rws_mult := function(w1, w2)
   return Concatenation(w1{[1..e]}, w2{[s..len]});
 end;
 
-InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsList],
+InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsList],
 function(rws, w)
   local start, pos, r, again, reduced, n_rules, rules;
 
@@ -189,12 +189,12 @@ function(rws, w)
   return w;
 end);
 
-InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsAssocWord],
+InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAssocWord],
 function(rws, g)
   return AssocWordByLetterRep(FamilyObj(g), ReducedForm(rws, LetterRepAssocWord(g)));
 end);
 
-InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsAutom],
+InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAutom],
 function(rws, a)
   return Autom(ReducedForm(rws, a!.word), a);
 end);
@@ -202,7 +202,7 @@ end);
 InstallOtherMethod(ReducedForm, [IsAutom],
 function(a)
   local rws;
-  rws := FARewritingSystem(FamilyObj(a));
+  rws := AGRewritingSystem(FamilyObj(a));
   if rws = fail then
     return fail;
   else
@@ -210,7 +210,7 @@ function(a)
   fi;
 end);
 
-InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsList and IsAutomCollection],
+InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsList and IsAutomCollection],
 function(rws, list)
   if IsEmpty(list) then
     return [];
@@ -222,7 +222,7 @@ end);
 InstallOtherMethod(ReducedForm, [IsList and IsAutomCollection],
 function(list)
   local rws;
-  rws := FARewritingSystem(FamilyObj(list[1]));
+  rws := AGRewritingSystem(FamilyObj(list[1]));
   if rws = fail then
     return fail;
   else
@@ -230,7 +230,7 @@ function(list)
   fi;
 end);
 
-InstallMethod(ReducedForm, [IsFARewritingSystem and IsFARewritingSystem, IsAutomGroup],
+InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAutomGroup],
 function(rws, grp)
   local gens;
   gens := Difference(ReducedForm(rws, GeneratorsOfGroup(grp)), [One(grp)]);
@@ -330,7 +330,7 @@ $FA_rws_add_rule := function(rws, rule)
   fi;
 end;
 
-BuildFARewritingSystem :=
+BuildAGRewritingSystem :=
 function(arg)
   local limit, init_rules,
         fam, frgrp, rels, w, g, rws,
@@ -357,7 +357,7 @@ function(arg)
   frgrp := fam!.freegroup;
 
   rels := $FA_rws_get_rels(fam, limit)[2];
-  rws := FARewritingSystem(fam!.numstates, init_rules);
+  rws := AGRewritingSystem(fam!.numstates, init_rules);
   rws!.names := ShallowCopy(fam!.names);
 
   for w in rels do
@@ -377,29 +377,29 @@ function(arg)
 end;
 
 
-InstallMethod(FARewritingSystem, [IsAutomFamily],
+InstallMethod(AGRewritingSystem, [IsAutomFamily],
 function(fam)
   if fam!.rws = fail then
-    BuildFARewritingSystem(fam);
+    BuildAGRewritingSystem(fam);
     if fam!.rws = fail then
-      fam!.rws := FARewritingSystem(fam!.numstates);
+      fam!.rws := AGRewritingSystem(fam!.numstates);
       fam!.rws!.names := ShallowCopy(fam!.names);
     fi;
   fi;
   return fam!.rws;
 end);
 
-InstallOtherMethod(FARewritingSystem, [IsGroupOfAutomFamily],
+InstallOtherMethod(AGRewritingSystem, [IsGroupOfAutomFamily],
 function(grp)
-  return FARewritingSystem(UnderlyingAutomFamily(grp));
+  return AGRewritingSystem(UnderlyingAutomFamily(grp));
 end);
 
 
-InstallMethod(UseFARewritingSystem, [IsAutomFamily, IsBool],
+InstallMethod(UseAGRewritingSystem, [IsAutomFamily, IsBool],
 function(fam, use)
   if fam!.use_rws <> use then
     if use then
-      if FARewritingSystem(fam) = fail then
+      if AGRewritingSystem(fam) = fail then
         return fail;
       fi;
       fam!.use_rws := true;
@@ -411,13 +411,13 @@ function(fam, use)
   return fam!.use_rws;
 end);
 
-InstallOtherMethod(UseFARewritingSystem, [IsGroupOfAutomFamily, IsBool],
+InstallOtherMethod(UseAGRewritingSystem, [IsGroupOfAutomFamily, IsBool],
 function(grp, use)
-  return UseFARewritingSystem(UnderlyingAutomFamily(grp), use);
+  return UseAGRewritingSystem(UnderlyingAutomFamily(grp), use);
 end);
 
-InstallOtherMethod(UseFARewritingSystem, [IsAutomFamily],
-function(fam) return UseFARewritingSystem(fam, true); end);
+InstallOtherMethod(UseAGRewritingSystem, [IsAutomFamily],
+function(fam) return UseAGRewritingSystem(fam, true); end);
 
-InstallOtherMethod(UseFARewritingSystem, [IsGroupOfAutomFamily],
-function(grp) return UseFARewritingSystem(grp, true); end);
+InstallOtherMethod(UseAGRewritingSystem, [IsGroupOfAutomFamily],
+function(grp) return UseAGRewritingSystem(grp, true); end);

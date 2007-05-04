@@ -8,19 +8,19 @@
 ##
 
 
-DeclareCategory("IsFARewritingSystem", IsRewritingSystem and IsBuiltFromGroup);
+DeclareCategory("IsAGRewritingSystem", IsRewritingSystem and IsBuiltFromGroup);
 
-DeclareOperation("FARewritingSystem", [IsPosInt]);
-DeclareOperation("FARewritingSystem", [IsPosInt, IsObject]);
+DeclareOperation("AGRewritingSystem", [IsPosInt]);
+DeclareOperation("AGRewritingSystem", [IsPosInt, IsObject]);
 
-DeclareOperation("AddRule", [IsFARewritingSystem, IsObject]);
-DeclareOperation("AddRule", [IsFARewritingSystem, IsObject, IsBool]);
-DeclareOperation("AddRules", [IsFARewritingSystem, IsObject]);
-DeclareOperation("AddRules", [IsFARewritingSystem, IsObject, IsBool]);
-DeclareOperation("SetRwRules", [IsFARewritingSystem, IsObject]);
+DeclareOperation("AddRule", [IsAGRewritingSystem, IsObject]);
+DeclareOperation("AddRule", [IsAGRewritingSystem, IsObject, IsBool]);
+DeclareOperation("AddRules", [IsAGRewritingSystem, IsObject]);
+DeclareOperation("AddRules", [IsAGRewritingSystem, IsObject, IsBool]);
+DeclareOperation("SetRwRules", [IsAGRewritingSystem, IsObject]);
 
-DeclareOperation("FARewritingSystem", [IsAutomFamily]);
-DeclareOperation("UseFARewritingSystem", [IsAutomFamily, IsBool]);
+DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
+DeclareOperation("UseAGRewritingSystem", [IsAutomFamily, IsBool]);
 
 
 #E

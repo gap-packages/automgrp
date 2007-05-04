@@ -112,17 +112,6 @@ DeclareOperation("$SimplifyGenerators", [IsList and IsTreeAutomorphismCollection
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
 
-###############################################################################
-##
-#P  IsAmenable (<G>)
-##
-##  Whether group <G> is amenable.
-##
-DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
-InstallTrueMethod(IsAmenable, IsAbelian);
-InstallTrueMethod(IsAmenable, IsFinite);
-
-
 #############################################################################
 ##
 #P  IsSphericallyTransitive (<G>)

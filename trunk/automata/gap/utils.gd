@@ -30,6 +30,9 @@ BindGlobal("AutomataAbelImageSpherTrans",
 ##
 #F  AbelImageAutomatonInList(<list>)
 ##
+##  Returns list of images of the automaton states under the canonical
+##  projection onto \mathbb{Z}^\mathbb{N}.
+##
 DeclareGlobalFunction("AbelImageAutomatonInList");
 
 

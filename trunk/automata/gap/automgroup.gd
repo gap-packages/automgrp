@@ -133,28 +133,4 @@ DeclareProperty("IsAutomatonGroup", IsAutomGroup);
 InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 
 
-#############################################################################
-##
-#P  IsGeneratedByAutomatonOfPolynomialGrowth(<G>)
-##
-##
-DeclareProperty("IsGeneratedByAutomatonOfPolynomialGrowth", IsAutomatonGroup);
-
-
-#############################################################################
-##
-#P  IsGeneratedByBoundedAutomaton(<G>)
-##
-##
-DeclareProperty("IsGeneratedByBoundedAutomaton", IsAutomatonGroup);
-
-
-#############################################################################
-##
-#A  PolynomialDegreeOfGrowthOfAutomaton(<G>)
-##
-##
-DeclareAttribute("PolynomialDegreeOfGrowthOfAutomaton", IsAutomatonGroup);
-
-
 #E

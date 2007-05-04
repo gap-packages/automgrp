@@ -370,7 +370,7 @@ end);
 
 #############################################################################
 ##
-#F  AbelImageAutomatonInList(<list>)
+##  AbelImageAutomatonInList(<list>)
 ##
 InstallGlobalFunction(AbelImageAutomatonInList,
 function(list)

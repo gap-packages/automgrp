@@ -191,16 +191,6 @@ end);
 
 ###############################################################################
 ##
-#M  DegreeOfTree(<a>)
-##
-InstallMethod(DegreeOfTree, "method for IsAutom", [IsAutom],
-function(a)
-    return a!.deg;
-end);
-
-
-###############################################################################
-##
 #M  Word(<a>)
 ##
 InstallMethod(Word, "method for IsAutom", [IsAutom],
@@ -798,6 +788,25 @@ function(a)
 end);
 
 
+InstallMethod(SphericalIndex, "SphericalIndex(IsAutom)", [IsAutom],
+function(a)
+  # XXX check uses of SphericalIndex everywhere
+  return rec(start := [], period := [a!.deg]);
+end);
+
+# XXX check uses of this everywhere
+InstallMethod(DegreeOfTree, "DegreeOfTree(IsAutom)", [IsAutom],
+function(a)
+  return a!.deg;
+end);
+
+# XXX check uses of this everywhere
+InstallMethod(TopDegreeOfTree, "TopDegreeOfTree(IsAutom)", [IsAutom],
+function(a)
+  return a!.deg;
+end);
+
+
 ###############################################################################
 ##
 #M  CanEasilyTestSphericalTransitivity(<a>)
@@ -827,18 +836,7 @@ end);
 
 #########################################################################
 ##
-#M IsContracting(<a>) . . . . . . . . . .
-##
-InstallOtherMethod(IsContracting, "IsContracting(IsAutom)", true,
-              [IsAutom],
-function(a)
-  return IsContracting(GroupOfAutomFamily(FamilyObj(a)));
-end);
-
-
-#########################################################################
-##
-#M Order(<a>) . . . . . . . . . .
+#M  Order(<a>)
 ##
 InstallOtherMethod(Order, "Order(IsAutom)", true,
               [IsAutom],
@@ -855,12 +853,13 @@ end);
 
 #########################################################################
 ##
-#M IsTransitiveOnLevel(<a>,<lev>) . . . . . . . . . .
+#M  IsTransitiveOnLevel( <a>, <lev> )
 ##
 InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsAutom,IsPosInt)",
               [IsAutom,IsPosInt],
 function(a,lev)
-  return Length(OrbitPerms([PermOnLevel(a,lev)],1))=a!.deg^lev;
+  return Length(OrbitPerms([PermOnLevel(a, lev)], 1)) = a!.deg^lev;
 end);
+
 
 #E

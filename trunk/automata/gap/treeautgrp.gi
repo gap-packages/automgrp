@@ -55,6 +55,16 @@ InstallMethod(SphericalIndex, "method for IsTreeAutomorphismGroup",
 function(G)
   return SphericalIndex(GeneratorsOfGroup(G)[1]);
 end);
+InstallMethod(TopDegreeOfTree, "method for IsTreeAutomorphismGroup",
+              [IsTreeAutomorphismGroup],
+function(G)
+  return TopDegreeOfTree(GeneratorsOfGroup(G)[1]);
+end);
+InstallMethod(DegreeOfTree, "method for IsTreeAutomorphismGroup",
+              [IsTreeAutomorphismGroup],
+function(G)
+  return DegreeOfTree(GeneratorsOfGroup(G)[1]);
+end);
 
 
 ###############################################################################

@@ -8,10 +8,6 @@
 ##
 
 
-###############################################################################
-##
-#F  PlotSpectraPermsInScilab(<perms>, <perm_deg>, <round>, <stacksize>)
-##
 InstallGlobalFunction(PlotSpectraPermsInScilab,
 function(perms, deg, round, stacksize)
   local mats, i, j,

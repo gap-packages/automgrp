@@ -22,17 +22,17 @@ DeclareRepresentation("IsTreeHomomorphismRep",
 ##
 DeclareRepresentation("IsTreeHomomorphismFamilyRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
-                      ["spher_index"]);
+                      ["spher_index", "top_deg"]);
 
 ###############################################################################
 ##
-#V  CreatedTreeHomomorphismFamilies
+#V  AG_CreatedTreeHomomorphismFamilies
 ##
 ##  Contains all created TreeHomomorphismFamily objects; for each spherical
 ##  index there exists one family, to which all objects created with TreeHomomorphism
 ##  belong.
 ##
-BindGlobal("CreatedTreeHomomorphismFamilies", rec(ind := [], fam := []));
+BindGlobal("AG_CreatedTreeHomomorphismFamilies", rec(ind := [], fam := []));
 
 ###############################################################################
 ##
@@ -43,8 +43,8 @@ function(sph_ind)
   local fam, pos;
 
   sph_ind := ReducedSphericalIndex(sph_ind);
-  if sph_ind in CreatedTreeHomomorphismFamilies.ind then
-    for fam in CreatedTreeHomomorphismFamilies.fam do
+  if sph_ind in AG_CreatedTreeHomomorphismFamilies.ind then
+    for fam in AG_CreatedTreeHomomorphismFamilies.fam do
       if fam!.spher_index = sph_ind then
         return fam;
       fi;
@@ -55,9 +55,10 @@ function(sph_ind)
                    IsTreeHomomorphism, IsTreeHomomorphism,
                    IsTreeHomomorphismFamily and IsTreeHomomorphismFamilyRep);
   fam!.spher_index := sph_ind;
+  fam!.top_deg := TopDegreeInSphericalIndex(sph_ind);
 
-  AddSet(CreatedTreeHomomorphismFamilies.ind, sph_ind);
-  Add(CreatedTreeHomomorphismFamilies.fam, fam);
+  AddSet(AG_CreatedTreeHomomorphismFamilies.ind, sph_ind);
+  Add(AG_CreatedTreeHomomorphismFamilies.fam, fam);
 
   return fam;
 end);
@@ -176,6 +177,10 @@ end);
 InstallMethod(SphericalIndex, [IsTreeHomomorphism and IsTreeHomomorphismRep],
 function(a)
   return FamilyObj(a)!.spher_index;
+end);
+InstallMethod(TopDegreeOfTree, [IsTreeHomomorphism and IsTreeHomomorphismRep],
+function(a)
+  return FamilyObj(a)!.top_deg;
 end);
 
 

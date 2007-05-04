@@ -232,6 +232,12 @@ function(G)
   return DegreeOfTree(UnderlyingAutomFamily(G));
 end);
 
+InstallMethod(TopDegreeOfTree, "DegreeOfTree(IsAutomGroup)",
+              [IsAutomGroup],
+function(G)
+  return DegreeOfTree(UnderlyingAutomFamily(G));
+end);
+
 
 ###############################################################################
 ##
@@ -464,7 +470,7 @@ InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
               [IsAutomGroup],
 function (G)
   local H;
-  H := _FiniteGroupId(G);
+  H := AG_FiniteGroupId(G);
   return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
 end);
 
@@ -813,6 +819,23 @@ function(G)
     od;
   od;
   return true;
+end);
+
+
+InstallMethod(SphericalIndex, "for IsAutomGroup",
+              [IsAutomGroup],
+function(G)
+  return SphericalIndex(GeneratorsOfGroup(G)[1]);
+end);
+InstallMethod(DegreeOfTree, "for IsAutomGroup",
+              [IsAutomGroup],
+function(G)
+  return UnderlyingAutomFamily(G)!.deg;
+end);
+InstallMethod(TopDegreeOfTree, "for IsAutomGroup",
+              [IsAutomGroup],
+function(G)
+  return UnderlyingAutomFamily(G)!.deg;
 end);
 
 

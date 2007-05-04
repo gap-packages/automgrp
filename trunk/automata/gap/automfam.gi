@@ -287,9 +287,15 @@ end);
 
 ###############################################################################
 ##
-#M  DegreeOfTree(<fam>)
+##  DegreeOfTree(<fam>)
+##  TopDegreeOfTree(<fam>)
 ##
 InstallMethod(DegreeOfTree, "method for IsAutomFamily",
+              [IsAutomFamily],
+function(fam)
+  return fam!.deg;
+end);
+InstallMethod(TopDegreeOfTree, "method for IsAutomFamily",
               [IsAutomFamily],
 function(fam)
   return fam!.deg;

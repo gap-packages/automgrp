@@ -133,4 +133,11 @@ DeclareProperty("IsAutomatonGroup", IsAutomGroup);
 InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 
 
+#############################################################################
+##
+#A  MihaylovSystem(<G>)
+##
+DeclareAttribute("MihaylovSystem", IsAutomGroup, "mutable");
+
+
 #E

@@ -294,6 +294,35 @@ end);
 
 ###############################################################################
 ##
+#M  MihaylovSystem(G)
+##
+## TODO XXX it's broken, test it
+InstallMethod(MihaylovSystem, "MihaylovSystem(IsAutomGroup)", [IsAutomGroup],
+function (G)
+  local gens, mih, mih_gens, i;
+
+  if not IsActingOnBinaryTree(G) then
+    Error("MihaylovSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
+  fi;
+  if not IsFractalByWords(G) then
+    Info(InfoAutomata, 1, "given group is not IsFractalByWords");
+    return fail;
+  fi;
+
+  gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
+  mih := ComputeMihaylovSystemPairs(List(gens, a -> StatesWords(a)));
+  if not mih[3] then return gens; fi;
+
+  mih_gens := [];
+  for i in [1..Length(gens)] do
+    mih_gens[i] := CalculateWord(mih[2][i], gens);
+  od;
+  return mih_gens;
+end);
+
+
+###############################################################################
+##
 #M  IsFractalByWords(G)
 ##
 InstallMethod(IsFractalByWords, "IsFractalByWords(IsAutomGroup)",

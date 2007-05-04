@@ -74,7 +74,7 @@ DeclareOperation("ApplyNielsen", [IsObject]);
 # ##    <did_something> is true if <result> differs from <pairs_list> and is
 # ##      false otherwise
 # ##
-# DeclareGlobalFunction("ComputeMihaylovSystemPairs");
+DeclareGlobalFunction("ComputeMihaylovSystemPairs");
 
 
 #E

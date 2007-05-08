@@ -311,7 +311,12 @@ function (G)
 
   gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
   mih := ComputeMihaylovSystemPairs(List(gens, a -> StatesWords(a)));
-  if not mih[3] then return gens; fi;
+
+  if mih = fail then
+    return fail;
+  elif not mih[3] then
+    return gens;
+  fi;
 
   mih_gens := [];
   for i in [1..Length(gens)] do

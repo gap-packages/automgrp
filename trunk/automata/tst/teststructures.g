@@ -50,7 +50,7 @@ $TestMultiplication1 := function(table, contracting, use_rws)
   fi;
 
   if use_rws then
-    fam!.rws := BuildFARewritingSystem(fam);
+    fam!.rws := BuildAGRewritingSystem(fam);
     fam!.use_rws := true;
     if IsEmpty(Rules(fam!.rws)) then
       return;

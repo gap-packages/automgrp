@@ -39,6 +39,9 @@
 \Declaration{FindRelsSubs}
 \Declaration{FindRelsSubsSG}
 \Declaration{FindRels}
+\Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
+\Declaration{IsGeneratedByBoundedAutomaton}
+\Declaration{PolynomialDegreeOfGrowthOfAutomaton}
 \Declaration{MarkovOperator}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

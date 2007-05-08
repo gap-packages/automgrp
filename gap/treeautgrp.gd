@@ -37,11 +37,26 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 
 
-###############################################################################
+
+################################################################################
 ##
-#P  IsContracting (<G>)
+#A  IsContracting (<G>)
 ##
-##  Whether group <G> is "contracting".
+##  Given a self-similar group <G> tries to compute whether it is contracting or not.
+##  Only the partial method is implemented (since there is no general algorithm so far).
+##  First it tries to find the nucleus up to size 50 using '"FindNucleus"(<G>,50)', then
+##  it tries to find the evidence that the group is noncontracting using
+##  '"IsNoncontracting"(G,10,10)'. If the answer was not found one can try to use
+##  "FindNucleus" and "IsNoncontracting" with bigger tolerances.
+##
+##  \beginexample
+##  gap> IsContracting(Basilica);
+##  true
+##  gap> IsContracting(AutomGroup("a=(c,a)(1,2),b=(c,b),c=(b,a)"));
+##  #I  (b*c^-1)^1 has b*a^-1 as a section at vertex [ 2 ]
+##  #I  (b*a^-1)^2 has congutate of a^-1*b as a section at vertex [ 1 ]
+##  false
+##  \endexample
 ##
 DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 

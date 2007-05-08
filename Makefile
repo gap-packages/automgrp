@@ -1,5 +1,7 @@
 pkgname = automgrp
 pkgver  = 0.91
+distdir = $(pkgname)
+archive = $(pkgname)-`date +%Y%m%d%H%M`
 
 top_files =			\
     init.g			\
@@ -50,6 +52,7 @@ scilab_files =				\
 
 tst_files =			\
     tst/testall.g		\
+    tst/testcontr.g		\
     tst/testorder.g		\
     tst/teststructures.g	\
     tst/testutil.g
@@ -59,7 +62,6 @@ all:
 docs:
 	cd doc && make
 
-distdir = $(pkgname)-$(pkgver)
 distdir:
 	(rm -fr $(distdir) && mkdir -p $(distdir)/gap && mkdir -p $(distdir)/scilab && mkdir -p $(distdir)/tst && \
 	  cp $(top_files) $(distdir) && \
@@ -68,13 +70,13 @@ distdir:
 	  cp $(tst_files) $(distdir)/tst && \
 	 cd doc && make dist distdir=../$(distdir)) || rm -fr $(distdir)
 dist:
-	rm -f automata.tar.bz2 automata.tar.gz automata.zip && \
+	rm -f $(pkgname)-*.tar.bz2 $(pkgname)-*.tar.gz $(pkgname)-*.zip && \
 	make distdir && \
-	tar cjf $(pkgname)-$(pkgver).tar.bz2 $(distdir) && \
-	tar czf $(pkgname)-$(pkgver).tar.gz $(distdir) && \
-	zip -r $(pkgname)-$(pkgver).zip $(distdir) && \
+	tar cjf $(archive).tar.bz2 $(distdir) && \
+	tar czf $(archive).tar.gz $(distdir) && \
+	zip -r $(archive).zip $(distdir) && \
 	rm -fr $(distdir)
 
 clean:
-	rm -rf $(pkgname)-$(pkgver).tar.bz2 $(pkgname)-$(pkgver).tar.gz $(pkgname)-$(pkgver).zip $(distdir)
+	rm -rf $(pkgname)-*.tar.bz2 $(pkgname)-*.tar.gz $(pkgname)-*.zip $(distdir)
 	cd doc && make clean

@@ -17,7 +17,7 @@
 ##  pollute global namespace (and we can put any trash in here).
 ##
 BindGlobal("AutomataParameters", rec(
-  identity_symbol := "e",
+  identity_symbol := "1",
   state_symbol := "a",
   state_symbol_dual := "d",
   bind_vars_autom_family := true,

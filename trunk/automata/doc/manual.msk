@@ -2,7 +2,7 @@
 \Package{automgrp}
 \BeginningOfBook{automgrp}
 
-\UseReferences{../../../doc/ref}
+% \UseReferences{../../../doc/ref}
 
 \TitlePage{
   \centerline{\titlefont automgrp}\medskip

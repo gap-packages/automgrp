@@ -243,7 +243,7 @@ end);
 ##
 InstallOtherMethod(IsOne, "IsOne(IsAutom)", [IsAutom],
 function(a)
-  local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp, G;
+  local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp, G, trivstate;
 
   if IsOne(a!.word) then return true; fi;
 
@@ -254,6 +254,7 @@ function(a)
 
   d := a!.deg;
   autlist := FamilyObj(a)!.automatonlist;
+  trivstate := FamilyObj(a)!.trivstate;
   checked := [];
 
   istrivstate := function(v)
@@ -266,7 +267,7 @@ function(a)
       if perm <> () then return false; fi;
       Add(checked, v);
       for j in [1..d] do
-        if not istrivstate(WordStateInList(v, j, autlist)) then
+        if not istrivstate(WordStateInList(v, j, autlist, true, trivstate)) then
           return false;
         fi;
       od;
@@ -292,7 +293,7 @@ end);
 ## TODO
 InstallMethod(\=, "\=(IsAutom, IsAutom)", IsIdenticalObj, [IsAutom, IsAutom],
 function(a1, a2)
-  local areequalstates, exp, i, d, checked, autlist, G;
+  local areequalstates, exp, i, d, checked, autlist, G, trivstate;
 
   G:=GroupOfAutomFamily(FamilyObj(a1));
   if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
@@ -302,6 +303,7 @@ function(a1, a2)
   d := a1!.deg;
   checked := [];
   autlist := FamilyObj(a1)!.automatonlist;
+  trivstate := FamilyObj(a1)!.trivstate;
 
   areequalstates := function(p)
     local i, j, perm1, perm2;
@@ -315,8 +317,8 @@ function(a1, a2)
       if perm1 <> perm2 then return false; fi;
       Add(checked, p);
       for j in [1..d] do
-        if not areequalstates([WordStateInList(p[1], j, autlist),
-                               WordStateInList(p[2], j, autlist)])
+        if not areequalstates([WordStateInList(p[1], j, autlist, true, trivstate),
+                               WordStateInList(p[2], j, autlist, true, trivstate)])
         then
           return false;
         fi;
@@ -403,7 +405,7 @@ function(a1, a2)
       return false;
     fi;
     for i in [1..d] do
-      np := [WordStateInList(p[1], i, autlist), WordStateInList(p[2], i, autlist)];
+      np := [WordStateInList(p[1], i, autlist), WordStateInList(p[2], i, autlist, false, 0)];
       if not np in checked then
         Add(checked, np);
       fi;

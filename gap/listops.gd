@@ -111,7 +111,7 @@ DeclareGlobalFunction("ImageOfVertexInList");
 
 ###############################################################################
 ##
-#F  WordStateInList(<word>, <s>, <list>)
+#F  WordStateInList(<word>, <s>, <list>, <reduce>, <trivstate>)
 #F  WordStateAndPermInList(<word>, <s>, <list>)
 ##
 ##  It's ProjectWord from selfs.g

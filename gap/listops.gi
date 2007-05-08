@@ -357,14 +357,33 @@ end);
 
 ###############################################################################
 ##
-#F  WordStateInList(<w>, <s>, <list>)
+#F  WordStateInList(<w>, <s>, <list>, <reduce>, <trivstate>)
 ##
 ##  It's ProjectWord from selfs.g
 ##  Does not check correctness of arguments.
 ##
 InstallGlobalFunction(WordStateInList,
-function(w, s, list)
-  local i, perm, d, proj;
+function(w, s, list, reduce, trivstate)
+  local i, perm, d, proj, red, reduce_word;
+
+  reduce_word := function(v)
+    local len, red, x;
+    len := 0;
+    red := [];
+    for x in v do
+      if x <> trivstate then
+        if len <> 0 and x = -red[len] then
+          Remove(red, len);
+          len := len - 1;
+        else
+          Add(red, x);
+          len := len + 1;
+        fi;
+      fi;
+    od;
+    return red;
+  end;
+
   d := Length(list[1])-1;
   proj := [];
   perm := ();
@@ -372,7 +391,11 @@ function(w, s, list)
     Add(proj, list[w[i]][s^perm]);
     perm := perm * list[w[i]][d+1];
   od;
-  return proj;
+  if reduce then
+    return reduce_word(proj);
+  else
+    return proj;
+  fi;
 end);
 
 

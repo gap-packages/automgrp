@@ -28,6 +28,7 @@ F 3.1. PermOnLevel
 F 3.1. IsSphericallyTransitive
 F 3.1. IsTransitiveOnLevel
 S 3.2. Operations with groups
+F 3.2. IsFractal
 F 3.2. IsSphericallyTransitive
 F 3.2. IsTransitiveOnLevel
 F 3.2. IsSelfSimilar
@@ -42,7 +43,6 @@ F 3.2. Projection
 F 3.2. ProjectionNC
 F 3.2. ProjStab
 F 3.2. FindGroupElement
-F 3.2. FindGroupElements
 F 3.2. FindGroupElements
 F 3.2. FindElementOfInfiniteOrder
 F 3.2. FindElementsOfInfiniteOrder
@@ -77,6 +77,9 @@ F 4.2. IsNoncontracting
 F 4.2. FindRelsSubs
 F 4.2. FindRelsSubsSG
 F 4.2. FindRels
+F 4.2. IsGeneratedByAutomatonOfPolynomialGrowth
+F 4.2. IsGeneratedByBoundedAutomaton
+F 4.2. PolynomialDegreeOfGrowthOfAutomaton
 F 4.2. MarkovOperator
 S 4.3. Properties and operations for contracting groups
 F 4.3. AutomNucleus
@@ -88,31 +91,28 @@ F 4.3. UseContraction
 F 4.3. AutomPortrait
 F 4.3. AutomPortraitBoundary
 F 4.3. AutomPortraitDepth
-C autom.tex 5. Tools for Automata Groups
-S 5.1. Tools wefwef
-C automlist.tex 6. Automata (maybe as appendix)
-S 6.1. Automata
-F 6.1. MinimizeAutomTrack
-F 6.1. AddInverses
-F 6.1. AddInversesTrack
-S 6.2. Tools
-F 6.2. IsCorrectAutomatonList
-F 6.2. ConnectedStatesInList
-F 6.2. IsTrivialStateInList
-F 6.2. AreEquivalentStatesInList
-F 6.2. AreEquivalentStatesInLists
-F 6.2. ReducedAutomatonInList
-F 6.2. MinimalSubAutomatonInlist
-F 6.2. PermuteStatesInList
-F 6.2. WordStateInList
-F 6.2. WordStateAndPermInList
-F 6.2. ImageOfVertexInList
-F 6.2. DiagonalActionInList
-F 6.2. MultAlphabetInList
-F 6.2. HasDualInList
-F 6.2. HasDualOfInverseInList
-F 6.2. DualAutomatonList
-F 6.2. DualAutomatonList
-F 6.2. HasDualOfInverseInList
-F 6.2. InverseAutomatonList
-F 6.2. MultAutomAlphabet
+C automlist.tex 5. Automata (maybe as appendix)
+S 5.1. Automata
+F 5.1. AddInverses
+F 5.1. AddInversesTrack
+S 5.2. Tools
+F 5.2. IsCorrectAutomatonList
+F 5.2. ConnectedStatesInList
+F 5.2. IsTrivialStateInList
+F 5.2. AreEquivalentStatesInList
+F 5.2. AreEquivalentStatesInLists
+F 5.2. ReducedAutomatonInList
+F 5.2. MinimalSubAutomatonInlist
+F 5.2. PermuteStatesInList
+F 5.2. WordStateInList
+F 5.2. WordStateAndPermInList
+F 5.2. ImageOfVertexInList
+F 5.2. DiagonalActionInList
+F 5.2. MultAlphabetInList
+F 5.2. HasDualInList
+F 5.2. HasDualOfInverseInList
+F 5.2. DualAutomatonList
+F 5.2. DualAutomatonList
+F 5.2. HasDualOfInverseInList
+F 5.2. InverseAutomatonList
+F 5.2. MultAutomAlphabet

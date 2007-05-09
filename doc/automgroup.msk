@@ -12,7 +12,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with automata groups}
 
-\cite{harpe}
+%\cite{harpe}
 
 \Declaration{UnderlyingAutomFamily}
 \Declaration{DegreeOfTree}
@@ -43,6 +43,7 @@
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfAutomaton}
 \Declaration{MarkovOperator}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and operations for contracting groups}

@@ -297,6 +297,7 @@ end);
 #M  MihaylovSystem(G)
 ##
 ## TODO XXX it's broken, test it
+##
 InstallMethod(MihaylovSystem, "MihaylovSystem(IsAutomGroup)", [IsAutomGroup],
 function (G)
   local gens, mih, mih_gens, i;

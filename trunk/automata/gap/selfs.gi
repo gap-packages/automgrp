@@ -1876,7 +1876,7 @@ function(subs_words,names,max_len,num_of_rels)
   end;
 
 
-#************************ FindRelationsSubsMain itself ****************************************************
+#************************ FindRelationsSubs itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
     Error("The number of names must coincide with the number of generators");
@@ -2295,6 +2295,7 @@ function(G,max_len,num_of_rels)
   end;
 
 #************************ FindRelations itself ****************************************************
+  if not IsAutomatonGroup(G) then return FindRelationsSubs(G,max_len,num_of_rels); fi;
 
   gens:=UnderlyingAutomFamily(G)!.automgens;
 
@@ -2325,14 +2326,6 @@ InstallMethod(FindRelations, "FindRelations(G,max_len)", true,
               [IsAutomGroup, IsCyclotomic],
 function(G,max_len)
   return FindRelations(G,max_len,infinity);
-end);
-
-
-
-InstallMethod(FindRelations, "FindRelations(G)",
-              [IsAutomGroup],
-function(G)
-  return FindRelations(G,infinity,infinity);
 end);
 
 

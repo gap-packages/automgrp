@@ -36,9 +36,9 @@
 \Declaration{FindNucleus}
 \Declaration{IsContracting}
 \Declaration{IsNoncontracting}
-\Declaration{FindRelsSubs}
-\Declaration{FindRelsSubsSG}
-\Declaration{FindRels}
+\Declaration{FindRelationsSubs}
+\Declaration{FindRelationsSubsSG}
+\Declaration{FindRelations}
 \Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfAutomaton}

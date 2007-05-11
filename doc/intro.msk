@@ -9,13 +9,12 @@ automata over 2-letter alphabet.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Short math background}
 
-\cite{harpe}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Quick example}
 
 
-Here is how we define Grigorchuk and Basilica groups
+Here is how to define Grigorchuk group $G$ and Basilica group $B$
 
 \beginexample
 gap> G:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
@@ -85,6 +84,9 @@ gap> Size(Image(f));
 Here is how to find relations in $B$ between elements of length not greater than 5.
 \beginexample
 gap> FindRelations(B,5);
+#I  v*u*v*u^-1*v^-1*u*v^-1*u^-1
+#I  v*u*v^2*u^-1*v^-1*u*v^-2*u^-1
+#I  v^2*u*v*u^-1*v^-2*u*v^-1*u^-1
 [ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u*v^2*u^-1*v^-1*u*v^-2*u^-1,
   v^2*u*v*u^-1*v^-2*u*v^-1*u^-1 ]
 \endexample
@@ -92,11 +94,7 @@ gap> FindRelations(B,5);
 Or relations in the subgroup <x=u*v^{-1}, y=v*u>
 \beginexample
 gap> FindRelationsSubs([u*v^-1,v*u],["x","y"],5);
-#I  Length not greater than 2: 17
-#I  Length not greater than 3: 53
 #I  y*x^2*y*x^-1*y^-2*x^-1
-#I  Length not greater than 4: 153
-#I  Length not greater than 5: 429
 [ y*x^2*y*x^-1*y^-2*x^-1 ]
 \endexample
 

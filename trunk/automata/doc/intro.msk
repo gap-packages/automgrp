@@ -158,8 +158,9 @@ gap> Size(last);
 The last example shows how to find all elements of Grigorchuk group of length at most 5, which have order 16.
 \beginexample
 gap> FindGroupElements(G,Order,16,5);
-[ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a, c*a*d*a, d*a*b*a, d*a*c*a,
-a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c, c*a*b*a*b, c*a*c*a*b ]
+[ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a, c*a*d*a,
+  d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c, c*a*b*a*b,
+  c*a*c*a*b ]
 \endexample
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

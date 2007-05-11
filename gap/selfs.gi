@@ -1712,16 +1712,16 @@ InstallGlobalFunction(AG_IsOneWordSubs,function(w,subs,G)
 end);
 
 
-InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,G,max_len,num_of_rels)", true,
+InstallMethod(FindRelationsSubs, "FindRelationsSubs(subs_words,names,G,max_len,num_of_rels)", true,
               [IsList, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words,names,max_len,num_of_rels)
-  local G, gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal, gens_autom, i, j, subs, subs1, w_list, FindRelsSubsLocal, w_ext, w, automgens, numstates, F, cur_gen;
+  local G, gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelationsLocal, gens_autom, i, j, subs, subs1, w_list, FindRelationsSubsLocal, w_ext, w, automgens, numstates, F, cur_gen;
 
   AssocW:=function(w)
      return Product(List(w, i -> gens[i]));
   end;
 
-  FindRelsSubsLocal:=function(subs,G)
+  FindRelationsSubsLocal:=function(subs,G)
     local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,IsNewRelS,inverse,inverseS,H,FinG,tmpl,push,ProductEls,act,rels, LongCycle,invslist,invs,origlength,w,invadded,AssocWrels;
 
     inverse:=function(w)
@@ -1780,7 +1780,7 @@ function(subs_words,names,max_len,num_of_rels)
       od;
       return true;
     end;
-#************************ FindRelsSubsLocal itself ****************************************************
+#************************ FindRelationsSubsLocal itself ****************************************************
 
     rels:=[];
 #    G := GroupOfAutomFamily(FamilyObj(subs_words[1]));
@@ -1876,7 +1876,7 @@ function(subs_words,names,max_len,num_of_rels)
   end;
 
 
-#************************ FindRelsSubsMain itself ****************************************************
+#************************ FindRelationsSubsMain itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
     Error("The number of names must coincide with the number of generators");
@@ -1923,38 +1923,38 @@ function(subs_words,names,max_len,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsSubsLocal(subs,CHOOSE_AUTOMATON_LIST(G));
+  rels:=FindRelationsSubsLocal(subs,CHOOSE_AUTOMATON_LIST(G));
   if rels=fail then return fail; fi;
   Append(rels0,rels);
 #  Print(rels0);
   return rels0;
 end);
 
-InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names,max_len)", true,
+InstallMethod(FindRelationsSubs, "FindRelationsSubs(subs_words,names,max_len)", true,
               [IsList, IsList, IsCyclotomic],
 function(subs_words,names,max_len)
-  return FindRelsSubs(subs_words,names,max_len,infinity);
+  return FindRelationsSubs(subs_words,names,max_len,infinity);
 end);
 
 
 
-InstallMethod(FindRelsSubs, "FindRelsSubs(subs_words,names)",
+InstallMethod(FindRelationsSubs, "FindRelationsSubs(subs_words,names)",
               [IsList, IsList],
 function(subs_words,names)
-  return FindRelsSubs(subs_words,names,infinity,infinity);
+  return FindRelationsSubs(subs_words,names,infinity,infinity);
 end);
 
 
-InstallOtherMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,max_len,num_of_rels)", true,
+InstallOtherMethod(FindRelationsSubsSG, "FindRelationsSubsSG(subs_words,names,max_len,num_of_rels)", true,
               [IsList, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words,names,max_len,num_of_rels)
-  local G, gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, gens_autom, i, j, subs, subs1, w_list, FindRelsSubsSGLocal, w_ext, w, automgens, numstates, F, cur_gen;
+  local G, gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, gens_autom, i, j, subs, subs1, w_list, FindRelationsSubsSGLocal, w_ext, w, automgens, numstates, F, cur_gen;
 
   AssocW:=function(w)
      return Product(List(w, i -> gens[i]));
   end;
 
-  FindRelsSubsSGLocal:=function(subs,G)
+  FindRelationsSubsSGLocal:=function(subs,G)
     local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,IsNewRelS,inverse,inverseS,H,FinG,tmpl,push,ProductEls,act,rels, LongCycle,invslist,invs,origlength,w,invadded,Expand,rel,New_rel,AssocWrels;
 
     #inverse as a word over generators of automaton
@@ -1988,7 +1988,7 @@ function(subs_words,names,max_len,num_of_rels)
       return tmpv;
     end;
 
-  #************************ FindRelsSubsSGLocal itself ****************************************************
+  #************************ FindRelationsSubsSGLocal itself ****************************************************
 
     rels:=[];
     AssocWrels:=[];
@@ -2078,7 +2078,7 @@ function(subs_words,names,max_len,num_of_rels)
     return AssocWrels;
   end;
 
-#  *********************** FindRelsSubsSG itself ****************************************************
+#  *********************** FindRelationsSubsSG itself ****************************************************
 
   if Length(subs_words)<>Length(names) then
     Error("The number of names must coincide with the number of generators");
@@ -2125,7 +2125,7 @@ function(subs_words,names,max_len,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsSubsSGLocal(subs,CHOOSE_AUTOMATON_LIST(G));
+  rels:=FindRelationsSubsSGLocal(subs,CHOOSE_AUTOMATON_LIST(G));
   if rels=fail then return fail; fi;
   Append(rels0,rels);
 #  Print(rels0);
@@ -2133,26 +2133,26 @@ function(subs_words,names,max_len,num_of_rels)
 end);
 
 
-InstallMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names,max_len)", true,
+InstallMethod(FindRelationsSubsSG, "FindRelationsSubsSG(subs_words,names,max_len)", true,
               [IsList, IsList, IsCyclotomic],
 function(subs_words,names,max_len)
-  return FindRelsSubsSG(subs_words,names,max_len,infinity);
+  return FindRelationsSubsSG(subs_words,names,max_len,infinity);
 end);
 
 
-InstallMethod(FindRelsSubsSG, "FindRelsSubsSG(subs_words,names)",
+InstallMethod(FindRelationsSubsSG, "FindRelationsSubsSG(subs_words,names)",
               [IsList, IsList],
 function(subs_words,names)
-  return FindRelsSubsSG(subs_words,names,infinity,infinity);
+  return FindRelationsSubsSG(subs_words,names,infinity,infinity);
 end);
 
 
 
 
-InstallMethod(FindRels, "FindRels(G,max_len,num_of_rels)", true,
+InstallMethod(FindRelations, "FindRelations(G,max_len,num_of_rels)", true,
               [IsAutomGroup, IsCyclotomic, IsCyclotomic],
 function(G,max_len,num_of_rels)
-  local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelsLocal;
+  local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindRelationsLocal;
 
   AssocW:=function(w)
      #Print(w);
@@ -2160,7 +2160,7 @@ function(G,max_len,num_of_rels)
   end;
 
 
-  FindRelsLocal:=function(subs,G)
+  FindRelationsLocal:=function(subs,G)
     local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,IsNewRelS,inverse,inverseS,H,FinG,tmpl,push,ProductEls,act,rels, LongCycle,invslist,invs,origlength,w,invadded,tmpv_orig,AssocWrels;
 
     inverse:=function(w)
@@ -2218,7 +2218,7 @@ function(G,max_len,num_of_rels)
       od;
       return true;
     end;
-#************************ FinRelsLocal itself ****************************************************
+#************************ FindRelationsLocal itself ****************************************************
 
     rels:=[];
     AssocWrels:=[];
@@ -2294,7 +2294,7 @@ function(G,max_len,num_of_rels)
     return AssocWrels;
   end;
 
-#************************ FinRels itself ****************************************************
+#************************ FindRelations itself ****************************************************
 
   gens:=UnderlyingAutomFamily(G)!.automgens;
 
@@ -2314,39 +2314,39 @@ function(G,max_len,num_of_rels)
 #  od;
 
 
-  rels:=FindRelsLocal(List([2..Length(H)],i->[i]),CHOOSE_AUTOMATON_LIST(G));
+  rels:=FindRelationsLocal(List([2..Length(H)],i->[i]),CHOOSE_AUTOMATON_LIST(G));
   Append(rels0,rels);
 #  Print(rels0);
   return rels0;
 end);
 
 
-InstallMethod(FindRels, "FindRels(G,max_len)", true,
+InstallMethod(FindRelations, "FindRelations(G,max_len)", true,
               [IsAutomGroup, IsCyclotomic],
 function(G,max_len)
-  return FindRels(G,max_len,infinity);
+  return FindRelations(G,max_len,infinity);
 end);
 
 
 
-InstallMethod(FindRels, "FindRels(G)",
+InstallMethod(FindRelations, "FindRelations(G)",
               [IsAutomGroup],
 function(G)
-  return FindRels(G,infinity,infinity);
+  return FindRelations(G,infinity,infinity);
 end);
 
 
-InstallMethod(FindRels, "FindRels(G)",
+InstallMethod(FindRelations, "FindRelations(G)",
               [IsAutomGroup],
 function(G)
-  return FindRels(G,infinity,infinity);
+  return FindRelations(G,infinity,infinity);
 end);
 
 
-InstallMethod(ORDER_USING_SECTIONS, "ORDER_USING_SECTIONS(IsAutom,IsCyclotomic)", true,
+InstallMethod(OrderUsingSections, "OrderUsingSections(IsAutom,IsCyclotomic)", true,
               [IsAutom, IsCyclotomic],
 function(a, max_depth)
-  local ORDER_USING_SECTIONS_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
+  local OrderUsingSections_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
 
   CyclicallyReduce:=function(w)
     local i,j,wtmp,reduced;
@@ -2395,7 +2395,7 @@ function(a, max_depth)
     return false;
   end;
 
-  ORDER_USING_SECTIONS_LOCAL:=function(g)
+  OrderUsingSections_LOCAL:=function(g)
     local i,el,orb,Orbs,res,st,reduced_word,loc_order;
     if IsOne(g) then return 1; fi;
     for i in [1..Length(cur_list)] do
@@ -2420,12 +2420,12 @@ function(a, max_depth)
     for orb in Orbs do
       Add(degs,Length(orb));
       Add(vertex,orb[1]);
-#      res:=ORDER_USING_SECTIONS_LOCAL(Autom(CyclicallyReducedWord(State(g^Length(orb),orb[1])!.word),FamilyObj(g)));
+#      res:=OrderUsingSections_LOCAL(Autom(CyclicallyReducedWord(State(g^Length(orb),orb[1])!.word),FamilyObj(g)));
 #      Print(g^Length(orb),"\n");
       st:=State(g^Length(orb),orb[1]);
       reduced_word:=AssocWordByLetterRep(FamilyObj(st!.word),CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word," at ",vertex,"\n");
-      res:=ORDER_USING_SECTIONS_LOCAL(Autom(reduced_word,FamilyObj(g)));
+      res:=OrderUsingSections_LOCAL(Autom(reduced_word,FamilyObj(g)));
       if res=infinity or res=fail then return res; fi;
       loc_order:=Lcm(loc_order,res*Length(orb));
       Unbind(degs[Length(degs)]);
@@ -2440,12 +2440,19 @@ function(a, max_depth)
   cur_list:=[];
 # degs traces at what positions we raise to what power
   degs:=[]; vertex:=[];
-  res:=ORDER_USING_SECTIONS_LOCAL(a);
+  res:=OrderUsingSections_LOCAL(a);
   if res=infinity then
     SetIsFinite(GroupOfAutomFamily(FamilyObj(a)),false);
     SetOrder(a,infinity);
   fi;
   return res;
+end);
+
+
+InstallMethod(OrderUsingSections, "OrderUsingSections(IsAutom)", true,
+              [IsAutom],
+function(a)
+  return OrderUsingSections(a,infinity);
 end);
 
 
@@ -2600,7 +2607,7 @@ InstallGlobalFunction(FindElementOfInfiniteOrder,function(G,n,depth)
 
   if HasIsFinite(G) and IsFinite(G) then return fail; fi;
 
-  CheckOrder:=function(g) return ORDER_USING_SECTIONS(g,depth); end;
+  CheckOrder:=function(g) return OrderUsingSections(g,depth); end;
   res:=FindGroupElement(G,CheckOrder,infinity,n);
   if res<>fail then SetIsFinite(G,false); fi;
   return res;
@@ -2611,7 +2618,7 @@ InstallGlobalFunction(FindElementsOfInfiniteOrder,function(G,n,depth)
 
   if HasIsFinite(G) and IsFinite(G) then return []; fi;
 
-  CheckOrder:=function(g) return ORDER_USING_SECTIONS(g,depth); end;
+  CheckOrder:=function(g) return OrderUsingSections(g,depth); end;
   res:=FindGroupElements(G,CheckOrder,infinity,n);
   if res<>[] then SetIsFinite(G,false); fi;
   return res;
@@ -2625,7 +2632,7 @@ InstallGlobalFunction(IsNoncontracting, function(arg)
 
   IsNoncontrElement:=function(g)
     if SUSPICIOUS_FOR_NONCONTRACTION(g) then
-      return ORDER_USING_SECTIONS(g,depth)=infinity;
+      return OrderUsingSections(g,depth)=infinity;
     fi;
     return false;
   end;

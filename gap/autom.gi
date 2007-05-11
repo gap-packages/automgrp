@@ -845,9 +845,9 @@ InstallOtherMethod(Order, "Order(IsAutom)", true,
 function(a)
   local ord_loc;
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
-    return ORDER_USING_SECTIONS(a,infinity);
+    return OrderUsingSections(a,infinity);
   fi;
-  ord_loc:=ORDER_USING_SECTIONS(a,10);
+  ord_loc:=OrderUsingSections(a,10);
   if ord_loc<>fail then return ord_loc; fi;
   TryNextMethod();
 end);

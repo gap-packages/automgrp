@@ -7,7 +7,7 @@ SetPackageInfo(rec(
 
 ##  This is case sensitive, use your preferred spelling.
 #
-PackageName := "automgrp",
+PackageName := "AutomGrp",
 
 ##  This may be used by a default banner or on a Web page, should fit on
 ##  one line.
@@ -230,7 +230,7 @@ PackageDoc := rec(
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.4",
+  GAP := ">=4.4.7",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
@@ -307,7 +307,7 @@ TestFile := "tst/testall.g",
 ##  *Optional*: Here you can list some keyword related to the topic
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["finite automata", "tree automorphism"]
+Keywords := ["finite automata", "tree automorphisms"]
 
 ));
 

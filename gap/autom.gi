@@ -405,7 +405,7 @@ function(a1, a2)
       return false;
     fi;
     for i in [1..d] do
-      np := [WordStateInList(p[1], i, autlist), WordStateInList(p[2], i, autlist, false, 0)];
+      np := [WordStateInList(p[1], i, autlist, false, 0), WordStateInList(p[2], i, autlist, false, 0)];
       if not np in checked then
         Add(checked, np);
       fi;

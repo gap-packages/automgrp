@@ -847,8 +847,13 @@ function(a)
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
     return OrderUsingSections(a,infinity);
   fi;
-  ord_loc:=OrderUsingSections(a,10);
-  if ord_loc<>fail then return ord_loc; fi;
+  if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
+    return infinity;
+  fi;
+  ord_loc := OrderUsingSections(a,10);
+  if ord_loc <> fail then
+    return ord_loc;
+  fi;
   TryNextMethod();
 end);
 

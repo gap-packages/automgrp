@@ -700,18 +700,21 @@ function(G, max_len)
     record.n_gens := Length(record.gens);
     record.elms := Concatenation([One(G)], record.gens);
     record.levels := [[1], [2..1+Length(record.gens)], []];
-    record.is_one := record.n_gens = 0;
+
+    if record.n_gens = 0 then
+      record.is_list := true;
+    elif max_len = 0 then
+      record.is_list := true;
+      record.elms := [One(G)];
+    else
+      record.is_list := max_len = 1;
+    fi;
 
     return record;
   end;
 
   next_iterator := function(iter)
     local elm;
-
-    if iter!.is_one then
-      iter!.done := true;
-      return One(iter!.group);
-    fi;
 
     elm := iter!.elms[iter!.ptr];
     iter!.ptr := iter!.ptr + 1;
@@ -730,6 +733,11 @@ function(G, max_len)
       return false;
     fi;
 
+    if iter!.is_list then
+      iter!.done := true;
+      return true;
+    fi;
+
     gens_ptr := iter!.gens_ptr;
     gens := iter!.gens;
     elm_list := iter!.elms;
@@ -744,7 +752,7 @@ function(G, max_len)
           SetIsFinite(iter!.group, true);
           SetSize(iter!.group, Length(elm_list));
           break;
-        elif n_levels - 1 > iter!.max_len then
+        elif n_levels > iter!.max_len then
           iter!.done := true;
           break;
         fi;
@@ -757,9 +765,10 @@ function(G, max_len)
       elm := elm_list[levels[n_levels-1][gens_ptr[1]]] * gens[gens_ptr[2]];
 
       if not elm in elm_list then
-        Add(levels[n_levels], Length(elm_list));
         Add(elm_list, elm);
+        Add(levels[n_levels], Length(elm_list));
         added := true;
+      else
       fi;
 
       gens_ptr[2] := gens_ptr[2] + 1;
@@ -769,7 +778,6 @@ function(G, max_len)
       fi;
     od;
 
-    iter!.ptr := Length(elm_list);
     return iter!.done;
   end;
 
@@ -782,7 +790,7 @@ end);
 
 InstallMethod(Iterator, [IsTreeAutomorphismGroup],
 function(G)
-  return AG_GroupIterator(G);
+  return AG_GroupIterator(G, infinity);
 end);
 
 InstallOtherMethod(Iterator, [IsTreeAutomorphismGroup, IsCyclotomic],

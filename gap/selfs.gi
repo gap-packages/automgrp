@@ -2892,7 +2892,10 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
 
   if func(One(G))=val then return One(G); fi;
 
-  orig_gens:=ShallowCopy(GeneratorsOfSemigroup(G));
+# produce a symmetric generating set
+  orig_gens:=ShallowCopy(GeneratorsOfGroup(G));
+  Append(orig_gens,List(orig_gens,x->x^-1));
+
   gens:=[];
 
 # select pairwise different generators
@@ -2917,11 +2920,9 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
       oldgr:=Length(ElList);
       for gen in gens do
         g:=ElList[i]*gen;
-#       Print("g=",g,"\n\n");
         New:=true;
         if len=1 then k:=1; else k:=GrList[len-1]; fi;
         while New and k<=oldgr do
-#          Print(g*ElList[k]^-1,"\n");
           if IsOne(g*ElList[k]^-1) then New:=false; fi;
           k:=k+1;
         od;
@@ -2945,7 +2946,10 @@ end);
 InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
 
-  orig_gens:=ShallowCopy(GeneratorsOfSemigroup(G));
+# produce a symmetric generating set
+  orig_gens:=ShallowCopy(GeneratorsOfGroup(G));
+  Append(orig_gens,List(orig_gens,x->x^-1));
+
   gens:=[];
   cur_els:=[];
 

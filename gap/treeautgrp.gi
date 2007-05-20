@@ -674,4 +674,121 @@ function(g, G)
 end);
 
 
+BindGlobal("AG_GroupIterator",
+function(G, max_len)
+  local next_iterator, is_done_iterator, shallow_copy,
+        create_iter_rec;
+
+  create_iter_rec := function(G)
+    local record;
+
+    record := rec(
+      NextIterator := next_iterator,
+      IsDoneIterator := is_done_iterator,
+      ShallowCopy := shallow_copy,
+
+      group := G,
+      done := false,
+      max_len := max_len,
+
+      gens := Difference(GeneratorsOfSemigroup(G), [One(G)]),
+      gens_ptr := [1, 1],
+
+      ptr := 1,
+    );
+
+    record.n_gens := Length(record.gens);
+    record.elms := Concatenation([One(G)], record.gens);
+    record.levels := [[1], [2..1+Length(record.gens)], []];
+    record.is_one := record.n_gens = 0;
+
+    return record;
+  end;
+
+  next_iterator := function(iter)
+    local elm;
+
+    if iter!.is_one then
+      iter!.done := true;
+      return One(iter!.group);
+    fi;
+
+    elm := iter!.elms[iter!.ptr];
+    iter!.ptr := iter!.ptr + 1;
+
+    return elm;
+  end;
+
+  is_done_iterator := function(iter)
+    local gens_ptr, gens, elm, elm_list, levels, n_levels, added;
+
+    if iter!.done then
+      return true;
+    fi;
+
+    if iter!.ptr <= Length(iter!.elms) then
+      return false;
+    fi;
+
+    gens_ptr := iter!.gens_ptr;
+    gens := iter!.gens;
+    elm_list := iter!.elms;
+    levels := iter!.levels;
+    n_levels := Length(levels);
+    added := false;
+
+    while not added do
+      if gens_ptr[1] > Length(levels[n_levels-1]) then
+        if IsEmpty(levels[n_levels]) then
+          iter!.done := true;
+          SetIsFinite(iter!.group, true);
+          SetSize(iter!.group, Length(elm_list));
+          break;
+        elif n_levels - 1 > iter!.max_len then
+          iter!.done := true;
+          break;
+        fi;
+
+        Add(levels, []);
+        n_levels := n_levels + 1;
+        gens_ptr[1] := 1;
+      fi;
+
+      elm := elm_list[levels[n_levels-1][gens_ptr[1]]] * gens[gens_ptr[2]];
+
+      if not elm in elm_list then
+        Add(levels[n_levels], Length(elm_list));
+        Add(elm_list, elm);
+        added := true;
+      fi;
+
+      gens_ptr[2] := gens_ptr[2] + 1;
+      if gens_ptr[2] > Length(gens) then
+        gens_ptr[2] := 1;
+        gens_ptr[1] := gens_ptr[1] + 1;
+      fi;
+    od;
+
+    iter!.ptr := Length(elm_list);
+    return iter!.done;
+  end;
+
+  shallow_copy := function(iter)
+    return create_iter_rec(iter!.G);
+  end;
+
+  return IteratorByFunctions(create_iter_rec(G));
+end);
+
+InstallMethod(Iterator, [IsTreeAutomorphismGroup],
+function(G)
+  return AG_GroupIterator(G);
+end);
+
+InstallOtherMethod(Iterator, [IsTreeAutomorphismGroup, IsCyclotomic],
+function(G, max_len)
+  return AG_GroupIterator(G, max_len);
+end);
+
+
 #E

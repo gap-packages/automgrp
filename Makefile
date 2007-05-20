@@ -53,6 +53,7 @@ scilab_files =				\
 tst_files =			\
     tst/testall.g		\
     tst/testcontr.g		\
+    tst/testexternal.g		\
     tst/testorder.g		\
     tst/teststructures.g	\
     tst/testutil.g

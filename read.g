@@ -12,6 +12,7 @@ ReadPkg("automgrp", "gap/globals.g");
 ReadPkg("automgrp", "gap/automaton.gi");
 ReadPkg("automgrp", "gap/tree.gi");
 ReadPkg("automgrp", "gap/treehom.gi");
+ReadPkg("automgrp", "gap/treehomsg.gi");
 ReadPkg("automgrp", "gap/treeaut.gi");
 ReadPkg("automgrp", "gap/treeautgrp.gi");
 ReadPkg("automgrp", "gap/autom.gi");

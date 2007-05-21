@@ -257,9 +257,9 @@ end);
 #       return false; fi; fi;
 #
 #   if IsOne(PermOnLevel(a, k)) then
-#     Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-#     Info(InfoAutomata, 3, "  a is not transitive on level", k);
-#     Info(InfoAutomata, 3, "  a = ", a);
+#     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+#     Info(InfoAutomGrp, 3, "  a is not transitive on level", k);
+#     Info(InfoAutomGrp, 3, "  a = ", a);
 #     SetIsSphericallyTransitive(a, false);
 #     return true;
 #   else
@@ -277,17 +277,17 @@ end);
 # function(a, v)
 #   if HasIsSphericallyTransitive(a) then
 #     if IsSphericallyTransitive(a) then
-#       Info(InfoAutomata, 3, "FixesVertex(a, v): false");
-#       Info(InfoAutomata, 3, "  IsSphericallyTransitive(a)");
-#       Info(InfoAutomata, 3, "  a = ", a);
+#       Info(InfoAutomGrp, 3, "FixesVertex(a, v): false");
+#       Info(InfoAutomGrp, 3, "  IsSphericallyTransitive(a)");
+#       Info(InfoAutomGrp, 3, "  a = ", a);
 #       return false;
 #     fi;
 #   fi;
 #
 #   if v^a = v then
-#     Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-#     Info(InfoAutomata, 3, "  a fixes vertex ", v);
-#     Info(InfoAutomata, 3, "  a = ", a);
+#     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+#     Info(InfoAutomGrp, 3, "  a fixes vertex ", v);
+#     Info(InfoAutomGrp, 3, "  a = ", a);
 #     SetIsSphericallyTransitive(a, false);
 #     return true;
 #   else

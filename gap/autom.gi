@@ -827,8 +827,8 @@ function(a)
   local w, i, ab, abs;
 
   if IsOne(Word(a)) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomata, 3, "  IsOne(Word(a)): a = ", a);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 3, "  IsOne(Word(a)): a = ", a);
     return false;
   fi;
 

@@ -36,10 +36,10 @@ InstallMethod(UseSubsetRelation, "method for two IsTreeAutomorphismGroup's",
 function(super, sub)
   if HasIsSphericallyTransitive(super) then
     if not IsSphericallyTransitive(super) then
-      Info(InfoAutomata, 3, "IsSphericallyTransitive(sub): false");
-      Info(InfoAutomata, 3, "  super is not spherically transitive");
-      Info(InfoAutomata, 3, "  super = ", super);
-      Info(InfoAutomata, 3, "  sub = ", sub);
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(sub): false");
+      Info(InfoAutomGrp, 3, "  super is not spherically transitive");
+      Info(InfoAutomGrp, 3, "  super = ", super);
+      Info(InfoAutomGrp, 3, "  sub = ", sub);
       SetIsSphericallyTransitive(sub, false); fi; fi;
 
   TryNextMethod();
@@ -80,9 +80,9 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, HasIsSphericallyTransitive
 InstallImmediateMethod(IsSphericallyTransitive, IsTreeAutomorphismGroup and HasIsFinite, 0,
 function(G)
   if IsFinite(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is finite");
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G is finite");
+    Info(InfoAutomGrp, 3, "  G = ", G);
     return false;
   fi;
   TryNextMethod();
@@ -94,24 +94,24 @@ function (G)
   local i, k, stab;
 
   if HasIsFinite(G) and IsFinite(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is finite");
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G is finite");
+    Info(InfoAutomGrp, 3, "  G = ", G);
     return false;
   fi;
 
   if not IsTransitiveOnLevel(G, 1) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is not transitive on ", i, "-th level");
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G is not transitive on ", i, "-th level");
+    Info(InfoAutomGrp, 3, "  G = ", G);
     return false;
   fi;
 
   if IsActingOnBinaryTree(G) then
     if AutomataAbelImageSpherTrans in AbelImage(G) then
-      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
-      Info(InfoAutomata, 3, "  using AbelImage");
-      Info(InfoAutomata, 3, "  G = ", G);
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+      Info(InfoAutomGrp, 3, "  using AbelImage");
+      Info(InfoAutomGrp, 3, "  G = ", G);
       return true;
     fi;
   fi;
@@ -173,31 +173,31 @@ function(G)
 
   if not IsTransitive(PermGroupOnLevel(G, 1), [1..DegreeOfTree(G)]) then
     SetIsSphericallyTransitive(G, false);
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "IsFractal(G): false");
-    Info(InfoAutomata, 3, "  G is not transitive on first level");
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "IsFractal(G): false");
+    Info(InfoAutomGrp, 3, "  G is not transitive on first level");
     return false;
   fi;
 
   if HasIsFinite(G) and IsFinite(G) then
-    Info(InfoAutomata, 3, "IsFractal(G): false");
-    Info(InfoAutomata, 3, "  G is finite");
+    Info(InfoAutomGrp, 3, "IsFractal(G): false");
+    Info(InfoAutomGrp, 3, "  G is finite");
     return false;
   fi;
 
   if CanEasilyTestSphericalTransitivity(G) and not IsSphericallyTransitive(G) then
-    Info(InfoAutomata, 3, "IsFractal(G): false");
-    Info(InfoAutomata, 3, "  G is not spherically transitive");
+    Info(InfoAutomGrp, 3, "IsFractal(G): false");
+    Info(InfoAutomGrp, 3, "  G is not spherically transitive");
     return false;
   fi;
 
   if ProjStab(G, 1) <> G then
-    Info(InfoAutomata, 3, "IsFractal(G): false");
-    Info(InfoAutomata, 3, "  ProjStab(G, 1) <> G");
+    Info(InfoAutomGrp, 3, "IsFractal(G): false");
+    Info(InfoAutomGrp, 3, "  ProjStab(G, 1) <> G");
     return false;
   fi;
-  Info(InfoAutomata, 3, "IsFractal(G): true");
-  Info(InfoAutomata, 3, "  ProjStab(G, 1) = G and G is transitive on first level");
+  Info(InfoAutomGrp, 3, "IsFractal(G): true");
+  Info(InfoAutomGrp, 3, "  ProjStab(G, 1) = G and G is transitive on first level");
   return true;
 end);
 
@@ -269,9 +269,9 @@ function (G, k)
   local perms, S, F, hom, chooser, s, f, gens;
 
   if FixesLevel(G, k) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is not transitive on level", k);
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G is not transitive on level", k);
+    Info(InfoAutomGrp, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -308,10 +308,10 @@ function (G, k)
     return fail;
   fi;
   if FixesVertex(G, k) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G fixes vertex", k);
-    Info(InfoAutomata, 3, "  G = ", G);
-    Info(InfoAutomata, 3, "  k = ", k);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G fixes vertex", k);
+    Info(InfoAutomGrp, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "  k = ", k);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -358,9 +358,9 @@ function (G, seq)
   fi;
 
   if FixesVertex(G, seq) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G fixes vertex", seq);
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G fixes vertex", seq);
+    Info(InfoAutomGrp, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return G;
   fi;
@@ -395,9 +395,9 @@ InstallMethod(FixesLevel, "method for IsTreeAutomorphismGroup and IsPosInt",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   if IsTrivial(PermGroupOnLevel(G, k)) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G fixes level", k);
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G fixes level", k);
+    Info(InfoAutomGrp, 3, "  G = ", G);
     SetIsSphericallyTransitive(G, false);
     return true;
   else
@@ -418,9 +418,9 @@ function(G, v)
   for g in gens do
     if not FixesVertex(g, v) then return false; fi;
   od;
-  Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-  Info(InfoAutomata, 3, "  G fixes vertex", v);
-  Info(InfoAutomata, 3, "  G = ", G);
+  Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+  Info(InfoAutomGrp, 3, "  G fixes vertex", v);
+  Info(InfoAutomGrp, 3, "  G = ", G);
   SetIsSphericallyTransitive(G, false);
   return true;
 end);
@@ -529,31 +529,31 @@ InstallMethod(\=, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup)",
 function(G, H)
   if HasIsFinite(G) and HasIsFinite(H) and
     IsFinite(G) <> IsFinite(H) then
-      Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
-      Info(InfoAutomata, 3, "  IsFinite(G)<>IsFinite(H)");
+      Info(InfoAutomGrp, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
+      Info(InfoAutomGrp, 3, "  IsFinite(G)<>IsFinite(H)");
       return false;
   fi;
 
   if HasSize(G) and HasSize(H) and
     Size(G) <> Size(H) then
-      Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
-      Info(InfoAutomata, 3, "  Size(G)<>Size(H)");
+      Info(InfoAutomGrp, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
+      Info(InfoAutomGrp, 3, "  Size(G)<>Size(H)");
       return false;
   fi;
 
   if CanEasilyTestSphericalTransitivity(G) and
     CanEasilyTestSphericalTransitivity(H) and
       IsSphericallyTransitive(G) <> IsSphericallyTransitive(H) then
-        Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
-        Info(InfoAutomata, 3, "  IsSphericallyTransitive(G) <> IsSphericallyTransitive(H)");
+        Info(InfoAutomGrp, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
+        Info(InfoAutomGrp, 3, "  IsSphericallyTransitive(G) <> IsSphericallyTransitive(H)");
         return false;
   fi;
 
   if HasIsFractal(G) and HasIsFractal(H) and
      IsFractal(G) <> IsFractal(H)
   then
-    Info(InfoAutomata, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
-    Info(InfoAutomata, 3, "  IsFractal(G) <> IsFractal(H)");
+    Info(InfoAutomGrp, 3, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup): false");
+    Info(InfoAutomGrp, 3, "  IsFractal(G) <> IsFractal(H)");
     return false;
   fi;
 
@@ -571,26 +571,26 @@ function(G, H)
   local h, gens;
 
   if IsTrivial(H) then
-    Info(InfoAutomata, 3, "IsSubset(G, H): true");
-    Info(InfoAutomata, 3, "  IsTrivial(H)");
+    Info(InfoAutomGrp, 3, "IsSubset(G, H): true");
+    Info(InfoAutomGrp, 3, "  IsTrivial(H)");
     return true;
   elif IsTrivial(G) then
-    Info(InfoAutomata, 3, "IsSubset(G, H): false");
-    Info(InfoAutomata, 3, "  not IsTrivial(H) and IsTrivial(G)");
+    Info(InfoAutomGrp, 3, "IsSubset(G, H): false");
+    Info(InfoAutomGrp, 3, "  not IsTrivial(H) and IsTrivial(G)");
     return false;
   fi;
 
   if HasIsFinite(G) and HasIsFinite(H) and
     IsFinite(G) and not IsFinite(H) then
-      Info(InfoAutomata, 3, "IsSubset(G, H): false");
-      Info(InfoAutomata, 3, "  IsFinite(G) and not IsFinite(H)");
+      Info(InfoAutomGrp, 3, "IsSubset(G, H): false");
+      Info(InfoAutomGrp, 3, "  IsFinite(G) and not IsFinite(H)");
       return false;
   fi;
 
   if HasSize(G) and HasSize(H) and
     Size(G) < Size(H) then
-      Info(InfoAutomata, 3, "IsSubset(G, H): false");
-      Info(InfoAutomata, 3, "  Size(G) < Size(H)");
+      Info(InfoAutomGrp, 3, "IsSubset(G, H): false");
+      Info(InfoAutomGrp, 3, "  Size(G) < Size(H)");
       return false;
   fi;
 
@@ -599,8 +599,8 @@ function(G, H)
       not IsSphericallyTransitive(G) and
       IsSphericallyTransitive(H)
   then
-    Info(InfoAutomata, 3, "IsSubset(G, H): false");
-    Info(InfoAutomata, 3, "  not IsSphericallyTransitive(G) and IsSphericallyTransitive(H)");
+    Info(InfoAutomGrp, 3, "IsSubset(G, H): false");
+    Info(InfoAutomGrp, 3, "  not IsSphericallyTransitive(G) and IsSphericallyTransitive(H)");
     return false;
   fi;
 
@@ -610,8 +610,8 @@ function(G, H)
   gens := GeneratorsOfGroup(H);
   for h in gens do
     if not h in G then
-      Info(InfoAutomata, 3, "IsSubset(G, H): false");
-      Info(InfoAutomata, 3, "  not h in G");
+      Info(InfoAutomGrp, 3, "IsSubset(G, H): false");
+      Info(InfoAutomGrp, 3, "  not h in G");
       return false;
     fi;
   od;
@@ -636,18 +636,18 @@ function(g, G)
       not IsSphericallyTransitive(G) and
         IsSphericallyTransitive(g)
   then
-    Info(InfoAutomata, 3, "g in G: false");
-    Info(InfoAutomata, 3, "  not IsSphericallyTransitive(G) and IsSphericallyTransitive(g)");
-    Info(InfoAutomata, 3, "  g = ", g);
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "g in G: false");
+    Info(InfoAutomGrp, 3, "  not IsSphericallyTransitive(G) and IsSphericallyTransitive(g)");
+    Info(InfoAutomGrp, 3, "  g = ", g);
+    Info(InfoAutomGrp, 3, "  G = ", G);
     return false;
   fi;
 
   if not AbelImage(g) in AbelImage(G) then
-    Info(InfoAutomata, 3, "g in G: false");
-    Info(InfoAutomata, 3, "  not AbelImage(g) in AbelImage(G)");
-    Info(InfoAutomata, 3, "  g = ", g);
-    Info(InfoAutomata, 3, "  G = ", G);
+    Info(InfoAutomGrp, 3, "g in G: false");
+    Info(InfoAutomGrp, 3, "  not AbelImage(g) in AbelImage(G)");
+    Info(InfoAutomGrp, 3, "  g = ", g);
+    Info(InfoAutomGrp, 3, "  G = ", G);
     return false;
   fi;
 
@@ -655,17 +655,17 @@ function(g, G)
   g := ReducedForm(g);
 
   if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then
-    Info(InfoAutomata, 3, "g in G: FindGroupElement returned true");
+    Info(InfoAutomGrp, 3, "g in G: FindGroupElement returned true");
     return true;
   fi;
 
 #TODO
   for i in [1..10] do
     if not PermOnLevel(g, i) in PermGroupOnLevel(G, i) then
-      Info(InfoAutomata, 3, "g in G: false");
-      Info(InfoAutomata, 3, "  not PermOnLevel(g, ",i,") in PermGroupOnLevel(G, ",i,")");
-      Info(InfoAutomata, 3, "  g = ", g);
-      Info(InfoAutomata, 3, "  G = ", G);
+      Info(InfoAutomGrp, 3, "g in G: false");
+      Info(InfoAutomGrp, 3, "  not PermOnLevel(g, ",i,") in PermGroupOnLevel(G, ",i,")");
+      Info(InfoAutomGrp, 3, "  g = ", g);
+      Info(InfoAutomGrp, 3, "  G = ", G);
       return false;
     fi;
   od;

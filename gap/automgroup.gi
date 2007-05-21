@@ -110,6 +110,29 @@ end);
 
 ###############################################################################
 ##
+#M  AutomGroup(<A>)
+#M  AutomGroupNoBindGlobal(<A>)
+##
+InstallMethod(AutomGroup, "AutomGroup(IsAutomaton)", [IsAutomaton],
+function (A)
+    if not IsInvertible(A) then
+      Error("Automaton <A> is not invertible");
+    fi;
+    return AutomGroup(AutomatonList(A), A!.states);
+end);
+InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsAutomaton)", [IsAutomaton],
+function (A)
+    if not IsInvertible(A) then
+      Error("Automaton <A> is not invertible");
+    fi;
+    return AutomGroupNoBindGlobal(AutomatonList(A), A!.states);
+end);
+
+
+
+
+###############################################################################
+##
 #M  UnderlyingAutomFamily(<G>)
 ##
 InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomGroup)",

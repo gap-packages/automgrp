@@ -36,11 +36,11 @@
 \Input{data}
 \Input{treeautgrp}
 \Input{automgroup}
-%\Input{autom}
+\Input{autom}
 
-\Appendices
+%\Appendices
 
-\Input{automlist}
+%\Input{automlist}
 \Index
 
 \Bibliography

@@ -78,7 +78,13 @@ function(table, states, alphabet)
   if not invertible then
     for i in [1..n_states] do
       if IsPerm(perms[i]) then
-        perms[i] := Transformation(List([1..degree], i -> i^perms[i]));
+        perms[i] := Transformation(List([1..degree],j->j^perms[i]));
+      fi;
+    od;
+  else
+    for i in [1..n_states] do
+      if not IsPerm(perms[i]) then
+        perms[i] := PermList(ImageListOfTransformation(perms[i]));
       fi;
     od;
   fi;
@@ -185,6 +191,64 @@ end);
 #
 #   return func;
 # end);
+
+
+InstallMethod(AutomatonList, [IsAutomaton],
+function(a)
+  return List([1..a!.n_states], i->Concatenation(a!.table[i],[a!.perms[i]]));
+end);
+
+
+InstallGlobalFunction(MinimizationOfAutomatonTrack,
+function(a)
+  local min_aut;
+  min_aut:=AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a),x->List(x)),[1..a!.n_states],[1..a!.n_states]);
+  return [Automaton(min_aut[1],a!.states{min_aut[2]}),min_aut[2],min_aut[3]];
+end);
+
+
+InstallGlobalFunction(MinimizationOfAutomaton,
+function(a)
+  local min_aut;
+  min_aut:=AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a),x->List(x)),[1..a!.n_states],[1..a!.n_states]);
+  return Automaton(min_aut[1],a!.states{min_aut[2]});
+end);
+
+
+InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local G, res;
+  G:=AutomGroup(A);
+  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
+  if res then
+    SetPolynomialDegreeOfGrowthOfAutomaton(A,PolynomialDegreeOfGrowthOfAutomaton(G));
+  fi;
+  SetIsBounded(A,IsGeneratedByBoundedAutomaton(G));
+  return res;
+end);
+
+
+InstallMethod(IsBounded,"IsBounded(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local res;
+  res:=IsOfPolynomialGrowth(A);
+  return IsBounded(A);
+end);
+
+
+InstallMethod(PolynomialDegreeOfGrowthOfAutomaton,"PolynomialDegreeOfGrowthOfAutomaton(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local res;
+  res:=IsOfPolynomialGrowth(A);
+  if not res then
+    Info(InfoAutomata,"Error: the automaton <A> has exponenetial growth");
+    return fail;
+  fi;
+  return PolynomialDegreeOfGrowthOfAutomaton(A);
+end);
 
 
 #E

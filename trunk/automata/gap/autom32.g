@@ -209,7 +209,7 @@ end;
 
 SmallAutomGroup:= function(A)
   local i,j,M;
-  M:=MinimizeAutom(A);
+  M:=AG_MinimizationOfAutomatonList(A);
 
   #if there is the only state
   if Length(M[1])=1 then

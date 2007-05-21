@@ -1,9 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Chapter{Tools for Automata Groups}
+\Chapter{Noninitial Automata}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Tools wefwef}
+\Section{Definition}
 
-\cite{harpe}
+
+\Declaration{Automaton}
+\Declaration{IsAutomaton}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Tools}
+
+\Declaration{IsInvertible}
+\Declaration{MinimizationOfAutomaton}
+\Declaration{MinimizationOfAutomatonTrack}
+
+\Declaration{IsOfPolynomialGrowth}
+
+\Declaration{IsBounded}
+\Declaration{PolynomialDegreeOfGrowthOfAutomaton}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

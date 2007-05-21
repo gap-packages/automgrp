@@ -231,7 +231,7 @@ end);
 
 InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomGroup)", [IsAutomGroup],
 function(H)
-  return AddInversesTrack(AutomatonList(H));
+  return AG_AddInversesListTrack(List(AutomatonList(H),x->List(x)));
 end);
 
 
@@ -706,7 +706,7 @@ function(H)
 end);
 
 
-InstallGlobalFunction(MinimizeAutom,function(G)
+InstallGlobalFunction(AG_MinimizationOfAutomatonList,function(G)
 
   local AreEqualStates,i,j,Pairs,n, tmpG,d,k,l,st;
 
@@ -740,7 +740,7 @@ InstallGlobalFunction(MinimizeAutom,function(G)
             Add(tmpG,st);
           fi;
         od;
-        return MinimizeAutom(tmpG);
+        return AG_MinimizationOfAutomatonList(tmpG);
       fi;
     od;
   od;
@@ -748,7 +748,7 @@ InstallGlobalFunction(MinimizeAutom,function(G)
 end);
 
 
-InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_long)
+InstallGlobalFunction(AG_MinimizationOfAutomatonListTrack,function(G,track_list_short,track_list_long)
 
   local AreEqualStates,i,j,Pairs,n, tmpG,d,k,l,st, track_s, track_l;
 
@@ -800,7 +800,7 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
             elif track_l[k]=j then track_l[k]:=i;
           fi;
         od;
-        return MinimizeAutomTrack(tmpG,track_s,track_l);
+        return AG_MinimizationOfAutomatonListTrack(tmpG,track_s,track_l);
       fi;
     od;
   od;
@@ -808,7 +808,7 @@ InstallGlobalFunction(MinimizeAutomTrack,function(G,track_list_short,track_list_
 end);
 
 
-InstallGlobalFunction(AddInverses,function(H)
+InstallGlobalFunction(AG_AddInversesList,function(H)
   local d,n,G,idEl,st,i,perm,inv;
 
   d:=Length(H[1])-1;
@@ -832,12 +832,12 @@ InstallGlobalFunction(AddInverses,function(H)
     Add(G,inv);
   od;
 
-  return MinimizeAutom(G);
+  return AG_MinimizationOfAutomatonList(G);
 end);
 
 
 
-InstallGlobalFunction(AddInversesTrack,function(H)
+InstallGlobalFunction(AG_AddInversesListTrack,function(H)
   local d,n,G,idEl,st,i,perm,inv, track_s, track_l;
 
 ##  track_s - new generators in terms of old ones
@@ -866,7 +866,7 @@ InstallGlobalFunction(AddInversesTrack,function(H)
 #  Print("G=",G,"\n");
   track_s:=[0];
   Append(track_s,[1..Length(G)-1]);
-  return MinimizeAutomTrack(G,track_s,[2..Length(G)]);
+  return AG_MinimizationOfAutomatonListTrack(G,track_s,[2..Length(G)]);
 end);
 
 
@@ -1011,7 +1011,7 @@ function(H,max_nucl)
           Append(G,PairsToAdd);
 #          Print("G=",G,"\n");
           Append(cur_nucl,AssocWPairsToAdd);
-          G_track:=AddInversesTrack(G);
+          G_track:=AG_AddInversesListTrack(G);
 #          Print("G_track=",G_track,"\n");
           G:=G_track[1];
           cur_nucl_tmp:=[];
@@ -1300,7 +1300,7 @@ InstallGlobalFunction(AutomGroupGrowth,function(n,G)
   end;
 
   gr:=1; len:=1;
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   if G<>H then
     Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
@@ -1351,7 +1351,7 @@ InstallGlobalFunction(AutomGroupGrowthFast,function(n,m,G)
   end;
 
   gr:=1; len:=1;
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   if G<>H then
     Info(InfoAutomGrp, 3, "Inverses were added. Now generator set is:\n",H);
     G:=H;
@@ -1403,7 +1403,7 @@ InstallGlobalFunction(AutomGroupElements,function(n,G)
   end;
 
   gr:=1; len:=1;
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   if G<>H then
     Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
@@ -1690,7 +1690,7 @@ end);
 InstallGlobalFunction(MarkovOperator,function(G,n)
   local H,inv,i,el,j,m,d;
   d:=Length(G[1])-1;
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   inv:= InversePerm(H);
   m:=[];
   for i in [1..d^n] do Add(m,[]); od;
@@ -2700,7 +2700,7 @@ function(G,max_len,num_of_rels)
 #************************ FindRelations itself ****************************************************
   if not IsAutomatonGroup(G) then return FindRelationsSubs(GeneratorsOfGroup(G),max_len,num_of_rels); fi;
 
-  gens:=UnderlyingAutomFamily(G)!.automgens;
+  gens:=ShallowCopy(UnderlyingAutomFamily(G)!.automgens);
 
   Gi:=StructuralCopy(MINIMIZED_AUTOMATON_LIST(G));
 #  Print("Gi=",Gi,"\n");
@@ -2923,7 +2923,7 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
         New:=true;
         if len=1 then k:=1; else k:=GrList[len-1]; fi;
         while New and k<=oldgr do
-          if IsOne(g*ElList[k]^-1) then New:=false; fi;
+          if g=ElList[k] then New:=false; fi;
           k:=k+1;
         od;
         if New then
@@ -2979,7 +2979,7 @@ InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
         New:=true;
         if len=1 then k:=1; else k:=GrList[len-1]; fi;
         while New and k<=oldgr do
-          if IsOne(g*ElList[k]^-1) then New:=false; fi;
+          if g=ElList[k] then New:=false; fi;
           k:=k+1;
         od;
         if New then
@@ -3071,7 +3071,7 @@ InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
 
   gr:=1; len:=1; periodic:=true;
 
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   if G<>H then
     Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;
@@ -3156,7 +3156,7 @@ InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
 
   gr:=1; len:=1;
 
-  H:=AddInverses(G);
+  H:=AG_AddInversesList(G);
   if G<>H then
     Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
     G:=H;

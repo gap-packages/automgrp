@@ -17,11 +17,11 @@
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testutil.g"));
 
 saved := rec(
-  info_level := InfoLevel(InfoAutomata),
+  info_level := InfoLevel(InfoAutomGrp),
   bind_vars_autom_family := AutomataParameters.bind_vars_autom_family,
 );
 
-SetInfoLevel(InfoAutomata, 0);
+SetInfoLevel(InfoAutomGrp, 0);
 AutomataParameters.bind_vars_autom_family := false;
 
 UnitTestInit("automgrp package");
@@ -31,6 +31,8 @@ for name in [
   "teststructures.g",
   "testorder.g",
   "testcontr.g",
+  "testiter.g",
+  "testmisc.g",
 ]
 do
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), name));
@@ -38,5 +40,5 @@ od;
 
 UnitTestRun();
 
-SetInfoLevel(InfoAutomata, saved.info_level);
+SetInfoLevel(InfoAutomGrp, saved.info_level);
 AutomataParameters.bind_vars_autom_family := saved.bind_vars_autom_family;

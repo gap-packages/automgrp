@@ -1,4 +1,4 @@
-$Groups := [
+$ST_Groups := [
   [[[1,1,()]], false],
   ["a=(1,a)(1,2)", true],
   ["a=(1,b)(1,2), b=(1,a)", true],
@@ -11,7 +11,7 @@ $Groups := [
 
 UnitTest("Structures", function()
   local l;
-  for l in $Groups do
+  for l in $ST_Groups do
     AssertTrue(IsAutomGroup(AutomGroup(l[1])));
     if l[2] then
       AssertTrue(IsContracting(AutomGroup(l[1])));
@@ -20,7 +20,7 @@ UnitTest("Structures", function()
 end);
 
 
-$MultWord := function(word, family)
+$ST_MultWord := function(word, family)
   local rep, product, gen, i;
 
   rep := LetterRepAssocWord(word);
@@ -38,11 +38,11 @@ $MultWord := function(word, family)
   return product;
 end;
 
-$TestMultiplication1 := function(table, contracting, use_rws)
+$ST_TestMultiplication1 := function(table, contracting, use_rws)
   local group, fam, w, a, count;
 
   count := 0;
-  group := AutomGroup(table);
+  group := AutomGroupNoBindGlobal(table);
   fam := UnderlyingAutomFamily(group);
 
   if contracting then
@@ -60,7 +60,7 @@ $TestMultiplication1 := function(table, contracting, use_rws)
   for w in fam!.freegroup do
     a := Autom(w, fam);
     AssertTrue(IsAutom(a));
-    AssertEqual(a, $MultWord(w, fam));
+    AssertEqual(a, $ST_MultWord(w, fam));
     AssertEqual(a*a^-1, a^-1*a);
     AssertTrue(IsOne(a*a^-1));
     AssertEqual(a*a^-1, One(a));
@@ -76,10 +76,10 @@ end;
 
 UnitTest("Multiplication", function()
   local g;
-  for g in $Groups do
-    $TestMultiplication1(g[1], false, false);
+  for g in $ST_Groups do
+    $ST_TestMultiplication1(g[1], false, false);
     if g[2] then
-      $TestMultiplication1(g[1], true, false);
+      $ST_TestMultiplication1(g[1], true, false);
     fi;
   od;
 end);
@@ -87,11 +87,11 @@ end);
 
 UnitTest("Rewriting systems", function()
   local l;
-  for l in $Groups do
+  for l in $ST_Groups do
     if Length(l[1]) > 1 then
-      $TestMultiplication1(l[1], false, true);
+      $ST_TestMultiplication1(l[1], false, true);
       if l[2] then
-        $TestMultiplication1(l[1], true, true);
+        $ST_TestMultiplication1(l[1], true, true);
       fi;
     fi;
   od;

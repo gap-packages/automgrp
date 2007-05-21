@@ -275,9 +275,9 @@ function(a, k)
       return false; fi; fi;
 
   if IsOne(PermOnLevel(a, k)) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomata, 3, "  a is not transitive on level", k);
-    Info(InfoAutomata, 3, "  a = ", a);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 3, "  a is not transitive on level", k);
+    Info(InfoAutomGrp, 3, "  a = ", a);
     SetIsSphericallyTransitive(a, false);
     return true;
   else
@@ -295,17 +295,17 @@ InstallOtherMethod(FixesVertex,  "method for IsTreeAutomorphism and IsObject",
 function(a, v)
   if HasIsSphericallyTransitive(a) then
     if IsSphericallyTransitive(a) then
-      Info(InfoAutomata, 3, "FixesVertex(a, v): false");
-      Info(InfoAutomata, 3, "  IsSphericallyTransitive(a)");
-      Info(InfoAutomata, 3, "  a = ", a);
+      Info(InfoAutomGrp, 3, "FixesVertex(a, v): false");
+      Info(InfoAutomGrp, 3, "  IsSphericallyTransitive(a)");
+      Info(InfoAutomGrp, 3, "  a = ", a);
       return false;
     fi;
   fi;
 
   if v^a = v then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomata, 3, "  a fixes vertex ", v);
-    Info(InfoAutomata, 3, "  a = ", a);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 3, "  a fixes vertex ", v);
+    Info(InfoAutomGrp, 3, "  a = ", a);
     SetIsSphericallyTransitive(a, false);
     return true;
   else
@@ -323,8 +323,8 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphism and IsActingOnBinaryTree],
 function(a)
   local ab;
-  Info(InfoAutomata, 3, "IsSphericallyTransitive(a): using AbelImage");
-  Info(InfoAutomata, 3, "  a = ", a);
+  Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): using AbelImage");
+  Info(InfoAutomGrp, 3, "  a = ", a);
   ab := AbelImage(a);
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
 end);
@@ -336,9 +336,9 @@ InstallMethod(IsSphericallyTransitive, "method for IsTreeAutomorphism",
               [IsTreeAutomorphism],
 function(a)
   if not IsTransitive(Group(PermOnLevel(a, 1)), [1..Degree(a)]) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomata, 3, "  PermOnLevel(a, 1) isn't transitive");
-    Info(InfoAutomata, 3, "  a = ", a);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 3, "  PermOnLevel(a, 1) isn't transitive");
+    Info(InfoAutomGrp, 3, "  a = ", a);
     return false;
   fi;
   TryNextMethod();
@@ -349,9 +349,9 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphism and HasOrder],
 function(a)
   if Order(a) < infinity then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomata, 3, "  Order(a) < infinity");
-    Info(InfoAutomata, 3, "  a = ", a);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 3, "  Order(a) < infinity");
+    Info(InfoAutomGrp, 3, "  a = ", a);
     return false;
   fi;
   TryNextMethod();

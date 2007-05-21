@@ -306,7 +306,7 @@ function (G)
     Error("MihaylovSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
   fi;
   if not IsFractalByWords(G) then
-    Info(InfoAutomata, 1, "given group is not IsFractalByWords");
+    Info(InfoAutomGrp, 1, "given group is not IsFractalByWords");
     return fail;
   fi;
 
@@ -338,7 +338,7 @@ function (G)
 
   sym := GroupWithGenerators(List(GeneratorsOfGroup(G), g -> Perm(g)));
   if not IsTransitive(sym, [1..DegreeOfTree(G)]) then
-    Info(InfoAutomata, 1, "group is not transitive on first level");
+    Info(InfoAutomGrp, 1, "group is not transitive on first level");
     return false;
   fi;
 
@@ -363,22 +363,22 @@ InstallMethod(Size, "Size(IsAutomGroup)", [IsAutomGroup],
 function (G)
   local f;
   if IsTrivial(G) then
-    Info(InfoAutomata, 3, "Size(G): 1, G is trivial");
+    Info(InfoAutomGrp, 3, "Size(G): 1, G is trivial");
     return 1;
   fi;
 
   if CanEasilyTestSphericalTransitivity(G) and IsSphericallyTransitive(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity, G is spherically transitive");
+    Info(InfoAutomGrp, 3, "Size(G): infinity, G is spherically transitive");
     return infinity;
   fi;
 
   if IsFractalByWords(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity, G is fractal by words");
+    Info(InfoAutomGrp, 3, "Size(G): infinity, G is fractal by words");
     return infinity;
   fi;
 
   if HasIsFractal(G) and IsFractal(G) then
-    Info(InfoAutomata, 3, "Size(G): infinity, G is fractal");
+    Info(InfoAutomGrp, 3, "Size(G): infinity, G is fractal");
     return infinity;
   fi;
 
@@ -392,7 +392,7 @@ function (G)
     return Size(G);
   fi;
 
-  Info(InfoAutomata, 1, "You can try to use IsomorphismPermGroup(<G>) or\n",
+  Info(InfoAutomGrp, 1, "You can try to use IsomorphismPermGroup(<G>) or\n",
                         "   FindElementOfInfiniteOrder(<G>,<length>,<depth>) with bigger bounds");
   TryNextMethod();
 end);
@@ -547,32 +547,32 @@ function (G)
   local x, rat_gens, abel_hom;
 
   if IsFractalByWords(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
-    Info(InfoAutomata, 3, "  G is fractal");
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+    Info(InfoAutomGrp, 3, "  G is fractal");
     return true;
   fi;
 
   if IsTrivial(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  G is trivial: G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G is trivial: G = ", G);
     return false;
   fi;
 
   if HasIsFinite(G) and IsFinite(G) then
-    Info(InfoAutomata, 3, "IsSphericallyTransitive(G): false");
-    Info(InfoAutomata, 3, "  IsFinite(G): G = ", G);
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  IsFinite(G): G = ", G);
     return false;
   fi;
 
   if DegreeOfTree(G) = 2 and TestSelfSimilarity(G) and IsSelfSimilar(G) then
     if HasIsFinite(G) and IsFinite(G)=false then
-      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
-      Info(InfoAutomata, 3, "  <G> is infinite self-similar acting on binary tree");
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+      Info(InfoAutomGrp, 3, "  <G> is infinite self-similar acting on binary tree");
       return true;
     fi;
     if PermGroupOnLevel(G,2)=Group((1,4,2,3)) then
-      Info(InfoAutomata, 3, "IsSphericallyTransitive(G): true");
-      Info(InfoAutomata, 3, "  any element which acts transitively on the first level acts spherically transitively");
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+      Info(InfoAutomGrp, 3, "  any element which acts transitively on the first level acts spherically transitively");
       return true;
     fi;
   fi;
@@ -616,11 +616,11 @@ function(G, H)
 
   if HasIsGroupOfAutomFamily(G) and HasIsGroupOfAutomFamily(H) then
     if IsGroupOfAutomFamily(G) <> IsGroupOfAutomFamily(H) then
-      Info(InfoAutomata, 3, "G = H: false, exactly one is GroupOfAutomFamily");
+      Info(InfoAutomGrp, 3, "G = H: false, exactly one is GroupOfAutomFamily");
       return false;
     fi;
     if IsGroupOfAutomFamily(G) then
-      Info(InfoAutomata, 3, "G = H: true, both are GroupOfAutomFamily");
+      Info(InfoAutomGrp, 3, "G = H: true, both are GroupOfAutomFamily");
       return true;
     fi;
   fi;
@@ -635,7 +635,7 @@ function(G, H)
   fi;
 
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
-    Info(InfoAutomata, 3, "G = H: true, by subgroups of free group");
+    Info(InfoAutomGrp, 3, "G = H: true, by subgroups of free group");
     return true;
   fi;
 
@@ -653,8 +653,8 @@ function(G, H)
   local h, fam, fgens1, fgens2;
 
   if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
-    Info(InfoAutomata, 3, "IsSubgroup(G, H): true");
-    Info(InfoAutomata, 3, "  G is GroupOfAutomFamily");
+    Info(InfoAutomGrp, 3, "IsSubgroup(G, H): true");
+    Info(InfoAutomGrp, 3, "  G is GroupOfAutomFamily");
     return true;
   fi;
 
@@ -668,8 +668,8 @@ function(G, H)
   fi;
 
   if IsSubgroup(GroupWithGenerators(fgens1), GroupWithGenerators(fgens2)) then
-    Info(InfoAutomata, 3, "IsSubgroup(G, H): true");
-    Info(InfoAutomata, 3, "  by subgroups of free group");
+    Info(InfoAutomGrp, 3, "IsSubgroup(G, H): true");
+    Info(InfoAutomGrp, 3, "  by subgroups of free group");
     return true;
   fi;
 
@@ -701,9 +701,9 @@ function(g, G)
   fi;
 
   if w in GroupWithGenerators(fgens) then
-    Info(InfoAutomata, 3, "g in G: true");
-    Info(InfoAutomata, 3, "  by elements of free group");
-    Info(InfoAutomata, 3, "  g = ", g, "; G = ", G);
+    Info(InfoAutomGrp, 3, "g in G: true");
+    Info(InfoAutomGrp, 3, "  by elements of free group");
+    Info(InfoAutomGrp, 3, "  g = ", g, "; G = ", G);
     return true;
   fi;
 

@@ -57,6 +57,8 @@ tst_files =			\
     tst/testexternal.g		\
     tst/testorder.g		\
     tst/teststructures.g	\
+    tst/testiter.g		\
+    tst/testmisc.g		\
     tst/testutil.g
 
 all:

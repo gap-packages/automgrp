@@ -9,12 +9,18 @@
 
 
 BindGlobal("AGMonoidIterator",
-function(G, max_len)
+function(arg)
   local next_iterator, is_done_iterator, shallow_copy,
-        create_iter_rec;
+        create_iter_rec, G, max_len;
+
+  max_len := infinity;
+  G := arg[1];
+  if Length(arg) > 1 then
+    max_len := arg[2];
+  fi;
 
   create_iter_rec := function(G)
-    local record;
+    local record, gens;
 
     record := rec(
       NextIterator := next_iterator,
@@ -25,12 +31,13 @@ function(G, max_len)
       done := false,
       max_len := max_len,
 
-      gens := Difference(GeneratorsOfSemigroup(G), [One(G)]),
       gens_ptr := [1, 1],
 
       ptr := 1,
     );
 
+    gens := GeneratorsOfMonoid(G);
+    record.gens := Difference(Concatenation(gens, List(gens, g->g^-1)), [One(G)]);
     record.n_gens := Length(record.gens);
     record.elms := Concatenation([One(G)], record.gens);
     record.levels := [[1], [2..1+Length(record.gens)], []];
@@ -49,6 +56,10 @@ function(G, max_len)
 
   next_iterator := function(iter)
     local elm;
+
+    if is_done_iterator(iter) then
+      Error();
+    fi;
 
     elm := iter!.elms[iter!.ptr];
     iter!.ptr := iter!.ptr + 1;
@@ -98,11 +109,13 @@ function(G, max_len)
 
       elm := elm_list[levels[n_levels-1][gens_ptr[1]]] * gens[gens_ptr[2]];
 
-      if not elm in elm_list then
+      if not elm in elm_list{levels[n_levels-2]} and
+         not elm in elm_list{levels[n_levels-1]} and
+         not elm in elm_list{levels[n_levels]}
+      then
         Add(elm_list, elm);
         Add(levels[n_levels], Length(elm_list));
         added := true;
-      else
       fi;
 
       gens_ptr[2] := gens_ptr[2] + 1;

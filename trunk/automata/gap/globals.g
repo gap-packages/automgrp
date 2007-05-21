@@ -30,10 +30,10 @@ BindGlobal("AutomataParameters", rec(
 
 ###############################################################################
 ##
-#V  InfoAutomata
+#V  InfoAutomGrp
 ##
-DeclareInfoClass("InfoAutomata");
-SetInfoLevel(InfoAutomata, 5);
+DeclareInfoClass("InfoAutomGrp");
+SetInfoLevel(InfoAutomGrp, 5);
 
 
 #E

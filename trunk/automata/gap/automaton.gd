@@ -84,6 +84,15 @@ DeclareOperation("Automaton", [IsList, IsList, IsList]);
 DeclareAttribute("AutomatonList", IsAutomaton);
 
 
+################################################################################
+##
+#A  MINIMIZED_AUTOMATON_LIST ( <A> )
+##
+##  Returns a minimized automaton, which contains the states of <A>, their inverses
+##  and the trivial state
+##
+DeclareAttribute( "MINIMIZED_AUTOMATON_LIST", IsAutomaton, "mutable" );
+
 
 ################################################################################
 ##

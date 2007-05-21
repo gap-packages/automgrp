@@ -199,6 +199,12 @@ function(a)
 end);
 
 
+InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomaton)", [IsAutomaton],
+function(A)
+  return AG_AddInversesList(List(AutomatonList(A),x->List(x)));
+end);
+
+
 InstallGlobalFunction(MinimizationOfAutomatonTrack,
 function(a)
   local min_aut;
@@ -215,18 +221,169 @@ function(a)
 end);
 
 
+
+
+#InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
+#              [IsAutomaton],
+#function(A)
+#  local G, res;
+#  G:=AutomGroup(A);
+#  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
+#  if res then
+#    SetPolynomialDegreeOfGrowthOfAutomaton(A,PolynomialDegreeOfGrowthOfAutomaton(G));
+#  fi;
+#  SetIsBounded(A,IsGeneratedByBoundedAutomaton(G));
+#  return res;
+#end);
+
+
+
 InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
-  local G, res;
-  G:=AutomGroup(A);
-  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
-  if res then
-    SetPolynomialDegreeOfGrowthOfAutomaton(A,PolynomialDegreeOfGrowthOfAutomaton(G));
+  local i,d,ver,nstates,cycles,cycle_of_vertex, IsNewCycle,known_vertices,aut_list,HasPolyGrowth,cycle_order,next_cycles,cur_cycles,cur_path,cycles_of_level,lev,ContainsTrivState,s;
+
+  IsNewCycle:=function(C)
+    local i, l, cur_cycle, long_cycle;
+    l:=[2..Length(C)];
+    Add(l,1);
+    long_cycle:=PermList(l);
+
+    for cur_cycle in cycles do
+      if Intersection(cur_cycle,C)<>[] then
+#        if Length(C)<>Length(cur_cycle) then return fail; fi;
+#        for i in [0..Length(C)-1] do
+#          if cur_cycle=Permuted(C,long_cycle^i) then return false; fi;
+#        od;
+        Info(InfoAutomGrp,5,"cycle1=",cur_cycle,"cycle2=",C);
+        return fail;
+      fi;
+    od;
+    return true;
+  end;
+
+#  Example:
+#  cycles = [[1,2,4],[3,5,6],[7]]
+#  cur_cycles = [1,3] (the first and the third cycles)
+#  cycle_order = [[2,3],[3],[]] (means 1->2->3,  1->3)
+
+  HasPolyGrowth:=function(v)
+    local i,v_next,is_new,C,ver;
+#    Print("v=",v,"\n");
+    Add(cur_path,v);
+    for i in [1..d] do
+      v_next:=aut_list[v][i];
+      if not (v_next in known_vertices or v_next=nstates+1) then
+        if v_next in cur_path then
+          C:=cur_path{[Position(cur_path,v_next)..Length(cur_path)]};
+          is_new:=IsNewCycle(C);
+          if is_new=fail then
+            return false;
+          else
+            Add(cycles,C);
+            Add(cycle_order,[]);
+            for ver in C do
+#              Print("next_cycles = ",next_cycles);
+              UniteSet(cycle_order[Length(cycles)],next_cycles[ver]);
+              cycle_of_vertex[ver]:=Length(cycles);
+              next_cycles[ver]:=[Length(cycles)];
+            od;
+          fi;
+        else
+          if not HasPolyGrowth(v_next) then
+            return false;
+          fi;
+          if cycle_of_vertex[v]=0 then
+            UniteSet(next_cycles[v],next_cycles[v_next]);
+          elif cycle_of_vertex[v]<>cycle_of_vertex[v_next] then
+            UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
+            Info(InfoAutomGrp,5,"v=",v,"; v_next=",v_next);
+            Info(InfoAutomGrp,5,"cycle_order (local) = ",cycle_order);
+          fi;
+        fi;
+      elif v_next in known_vertices then
+        if cycle_of_vertex[v]=0 then
+          UniteSet(next_cycles[v],next_cycles[v_next]);
+        elif cycle_of_vertex[v]=cycle_of_vertex[v_next] then
+          return false;
+        else
+          UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
+        fi;
+
+      fi;
+    od;
+    Remove(cur_path);
+    Add(known_vertices,v);
+    return true;
+  end;
+
+
+  aut_list:=AG_MinimizationOfAutomatonList(List(AutomatonList(A),x->List(x)));
+
+# below we put the trivial state to the last position in the aut_list
+  ContainsTrivState:=false;
+
+  for s in [1..Length(aut_list)] do
+    if IsTrivialStateInList(s,aut_list) then
+      ContainsTrivState:=true;
+      if s<Length(aut_list) then aut_list:=PermuteStatesInList(aut_list,(s,Length(aut_list))); fi;
+      break;
+    fi;
+  od;
+
+  if not ContainsTrivState then
+    SetIsBounded(A,false);
+    return false;
   fi;
-  SetIsBounded(A,IsGeneratedByBoundedAutomaton(G));
-  return res;
+
+  nstates:=Length(aut_list)-1;
+  d:=A!.degree;
+  cycles:=[];
+  cycle_of_vertex:=List([1..nstates],x->0);  #if vertex i is in cycle j, then cycle_of_vertex[i]=j
+  next_cycles:=List([1..nstates],x->[]); #if vertex i is not in a cycle, next_cycles[i] stores the list of cycles, that can be reached immediately (with no cycles in between) from this vertex
+  known_vertices:=[];
+  cur_path:=[];
+  cycle_order:=[];
+
+  while Length(known_vertices)<nstates do
+    ver:=Difference([1..nstates],known_vertices)[1];
+    if not HasPolyGrowth(ver) then
+      SetIsBounded(A,false);
+      return false;
+    fi;
+  od;
+
+# Now we find the longest chain in the poset of cycles
+  cycles_of_level:=[[]];
+  for i in [1..Length(cycles)] do
+    if cycle_order[i]=[] then Add(cycles_of_level[1],i); fi;
+  od;
+
+  lev:=1;
+
+  while cycles_of_level[Length(cycles_of_level)]<>[] do
+    Add(cycles_of_level,[]);
+    for i in [1..Length(cycles)] do
+      if Intersection(cycles_of_level[lev],cycle_order[i])<>[] then
+        Add(cycles_of_level[lev+1],i);
+      fi;
+    od;
+    lev:=lev+1;
+  od;
+
+  if lev<=2 then
+    SetIsBounded(A,true);
+  else
+    SetIsBounded(A,false);
+  fi;
+  SetPolynomialDegreeOfGrowthOfAutomaton(A,lev-2);
+  Info(InfoAutomGrp,5,"Cycles = ", cycles);
+  Info(InfoAutomGrp,5,"cycle_order = ", cycle_order);
+  Info(InfoAutomGrp,5,"next_cycles = ", next_cycles);
+  return true;
 end);
+
+
 
 
 InstallMethod(IsBounded,"IsBounded(IsAutomaton)",true,
@@ -244,7 +401,7 @@ function(A)
   local res;
   res:=IsOfPolynomialGrowth(A);
   if not res then
-    Info(InfoAutomata,"Error: the automaton <A> has exponenetial growth");
+    Info(InfoAutomGrp,1,"Error: the automaton <A> has exponenetial growth");
     return fail;
   fi;
   return PolynomialDegreeOfGrowthOfAutomaton(A);

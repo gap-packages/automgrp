@@ -10,23 +10,28 @@
 
 ###############################################################################
 ##
-#C  IsAutomaton
+#C  IsAutomaton ( <A> )
 ##
 ##  A category of non-initial finite Mealy automata with the same input and
 ##  output alphabet.
 ##
-DeclareCategory("IsAutomaton", IsObject);
+DeclareCategory("IsAutomaton", IsMultiplicativeElement and
+                               IsAssociativeElement);
 DeclareCategoryFamily("IsAutomaton");
+DeclareCategoryCollections("IsAutomaton");
+
 
 ###############################################################################
 ##
 #O  Automaton( <table>[, <names>[, <alphabet>]] )
+#O  Automaton( <string> )
 ##
-##  Creates a Mealy automaton defined by the <table>. Format of the <table> is
+##  Creates a Mealy automaton defined by the <table> or <string>. Format of the <table> is
 ##  the following: it is a list of states, where each state is a list of
 ##  positive integers which represent transition function at given state and a
 ##  permutation or transformation which represent output function at this
-##  state.
+##  state.  Format of string <string> is the same as in `AutomGroup' (see~"AutomGroup").
+##
 ##  \beginexample
 ##  A:=Automaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
 ##  <automaton>
@@ -36,23 +41,13 @@ DeclareCategoryFamily("IsAutomaton");
 ##  <automaton>
 ##  gap> Print(B);
 ##  a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
+##  D:=Automaton("a=(a,b)(1,2),b=(b,a)");
+##  <automaton>
 ##  \endexample
 ##
 DeclareOperation("Automaton", [IsList]);
 DeclareOperation("Automaton", [IsList, IsList]);
 DeclareOperation("Automaton", [IsList, IsList, IsList]);
-
-###############################################################################
-##
-#O  Automaton( <string> )
-##
-##  Creates a Mealy automaton defined by the conventional notation in <string>
-##  (see~`AutomGroup' "AutomGroup").
-##  \beginexample
-##  D:=Automaton("a=(a,b)(1,2),b=(b,a)");
-##  <automaton>
-##  \endexample
-##
 
 
 # ###############################################################################
@@ -78,10 +73,31 @@ DeclareOperation("Automaton", [IsList, IsList, IsList]);
 ##
 #A  AutomatonList( <A> )
 ##
-##  Returns a list of <A> acceptible by `AutomGroup' (see "AutomGroup")
+##  Returns a list of <A> acceptible by `Automaton' (see "Automaton")
 ##
 ##
 DeclareAttribute("AutomatonList", IsAutomaton);
+
+
+###############################################################################
+##
+#A  NumberOfStates( <A> )
+##
+##  Returns the number of states of automaton <A>.
+##
+##
+DeclareAttribute("NumberOfStates", IsAutomaton);
+
+
+###############################################################################
+##
+#A  SizeOfAlphabet( <A> )
+##
+##  Returns the number of letters in the alphabet automaton <A> acts on.
+##
+##
+DeclareAttribute("SizeOfAlphabet", IsAutomaton);
+
 
 
 ################################################################################
@@ -230,5 +246,103 @@ DeclareProperty("IsBounded", IsAutomaton);
 ##  \endexample
 ##
 DeclareAttribute("PolynomialDegreeOfGrowthOfAutomaton", IsAutomaton);
+
+
+################################################################################
+##
+#O  DualAutomaton ( <A> )
+##
+##  Returns an automaton dual to <A>.
+##  \beginexample
+##  gap> A:=Automaton("a=(b,a)(1,2),b=(b,a)");
+##  <automaton>
+##  gap> D:=DualAutomaton(A);
+##  <automaton>
+##  gap> Print(D);
+##  d1 = (d2, d1)[ 2, 2 ], d2 = (d1, d2)[ 1, 1 ]
+##  \endexample
+##
+DeclareOperation("DualAutomaton", [IsAutomaton]);
+
+
+################################################################################
+##
+#O  InverseAutomaton ( <A> )
+##
+##  Returns an automaton inverse to <A> if <A> is invertible.
+##  \beginexample
+##  gap> A:=Automaton("a=(b,a)(1,2),b=(b,a)");
+##  <automaton>
+##  gap> B:=InverseAutomaton(A);
+##  <automaton>
+##  gap> Print(B);
+##  a1 = (a1, a2)(1,2), a2 = (a2, a1)
+##  \endexample
+##
+DeclareOperation("InverseAutomaton", [IsAutomaton]);
+
+
+################################################################################
+##
+#O  IsBireversible ( <A> )
+##
+##  Computes whether or not automaton <A> is bireversible, i.e. <A>, dual to <A> and
+##  dual to the inverse of <A> are invertible. The example below shows that the
+##  Bellaterra automaton is bireversible.
+##  \beginexample
+##  gap> Bellaterra:=Automaton("a=(c,c)(1,2),b=(a,b),c=(b,a)");
+##  <automaton>
+##  gap> IsBireversible(Bellaterra);
+##  true
+##  \endexample
+##
+DeclareProperty("IsBireversible", IsAutomaton);
+
+
+################################################################################
+##
+#O  IsTrivial ( <A> )
+##
+##  Computes whether or not automaton <A> is equivalent to the trivial automaton.
+##  \beginexample
+##  gap> A:=Automaton("a=(c,c),b=(a,b),c=(b,a)");
+##  <automaton>
+##  gap> IsTrivial(A);
+##  true
+##  \endexample
+##
+DeclareProperty("IsTrivial", IsAutomaton);
+
+
+################################################################################
+##
+#O  DisjointUnion ( <A>, <B> )
+##
+##  Coonstructs a disjoint union of automata <A> and <B>
+##  \beginexample
+##  gap> A:=Automaton("a=(a,b)(1,2),b=(a,b)");
+##  <automaton>
+##  gap> B:=Automaton("c=(d,c),d=(c,e)(1,2),e=(e,d)");
+##  <automaton>
+##  gap> Print(DisjointUnion(A,B));
+##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)(1,2), a5 = (a5, a4)
+##  \endexample
+##
+DeclareOperation("DisjointUnion", [IsAutomaton, IsAutomaton]);
+
+
+###############################################################################
+##
+#M  \* ( <A>, <B> )
+##
+##  Constructs a product of 2 noninitial automata <A> and <B>
+##
+
+
+##  TODO:
+##  AutomatonNucleus (rename AutomNucleus by GroupNucleus)
+
+##  PassToPowerOfAlphabet ( <A>, <power> )
+
 
 #E

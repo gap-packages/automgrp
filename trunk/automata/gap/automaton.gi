@@ -199,6 +199,18 @@ function(a)
 end);
 
 
+InstallMethod(NumberOfStates, [IsAutomaton],
+function(A)
+  return A!.n_states;
+end);
+
+
+InstallMethod(SizeOfAlphabet, [IsAutomaton],
+function(A)
+  return A!.degree;
+end);
+
+
 InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomaton)", [IsAutomaton],
 function(A)
   return AG_AddInversesList(List(AutomatonList(A),x->List(x)));
@@ -406,6 +418,100 @@ function(A)
   fi;
   return PolynomialDegreeOfGrowthOfAutomaton(A);
 end);
+
+
+InstallMethod(DualAutomaton,"DualAutomaton(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local list, dual_list, states, d, n;
+  list:=AutomatonList(A);
+  d := Length(list[1]) - 1;
+  n := Length(list);
+  dual_list:=List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]),
+    [Transformation(List([1..n], j -> list[j][i]))]));
+  states:=List([1..d],i -> Concatenation(AutomataParameters.state_symbol_dual,String(i)));
+  return Automaton(dual_list,states);
+end);
+
+
+InstallMethod(InverseAutomaton,"DualAutomaton(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local list, inv_list, states, n;
+  if not IsInvertible(A) then
+    Error("Automaton <A> is not invertible");
+  fi;
+  list:=AutomatonList(A);
+  n := Length(list);
+  inv_list:=InverseAutomatonList(list);
+  states:=List([1..n],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
+  return Automaton(inv_list,states);
+end);
+
+
+InstallMethod(IsBireversible,"IsBireversible(IsAutomaton)",true,
+              [IsAutomaton],
+function(A)
+  local list, inv_list, states, n;
+  if IsInvertible(A) and IsInvertible(DualAutomaton(A)) and IsInvertible(DualAutomaton(InverseAutomaton(A))) then
+    return true;
+  fi;
+  return false;
+end);
+
+
+###############################################################################
+##
+#M  <A1> * <A2>
+##
+InstallMethod(\*, "\*(IsAutomaton, IsAutomaton)", [IsAutomaton, IsAutomaton],
+function(A1, A2)
+  local n, m, d, i, j, aut_list, states;
+  d:=A1!.degree;
+  if d<>A2!.degree then
+    Error("The cardinalities of alphabets in <A1> and <A2> do not coincide");
+  fi;
+  n:=A1!.n_states;
+  m:=A2!.n_states;
+  aut_list:=[];
+  for i in [1..n] do
+    for j in [1..m] do
+#     (i,j)                                <->    m*(i-1)+j
+#     (Int((x-1)/m)+1, ((x-1) mod m) + 1 ) <->    x
+      Add(aut_list,Concatenation(List([1..d],x->m*(A1!.table[i][x]-1)+A2!.table[j][x^A1!.perms[i]]),[A1!.perms[i]*A2!.perms[j]]));
+    od;
+  od;
+  states:=List([1..n*m],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
+  return Automaton(aut_list,states);
+end);
+
+
+InstallMethod(IsTrivial, "IsTrivial(IsAutomaton)", [IsAutomaton],
+function(A)
+  return AutomatonList(MinimizationOfAutomaton(A))=[Concatenation(List([1..A!.degree],x->1),[()])];
+end);
+
+
+InstallMethod(DisjointUnion, "IsTrivial(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
+function(A,B)
+  local n, m, aut_list, states, perms, tableA, tableB;
+  if A!.degree<>B!.degree then
+    Error("The cardinalities of alphabets in <A> and <B> do not coincide");
+  fi;
+  n:=A!.n_states;
+  m:=B!.n_states;
+  tableA:=List(A!.table,x->List(x));
+  tableB:=List(B!.table,x->List(x));
+  Append(tableA,List(tableB,x->List(x,y->y+n)));
+  perms:=Concatenation(A!.perms,B!.perms);
+
+  aut_list:=List([1..n+m], i->Concatenation(tableA[i],[perms[i]]));
+
+  states:=List([1..n+m],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
+
+  return Automaton(aut_list,states);
+end);
+
 
 
 #E

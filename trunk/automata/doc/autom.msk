@@ -4,21 +4,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Definition}
 
-
 \Declaration{Automaton}
 \Declaration{IsAutomaton}
+\Declaration{NumberOfStates}
+\Declaration{SizeOfAlphabet}
+\Declaration{AutomatonList}[automaton]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Tools}
 
+\Declaration{IsTrivial}
 \Declaration{IsInvertible}
 \Declaration{MinimizationOfAutomaton}
 \Declaration{MinimizationOfAutomatonTrack}
-
 \Declaration{IsOfPolynomialGrowth}
-
 \Declaration{IsBounded}
-\Declaration{PolynomialDegreeOfGrowthOfAutomaton}
+\Declaration{PolynomialDegreeOfGrowthOfAutomaton}[automaton]
+\Declaration{DualAutomaton}
+\Declaration{InverseAutomaton}
+\Declaration{IsBireversible}
+\Declaration{DisjointUnion)
+\Declaration{\*}[automaton]
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

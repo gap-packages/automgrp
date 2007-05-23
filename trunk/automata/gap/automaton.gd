@@ -205,7 +205,7 @@ DeclareProperty("IsOfPolynomialGrowth", IsAutomaton);
 ##
 #P  IsBounded ( <A> )
 ##
-##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{sidki:acyclic}.
+##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{sidki:circuit}.
 ##
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
@@ -326,21 +326,16 @@ DeclareProperty("IsTrivial", IsAutomaton);
 ##  <automaton>
 ##  gap> Print(DisjointUnion(A,B));
 ##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)(1,2), a5 = (a5, a4)
+##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)
+##  (1,2), a5 = (a5, a4)
 ##  \endexample
 ##
 DeclareOperation("DisjointUnion", [IsAutomaton, IsAutomaton]);
 
 
-###############################################################################
-##
-#M  \* ( <A>, <B> )
-##
-##  Constructs a product of 2 noninitial automata <A> and <B>
-##
-
 
 ##  TODO:
-##  AutomatonNucleus (rename AutomNucleus by GroupNucleus)
+##  AutomatonNucleus
 
 ##  PassToPowerOfAlphabet ( <A>, <power> )
 

@@ -63,6 +63,10 @@ KeyDependentOperation("TransformationOnLevel", IsTreeHomomorphism, IsPosInt, Ret
 ##  Returns the "state" of given automorphism at the given vertex.
 ##  Vertex <v> can be a list representing vertex; or a positive integer
 ##  representing a vertex at the first level of the tree.
+##  \beginexample
+##  gap> State(a*b*a^2,[1,2,2,1,2,1]);
+##  a^2*b^2
+##  \endexample
 ##
 DeclareOperation("State", [IsTreeHomomorphism, IsList]);
 DeclareOperation("State", [IsTreeHomomorphism, IsPosInt]);
@@ -72,6 +76,10 @@ DeclareOperation("State", [IsTreeHomomorphism, IsPosInt]);
 #O  States( <a> )
 ##
 ##  Returns list of states of <a> at the first level.
+##  \beginexample
+##  gap> States(a*b*a^2);
+##  [ a*b^2*a, b*a^2*b ]
+##  \endexample
 ##
 DeclareOperation("States", [IsTreeHomomorphism]);
 
@@ -83,6 +91,12 @@ DeclareOperation("States", [IsTreeHomomorphism]);
 ##  representation of the form $$a = (a_1, a_2, ..., a_{d_1\times...\times d_k})s$$
 ##  where $a_i$ are the states of <a> at the <k>-th level, and $s$ is the
 ##  transformation of the k-th level. By default <k> is equal to 1.
+##  \beginexample
+##  gap> Expand(a*b^2);
+##  (a*b^2, b*a^2)(1,2)
+##  gap> Expand(a*b^2,3);
+##  (a*b^2, b*a^2, a^2*b, b^2*a, a*b*a, b*a*b, a^3, b^3)(1,8,3,5)(2,7,4,6)
+##  \endexample
 ##
 DeclareOperation("Expand", [IsTreeHomomorphism]);
 DeclareOperation("Expand", [IsTreeHomomorphism, IsPosInt]);

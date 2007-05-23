@@ -873,7 +873,7 @@ end);
 InstallMethod(UseContraction, "UseContraction(IsTreeAutomorphismGroup)", true,
               [IsTreeAutomorphismGroup],
 function(G)
-  if HasAutomNucleus(G) then
+  if HasGroupNucleus(G) then
     return true;
   else return false;
   fi;
@@ -1061,7 +1061,7 @@ function(H,max_nucl)
   for i in Nucl do Add(nucl_final,cur_nucl[i]); od;
 
   SetIsContracting(H, true);
-  SetAutomNucleus(H, nucl_final);
+  SetGroupNucleus(H, nucl_final);
   SetNucleusIncludingGeneratingSet(H, cur_nucl);
   SetNucleusIncludingGeneratingSetAutom(H, G);
   SetContractingLevel(H, maxlev);
@@ -1104,14 +1104,14 @@ function(G)
 end);
 
 
-InstallMethod(AutomNucleus, "IsContracting(IsAutomGroup)", true,
+InstallMethod(GroupNucleus, "IsContracting(IsAutomGroup)", true,
               [IsAutomGroup],
 function(G)
   local info,res;
   info:=INFO_FLAG(G);
   SetINFO_FLAG(G, 1);
   FindNucleus(G);
-  res:=AutomNucleus(G);
+  res:=GroupNucleus(G);
   SetINFO_FLAG(G, info);
   return res;
 end);

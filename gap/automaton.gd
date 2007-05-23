@@ -334,6 +334,24 @@ DeclareOperation("DisjointUnion", [IsAutomaton, IsAutomaton]);
 
 
 
+################################################################################
+##
+#O  IsEquivAutomata ( <A>, <B> )
+##
+##  returns true if for every state `s' of automaton <A> there is a state of automaton <B>
+##  equivalent to `s' and vice versa.
+##  \beginexample
+##  gap> A:=Automaton("a=(b,a)(1,2),b=(a,c)(),c=(b,c)(1,2)");
+##  <automaton>
+##  gap> B:=Automaton("b=(a,c)(),c=(b,c)(1,2),a=(b,a)(1,2),d=(b,c)(1,2)");
+##  <automaton>
+##  gap> IsEquivAutomata(A,B);
+##  true
+##  \endexample
+##
+DeclareOperation("IsEquivAutomata", [IsAutomaton, IsAutomaton]);
+
+
 ##  TODO:
 ##  AutomatonNucleus
 

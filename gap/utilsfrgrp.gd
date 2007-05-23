@@ -59,7 +59,7 @@ DeclareOperation("ApplyNielsen", [IsObject]);
 
 # #############################################################################
 # ##
-# #F  ComputeMihaylovSystemPairs(<pairs_list>)
+# #F  ComputeMihailovaSystemPairs(<pairs_list>)
 # ##
 # ##  For given list of pairs of free group words, it tries to compute the
 # ##    Mihaylov normal form.
@@ -74,7 +74,7 @@ DeclareOperation("ApplyNielsen", [IsObject]);
 # ##    <did_something> is true if <result> differs from <pairs_list> and is
 # ##      false otherwise
 # ##
-DeclareGlobalFunction("ComputeMihaylovSystemPairs");
+DeclareGlobalFunction("ComputeMihailovaSystemPairs");
 
 
 #E

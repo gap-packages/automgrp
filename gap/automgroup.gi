@@ -317,16 +317,16 @@ end);
 
 ###############################################################################
 ##
-#M  MihaylovSystem(G)
+#M  MihailovaSystem(G)
 ##
 ## TODO XXX it's broken, test it
 ##
-InstallMethod(MihaylovSystem, "MihaylovSystem(IsAutomGroup)", [IsAutomGroup],
+InstallMethod(MihailovaSystem, "MihailovaSystem(IsAutomGroup)", [IsAutomGroup],
 function (G)
   local gens, mih, mih_gens, i;
 
   if not IsActingOnBinaryTree(G) then
-    Error("MihaylovSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
+    Error("MihailovaSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
   fi;
   if not IsFractalByWords(G) then
     Info(InfoAutomGrp, 1, "given group is not IsFractalByWords");
@@ -334,7 +334,7 @@ function (G)
   fi;
 
   gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
-  mih := ComputeMihaylovSystemPairs(List(gens, a -> StatesWords(a)));
+  mih := ComputeMihailovaSystemPairs(List(gens, a -> StatesWords(a)));
 
   if mih = fail then
     return fail;

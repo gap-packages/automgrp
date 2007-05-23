@@ -43,7 +43,7 @@ We can also check that $G$ is contracting and compute its nucleus
 gap> IsContracting(G);
 #I  n=5
 true
-gap> AutomNucleus(G);
+gap> GroupNucleus(G);
 [e, a, b, c, d]
 \endexample
 

@@ -16,7 +16,7 @@
 
 \Declaration{UnderlyingAutomFamily}
 \Declaration{DegreeOfTree}
-\Declaration{MihaylovSystem}
+\Declaration{MihailovaSystem}
 \Declaration{IsFractalByWords}
 \Declaration{LevelOfFaithfulAction}
 \Declaration{IsomorphismPermGroup}
@@ -36,6 +36,7 @@
 \Declaration{FindNucleus}
 \Declaration{IsContracting}
 \Declaration{IsNoncontracting}
+\Declaration
 \Declaration{FindRelationsSubs}
 \Declaration{FindRelationsSubsSG}
 \Declaration{FindRelations}
@@ -48,7 +49,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and operations for contracting groups}
 
-\Declaration{AutomNucleus}
+\Declaration{GroupNucleus}
 \Declaration{NucleusIncludingGeneratingSet}
 \Declaration{NucleusIncludingGeneratingSetAutom}
 \Declaration{ContractingLevel}

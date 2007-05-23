@@ -62,7 +62,7 @@ DeclareOperation("AutomGroup", [IsList, IsList]);
 
 #############################################################################
 ##
-#O  AutomGroupNoBindGlobal( <automaton_list>[, <names>] )
+#O  AutomGroupNoBindGlobal( <list>[, <names>] )
 #O  AutomGroupNoBindGlobal( <string> )
 #O  AutomGroupNoBindGlobal( <automaton> )
 ##
@@ -146,9 +146,9 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 
 #############################################################################
 ##
-#A  MihaylovSystem(<G>)
+#A  MihailovaSystem(<G>)
 ##
-DeclareAttribute("MihaylovSystem", IsAutomGroup, "mutable");
+DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
 
 
 #E

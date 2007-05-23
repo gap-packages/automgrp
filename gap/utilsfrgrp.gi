@@ -290,9 +290,9 @@ end);
 
 #############################################################################
 ##
-#F  ComputeMihaylovSystemPairs(<pairs_list>)
+#F  ComputeMihailovaSystemPairs(<pairs_list>)
 ##
-InstallGlobalFunction(ComputeMihaylovSystemPairs,
+InstallGlobalFunction(ComputeMihailovaSystemPairs,
 function(pairs)
   local result, i, nie, m, n, w, tmp,
         did_smth, npairs, transform,
@@ -300,22 +300,22 @@ function(pairs)
         number_of_letters;
 
   if not IsDenseList(pairs) then
-    Print("error in ComputeMihaylovSystemPairs:  \n");
+    Print("error in ComputeMihailovaSystemPairs:  \n");
     Print("  argument is not an IsDenseList\n");
     return fail;
   fi;
   if not IsList(pairs[1]) then
-    Print("error in ComputeMihaylovSystemPairs:  \n");
+    Print("error in ComputeMihailovaSystemPairs:  \n");
     Print("  first element of list is not an IsList\n");
     return fail;
   fi;
   if Length(pairs[1]) <> 2 then
-    Print("error in ComputeMihaylovSystemPairs:  \n");
+    Print("error in ComputeMihailovaSystemPairs:  \n");
     Print("  can work only with pairs\n");
     return fail;
   fi;
   if not IsAssocWord(pairs[1][1]) then
-    Print("error in ComputeMihaylovSystemPairs:  \n");
+    Print("error in ComputeMihailovaSystemPairs:  \n");
     Print("  <arg>[1][1] is not IsAssocWord\n");
     return fail;
   fi;
@@ -539,7 +539,7 @@ function(pairs)
 
   #############################################################################
   ##
-  ##  MihaylovSystem body
+  ##  MihailovaSystem body
   ##
   n := Length(FreeGeneratorsOfWholeGroup(Group(pairs[1][1])));
   m := Length(pairs) - n;
@@ -549,7 +549,7 @@ function(pairs)
   if not generate_full_group(List(pairs, p -> p[1]), n)
       or not generate_full_group(List(pairs, p -> p[2]), n)
   then
-    Print("error in ComputeMihaylovSystemPairs:  \n");
+    Print("error in ComputeMihailovaSystemPairs:  \n");
     Print("  projections do not generate full free group\n");
     return fail;
   fi;

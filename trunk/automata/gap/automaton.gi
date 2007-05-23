@@ -515,5 +515,34 @@ function(A,B)
 end);
 
 
+InstallMethod(IsEquivAutomata, "IsEquivAutomata(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
+function(A,B)
+  local n, m, i, j, aut_list, found, Am, Bm, C, equiv_statesB;
+  if A!.degree<>B!.degree then return false; fi;
+  Am:=MinimizationOfAutomaton(A); Bm:=MinimizationOfAutomaton(B);
+  n:=Am!.n_states;
+  m:=Bm!.n_states;
+  if m<>n then return false; fi;
+
+  C:=DisjointUnion(Am,Bm);
+  aut_list:=AutomatonList(C);
+
+  equiv_statesB:=[];
+
+  for i in [1..n] do
+    found:=false;
+    for j in [n+1..n+m] do
+      if (not j in equiv_statesB) and AreEquivalentStatesInList(i,j,aut_list) then
+        found:=true;
+        Add(equiv_statesB,j);
+        break;
+      fi;
+    od;
+    if not found then return false; fi;
+  od;
+  return true;
+end);
+
+
 
 #E

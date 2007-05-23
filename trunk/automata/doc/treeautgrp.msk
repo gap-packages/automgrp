@@ -11,15 +11,15 @@ gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
 \endexample
 
 The multiplication of tree homomorphisms is defined in the standard way 
-\>`<a> \* <b>'{product}!{for tree homomorphism}
+
+\>`<a> \* <b>'{product}!{for tree homomorphisms}
 
 The following operations allow to compute the actions of tree homomorphisms on letters and vertices
-\>`<letter> \^ <a>'{action}!{of tree homomorphism on the letter}
-\>`<vertex> \^ <a>'{action}!{of tree homomorphism on the vertex}
+
+\>`<letter> ^ <a>'{action}!{of tree homomorphism on letter}
+\>`<vertex> ^ <a>'{action}!{for tree homomorphism on vertex}
 
 \beginexample
-gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
-< a, b >
 gap> 1^a;
 2
 gap> [1,2,2,1,2,1]^(a*b^2);

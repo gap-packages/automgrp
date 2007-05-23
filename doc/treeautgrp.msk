@@ -4,21 +4,47 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with group elements}
 
-\Declaration{IsOne}
-\Declaration{\\in}
+In the examples below we will consider the elements of the lamplighter group. First we define it as
+\beginexample
+gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
+< a, b >
+\endexample
+
+The multiplication of tree homomorphisms is defined in the standard way 
+\>`<a> \* <b>'{product}!{for tree homomorphism}
+
+The following operations allow to compute the actions of tree homomorphisms on letters and vertices
+\>`<letter> \^ <a>'{action}!{of tree homomorphism on the letter}
+\>`<vertex> \^ <a>'{action}!{of tree homomorphism on the vertex}
+
+\beginexample
+gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
+< a, b >
+gap> 1^a;
+2
+gap> [1,2,2,1,2,1]^(a*b^2);
+[ 2, 1, 2, 2, 1, 2 ]
+\endexample
+
 \Declaration{Perm}
-\Declaration{Word}
-\Declaration{State}
-\Declaration{Expand}
 \Declaration{PermOnLevel}
 \Declaration{PermOnLevelAsMatrix}
+
+The operations below describe how to work with sections of tree homomorphisms.
+
+\Declaration{State}
+\Declaration{States}
+\Declaration{Expand}
+
+One can compute the following properties.
+\Declaration{IsOne}
 \Declaration{Order}
+\Declaration{\in}
 \Declaration{IsSphericallyTransitive}
 \Declaration{IsTransitiveOnLevel}
+\Declaration{Word}
 
 
-  [1,2,1,2]^a
-  k^a
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with groups}

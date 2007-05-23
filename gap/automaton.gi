@@ -462,7 +462,9 @@ end);
 
 ###############################################################################
 ##
-#M  <A1> * <A2>
+#M  \*
+##
+##  Constructs a product of two noninitial automata
 ##
 InstallMethod(\*, "\*(IsAutomaton, IsAutomaton)", [IsAutomaton, IsAutomaton],
 function(A1, A2)

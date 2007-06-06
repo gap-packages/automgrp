@@ -176,6 +176,7 @@ DeclareGlobalFunction("AutomatonWithInversesTrack");
 #P  IsInvertible ( <A> )
 ##
 ##  Is `true' if <A> is invertible and `false' otherwise.
+##
 DeclareProperty("IsInvertible", IsAutomaton);
 
 

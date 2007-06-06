@@ -20,9 +20,7 @@ DeclareOperation("AutomFamilyNoBindGlobal", [IsList, IsList]);
 
 # XXX
 DeclareAttribute("AutomatonList", IsAutomFamily);
-DeclareAttribute("AutomatonListInitialState", IsAutomFamily);
 DeclareAttribute("GeneratingAutomatonList", IsAutomFamily);
-DeclareAttribute("AutomatonListInitialStatesGenerators", IsAutomFamily);
 
 
 ###############################################################################

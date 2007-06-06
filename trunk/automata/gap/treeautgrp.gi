@@ -283,7 +283,7 @@ function (G, k)
   gens := FreeGeneratorsOfGroup(Kernel(hom));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
-  gens := $SimplifyGenerators(gens);
+  gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -330,7 +330,7 @@ function (G, k)
   gens := FreeGeneratorsOfGroup(Stabilizer(F, k, action));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
-  gens := $SimplifyGenerators(gens);
+  gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -378,7 +378,7 @@ function (G, seq)
   gens := FreeGeneratorsOfGroup(Stabilizer(F, v, action));
   gens := List(gens, w ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
-  gens := $SimplifyGenerators(gens);
+  gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
     return TrivialSubgroup(G);
   else
@@ -439,9 +439,9 @@ end);
 
 # TODO: check whether gens are from the same overgroup;
 # check degree of tree and stuff
-InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                 IsList and IsTreeAutomorphismCollection,
-                                 IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                    IsList and IsTreeAutomorphismCollection,
+                                    IsPosInt],
 function(G, gens, level)
   local a;
   if IsEmpty(gens) then
@@ -451,14 +451,14 @@ function(G, gens, level)
   return Group(gens);
 end);
 
-InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                 IsList and IsEmpty,
-                                 IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                    IsList and IsEmpty,
+                                    IsPosInt],
 function(G, gens, level)
   return Group(State(One(G), List([1..level], i->1)));
 end);
 
-InstallMethod($SimplifyGenerators, [IsList and IsTreeAutomorphismCollection],
+InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsTreeAutomorphismCollection],
 function(gens)
   if IsEmpty(gens) then
     return [];
@@ -483,9 +483,9 @@ function(G, v)
 
   gens := GeneratorsOfGroup(G);
   pgens := List(gens, g -> State(g, v));
-  pgens := $SimplifyGenerators(pgens);
+  pgens := $AG_SimplifyGroupGenerators(pgens);
 
-  return $SubgroupOnLevel(G, pgens, Length(v));
+  return $AG_SubgroupOnLevel(G, pgens, Length(v));
 end);
 
 ###############################################################################

@@ -17,6 +17,7 @@ ReadPkg("automgrp", "gap/treeaut.gd");
 ReadPkg("automgrp", "gap/treeautgrp.gd");
 ReadPkg("automgrp", "gap/autom.gd");
 ReadPkg("automgrp", "gap/automfam.gd");
+ReadPkg("automgrp", "gap/automsg.gd");
 ReadPkg("automgrp", "gap/automgroup.gd");
 
 ReadPkg("automgrp", "gap/listops.gd");

@@ -130,6 +130,24 @@ function(state, list)
   return true;
 end);
 
+###############################################################################
+##
+#F  IsInvertibleStateInList( <state>, <list> )
+##
+##  Checks whether given state is invertible.
+##  Does not check correctness of arguments.
+##
+InstallGlobalFunction(IsInvertibleStateInList,
+function(state, list)
+  local deg;
+  deg := Length(list[1]) - 1;
+  return ForAll(ConnectedStatesInList(state, list),
+                function(s)
+                  return IsPerm(list[s][deg+1]) or
+                          AsSet(ImageListOfTransformation(list[s][deg+1])) = [1..deg];
+                end);
+end);
+
 
 ###############################################################################
 ##

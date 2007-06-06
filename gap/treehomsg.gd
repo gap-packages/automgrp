@@ -31,7 +31,6 @@ InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 
 # XXX
 DeclareAttribute("AutomatonList", IsTreeHomomorphismSemigroup and IsActingOnRegularTree, "mutable");
-DeclareAttribute("AutomatonListInitialStatesGenerators", IsTreeHomomorphismSemigroup and IsActingOnRegularTree, "mutable");
 DeclareAttribute("GeneratingAutomatonList", IsTreeHomomorphismSemigroup and IsActingOnRegularTree, "mutable");
 
 

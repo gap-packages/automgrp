@@ -18,7 +18,7 @@ ReadPkg("automgrp", "gap/treeautgrp.gi");
 ReadPkg("automgrp", "gap/autom.gi");
 ReadPkg("automgrp", "gap/automfam.gi");
 ReadPkg("automgrp", "gap/automgroup.gi");
-ReadPkg("automgrp", "gap/knowngroups.gi");
+ReadPkg("automgrp", "gap/automsg.gi");
 
 ReadPkg("automgrp", "gap/listops.gi");
 ReadPkg("automgrp", "gap/utils.gi");
@@ -27,8 +27,6 @@ ReadPkg("automgrp", "gap/scilab.gi");
 ReadPkg("automgrp", "gap/rws.gi");
 
 ReadPkg("automgrp", "gap/selfs.gi");
-#ReadPkg("automgrp", "gap/autom32.g");
-
 
 if Filename(DirectoriesLibrary("pkg/automgrp/gap"), "data.g") <> fail then
   ReadPkg("automgrp", "gap/data.g");

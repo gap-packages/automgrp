@@ -26,10 +26,14 @@ DeclareRepresentation("IsAutomFamilyRep",
                         "freegens",       # list [f1, f2, ..., fn, f1^-1, ..., fn^-1, 1]
                                           # where f1..fn are generators of freegroup,
                                           # n is numstates; 1 is stored if and only if
-                                          # trivstate is not zero
+                                          # trivstate is not zero.
+                                          # Some fi^-1 may be missing if corresponding
+                                          # generator is not invertible (but the list still
+                                          # has the length of 2n+1).
                         "numstates",      # number of non-trivial generating states
                         "deg",
                         "trivstate",      # 0 or 2*numstates+1
+                        "isgroup",        # whether all generators are invertible
                         "names",          # list of non-trivial generating states
                         "automatonlist",  # the automaton table, states correspond to freegens
                         "oldstates",      # mapping from states in the original table used to
@@ -46,10 +50,10 @@ DeclareRepresentation("IsAutomFamilyRep",
 #M  AutomFamily(<list>, <names>, <bind_global>)
 ##
 InstallOtherMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
-              [IsList, IsList, IsBool],
+                   [IsList, IsList, IsBool],
 function (list, names, bind_global)
   local deg, tmp, trivstate, numstates, numallstates, i, j, perm,
-        freegroup, freegens, a, family, oldstates;
+        freegroup, freegens, a, family, oldstates, isgroup;
 
   if not IsCorrectAutomatonList(list, true) then
     Print("error in AutomFamily(IsList, IsList, IsString):\n  given list is not a correct list representing automaton\n");
@@ -91,11 +95,6 @@ function (list, names, bind_global)
     od;
   fi;
 
-#  if numstates = 0 then
-#    Print("error in AutomFamily(IsList, IsList, IsString):\n  don't want to work with trivial automaton\n");
-#    return fail;
-#  fi;
-
   # First move trivial state to the end of list
   if trivstate <> 0 then
     if trivstate <> numstates + 1 then
@@ -112,16 +111,26 @@ function (list, names, bind_global)
   fi;
 
   # Now add inverses of states and move trivial state to the end
+  isgroup := true;
   for i in [1..numstates] do
-    list[i+numallstates] := [];
-    perm := list[i][deg+1];
-    list[i+numallstates][deg+1] := perm^-1;
-    for j in [1..deg] do
-      list[i+numallstates][j] := list[i][j^(perm^-1)];
-      if list[i+numallstates][j] <> trivstate then
-        list[i+numallstates][j] := list[i+numallstates][j] + numallstates;
+    if IsInvertibleStateInList(i, list) then
+      list[i+numallstates] := [];
+
+      if not IsPerm(list[i][deg+1]) then
+        list[i][deg+1] := PermList(ImageListOfTransformation(list[i][deg+1]));
       fi;
-    od;
+
+      perm := list[i][deg+1];
+      list[i+numallstates][deg+1] := perm^-1;
+      for j in [1..deg] do
+        list[i+numallstates][j] := list[i][j^(perm^-1)];
+        if list[i+numallstates][j] <> trivstate then
+          list[i+numallstates][j] := list[i+numallstates][j] + numallstates;
+        fi;
+      od;
+    else
+      isgroup := false;
+    fi;
   od;
 
   if trivstate <> 0 then
@@ -139,7 +148,9 @@ function (list, names, bind_global)
   freegroup := FreeGroup(names{[1..numstates]});
   freegens := ShallowCopy(FreeGeneratorsOfFpGroup(freegroup));
   for i in [1..numstates] do
-    freegens[i+numstates] := freegens[i]^-1;
+    if IsInvertibleStateInList(i, list) then
+      freegens[i+numstates] := freegens[i]^-1;
+    fi;
   od;
   if trivstate <> 0 then
     freegens[trivstate] := One(freegroup);
@@ -147,11 +158,19 @@ function (list, names, bind_global)
 
 # 4. Create family
 
-  family := NewFamily("AutomFamily",
-                      IsAutom,
-                      IsAutom,
-                      IsAutomFamily and IsAutomFamilyRep);
+  if isgroup then
+    family := NewFamily("AutomFamily",
+                        IsInvertibleAutom,
+                        IsInvertibleAutom,
+                        IsAutomFamily and IsAutomFamilyRep);
+  else
+    family := NewFamily("AutomFamily",
+                        IsAutom,
+                        IsAutom,
+                        IsAutomFamily and IsAutomFamilyRep);
+  fi;
 
+  family!.isgroup := isgroup;
   family!.deg := deg;
   family!.numstates := numstates;
   family!.trivstate := trivstate;
@@ -163,25 +182,25 @@ function (list, names, bind_global)
   family!.use_rws := false;
   family!.rws := fail;
 
+  SetIsActingOnBinaryTree(family, deg = 2);
+  SetDegreeOfTree(family, deg);
+  SetTopDegreeOfTree(family, deg);
+
   family!.automgens := [];
   for i in [1..Length(list)] do
-    family!.automgens[i] := Objectify(
-      NewType(family, IsAutom and IsAutomRep),
-      rec(word := freegens[i],
-          states := List([1..deg], j -> freegens[list[i][j]]),
-          perm := list[i][deg+1],
-          deg := deg) );
-    # XXX
-    SetAutomatonList(family!.automgens[i], list);
-    SetAutomatonListInitialState(family!.automgens[i], i);
-    IsActingOnBinaryTree(family!.automgens[i]);
+    if IsBound(list[i]) then
+      family!.automgens[i] :=
+        $AG_CreateAutom(family, freegens[i],
+                        List([1..deg], j -> freegens[list[i][j]]),
+                        list[i][deg+1],
+                        i > numstates or IsBound(list[i+numstates]));
+    fi;
   od;
 
+  # XXX It's evil to bind global names, consider AssignGeneratorVariables
+  # XXX Check whether names are actually valid names for variables
   if bind_global then
     for i in [1..family!.numstates] do
-      # I don't make it read'n'write intentionally, in order
-      # to avoid accidental overwriting some variable.
-      # XXX
       if IsBoundGlobal(family!.names[i]) then
         UnbindGlobal(family!.names[i]);
       fi;
@@ -287,35 +306,13 @@ end);
 
 ###############################################################################
 ##
-##  DegreeOfTree(<fam>)
-##  TopDegreeOfTree(<fam>)
-##
-InstallMethod(DegreeOfTree, "method for IsAutomFamily",
-              [IsAutomFamily],
-function(fam)
-  return fam!.deg;
-end);
-InstallMethod(TopDegreeOfTree, "method for IsAutomFamily",
-              [IsAutomFamily],
-function(fam)
-  return fam!.deg;
-end);
-
-
-###############################################################################
-##
 #M  One(<fam>)
 ##
 InstallOtherMethod(One, "One(IsAutomFamily)", [IsAutomFamily],
 function(fam)
-  local one;
-  one := Objectify(NewType(fam, IsAutom and IsAutomRep),
-          rec(word := One(fam!.freegroup),
-              states := List([1..fam!.deg], i -> One(fam!.freegroup)),
-              perm := (),
-              deg := fam!.deg)  );
-  SetIsActingOnBinaryTree(one, fam!.deg = 2);
-  return one;
+  return $AG_CreateAutom(fam, One(fam!.freegroup),
+                         List([1..fam!.deg], i -> One(fam!.freegroup)),
+                         (), true);
 end);
 
 
@@ -327,31 +324,27 @@ InstallMethod(GroupOfAutomFamily, "GroupOfAutomFamily(IsAutomFamily)",
               [IsAutomFamily],
 function(fam)
   local g;
+
+  if not fam!.isgroup then
+    Error("the group is not generated by an invertible automaton");
+  fi;
+
   if fam!.numstates > 0 then
     g := GroupWithGenerators(fam!.automgens{[1..fam!.numstates]});
   else
     g := Group(One(fam));
   fi;
+
   SetUnderlyingAutomFamily(g, fam);
   SetIsGroupOfAutomFamily(g, true);
   # XXX
   SetGeneratingAutomatonList(g, fam!.automatonlist);
   SetAutomatonList(g, fam!.automatonlist);
-  SetAutomatonListInitialStatesGenerators(g, [1..fam!.numstates]);
   SetDegreeOfTree(g, fam!.deg);
+  SetTopDegreeOfTree(g, fam!.deg);
   SetIsActingOnBinaryTree(g, fam!.deg = 2);
+
   return g;
-end);
-
-
-###############################################################################
-##
-#M  IsActingOnBinaryTree(<fam>)
-##
-InstallMethod(IsActingOnBinaryTree, "IsActingOnBinaryTree(IsAutomFamily)",
-              [IsAutomFamily],
-function(fam)
-    return fam!.deg = 2;
 end);
 
 
@@ -362,6 +355,9 @@ end);
 InstallMethod(AbelImagesGenerators, "AbelImagesGenerators(IsAutomFamily)",
               [IsAutomFamily],
 function(fam)
+  if not fam!.isgroup then
+    Error("the group is not generated by an invertible automaton");
+  fi;
   return AbelImageAutomatonInList(fam!.automatonlist);
 end);
 
@@ -374,6 +370,11 @@ InstallMethod(DiagonalActionOp, "DiagonalActionOp(IsAutomFamily, IsPosInt)",
               [IsAutomFamily, IsPosInt],
 function(fam, n)
   local names, list, states, dlist;
+
+  if not fam!.isgroup then
+    Error("the group is not generated by an invertible automaton");
+  fi;
+
   list := fam!.automatonlist;
   states := [1..fam!.numstates];
   names := fam!.names;
@@ -427,15 +428,13 @@ end);
 ##
 #M  GeneratorsOfOrderTwo(<fam>)
 ##
-InstallOtherMethod(GeneratorsOfOrderTwo, "MultAutomAlphabet(IsObject)", [IsObject],
+InstallOtherMethod(GeneratorsOfOrderTwo, "GeneratorsOfOrderTwo(IsObject)", [IsAutomFamily],
 function(fam)
-  local g,G,res,i;
-  G:=GroupOfAutomFamily(fam);
-  res:=[];
-  for i in [1..fam!.numstates] do
-    if IsOne(GeneratorsOfGroup(G)[i]^2) then Add(res,i); fi;
-  od;
-  return res;
+  if not fam!.isgroup then
+    Error("the group is not generated by an invertible automaton");
+  fi;
+  return Filtered(GeneratorsOfGroup(GroupOfAutomFamily(fam)), g -> IsOne(g^2));
 end);
+
 
 #E

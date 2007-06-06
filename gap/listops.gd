@@ -48,6 +48,14 @@ DeclareGlobalFunction("ConnectedStatesInList");
 ##
 DeclareGlobalFunction("IsTrivialStateInList");
 
+###############################################################################
+##
+#F  IsInvertibleStateInList( <state>, <list>)
+##
+##  Checks whether given state is invertible.
+##
+DeclareGlobalFunction("IsInvertibleStateInList");
+
 
 ###############################################################################
 ##

@@ -15,18 +15,21 @@
 ##  A category of objects created using `AutomGroup'~("AutomGroup"). These
 ##  objects are finite initial automata.
 ##
-DeclareCategory("IsAutom", IsTreeAutomorphism);
+DeclareCategory("IsAutom", IsTreeHomomorphism);
 DeclareCategoryCollections("IsAutom");
 DeclareCategoryFamily("IsAutom");
 InstallTrueMethod(IsActingOnRegularTree, IsAutomCollection);
 InstallTrueMethod(IsActingOnRegularTree, IsAutom);
+
+DeclareCategory("IsInvertibleAutom", IsAutom and IsTreeAutomorphism);
+DeclareCategoryCollections("IsInvertibleAutom");
 
 
 ###############################################################################
 ##
 #O  Word( <a> )
 ##
-##  Returns <a> as an associative word (an element of underlying free group) in 
+##  Returns <a> as an associative word (an element of underlying free group) in
 ##  generators of the self-similar group
 ##  to which <a> belongs.
 ##  \beginexample
@@ -53,6 +56,9 @@ DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
 #O  StatesWords(<a>)
 ##
 DeclareOperation("StatesWords", [IsAutom]);
+
+
+DeclareGlobalFunction("$AG_CreateAutom");
 
 
 #E

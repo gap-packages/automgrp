@@ -253,7 +253,10 @@ end);
 InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
-  local i,d,ver,nstates,cycles,cycle_of_vertex, IsNewCycle,known_vertices,aut_list,HasPolyGrowth,cycle_order,next_cycles,cur_cycles,cur_path,cycles_of_level,lev,ContainsTrivState,s;
+  local i,d,ver,nstates,cycles,cycle_of_vertex,
+        IsNewCycle,known_vertices,aut_list,HasPolyGrowth,
+        cycle_order,next_cycles,cur_cycles,cur_path,cycles_of_level,
+        lev,ContainsTrivState,s;
 
   IsNewCycle:=function(C)
     local i, l, cur_cycle, long_cycle;

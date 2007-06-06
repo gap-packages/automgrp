@@ -111,10 +111,10 @@ DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
 
 
-DeclareOperation("$SubgroupOnLevel", [IsTreeAutomorphismGroup,
-                                      IsList and IsTreeAutomorphismCollection,
-                                      IsPosInt]);
-DeclareOperation("$SimplifyGenerators", [IsList and IsTreeAutomorphismCollection]);
+DeclareOperation("$AG_SubgroupOnLevel", [IsTreeAutomorphismGroup,
+                                         IsTreeHomomorphismCollection,
+                                         IsPosInt]);
+DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 
 
 ###############################################################################

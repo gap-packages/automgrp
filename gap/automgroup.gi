@@ -129,19 +129,6 @@ function (A)
 end);
 
 
-
-
-###############################################################################
-##
-#M  UnderlyingAutomFamily(<G>)
-##
-InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomGroup)",
-              [IsAutomGroup],
-function(G)
-  return FamilyObj(GeneratorsOfGroup(G)[1]);
-end);
-
-
 ###############################################################################
 ##
 #M  GroupOfAutomFamily(<G>)
@@ -184,11 +171,11 @@ end);
 
 ###############################################################################
 ##
-#M  $SubgroupOnLevel(<G>, <gens>, <level>)
+#M  $AG_SubgroupOnLevel(<G>, <gens>, <level>)
 ##
-InstallMethod($SubgroupOnLevel, [IsAutomGroup,
-                                 IsList and IsTreeAutomorphismCollection,
-                                 IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup,
+                                    IsList and IsTreeAutomorphismCollection,
+                                    IsPosInt],
 function(G, gens, level)
   local overgroup;
 
@@ -205,14 +192,14 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($SubgroupOnLevel, [IsAutomGroup, IsList and IsEmpty, IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup, IsList and IsEmpty, IsPosInt],
 function(G, gens, level)
   return TrivialSubgroup(G);
 end);
 
-InstallMethod($SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                 IsList and IsAutomCollection,
-                                 IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
+                                    IsList and IsAutomCollection,
+                                    IsPosInt],
 function(G, gens, level)
   local overgroup;
 
@@ -225,7 +212,7 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($SimplifyGenerators, [IsList and IsAutomCollection],
+InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsAutomCollection],
 function(gens)
   local words, fam;
 
@@ -242,23 +229,6 @@ function(gens)
   fi;
 
   return List(words, w -> Autom(w, fam));
-end);
-
-
-###############################################################################
-##
-#M  DegreeOfTree(<G>)
-##
-InstallMethod(DegreeOfTree, "DegreeOfTree(IsAutomGroup)",
-              [IsAutomGroup],
-function(G)
-  return DegreeOfTree(UnderlyingAutomFamily(G));
-end);
-
-InstallMethod(TopDegreeOfTree, "DegreeOfTree(IsAutomGroup)",
-              [IsAutomGroup],
-function(G)
-  return DegreeOfTree(UnderlyingAutomFamily(G));
 end);
 
 
@@ -806,9 +776,11 @@ InstallMethod(ApplyNielsen, "ApplyNielsen(IsAutomGroup)",
               [IsAutomGroup],
 function(G)
   local fgens;
+
   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
   fgens := ReducedByNielsen(fgens);
   fgens := Difference(fgens, [One(fgens[1])]);
+
   if IsEmpty(fgens) then
     SetUnderlyingFreeGenerators(G, [One(UnderlyingFreeGroup(G))]);
     SetUnderlyingFreeSubgroup(G, TrivialSubgroup(UnderlyingFreeGroup(G)));
@@ -816,18 +788,19 @@ function(G)
     SetUnderlyingFreeGenerators(G, fgens);
     SetUnderlyingFreeSubgroup(G, Subgroup(UnderlyingFreeGroup(G), fgens));
   fi;
+
   return fgens;
 end);
 
 
 ###############################################################################
 ##
-#M  TrivialSubgroup(<G>)
+#M  TrivialSubmagmaWithOne(<G>)
 ##
-InstallMethod(TrivialSubgroup, "for IsAutomGroup",
+InstallMethod(TrivialSubmagmaWithOne, "for IsAutomGroup",
               [IsAutomGroup],
 function(G)
-  return Subgroup(G,[One(UnderlyingAutomFamily(G))]);
+  return Subgroup(G, [One(G)]);
 end);
 
 
@@ -838,9 +811,9 @@ end);
 InstallImmediateMethod(IsAutomatonGroup,IsAutomGroup,0,
 function(G)
   local fam;
-  fam:=UnderlyingAutomFamily(G);
+  fam := UnderlyingAutomFamily(G);
   return fam!.numstates = 0 or
-         GeneratorsOfGroup(G)=fam!.automgens{[1..fam!.numstates]};
+         GeneratorsOfGroup(G) = fam!.automgens{[1..fam!.numstates]};
 end);
 
 
@@ -866,13 +839,15 @@ end);
 InstallMethod(IsSelfSimilar, "for IsAutomGroup",
               [IsAutomGroup],
 function(G)
-  local g,i,res;
-  res:=true;
+  local g, i, res;
+  res := true;
   for g in GeneratorsOfGroup(G) do
     for i in [1..UnderlyingAutomFamily(G)!.deg] do
-      res:= State(g,i) in G;
-      if res=fail then TryNextMethod();
-      elif not res then return false;
+      res := State(g, i) in G;
+      if res = fail then
+        TryNextMethod();
+      elif not res then
+        return false;
       fi;
     od;
   od;
@@ -880,20 +855,14 @@ function(G)
 end);
 
 
-InstallMethod(SphericalIndex, "for IsAutomGroup",
+###############################################################################
+##
+#M  UnderlyingAutomFamily(<G>)
+##
+InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomGroup)",
               [IsAutomGroup],
 function(G)
-  return SphericalIndex(GeneratorsOfGroup(G)[1]);
-end);
-InstallMethod(DegreeOfTree, "for IsAutomGroup",
-              [IsAutomGroup],
-function(G)
-  return UnderlyingAutomFamily(G)!.deg;
-end);
-InstallMethod(TopDegreeOfTree, "for IsAutomGroup",
-              [IsAutomGroup],
-function(G)
-  return UnderlyingAutomFamily(G)!.deg;
+  return FamilyObj(GeneratorsOfGroup(G)[1]);
 end);
 
 

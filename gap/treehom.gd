@@ -25,7 +25,6 @@ InstallTrueMethod(IsActingOnTree, IsTreeHomomorphismCollection);
 
 # XXX
 DeclareAttribute("AutomatonList", IsTreeHomomorphism and IsActingOnRegularTree, "mutable");
-DeclareAttribute("AutomatonListInitialState", IsTreeHomomorphism and IsActingOnRegularTree, "mutable");
 
 
 ###############################################################################

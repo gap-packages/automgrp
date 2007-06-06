@@ -26,6 +26,27 @@ DeclareRepresentation("IsAutomRep",
                       ["word", "states", "perm", "deg"]);
 
 
+InstallGlobalFunction($AG_CreateAutom,
+function(family, word, states, perm, invertible)
+  local a, cat;
+
+  if invertible then
+    cat := IsInvertibleAutom and IsAutomRep;
+  else
+    cat := IsAutom and IsAutomRep;
+  fi;
+
+  a := Objectify(NewType(family, cat),
+                 rec(word := word,
+                     states := states,
+                     perm := perm,
+                     deg := family!.deg));
+
+  SetIsActingOnBinaryTree(a, a!.deg = 2);
+
+  return a;
+end);
+
 ###############################################################################
 ##
 #M  Autom(<word>, <fam>)
@@ -34,7 +55,7 @@ InstallMethod(Autom, "method for IsAssocWord and IsAutomFamily",
               [IsAssocWord, IsAutomFamily],
 function(w, fam)
   local exp, wstates, curstate, newstate, curletter, newletter,
-        nperm, i, j, perm, a, wtmp, reduced;
+        nperm, i, j, perm, a, wtmp, reduced, invertible;
 
   if fam!.use_rws then
     w := ReducedForm(fam!.rws, w);
@@ -89,14 +110,17 @@ function(w, fam)
     fi;
   od;
 
-  a := Objectify(NewType(fam, IsAutom and IsAutomRep),
-          rec(word := w,
-              states := wstates,
-              perm := nperm,
-              deg := fam!.deg) );
-  SetIsActingOnBinaryTree(a, fam!.deg = 2);
+  invertible := true;
+  if not fam!.isgroup then
+    for i in w do
+      if i > 0 and not IsInvertibleAutom(fam!.automgens[i]) then
+        invertible := false;
+        break;
+      fi;
+    od;
+  fi;
 
-  return a;
+  return $AG_CreateAutom(fam, w, wstates, nperm, invertible);
 end);
 
 
@@ -226,14 +250,8 @@ function(a1, a2)
       od;
     fi;
 
-    a := Objectify(NewType(FamilyObj(a1), IsAutom and IsAutomRep),
-                   rec(word := word,
-                       states := states,
-                       perm := a1!.perm * a2!.perm,
-                       deg := a1!.deg));
-
-    SetIsActingOnBinaryTree(a, a1!.deg = 2);
-    return a;
+    return $AG_CreateAutom(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
+                           IsInvertibleAutom(a1) and IsInvertibleAutom(a2));
 end);
 
 
@@ -447,7 +465,7 @@ end);
 ##
 #M  InverseOp(<a>)
 ##
-InstallMethod(InverseOp, "InverseOp(IsAutom)", [IsAutom],
+InstallMethod(InverseOp, "InverseOp(IsAutom)", [IsInvertibleAutom],
 function(a)
   local i, inv, fam, word, states;
 
@@ -468,14 +486,7 @@ function(a)
     od;
   fi;
 
-  inv := Objectify(NewType(FamilyObj(a), IsAutom and IsAutomRep),
-                   rec(word := word,
-                       states := states,
-                       perm := a!.perm ^ -1,
-                       deg := a!.deg));
-
-  SetIsActingOnBinaryTree(inv, a!.deg = 2);
-  return inv;
+  return $AG_CreateAutom(FamilyObj(a), word, states, a!.perm^-1, true);
 end);
 
 
@@ -594,7 +605,7 @@ end);
 ##
 ## TODO
 InstallMethod(PermOnLevelOp, "PermOnLevelOp(IsAutom, IsPosInt)",
-              [IsAutom, IsPosInt],
+              [IsInvertibleAutom, IsPosInt],
 function(a, k)
     local dom, perm;
 
@@ -822,7 +833,7 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity,
 #M  IsSphericallyTransitive(<a>)
 ##
 InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsAutom)",
-              [IsAutom],
+              [IsInvertibleAutom],
 function(a)
   local w, i, ab, abs;
 
@@ -840,8 +851,8 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallOtherMethod(Order, "Order(IsAutom)", true,
-              [IsAutom],
+InstallOtherMethod(Order, "Order(IsInvertibleAutom)", true,
+                   [IsInvertibleAutom],
 function(a)
   local ord_loc;
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
@@ -862,8 +873,8 @@ end);
 ##
 #M  IsTransitiveOnLevel( <a>, <lev> )
 ##
-InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsAutom,IsPosInt)",
-              [IsAutom,IsPosInt],
+InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsInvertibleAutom,IsPosInt)",
+              [IsInvertibleAutom, IsPosInt],
 function(a,lev)
   return Length(OrbitPerms([PermOnLevel(a, lev)], 1)) = a!.deg^lev;
 end);

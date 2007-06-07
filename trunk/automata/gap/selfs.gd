@@ -613,30 +613,35 @@ DeclareGlobalFunction("AutomPortraitDepth");
 
 ################################################################################
 ##
-#F AutomGroupGrowth
+#F  GroupGrowth ( <G>, <len> )
 ##
-##  Computes the first <max_len> values of the growth function of a group <G>
+##  Returns the list of first <len> values of the growth function of a group <G>.
+##  \beginexample
+##  gap> GroupGrowth(GrigorchukGroup,7);
+##  #I  Length not greater than 2: 11
+##  #I  Length not greater than 3: 23
+##  #I  Length not greater than 4: 40
+##  #I  Length not greater than 5: 68
+##  #I  Length not greater than 6: 108
+##  #I  Length not greater than 7: 176
+##  [ 1, 5, 11, 23, 40, 68, 108, 176 ]
+##  \endexample
 ##
-DeclareGlobalFunction("AutomGroupGrowth");
+DeclareGlobalFunction("GroupGrowth");
 
 
 ################################################################################
 ##
-#F  AutomGroupGrowthFast ( <G>, <max_num>, <max_len> )
+#F  GroupElements ( <G>, <len> )
 ##
-##  Computes the growth function of the group <G> while the number of elements
-##  is not greater than <max_num> and length is not greater than <max_len>.
+##  Returns the list of all different elements of a group <G> up to length <len>.
+##  \beginexample
+##  gap> GroupElements(GrigorchukGroup,3);
+##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b, b*a*c, b*a*d, c*a*b, c*a*c, c*a*d, d*a*b,
+##    d*a*c, d*a*d ]
+##  \endexample
 ##
-DeclareGlobalFunction("AutomGroupGrowthFast");
-
-
-################################################################################
-##
-#F  AutomGroupElements ( <G>, <max_len> )
-##
-##  Enumerates all elements of a self-similar group <G> up to length <max_len>
-##
-DeclareGlobalFunction("AutomGroupElements");
+DeclareGlobalFunction("GroupElements");
 
 
 ################################################################################
@@ -892,51 +897,6 @@ DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
 InstallTrueMethod(IsAmenable, IsAbelian);
 InstallTrueMethod(IsAmenable, IsFinite);
 
-
-################################################################################
-##
-#F  OrdersOfGroupElementsMain( <n>, <O>, <stop>, <G> )
-##
-##  Enumerates all elements of a self-similar group up to length <n> and tries
-##  to find their orders up to order <O>. Returns `true' if all the orders are
-##  finite and `fail' otherwise. In case <stop>=`true' returns `fail' as soon as
-##  it finds suspicious element.
-##
-DeclareGlobalFunction("OrdersOfGroupElementsMain");
-
-
-################################################################################
-##
-#F  OrdersOfGroupElements( <n>, <O>, <G> )
-##
-##  Enumerates all elements of a self-similar group up to length <n> and tries
-##  to find their orders up to order <O>. Returns `true' if all the orders are
-##  finite and `fail' otherwise.
-##
-DeclareGlobalFunction("OrdersOfGroupElements");
-
-
-################################################################################
-##
-#F  PeriodicityGuess( <n>, <O>, <G> )
-##
-##  Enumerates all elements of a self-similar
-##  group <G> up to length <n> and tries to find their orders up to order <O>
-##  returns true if all the orders are finite and fail otherwise
-##  returns fail as soon as it finds suspicious element
-##
-DeclareGlobalFunction("PeriodicityGuess");
-
-
-################################################################################
-##
-#F  FindTransitiveElements( <n>, <lev>, <stop>, <G> )
-##
-##  Finds all elements of the group <G> which are transitive on a level <lev>
-##  and have length not greater than <n>. In case <stop>=`true' stops when it
-##  finds first transitive element
-##
-DeclareGlobalFunction("FindTransitiveElements");
 
 
 ################################################################################

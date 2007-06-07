@@ -1287,157 +1287,54 @@ end);
 # end);
 
 
-InstallGlobalFunction(AutomGroupGrowth,function(n,G)
-  local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H;
+InstallGlobalFunction(GroupGrowth,function(G,n)
+  local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
 
-  inverse:=function(w)
-    local i, iw;
-    iw:=[];
-    for i in [1..Length(w)] do
-      iw[i]:=w[Length(w)-i+1]^inv;
-    od;
-    return iw;
-  end;
+# produce a symmetric generating set
+  orig_gens:=ShallowCopy(GeneratorsOfGroup(G));
+  Append(orig_gens,List(orig_gens,x->x^-1));
 
-  gr:=1; len:=1;
-  H:=AG_AddInversesList(G);
-  if G<>H then
-    Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
-    G:=H;
-  fi;
-  inv:=InversePerm(G);
-  GrList:=[1,Length(G)];
-  ElList:=[];
-  for i in [1..Length(G)] do
-    Add(ElList,[i]);
+  gens:=[];
+
+# select pairwise different generators
+  for i in [1..Length(orig_gens)] do
+    if not IsOne(orig_gens[i]) then
+      new_gen:=true;
+      for j in [1..i-1] do if orig_gens[i]=orig_gens[j] then new_gen:=false; fi; od;
+      if new_gen then Add(gens,orig_gens[i]); fi;
+    fi;
   od;
 
-  while len<n do
+  ElList:=[One(G)]; Append(ElList,ShallowCopy(gens));
+  GrList:=[1,Length(gens)+1];
+  len:=1;
+
+  while len<n and GrList[len]<>GrList[len+1] do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
-      for j in [2..Length(G)] do
-        v:=StructuralCopy(ElList[i]);
-        Add(v,j);
-        New:=true;
-        k:=1;
-        while New and k<=oldgr do
-          tmpv:=StructuralCopy(v);
-          Append(tmpv,inverse(ElList[k]));
-          if IS_ONE_LIST(tmpv,G) then New:=false; fi;
-          k:=k+1;
-        od;
-        if New then Add(ElList,v); fi;
-      od;
-    od;
-    Add(GrList,Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ",len+1,": ",Length(ElList));
-    len:=len+1;
-  od;
-
-  return GrList;
-end);
-
-
-InstallGlobalFunction(AutomGroupGrowthFast,function(n,m,G)
-  local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H;
-
-  inverse:=function(w)
-    local i, iw;
-    iw:=[];
-    for i in [1..Length(w)] do
-      iw[i]:=w[Length(w)-i+1]^inv;
-    od;
-    return iw;
-  end;
-
-  gr:=1; len:=1;
-  H:=AG_AddInversesList(G);
-  if G<>H then
-    Info(InfoAutomGrp, 3, "Inverses were added. Now generator set is:\n",H);
-    G:=H;
-  fi;
-  inv:=InversePerm(G);
-  GrList:=[1,Length(G)];
-  ElList:=[];
-  for i in [1..Length(G)] do
-    Add(ElList,[i]);
-  od;
-
-  while Length(ElList)<n and len<m do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr:=Length(ElList);
-      for j in [2..Length(G)] do
-        v:=StructuralCopy(ElList[i]);
-        Add(v,j);
-        New:=true;
-        k:=1;
-        while New and k<=oldgr do
-          tmpv:=StructuralCopy(v);
-          Append(tmpv,inverse(ElList[k]));
-          if IS_ONE_LIST(tmpv,G) then New:=false; fi;
-          k:=k+1;
-        od;
-        if New then Add(ElList,v); fi;
-      od;
-    od;
-    Add(GrList,Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ",len+1,": ",Length(ElList));
-    len:=len+1;
-  od;
-
-  return GrList;
-end);
-
-
-
-InstallGlobalFunction(AutomGroupElements,function(n,G)
-  local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H;
-
-  inverse:=function(w)
-    local i, iw;
-    iw:=[];
-    for i in [1..Length(w)] do
-      iw[i]:=w[Length(w)-i+1]^inv;
-    od;
-    return iw;
-  end;
-
-  gr:=1; len:=1;
-  H:=AG_AddInversesList(G);
-  if G<>H then
-    Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
-    G:=H;
-  fi;
-  inv:=InversePerm(G);
-  GrList:=[1,Length(G)];
-  ElList:=[];
-  for i in [1..Length(G)] do
-    Add(ElList,[i]);
-  od;
-
-  while len<n do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr:=Length(ElList);
-      for j in [2..Length(G)] do
-        v:=StructuralCopy(ElList[i]);
-        Add(v,j);
+      for gen in gens do
+        g:=ElList[i]*gen;
         New:=true;
         if len=1 then k:=1; else k:=GrList[len-1]; fi;
         while New and k<=oldgr do
-          tmpv:=StructuralCopy(v);
-          Append(tmpv,inverse(ElList[k]));
-          if IS_ONE_LIST(tmpv,G) then New:=false; fi;
+          if g=ElList[k] then New:=false; fi;
           k:=k+1;
         od;
-        if New then Add(ElList,v); fi;
+        if New then Add(ElList,g); fi;
       od;
     od;
     Add(GrList,Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ",len+1,": ",Length(ElList));
+    Info(InfoAutomGrp,3,"Length not greater than ",len+1,": ",Length(ElList));
     len:=len+1;
   od;
+  if GrList[len]=GrList[len+1] then
+    SetSize(G,GrList[len]);
+  fi;
+  return GrList;
+end);
 
-  return ElList;
+InstallGlobalFunction(GroupElements,function(G,n)
+  return FindGroupElements(G,ReturnTrue,true,n);
 end);
 
 
@@ -2976,7 +2873,7 @@ InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
         if New then
           if func(g)=val then
             Add(cur_els,g);
-            Info(InfoAutomGrp,3,g!.word);
+            Info(InfoAutomGrp,3,g);
           fi;
           Add(ElList,g);
         fi;
@@ -3016,6 +2913,54 @@ InstallGlobalFunction(FindElementsOfInfiniteOrder,function(G,n,depth)
 end);
 
 
+InstallGlobalFunction(GroupGrowth,function(G,n)
+  local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
+
+# produce a symmetric generating set
+  orig_gens:=ShallowCopy(GeneratorsOfGroup(G));
+  Append(orig_gens,List(orig_gens,x->x^-1));
+
+  gens:=[];
+
+# select pairwise different generators
+  for i in [1..Length(orig_gens)] do
+    if not IsOne(orig_gens[i]) then
+      new_gen:=true;
+      for j in [1..i-1] do if orig_gens[i]=orig_gens[j] then new_gen:=false; fi; od;
+      if new_gen then Add(gens,orig_gens[i]); fi;
+    fi;
+  od;
+
+  ElList:=[One(G)]; Append(ElList,ShallowCopy(gens));
+  GrList:=[1,Length(gens)+1];
+  len:=1;
+
+  while len<n and GrList[len]<>GrList[len+1] do
+    for i in [GrList[len]+1..GrList[len+1]] do
+      oldgr:=Length(ElList);
+      for gen in gens do
+        g:=ElList[i]*gen;
+        New:=true;
+        if len=1 then k:=1; else k:=GrList[len-1]; fi;
+        while New and k<=oldgr do
+          if g=ElList[k] then New:=false; fi;
+          k:=k+1;
+        od;
+        if New then Add(ElList,g); fi;
+      od;
+    od;
+    Add(GrList,Length(ElList));
+    Info(InfoAutomGrp,3,"Length not greater than ",len+1,": ",Length(ElList));
+    len:=len+1;
+  od;
+  if GrList[len]=GrList[len+1] then
+    SetSize(G,GrList[len]);
+  fi;
+  return GrList;
+end);
+
+
+
 
 InstallGlobalFunction(IsNoncontracting, function(arg)
   local IsNoncontrElement, res,
@@ -3044,163 +2989,6 @@ InstallGlobalFunction(IsNoncontracting, function(arg)
     return true;
   fi;
   return fail;
-end);
-
-
-
-InstallGlobalFunction(OrdersOfGroupElementsMain,function(n,O,stop,G)
-  local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H, periodic, order_v;
-
-  inverse:=function(w)
-    local i, iw;
-    iw:=[];
-    for i in [1..Length(w)] do
-      iw[i]:=w[Length(w)-i+1]^inv;
-    od;
-    return iw;
-  end;
-
-  gr:=1; len:=1; periodic:=true;
-
-  H:=AG_AddInversesList(G);
-  if G<>H then
-    Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
-    G:=H;
-  fi;
-  inv:=InversePerm(G);
-  GrList:=[1,Length(G)];
-  ElList:=[];
-  for i in [1..Length(G)] do
-    Add(ElList,[i]);
-  od;
-
-  for v in ElList do
-    order_v:=ORDER_OF_ELEMENT(v,G,O);
-    Info(InfoAutomGrp, 3, "Order of ", v, ": ", order_v);
-    if order_v = fail then
-      if stop then return fail;
-        else periodic:=fail;
-      fi;
-    fi;
-  od;
-
-  while len<n do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr:=Length(ElList);
-      for j in [2..Length(G)] do
-        v:=StructuralCopy(ElList[i]);
-        Add(v,j);
-        New:=true;
-        if len=1 then k:=1; else k:=GrList[len-1]; fi;
-        while New and k<=oldgr do
-          tmpv:=StructuralCopy(v);
-          Append(tmpv,inverse(ElList[k]));
-          if IS_ONE_LIST(tmpv,G) then New:=false; fi;
-          k:=k+1;
-        od;
-        if New then
-          Add(ElList,v);
-          order_v:=ORDER_OF_ELEMENT(v,G,O);
-          Info(InfoAutomGrp, 3, "Order of ", v, ": ", order_v);
-
-          if order_v = fail then
-            if stop then return fail;
-              else periodic:=fail;
-            fi;
-          fi;
-
-        fi;
-      od;
-    od;
-    Add(GrList,Length(ElList));
-#    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
-    len:=len+1;
-  od;
-
-  return periodic;
-end);
-
-
-InstallGlobalFunction(OrdersOfGroupElements,function(n,O,G)
-  return OrdersOfGroupElementsMain(n,O,false,G);
-end);
-
-
-
-InstallGlobalFunction(PeriodicityGuess,function(n,O,G)
-  return OrdersOfGroupElementsMain(n,O,true,G);
-end);
-
-
-
-InstallGlobalFunction(FindTransitiveElements,function(n,lev,stop,G)
-  local gr,len, ElList, GrList,inv,i,j,k,oldgr,v,tmpv,New,inverse,H, TransElList;
-
-  inverse:=function(w)
-    local i, iw;
-    iw:=[];
-    for i in [1..Length(w)] do
-      iw[i]:=w[Length(w)-i+1]^inv;
-    od;
-    return iw;
-  end;
-
-  gr:=1; len:=1;
-
-  H:=AG_AddInversesList(G);
-  if G<>H then
-    Info(InfoAutomGrp, 3, "Inverses were added. Automaton was minimized. Now generator set is:\n",H);
-    G:=H;
-  fi;
-  inv:=InversePerm(G);
-  GrList:=[1,Length(G)];
-  ElList:=[];
-  TransElList:=[];
-
-  for i in [1..Length(G)] do
-    Add(ElList,[i]);
-  od;
-
-  for v in ElList do
-    if AG_IsWordTransitiveOnLevel(G,v,lev) then
-      if stop then return v;
-        else Add(TransElList,v);
-      fi;
-    fi;
-  od;
-
-  while len<n do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr:=Length(ElList);
-      for j in [2..Length(G)] do
-        v:=StructuralCopy(ElList[i]);
-        Add(v,j);
-        New:=true;
-        if len=1 then k:=1; else k:=GrList[len-1]; fi;
-        while New and k<=oldgr do
-          tmpv:=StructuralCopy(v);
-          Append(tmpv,inverse(ElList[k]));
-          if IS_ONE_LIST(tmpv,G) then New:=false; fi;
-          k:=k+1;
-        od;
-        if New then
-          Add(ElList,v);
-
-          if AG_IsWordTransitiveOnLevel(G,v,lev) then
-            if stop then return v;
-              else Add(TransElList,v);
-            fi;
-          fi;
-
-        fi;
-      od;
-    od;
-    Add(GrList,Length(ElList));
-#    Print("Length not greater than ",len+1,": ",Length(ElList),"\n");
-    len:=len+1;
-  od;
-
-  return TransElList;
 end);
 
 

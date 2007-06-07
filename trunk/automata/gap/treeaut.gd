@@ -25,7 +25,7 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 
 ###############################################################################
 ##
-#O  TreeAutomorphism( <states>, <perm> )
+#O  TreeAutomorphism ( <states>, <perm> )
 ##
 ##  Constructs a tree automorphism with states <states> and acting
 ##  on the first level as permutation <perm>. The <states> must belong to the same family.
@@ -46,7 +46,7 @@ DeclareOperation("TreeAutomorphismFamily", [IsObject]);
 
 ###############################################################################
 ##
-#O  Perm( <a>[, <lev>] )
+#O  Perm ( <a>[, <lev>] )
 ##
 ##  Returns permutation induced by tree automorphism <a> on the level <lev>
 ##  (or first level if <lev> is not given). See also
@@ -56,7 +56,7 @@ DeclareOperation("Perm", [IsTreeAutomorphism, IsPosInt]);
 
 ###############################################################################
 ##
-#O  PermOnLevel( <a>, <k> )
+#O  PermOnLevel ( <a>, <k> )
 ##
 ##  Does the same thing as `Perm'~("Perm").
 ##
@@ -64,7 +64,7 @@ KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 
 #############################################################################
 ##
-#P  IsSphericallyTransitive( <a> )
+#P  IsSphericallyTransitive ( <a> )
 ##
 ##  Returns whether the action of <a> is spherically transitive (see "Short math background").
 ##
@@ -76,7 +76,7 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 
 #############################################################################
 ##
-#O  IsTransitiveOnLevel( <a>, <lev> )
+#O  IsTransitiveOnLevel ( <a>, <lev> )
 ##
 ##  Whether <a> acts transitively on level <lev>.
 ##

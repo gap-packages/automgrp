@@ -17,7 +17,7 @@ The multiplication of tree homomorphisms is defined in the standard way
 The following operations allow to compute the actions of tree homomorphisms on letters and vertices
 
 \>`<letter> ^ <a>'{action}!{of tree homomorphism on letter}
-\>`<vertex> ^ <a>'{action}!{for tree homomorphism on vertex}
+\>`<vertex> ^ <a>'{action}!{of tree homomorphism on vertex}
 
 \beginexample
 gap> 1^a;

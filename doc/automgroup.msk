@@ -36,7 +36,6 @@
 \Declaration{FindNucleus}
 \Declaration{IsContracting}
 \Declaration{IsNoncontracting}
-\Declaration
 \Declaration{FindRelationsSubs}
 \Declaration{FindRelationsSubsSG}
 \Declaration{FindRelations}

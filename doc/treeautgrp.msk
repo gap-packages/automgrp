@@ -59,8 +59,8 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \endexample
 
 \Declaration{IsFractal}
-\Declaration{IsSphericallyTransitive}
-\Declaration{IsTransitiveOnLevel}
+\Declaration{IsSphericallyTransitive}[treeautgrp]
+\Declaration{IsTransitiveOnLevel}[treeautgrp]
 \Declaration{IsSelfSimilar}
 \Declaration{AbelImage}
 \Declaration{PermGroupOnLevel}
@@ -75,7 +75,7 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{FindGroupElements}
 \Declaration{FindElementOfInfiniteOrder}
 \Declaration{FindElementsOfInfiniteOrder}
-\Declaration{AutomGroupGrowth}
-\Declaration{AutomGroupElements}
+\Declaration{GroupGrowth}
+\Declaration{GroupElements}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

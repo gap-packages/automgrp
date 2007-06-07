@@ -72,9 +72,10 @@ DeclareOperation("State", [IsTreeHomomorphism, IsPosInt]);
 
 ###############################################################################
 ##
-#O  States( <a> )
+#O  States( <a> [, <lev>] )
 ##
-##  Returns list of states of <a> at the first level.
+##  Returns the list of states of <a> at the <lev>-th level. If <lev> is ommited
+##  it is assumed to be 1.
 ##  \beginexample
 ##  gap> States(a*b*a^2);
 ##  [ a*b^2*a, b*a^2*b ]

@@ -1688,19 +1688,10 @@ end);
 
 
 InstallGlobalFunction(MarkovOperator,function(G,n)
-  local H,inv,i,el,j,m,d;
-  d:=Length(G[1])-1;
-  H:=AG_AddInversesList(G);
-  inv:= InversePerm(H);
-  m:=[];
-  for i in [1..d^n] do Add(m,[]); od;
-  for i in [1..d^n] do
-    for j in [1..d^n] do m[i][j]:=0; od;
-  od;
-  for el in [2..Length(H)] do
-    m:=m+AG_GeneratorActionOnLevelAsMatrix(H,el,n);
-  od;
-  return m;
+  local gens;
+  gens:=ShallowCopy(GeneratorsOfGroup(G));
+  Append(gens,List(gens,x->x^-1));
+  return Sum(List(gens,x->PermOnLevelAsMatrix(x,n)))/Length(gens);
 end);
 
 

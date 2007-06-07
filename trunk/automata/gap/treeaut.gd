@@ -28,7 +28,17 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 #O  TreeAutomorphism( <states>, <perm> )
 ##
 ##  Constructs a tree automorphism with states <states> and acting
-##  on the first level as permutation <perm>.
+##  on the first level as permutation <perm>. The <states> must belong to the same family.
+##  \beginexample
+##  gap> G:=AutomGroup("a=(a,b)(1,2), b=(a,b)");
+##  < a, b >
+##  gap> c:=TreeAutomorphism([a,b,a,b^2],(1,2)(3,4));
+##  (a, b, a, b^2)(1,2)(3,4)
+##  gap> d:=TreeAutomorphism([b,1,a*b,b],(1,2));
+##  (b, 1, a*b, b)(1,2)
+##  gap> c*d;
+##  (a, b^2, a*b, b^2*a*b)(3,4)
+##  \endexample
 ##
 DeclareOperation("TreeAutomorphism", [IsList, IsPerm]);
 DeclareOperation("TreeAutomorphismFamily", [IsObject]);
@@ -56,7 +66,7 @@ KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 ##
 #P  IsSphericallyTransitive( <a> )
 ##
-##  Whether action of <a> is "spherically transitive".
+##  Returns whether the action of <a> is spherically transitive (see "Short math background").
 ##
 DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphism);
 # XXX CanEasilyTestSphericalTransitivity isn't really used except for

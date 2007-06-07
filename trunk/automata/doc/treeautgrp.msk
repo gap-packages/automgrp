@@ -40,7 +40,7 @@ One can compute the following properties.
 \Declaration{IsOne}
 \Declaration{Order}
 \Declaration{\in}
-\Declaration{IsSphericallyTransitive}
+\Declaration{IsSphericallyTransitive}[treeaut.gd]
 \Declaration{IsTransitiveOnLevel}
 \Declaration{Word}
 
@@ -48,6 +48,15 @@ One can compute the following properties.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations with groups}
+
+In the examples below we will consider the elements of Basilica group and 
+Grigorchuk group. First we define them as
+\beginexample
+gap> Basilica:=AutomGroup("u=(v,1)(1,2),v=(u,1)");
+< u, v >
+gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+< a, b, c, d >
+\endexample
 
 \Declaration{IsFractal}
 \Declaration{IsSphericallyTransitive}

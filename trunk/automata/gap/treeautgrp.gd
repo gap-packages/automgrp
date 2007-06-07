@@ -12,7 +12,7 @@
 ##
 #C  IsTreeAutomorphismGroup
 ##
-##  Category of groups of tree automorphisms.
+##  The category of groups of tree automorphisms.
 ##
 DeclareSynonym("IsTreeAutomorphismGroup", IsGroup and IsTreeAutomorphismCollection);
 InstallTrueMethod(IsActingOnTree, IsTreeAutomorphismGroup);
@@ -32,7 +32,11 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 ##
 #P  IsFractal (<G>)
 ##
-##  Whether group <G> is fractal.
+##  Returns whether the group <G> is fractal.
+##  \beginexample
+##  gap> IsFractal(GrigorchukGroup);
+##  true
+##  \endexample
 ##
 DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 
@@ -65,7 +69,11 @@ DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 ##
 #A  StabilizerOfFirstLevel (<G>)
 ##
-##  Returns stabilizer of the first level, see also~"StabilizerOfLevel".
+##  Returns the stabilizer of the first level, see also~"StabilizerOfLevel".
+##  \beginexample
+##  gap> StabilizerOfFirstLevel(Basilica);
+##  < u^2, u*v*u^-1, v >
+##  \endexample
 ##
 DeclareAttribute("StabilizerOfFirstLevel", IsTreeAutomorphismGroup);
 
@@ -73,7 +81,12 @@ DeclareAttribute("StabilizerOfFirstLevel", IsTreeAutomorphismGroup);
 ##
 #O  StabilizerOfLevel (<G>, <k>)
 ##
-##  Returns stabilizer of the <k>-th level.
+##  Returns the stabilizer of the <k>-th level.
+##  \beginexample
+##  gap> StabilizerOfLevel(Basilica, 2);
+##  < u*v^2*u^-1, u*v*u*v^2*u^-1*v^-1*u^-1, v^2, v*u^2*v^-1, u*v*u^2*v^-1*u^-1, u^
+##  2, v*u*v*u*v^-1*u^-1*v^-1*u^-1 >
+##  \endexample
 ##
 KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
@@ -83,6 +96,11 @@ KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, Re
 ##
 ##  Returns stabilizer of the vertex <v>. <v> can be a list represnting a
 ##  vertex, or a positive intger representing a vertex at the first level.
+##  \beginexample
+##  gap> StabilizerOfVertex(Basilica,[1,2,1]);
+##  < v*u^4*v^-1, v*u^2*v^2*u^-2*v^-1, v^2, u^2, v*u^2*v*u^2*v^-1*u^-2*v^-1, u*v*u^
+##  -1, v*u^-1*v*u*v^-1, v*u^2*v*u*v*u^-1*v^-1*u^-2*v^-1 >
+##  \endexample
 ##
 DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 
@@ -92,9 +110,13 @@ DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 #O  Projection (<G>, <v>)
 #O  ProjectionNC (<G>, <v>)
 ##
-##  Returns projection of the group <G> at the vertex <v>. <G> must fix the
-##  the vertex <v>, otherwise `Error'() will be called. `ProjectionNC' does the
+##  Returns projection of the group <G> at the vertex <v>. The group <G> must fix the
+##  the vertex <v>, otherwise `Error'() will be called. The operation `ProjectionNC' does the
 ##  same thing, except it does not check whether <G> fixes vertex <v>.
+##  \beginexample
+##  gap> Projection(StabilizerOfVertex(Basilica,[1,2,1]),[1,2,1]);
+##  < v, u >
+##  \endexample
 ##
 KeyDependentOperation("Projection", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 DeclareOperation("Projection", [IsTreeAutomorphismGroup, IsList]);
@@ -107,6 +129,10 @@ DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 ##  Returns projection of the stabilizer of <v> at itself. It is a shortcut for
 ##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
 ##  "StabilizerOfVertex").
+##  \beginexample
+##  gap> ProjStab(Basilica,[1,2,1]);
+##  < v, u >
+##  \endexample
 ##
 DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
 
@@ -123,6 +149,14 @@ DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 ##
 ##  Returns group of permutations induced by action of group <G> at the <k>-th
 ##  level.
+##  \beginexample
+##  gap> PermGroupOnLevel(Basilica,4);
+##  Group([ (1,11,3,9)(2,12,4,10)(5,13)(6,14)(7,15)(8,16), (1,6,2,5)(3,7)(4,8) ])
+##  gap> H:=PermGroupOnLevel(Group([u,v^2]),4);
+##  Group([ (1,11,3,9)(2,12,4,10)(5,13)(6,14)(7,15)(8,16), (1,2)(5,6) ])
+##  gap> Size(H);
+##  64
+##  \endexample
 ##
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
@@ -131,8 +165,11 @@ KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, Ret
 ##
 #P  IsSphericallyTransitive (<G>)
 ##
-##  Whether group <G> is spherically transitive (see~"spherically
-##  transitive").
+##  Returns whether the group <G> is spherically transitive (see~"Short math background").
+##  \beginexample
+##  gap> IsSphericallyTransitive(GrigorchukGroup);
+##  true
+##  \endexample
 ##
 DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphismGroup);
 
@@ -141,7 +178,13 @@ DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphismGroup);
 ##
 #O  IsTransitiveOnLevel (<G>, <lev>)
 ##
-##  Whether group <G> acts transitively on level <lev>.
+##  Returns whether the group <G> acts transitively on level <lev>.
+##  \beginexample
+##  gap> IsTransitiveOnLevel(Group([a,b]),3);
+##  true
+##  gap> IsTransitiveOnLevel(Group([a,b]),4);
+##  false
+##  \endexample
 ##
 DeclareOperation("IsTransitiveOnLevel", [IsTreeAutomorphismGroup, IsPosInt]);
 

@@ -40,7 +40,7 @@ One can compute the following properties.
 \Declaration{IsOne}
 \Declaration{Order}
 \Declaration{\in}
-\Declaration{IsSphericallyTransitive}[treeaut.gd]
+\Declaration{IsSphericallyTransitive}[treeaut]
 \Declaration{IsTransitiveOnLevel}
 \Declaration{Word}
 

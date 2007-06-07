@@ -59,7 +59,7 @@ KeyDependentOperation("TransformationOnLevel", IsTreeHomomorphism, IsPosInt, Ret
 ##
 #O  State( <a>, <v> )
 ##
-##  Returns the "state" of given automorphism at the given vertex.
+##  Returns the section of given automorphism at the given vertex.
 ##  Vertex <v> can be a list representing vertex; or a positive integer
 ##  representing a vertex at the first level of the tree.
 ##  \beginexample

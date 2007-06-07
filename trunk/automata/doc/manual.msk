@@ -1,11 +1,11 @@
 \input gapmacro
-\Package{automgrp}
-\BeginningOfBook{automgrp}
+\Package{AutomGrp}
+\BeginningOfBook{AutomGrp}
 
 % \UseReferences{../../../doc/ref}
 
 \TitlePage{
-  \centerline{\titlefont automgrp}\medskip
+  \centerline{\titlefont AutomGrp}\medskip
   \centerline{\titlefont ---}\medskip
   \centerline{\titlefont A GAP4 Package}\bigskip\bigskip
   \centerline{\secfont Version {{pkgversion}}}\medskip

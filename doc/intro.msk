@@ -83,8 +83,8 @@ a set of <states>, $X$ is a finite <alphabet> of cardinality $d \geq
 \times X \to Q$ is a map, called <transition map>. 
 
 If for each state $q$ in $Q$, the restriction $\rho_q: X \to X$ 
-given by $\rho_q(x)=\rho(q,x)$ is a permutation, i.e. $\rho_q \in 
-\Sym(X)$, the automaton is called <finite>.
+given by $\rho_q(x)=\rho(q,x)$ is a permutation, the automaton is 
+called <finite>.
 
 If the set $Q$ of states is finite, the automaton is called 
 <finite>.

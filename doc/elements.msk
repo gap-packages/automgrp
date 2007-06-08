@@ -15,6 +15,7 @@ gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
 \Declaration{IsTransitiveOnLevel}
 
 \>IsOne ( <a> ) O
+
 Returns whether automorphism <a> acs trivially on the tree. For contracting groups see also 
 `UseContraction' ("UseContraction") and `IsOneContr' ("IsOneContr").
 \beginexample

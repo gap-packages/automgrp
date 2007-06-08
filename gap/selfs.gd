@@ -637,8 +637,8 @@ DeclareGlobalFunction("GroupGrowth");
 ##  Returns the list of all different elements of a group <G> up to length <len>.
 ##  \beginexample
 ##  gap> GroupElements(GrigorchukGroup,3);
-##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b, b*a*c, b*a*d, c*a*b, c*a*c, c*a*d, d*a*b,
-##    d*a*c, d*a*d ]
+##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b, b*a*c,
+##    b*a*d, c*a*b, c*a*c, c*a*d, d*a*b, d*a*c, d*a*d ]
 ##  \endexample
 ##
 DeclareGlobalFunction("GroupElements");

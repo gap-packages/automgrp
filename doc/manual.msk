@@ -34,8 +34,8 @@
 
 \Input{intro}
 \Input{data}
-\Input{treeautgrp}
-\Input{automgroup}
+\Input{elements}
+\Input{groups}
 \Input{autom}
 
 %\Appendices

@@ -2913,55 +2913,6 @@ InstallGlobalFunction(FindElementsOfInfiniteOrder,function(G,n,depth)
 end);
 
 
-InstallGlobalFunction(GroupGrowth,function(G,n)
-  local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
-
-# produce a symmetric generating set
-  orig_gens:=ShallowCopy(GeneratorsOfGroup(G));
-  Append(orig_gens,List(orig_gens,x->x^-1));
-
-  gens:=[];
-
-# select pairwise different generators
-  for i in [1..Length(orig_gens)] do
-    if not IsOne(orig_gens[i]) then
-      new_gen:=true;
-      for j in [1..i-1] do if orig_gens[i]=orig_gens[j] then new_gen:=false; fi; od;
-      if new_gen then Add(gens,orig_gens[i]); fi;
-    fi;
-  od;
-
-  ElList:=[One(G)]; Append(ElList,ShallowCopy(gens));
-  GrList:=[1,Length(gens)+1];
-  len:=1;
-
-  while len<n and GrList[len]<>GrList[len+1] do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr:=Length(ElList);
-      for gen in gens do
-        g:=ElList[i]*gen;
-        New:=true;
-        if len=1 then k:=1; else k:=GrList[len-1]; fi;
-        while New and k<=oldgr do
-          if g=ElList[k] then New:=false; fi;
-          k:=k+1;
-        od;
-        if New then Add(ElList,g); fi;
-      od;
-    od;
-    Add(GrList,Length(ElList));
-    Info(InfoAutomGrp,3,"Length not greater than ",len+1,": ",Length(ElList));
-    len:=len+1;
-  od;
-  if GrList[len]=GrList[len+1] then
-    SetSize(G,GrList[len]);
-  fi;
-  return GrList;
-end);
-
-
-
-
 InstallGlobalFunction(IsNoncontracting, function(arg)
   local IsNoncontrElement, res,
         G,n,depth;

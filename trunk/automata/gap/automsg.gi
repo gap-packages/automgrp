@@ -16,7 +16,7 @@ InstallMethod(AutomSemigroup, "AutomSemigroup(IsList)", [IsList],
 function (list)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomSemigroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -37,7 +37,7 @@ InstallMethod(AutomSemigroupNoBindGlobal, "AutomSemigroupNoBindGlobal(IsList)", 
 function (list)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomSemigroupNoBindGlobal(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -58,7 +58,7 @@ InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList)", [IsList, IsList]
 function (list, names)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomSemigroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -80,7 +80,7 @@ InstallMethod(AutomSemigroupNoBindGlobal,
 function (list, names)
   local fam, g;
 
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomSemigroup(IsList):\n");
     Print("  given list is not a correct list representing automaton\n");
     return fail;
@@ -410,17 +410,6 @@ end);
 
 # ###############################################################################
 # ##
-# #M  UnderlyingFreeGroup(<G>)
-# ##
-# InstallMethod(UnderlyingFreeGroup, "UnderlyingFreeGroup(IsAutomGroup)",
-#               [IsAutomGroup],
-# function(G)
-#   return UnderlyingAutomFamily(G)!.freegroup;
-# end);
-#
-#
-# ###############################################################################
-# ##
 # #M  UnderlyingFreeSubgroup(<G>)
 # ##
 # InstallMethod(UnderlyingFreeSubgroup, "UnderlyingFreeSubgroup(IsAutomGroup)",
@@ -447,17 +436,28 @@ end);
 # function(G)
 #   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
 # end);
-#
-#
-# ###############################################################################
-# ##
-# #M  UnderlyingFreeGenerators(<G>)
-# ##
-# InstallMethod(UnderlyingFreeGenerators, "UnderlyingFreeGenerators(IsAutomGroup)",
-#               [IsAutomGroup],
-# function(G)
-#   return List(GeneratorsOfGroup(G), g -> Word(g));
-# end);
+
+
+###############################################################################
+##
+#M  UnderlyingFreeGroup( <G> )
+##
+InstallMethod(UnderlyingFreeGroup, "UnderlyingFreeGroup(IsAutomSemigroup)",
+              [IsAutomSemigroup],
+function(G)
+  return UnderlyingAutomFamily(G)!.freegroup;
+end);
+
+
+###############################################################################
+##
+#M  UnderlyingFreeGenerators( <G> )
+##
+InstallMethod(UnderlyingFreeGenerators, "UnderlyingFreeGenerators(IsAutomSemigroup)",
+              [IsAutomSemigroup],
+function(G)
+  return List(GeneratorsOfSemigroup(G), g -> Word(g));
+end);
 
 
 InstallMethod(SphericalIndex, "for IsAutomSemigroup",

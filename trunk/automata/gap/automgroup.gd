@@ -108,12 +108,8 @@ InstallTrueMethod(IsFractal, IsFractalByWords);
 #############################################################################
 ##
 #A  UnderlyingFreeSubgroup(<G>)
-#A  UnderlyingFreeGenerators(<G>)
-#A  UnderlyingFreeGroup(<G>)
 ##
 DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
-DeclareAttribute("UnderlyingFreeGenerators", IsAutomGroup, "mutable");
-DeclareAttribute("UnderlyingFreeGroup", IsAutomGroup);
 
 
 #############################################################################

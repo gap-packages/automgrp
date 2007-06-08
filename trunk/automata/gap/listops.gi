@@ -53,7 +53,10 @@ function(list, invertible)
     od;
 
     if not list[i][deg + 1] in sym then
-      if invertible or not list[i][deg + 1] in semi then
+      if not list[i][deg + 1] in semi then
+        return false;
+      fi;
+      if invertible and not AG_IsInvertibleTransformation(list[i][deg + 1]) then
         return false;
       fi;
     fi;
@@ -105,29 +108,11 @@ end);
 ##
 InstallGlobalFunction(IsTrivialStateInList,
 function(state, list)
-  local i, s, d, to_check, checked;
-
-  d := Length(list[1]) - 1;
-  to_check := [state];
-  checked := [];
-
-  while Length(to_check) <> 0 do
-    for s in to_check do
-      for i in [1..d] do
-        if not IsOne(list[s][d+1]) then
-          return false;
-        fi;
-        if (not list[s][i] in checked) and (not list[s][i] in to_check)
-        then
-          to_check := Union(to_check, [list[s][i]]);
-        fi;
-      od;
-      checked := Union(checked, [s]);
-      to_check := Difference(to_check, [s]);
-    od;
-  od;
-
-  return true;
+  local deg;
+  deg := Length(list[1]) - 1;
+  # IsOne works for Transformation's
+  return ForAll(ConnectedStatesInList(state, list),
+                s -> IsOne(list[s][deg+1]));
 end);
 
 ###############################################################################
@@ -142,10 +127,7 @@ function(state, list)
   local deg;
   deg := Length(list[1]) - 1;
   return ForAll(ConnectedStatesInList(state, list),
-                function(s)
-                  return IsPerm(list[s][deg+1]) or
-                          AsSet(ImageListOfTransformation(list[s][deg+1])) = [1..deg];
-                end);
+                s -> AG_IsInvertibleTransformation(list[s][deg+1]));
 end);
 
 

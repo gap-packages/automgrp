@@ -718,17 +718,6 @@ end);
 
 ###############################################################################
 ##
-#M  UnderlyingFreeGroup(<G>)
-##
-InstallMethod(UnderlyingFreeGroup, "UnderlyingFreeGroup(IsAutomGroup)",
-              [IsAutomGroup],
-function(G)
-  return UnderlyingAutomFamily(G)!.freegroup;
-end);
-
-
-###############################################################################
-##
 #M  UnderlyingFreeSubgroup(<G>)
 ##
 InstallMethod(UnderlyingFreeSubgroup, "UnderlyingFreeSubgroup(IsAutomGroup)",

@@ -131,8 +131,8 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##
 #F  MinimizationOfAutomatonTrack ( <A> )
 ##
-##  Returns an automaton `A_new' obtained from automaton <A> by minimization. Returns the list
-##  `[A_new,track_s,track_l]', where
+##  Returns the list `[A_new,track_s,track_l]', where `A_new' is an
+##  automaton obtained from automaton <A> by minimization,
 ##  `track_s' is how new states are expressed in terms of the old ones, and
 ##  `track_l' is how old states are expressed in terms of the new ones.
 ##  \beginexample

@@ -10,8 +10,38 @@
 
 #############################################################################
 ##
+#F  AG_IsInvertibleTransformation( <tr> )
+##
+InstallGlobalFunction(AG_IsInvertibleTransformation,
+function(tr)
+  local img;
+  if IsPerm(tr) then
+    return true;
+  else
+    img := ImageListOfTransformation(tr);
+    return SortedList(img) = AsSet(img);
+  fi;
+end);
+
+#############################################################################
+##
+#F  AG_PermFromTransformation( <tr> )
+##
+InstallGlobalFunction(AG_PermFromTransformation,
+function(tr)
+  if not IsPerm(tr) then
+    return PermList(ImageListOfTransformation(tr));
+  else
+    return tr;
+  fi;
+end);
+
+
+#############################################################################
+##
 #M  CalculateWord(<word>, <list>)
 ##
+# XXX do not use this
 InstallMethod(CalculateWord, [IsAssocWord, IsList],
 function(w, dom)
   local result, i;

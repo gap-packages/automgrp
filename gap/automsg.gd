@@ -95,13 +95,11 @@ InstallSubsetMaintenance(UnderlyingAutomFamily, IsCollection, IsCollection);
 
 #############################################################################
 ##
-#A  UnderlyingFreeSubgroup(<G>)
-#A  UnderlyingFreeGenerators(<G>)
-#A  UnderlyingFreeGroup(<G>)
+#A  UnderlyingFreeGenerators( <G> )
+#A  UnderlyingFreeGroup( <G> )
 ##
-DeclareAttribute("UnderlyingFreeSubsemigroup", IsAutomSemigroup, "mutable");
 DeclareAttribute("UnderlyingFreeGenerators", IsAutomSemigroup, "mutable");
-DeclareAttribute("UnderlyingFreeSemigroup", IsAutomSemigroup);
+DeclareAttribute("UnderlyingFreeGroup", IsAutomSemigroup);
 
 
 #E

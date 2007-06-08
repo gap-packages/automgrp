@@ -55,7 +55,7 @@ function (list, names, bind_global)
   local deg, tmp, trivstate, numstates, numallstates, i, j, perm,
         freegroup, freegens, a, family, oldstates, isgroup;
 
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamily(IsList, IsList, IsString):\n  given list is not a correct list representing automaton\n");
     return fail;
   fi;
@@ -116,9 +116,7 @@ function (list, names, bind_global)
     if IsInvertibleStateInList(i, list) then
       list[i+numallstates] := [];
 
-      if not IsPerm(list[i][deg+1]) then
-        list[i][deg+1] := PermList(ImageListOfTransformation(list[i][deg+1]));
-      fi;
+      list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
 
       perm := list[i][deg+1];
       list[i+numallstates][deg+1] := perm^-1;
@@ -130,6 +128,9 @@ function (list, names, bind_global)
       od;
     else
       isgroup := false;
+      if AG_IsInvertibleTransformation(list[i][deg+1]) then
+        list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
+      fi;
     fi;
   od;
 
@@ -139,7 +140,7 @@ function (list, names, bind_global)
                     [numstates+2..2*numstates+1],
                     [trivstate])
     );
-    list := PermuteStatesInList(list, perm^-1);\
+    list := PermuteStatesInList(list, perm^-1);
     trivstate := Length(list);
   fi;
 
@@ -222,7 +223,7 @@ end);
 InstallOtherMethod(AutomFamily, "method for IsList",
                    [IsList],
 function(list)
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamily(IsList):\n  given list is not a correct list representing automaton\n");
     return fail;
   fi;
@@ -239,7 +240,7 @@ end);
 ##
 InstallMethod(AutomFamily, [IsList, IsList],
 function(list, names)
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamily(IsList, IsList):\n  given list is not a correct list representing automaton\n");
     return fail;
   fi;
@@ -253,7 +254,7 @@ end);
 ##
 InstallOtherMethod(AutomFamilyNoBindGlobal, "method for IsList", [IsList],
 function(list)
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamilyNoBindGlobal(IsList):\n",
           "  given list is not a correct list representing automaton\n");
     return fail;
@@ -271,7 +272,7 @@ end);
 InstallMethod(AutomFamilyNoBindGlobal,
               "AutomFamilyNoBindGlobal(IsList, IsList)", [IsList, IsList],
 function(list, names)
-  if not IsCorrectAutomatonList(list, true) then
+  if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamilyNoBindGlobal(IsList):\n",
           "  given list is not a correct list representing automaton\n");
     return fail;

@@ -7,8 +7,16 @@
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-ReadPkg("automgrp", "gap/globals.g");
+if false then
+  MakeReadWriteGlobal("InstallMethod");
+  AG_saved_InstallMethod := InstallMethod;
+  InstallMethod := function(arg)
+    Print("InstallMethod: ", arg[1], "\n");
+    CallFuncList(AG_saved_InstallMethod, arg);
+  end;
+fi;
 
+ReadPkg("automgrp", "gap/globals.g");
 ReadPkg("automgrp", "gap/automaton.gi");
 ReadPkg("automgrp", "gap/tree.gi");
 ReadPkg("automgrp", "gap/treehom.gi");
@@ -19,17 +27,18 @@ ReadPkg("automgrp", "gap/autom.gi");
 ReadPkg("automgrp", "gap/automfam.gi");
 ReadPkg("automgrp", "gap/automgroup.gi");
 ReadPkg("automgrp", "gap/automsg.gi");
-
 ReadPkg("automgrp", "gap/listops.gi");
 ReadPkg("automgrp", "gap/utils.gi");
 ReadPkg("automgrp", "gap/utilsfrgrp.gi");
 ReadPkg("automgrp", "gap/scilab.gi");
 ReadPkg("automgrp", "gap/rws.gi");
-
 ReadPkg("automgrp", "gap/selfs.gi");
+ReadPkg("automgrp", "gap/data.g");
 
-if Filename(DirectoriesLibrary("pkg/automgrp/gap"), "data.g") <> fail then
-  ReadPkg("automgrp", "gap/data.g");
+if IsBoundGlobal("AG_saved_InstallMethod") then
+  InstallMethod := AG_saved_InstallMethod;
+  MakeReadOnlyGlobal("InstallMethod");
+  UnbindGlobal("AG_saved_InstallMethod");
 fi;
 
 #E

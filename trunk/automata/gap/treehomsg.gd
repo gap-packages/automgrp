@@ -22,7 +22,7 @@ InstallTrueMethod(IsActingOnTree, IsTreeHomomorphismSemigroup);
 ##
 #P  IsSelfSimilar (<G>)
 ##
-##  Whether semigroup <G> is "self-similar".
+##  Returns whether the group or semigroup <G> is self-similar (see "Short math background").
 ##
 DeclareProperty("IsSelfSimilar", IsTreeHomomorphismSemigroup and IsActingOnRegularTree);
 DeclareFilter("CanEasilyTestSelfSimilarity");

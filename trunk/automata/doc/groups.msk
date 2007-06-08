@@ -1,0 +1,85 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Chapter{Properties and operations with groups}
+
+
+In the examples below we will consider the elements of Basilica group and 
+Grigorchuk group. First we define them as
+\beginexample
+gap> Basilica:=AutomGroup("u=(v,1)(1,2),v=(u,1)");
+< u, v >
+gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+< a, b, c, d >
+\endexample
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Basic properties of groups}
+
+\Declaration{DegreeOfTree}
+\Declaration{IsFractal}
+\Declaration{IsFractalByWords}
+\Declaration{IsSphericallyTransitive}[treeautgrp]
+\Declaration{IsTransitiveOnLevel}[treeautgrp]
+\Declaration{IsAutomatonGroup}
+\Declaration{IsSelfSimilar}
+\Declaration{IsContracting}
+\Declaration{IsNoncontracting}
+\Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
+\Declaration{IsGeneratedByBoundedAutomaton}
+\Declaration{PolynomialDegreeOfGrowthOfAutomaton}
+\Declaration{AutomatonList}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Operations with groups}
+
+\Declaration{PermGroupOnLevel}
+\Declaration{StabilizerOfLevel}
+\Declaration{StabilizerOfFirstLevel}
+\Declaration{StabilizerOfVertex}
+\Declaration{FixesLevel}
+\Declaration{FixesVertex}
+\Declaration{Projection}
+\Declaration{ProjStab}
+\Declaration{FindRelationsSubs}
+\Declaration{FindRelationsSubsSG}
+\Declaration{FindRelations}
+\Declaration{FindGroupElement}
+\Declaration{FindGroupElements}
+\Declaration{FindElementOfInfiniteOrder}
+\Declaration{FindElementsOfInfiniteOrder}
+\Declaration{GroupGrowth}
+\Declaration{GroupElements}
+\Declaration{FindNucleus}
+\Declaration{LevelOfFaithfulAction}
+\Declaration{IsomorphismPermGroup}
+\Declaration{Random}
+\Declaration{MarkovOperator}
+
+
+\Declaration{AbelImage}
+\Declaration{DiagonalAction}
+\Declaration{MultAutomAlphabet}
+
+\Declaration{UnderlyingAutomFamily}
+\Declaration{UnderlyingFreeGroup}
+\Declaration{UnderlyingFreeSubgroup}
+\Declaration{UnderlyingFreeGenerators}
+\Declaration{IndexInFreeGroup}
+\Declaration{ApplyNielsen}
+\Declaration{MihailovaSystem}
+\Declaration{TrivialSubgroup}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Contracting groups}
+
+\Declaration{GroupNucleus}
+\Declaration{NucleusIncludingGeneratingSet}
+\Declaration{NucleusIncludingGeneratingSetAutom}
+\Declaration{ContractingLevel}
+\Declaration{ContractingTable}
+\Declaration{UseContraction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

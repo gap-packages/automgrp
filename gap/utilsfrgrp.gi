@@ -12,12 +12,12 @@
 
 #############################################################################
 ##
-#F  InverseLessThanForLetters(<w1>, <w2>)
+##  AG_InverseLessThanForLetters(<w1>, <w2>)
 ##
 ##  Compares w1 and w2 according to lexicografic ordering given by
 ##  x1 < x1^-1 < x2 < x2^-1 < ...
 ##
-BindGlobal("InverseLessThanForLetters",
+BindGlobal("AG_InverseLessThanForLetters",
 function(w1, w2)
   local i, er1, er2;
 
@@ -42,37 +42,37 @@ end);
 
 #############################################################################
 ##
-#M  ReducedListOfWordsByNielsen(<words_list>)
-#M  ReducedListOfWordsByNielsenBack(<words_list>)
-#M  ReducedListOfWordsByNielsen(<words_list>, <string>)
-#M  ReducedListOfWordsByNielsenBack(<words_list>, <string>)
+##  AG_ReducedListOfWordsByNielsen(<words_list>)
+##  AG_ReducedListOfWordsByNielsenBack(<words_list>)
+##  AG_ReducedListOfWordsByNielsen(<words_list>, <string>)
+##  AG_ReducedListOfWordsByNielsenBack(<words_list>, <string>)
 ##
-InstallMethod(ReducedListOfWordsByNielsen, [IsAssocWordCollection],
+InstallMethod(AG_ReducedListOfWordsByNielsen, [IsAssocWordCollection],
 function(words)
-  return ReducedListOfWordsByNielsen(words, \<);
+  return AG_ReducedListOfWordsByNielsen(words, \<);
 end);
 
-InstallMethod(ReducedListOfWordsByNielsenBack, [IsAssocWordCollection],
+InstallMethod(AG_ReducedListOfWordsByNielsenBack, [IsAssocWordCollection],
 function(words)
-  return ReducedListOfWordsByNielsen(words, \<);
+  return AG_ReducedListOfWordsByNielsen(words, \<);
 end);
 
-InstallOtherMethod(ReducedListOfWordsByNielsen, [IsAssocWordCollection, IsString],
+InstallOtherMethod(AG_ReducedListOfWordsByNielsen, [IsAssocWordCollection, IsString],
 function(words, string)
-  return ReducedListOfWordsByNielsen(words, InverseLessThanForLetters);
+  return AG_ReducedListOfWordsByNielsen(words, AG_InverseLessThanForLetters);
 end);
 
-InstallOtherMethod(ReducedListOfWordsByNielsenBack, [IsAssocWordCollection, IsString],
+InstallOtherMethod(AG_ReducedListOfWordsByNielsenBack, [IsAssocWordCollection, IsString],
 function(words, string)
-  return ReducedListOfWordsByNielsen(words, InverseLessThanForLetters);
+  return AG_ReducedListOfWordsByNielsen(words, AG_InverseLessThanForLetters);
 end);
 
 
 #############################################################################
 ##
-#M  ReducedListOfWordsByNielsen(<words_list>, <lt>)
+#M  AG_ReducedListOfWordsByNielsen(<words_list>, <lt>)
 ##
-InstallOtherMethod( ReducedListOfWordsByNielsen,
+InstallOtherMethod( AG_ReducedListOfWordsByNielsen,
                     [IsAssocWordCollection, IsFunction],
 function(words_list, lt)
   local result, transform, did_something, n, i, j, try_again, tmp;
@@ -85,7 +85,7 @@ function(words_list, lt)
 
   for i in [1..n] do
     if not IsAssocWord(result[i]) then
-      Print("error in ReducedListOfWordsByNielsen(IsAssocWordCollection, IsFunction):\n");
+      Print("error in AG_ReducedListOfWordsByNielsen(IsAssocWordCollection, IsFunction):\n");
       Print("  ", i, "-th element of list is not an associative word\n");
       return fail;
     fi;
@@ -179,10 +179,10 @@ end);
 
 #############################################################################
 ##
-#M  ReducedListOfWordsByNielsenBack(<words_list>, <lt>)
+#M  AG_ReducedListOfWordsByNielsenBack(<words_list>, <lt>)
 ##
-InstallOtherMethod(ReducedListOfWordsByNielsenBack, [IsAssocWordCollection,
-                                                      IsFunction],
+InstallOtherMethod(AG_ReducedListOfWordsByNielsenBack,
+                   [IsAssocWordCollection, IsFunction],
 function(words_list, lt)
   local result, transform, did_something, n, i, j, try_again, tmp;
 
@@ -194,7 +194,7 @@ function(words_list, lt)
 
   for i in [1..n] do
     if not IsAssocWord(result[i]) then
-      Print("error in ReducedListOfWordsByNielsenBack(IsAssocWordCollection, IsFunction):\n");
+      Print("error in AG_ReducedListOfWordsByNielsenBack(IsAssocWordCollection, IsFunction):\n");
       Print("  ", i, "-th element of list is not an associative word\n");
       return fail;
     fi;
@@ -290,9 +290,9 @@ end);
 
 #############################################################################
 ##
-#F  ComputeMihailovaSystemPairs(<pairs_list>)
+##  AG_ComputeMihailovaSystemPairs(<pairs_list>)
 ##
-InstallGlobalFunction(ComputeMihailovaSystemPairs,
+InstallGlobalFunction(AG_ComputeMihailovaSystemPairs,
 function(pairs)
   local result, i, nie, m, n, w, tmp,
         did_smth, npairs, transform,
@@ -300,22 +300,22 @@ function(pairs)
         number_of_letters;
 
   if not IsDenseList(pairs) then
-    Print("error in ComputeMihailovaSystemPairs:  \n");
+    Print("error in AG_ComputeMihailovaSystemPairs:  \n");
     Print("  argument is not an IsDenseList\n");
     return fail;
   fi;
   if not IsList(pairs[1]) then
-    Print("error in ComputeMihailovaSystemPairs:  \n");
+    Print("error in AG_ComputeMihailovaSystemPairs:  \n");
     Print("  first element of list is not an IsList\n");
     return fail;
   fi;
   if Length(pairs[1]) <> 2 then
-    Print("error in ComputeMihailovaSystemPairs:  \n");
+    Print("error in AG_ComputeMihailovaSystemPairs:  \n");
     Print("  can work only with pairs\n");
     return fail;
   fi;
   if not IsAssocWord(pairs[1][1]) then
-    Print("error in ComputeMihailovaSystemPairs:  \n");
+    Print("error in AG_ComputeMihailovaSystemPairs:  \n");
     Print("  <arg>[1][1] is not IsAssocWord\n");
     return fail;
   fi;
@@ -327,7 +327,7 @@ function(pairs)
   ##
   generate_full_group := function(list, rank)
     local nie, i;
-    nie := ReducedListOfWordsByNielsen(list)[1];
+    nie := AG_ReducedListOfWordsByNielsen(list)[1];
     if Length(Difference(nie, [One(nie[1])])) <> rank then
       return false;
     fi;
@@ -343,8 +343,8 @@ function(pairs)
   ##  rank
   ##
   rank := function(words)
-    return Length(Difference(ReducedListOfWordsByNielsen(words)[1],
-                              [One(words[1])]));
+    return Length(Difference(AG_ReducedListOfWordsByNielsen(words)[1],
+                             [One(words[1])]));
   end;
 
 
@@ -385,16 +385,16 @@ function(pairs)
         did_something := true;
         try_again := true;
         result := nie[1];
-        transform := CalculateWords(nie[2], transform);
+        transform := AG_CalculateWords(nie[2], transform);
       fi;
 
-      nie := ReducedListOfWordsByNielsen(result{[m+1..m+n]});
+      nie := AG_ReducedListOfWordsByNielsen(result{[m+1..m+n]});
       if nie[3] then
         did_something := true;
         try_again := true;
         result := Concatenation(result{[1..m]}, nie[1]);
         transform := Concatenation( transform{[1..m]},
-                                    CalculateWords(nie[2],
+                                    AG_CalculateWords(nie[2],
                                     transform{[m+1..m+n]}));
       fi;
 
@@ -494,11 +494,11 @@ function(pairs)
     while try_again do
       try_again := false;
 
-      nie := ReducedListOfWordsByNielsen(result{[1..m]});
+      nie := AG_ReducedListOfWordsByNielsen(result{[1..m]});
       if nie[3] then
-        result := Concatenation(CalculateWords(nie[2], result{[1..m]}),
+        result := Concatenation(AG_CalculateWords(nie[2], result{[1..m]}),
                                 result{[m+1..m+n]});
-        transform := Concatenation( CalculateWords(nie[2], transform{[1..m]}),
+        transform := Concatenation( AG_CalculateWords(nie[2], transform{[1..m]}),
                                     transform{[m+1..m+n]} );
         did_something := true;
         try_again := true;
@@ -549,19 +549,19 @@ function(pairs)
   if not generate_full_group(List(pairs, p -> p[1]), n)
       or not generate_full_group(List(pairs, p -> p[2]), n)
   then
-    Print("error in ComputeMihailovaSystemPairs:  \n");
+    Print("error in AG_ComputeMihailovaSystemPairs:  \n");
     Print("  projections do not generate full free group\n");
     return fail;
   fi;
 
   ##  if rank equals number of pairs then just make one coordinate nicer
   if m = 0 then
-    nie := ReducedListOfWordsByNielsen(List(npairs, p -> p[1]), "r");
+    nie := AG_ReducedListOfWordsByNielsen(List(npairs, p -> p[1]), "r");
     if nie[3] then
       tmp := List(npairs, p -> []);
       for i in [1..m+n] do
-        tmp[i][1] := CalculateWord(nie[2][i], List(npairs, p -> p[1]));
-        tmp[i][2] := CalculateWord(nie[2][i], List(npairs, p -> p[2]));
+        tmp[i][1] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[1]));
+        tmp[i][2] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[2]));
       od;
       npairs := StructuralCopy(tmp);
       transform := StructuralCopy(nie[2]);
@@ -573,12 +573,12 @@ function(pairs)
   ##  else try to do as much as possible
 
   ##  1. Apply Nielsen to first coordinate
-  nie := ReducedListOfWordsByNielsen(List(npairs, p -> p[1]), "r");
+  nie := AG_ReducedListOfWordsByNielsen(List(npairs, p -> p[1]), "r");
   if nie[3] then
     tmp := StructuralCopy(npairs);
     for i in [1..m+n] do
-      tmp[i][1] := CalculateWord(nie[2][i], List(npairs, p -> p[1]));
-      tmp[i][2] := CalculateWord(nie[2][i], List(npairs, p -> p[2]));
+      tmp[i][1] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[1]));
+      tmp[i][2] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[2]));
     od;
     npairs := StructuralCopy(tmp);
     transform := StructuralCopy(nie[2]);
@@ -590,30 +590,30 @@ function(pairs)
   if nie[3] then
     tmp := StructuralCopy(npairs);
     for i in [1..m+n] do
-      tmp[i][1] := CalculateWord(nie[2][i], List(npairs, p -> p[1]));
-      tmp[i][2] := CalculateWord(nie[2][i], List(npairs, p -> p[2]));
+      tmp[i][1] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[1]));
+      tmp[i][2] := AG_CalculateWord(nie[2][i], List(npairs, p -> p[2]));
     od;
     npairs := StructuralCopy(tmp);
     tmp := StructuralCopy(transform);
     for i in [1..m+n] do
-      tmp[i] := CalculateWord(nie[2][i], transform);
+      tmp[i] := AG_CalculateWord(nie[2][i], transform);
     od;
     transform := StructuralCopy(tmp);
     did_smth := true;
   fi;
 
   ##  3. Try to get nice generators on first coordinate
-  nie := ReducedListOfWordsByNielsenBack(List(npairs{[m+1..m+n]}, p -> p[1]), "r");
+  nie := AG_ReducedListOfWordsByNielsenBack(List(npairs{[m+1..m+n]}, p -> p[1]), "r");
   if nie[3] then
     tmp := StructuralCopy(npairs);
     for i in [1..n] do
-      tmp[m+i][1] := CalculateWord(nie[2][i], List(npairs{[m+1..m+n]}, p -> p[1]));
-      tmp[m+i][2] := CalculateWord(nie[2][i], List(npairs{[m+1..m+n]}, p -> p[2]));
+      tmp[m+i][1] := AG_CalculateWord(nie[2][i], List(npairs{[m+1..m+n]}, p -> p[1]));
+      tmp[m+i][2] := AG_CalculateWord(nie[2][i], List(npairs{[m+1..m+n]}, p -> p[2]));
     od;
     npairs := StructuralCopy(tmp);
     tmp := StructuralCopy(transform);
     for i in [1..n] do
-      tmp[m+i] := CalculateWord(nie[2][i], transform{[m+1..m+n]});
+      tmp[m+i] := AG_CalculateWord(nie[2][i], transform{[m+1..m+n]});
     od;
     transform := StructuralCopy(tmp);
     did_smth := true;
@@ -636,8 +636,8 @@ function(F1, F2)
   gens2 := GeneratorsOfGroup(F2);
 #   Print(gens1, "\n", gens2, "\n");
 
-  if Difference(ReducedListOfWordsByNielsen(gens1)[1], [One(F1)]) =
-          Difference(ReducedListOfWordsByNielsen(gens2)[1], [One(F1)])
+  if Difference(AG_ReducedListOfWordsByNielsen(gens1)[1], [One(F1)]) =
+          Difference(AG_ReducedListOfWordsByNielsen(gens2)[1], [One(F1)])
   then
 #     Print("true\n");
     return true;
@@ -663,8 +663,8 @@ function(w, F)
   gens := GeneratorsOfGroup(F);
 #   Print(w, "\n", gens, "\n");
 
-  if Difference(ReducedListOfWordsByNielsen(gens)[1], [One(w)]) =
-    Difference(ReducedListOfWordsByNielsen(Concatenation(gens, [w]))[1], [One(w)])
+  if Difference(AG_ReducedListOfWordsByNielsen(gens)[1], [One(w)]) =
+    Difference(AG_ReducedListOfWordsByNielsen(Concatenation(gens, [w]))[1], [One(w)])
   then
 #     Print("true\n");
     return true;
@@ -702,33 +702,33 @@ end);
 
 #############################################################################
 ##
-#M  ReducedByNielsen(<words_list>)
+#M  AG_ReducedByNielsen(<words_list>)
 ##
-InstallMethod(ReducedByNielsen,
-              "ReducedByNielsen(IsList and IsAssocWordCollection)",
+InstallMethod(AG_ReducedByNielsen,
+              "AG_ReducedByNielsen(IsList and IsAssocWordCollection)",
               [IsList and IsAssocWordCollection],
 function(words)
-  if AutomataParameters.use_inv_order_in_apply_nielsen then
-    return ReducedListOfWordsByNielsen(words, "back")[1];
+  if AG_Globals.use_inv_order_in_apply_nielsen then
+    return AG_ReducedListOfWordsByNielsen(words, "back")[1];
   else
-    return ReducedListOfWordsByNielsen(words)[1];
+    return AG_ReducedListOfWordsByNielsen(words)[1];
   fi;
 end);
 
 
 #############################################################################
 ##
-#M  ReducedByNielsen(<autom_list>)
+#M  AG_ReducedByNielsen(<autom_list>)
 ##
-InstallMethod(ReducedByNielsen,
-              "ReducedByNielsen(IsList and IsAutomCollection)",
+InstallMethod(AG_ReducedByNielsen,
+              "AG_ReducedByNielsen(IsList and IsAutomCollection)",
               [IsList and IsAutomCollection],
 function(automs)
   local words;
   if IsEmpty(automs) then
     return [];
   fi;
-  words := ReducedByNielsen(List(automs, a -> a!.word));
+  words := AG_ReducedByNielsen(List(automs, a -> a!.word));
   return List(words, w -> Autom(w, automs[1]));
 end);
 

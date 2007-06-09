@@ -10,19 +10,19 @@
 # Do this to run tests:
 # Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
 #
-# Test AutomataParameters.run_tests_forever flag for tests which require
+# Test AG_Globals.run_tests_forever flag for tests which require
 # lot of time, i.e. if a test needs a minute to run, put it inside
-# if AutomataParameters.run_tests_forever then ... fi;
+# if AG_Globals.run_tests_forever then ... fi;
 
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testutil.g"));
 
 saved := rec(
   info_level := InfoLevel(InfoAutomGrp),
-  bind_vars_autom_family := AutomataParameters.bind_vars_autom_family,
+  bind_vars_autom_family := AG_Globals.bind_vars_autom_family,
 );
 
 SetInfoLevel(InfoAutomGrp, 0);
-AutomataParameters.bind_vars_autom_family := false;
+AG_Globals.bind_vars_autom_family := false;
 
 UnitTestInit("automgrp package");
 
@@ -41,4 +41,4 @@ od;
 UnitTestRun();
 
 SetInfoLevel(InfoAutomGrp, saved.info_level);
-AutomataParameters.bind_vars_autom_family := saved.bind_vars_autom_family;
+AG_Globals.bind_vars_autom_family := saved.bind_vars_autom_family;

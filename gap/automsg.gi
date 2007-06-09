@@ -24,7 +24,7 @@ end);
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsBool)", [IsList, IsBool],
 function (list, bind_vars)
-  if not IsCorrectAutomatonList(list, false) then
+  if not AG_IsCorrectAutomatonList(list, false) then
     Error("in AutomSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
@@ -40,7 +40,7 @@ end);
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList)", [IsList, IsList],
 function (list, names)
-  if not IsCorrectAutomatonList(list, false) then
+  if not AG_IsCorrectAutomatonList(list, false) then
     Error("error in AutomSemigroup(IsList, IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
@@ -57,7 +57,7 @@ end);
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList, IsBool)",
               [IsList, IsList, IsBool],
 function (list, names, bind_vars)
-  if not IsCorrectAutomatonList(list, false) then
+  if not AG_IsCorrectAutomatonList(list, false) then
     Error("error in AutomSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
@@ -74,14 +74,12 @@ end);
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsString)", [IsString],
 function(string)
-    local s;
-    s := ParseAutomatonString(string);
-    return AutomSemigroup(s[2], s[1]);
+    return AutomSemigroup(string, AG_Globals.bind_vars_autom_family);
 end);
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
     local s;
-    s := ParseAutomatonString(string);
+    s := AG_ParseAutomatonString(string);
     return AutomSemigroup(s[2], s[1], bind_vars);
 end);
 
@@ -235,13 +233,13 @@ function(G)
   Print("< ");
   for i in [1..Length(gens)-1] do
     if IsOne(gens[i]) then
-      Print(AutomataParameters.identity_symbol, ", ");
+      Print(AG_Globals.identity_symbol, ", ");
     else
       Print(gens[i], ", ");
     fi;
   od;
   if IsOne(gens[Length(gens)]) then
-    Print(AutomataParameters.identity_symbol, " >");
+    Print(AG_Globals.identity_symbol, " >");
   else
     Print(gens[Length(gens)], " >");
   fi;

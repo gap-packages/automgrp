@@ -24,7 +24,7 @@ end);
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsList, IsBool)", [IsList, IsBool],
 function(list, bind_vars)
-  if not IsCorrectAutomatonList(list, true) then
+  if not AG_IsCorrectAutomatonList(list, true) then
     Error("in AutomGroup(IsList, IsBool):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
@@ -39,7 +39,7 @@ end);
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
 function(list, names)
-  return AutomGroup(list, names, AutomataParameters.bind_vars_autom_family);
+  return AutomGroup(list, names, AG_Globals.bind_vars_autom_family);
 end);
 
 
@@ -50,7 +50,7 @@ end);
 InstallMethod(AutomGroup,
               "AutomGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
 function(list, names, bind_vars)
-  if not IsCorrectAutomatonList(list, true) then
+  if not AG_IsCorrectAutomatonList(list, true) then
     Error("error in AutomGroup(IsList, IsList, IsBool):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
@@ -66,13 +66,13 @@ end);
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsString)", [IsString],
 function(string)
-  return AutomGroup(string, AutomataParameters.bind_vars_autom_family);
+  return AutomGroup(string, AG_Globals.bind_vars_autom_family);
 end);
 
 InstallMethod(AutomGroup, "AutomGroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
   local s;
-  s := ParseAutomatonString(string);
+  s := AG_ParseAutomatonString(string);
   return AutomGroup(s[2], s[1], bind_vars);
 end);
 
@@ -242,13 +242,13 @@ function(G)
   Print("< ");
   for i in [1..Length(gens)-1] do
     if IsOne(gens[i]) then
-      Print(AutomataParameters.identity_symbol, ", ");
+      Print(AG_Globals.identity_symbol, ", ");
     else
       Print(gens[i], ", ");
     fi;
   od;
   if IsOne(gens[Length(gens)]) then
-    Print(AutomataParameters.identity_symbol, " >");
+    Print(AG_Globals.identity_symbol, " >");
   else
     Print(gens[Length(gens)], " >");
   fi;
@@ -274,7 +274,7 @@ function (G)
   fi;
 
   gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
-  mih := ComputeMihailovaSystemPairs(List(gens, a -> StatesWords(a)));
+  mih := AG_ComputeMihailovaSystemPairs(List(gens, a -> StatesWords(a)));
 
   if mih = fail then
     return fail;
@@ -284,7 +284,7 @@ function (G)
 
   mih_gens := [];
   for i in [1..Length(gens)] do
-    mih_gens[i] := CalculateWord(mih[2][i], gens);
+    mih_gens[i] := AG_CalculateWord(mih[2][i], gens);
   od;
   return mih_gens;
 end);
@@ -733,15 +733,15 @@ end);
 
 ###############################################################################
 ##
-#M  ApplyNielsen(<G>)
+##  AG_ApplyNielsen(<G>)
 ##
-InstallMethod(ApplyNielsen, "ApplyNielsen(IsAutomGroup)",
+InstallMethod(AG_ApplyNielsen, "AG_ApplyNielsen(IsAutomGroup)",
               [IsAutomGroup],
 function(G)
   local fgens;
 
   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
-  fgens := ReducedByNielsen(fgens);
+  fgens := AG_ReducedByNielsen(fgens);
   fgens := Difference(fgens, [One(fgens[1])]);
 
   if IsEmpty(fgens) then

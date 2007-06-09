@@ -10,9 +10,9 @@
 
 ###############################################################################
 ##
-#F  IsCorrectAutomatonList( <list>, <invertible> )
+##  AG_IsCorrectAutomatonList( <list>, <invertible> )
 ##
-InstallGlobalFunction(IsCorrectAutomatonList,
+InstallGlobalFunction(AG_IsCorrectAutomatonList,
 function(list, invertible)
   local len, deg, i, j, sym, semi;
 
@@ -68,12 +68,12 @@ end);
 
 ###############################################################################
 ##
-#F  ConnectedStatesInList(state, list)
+##  AG_ConnectedStatesInList(state, list)
 ##
 ##  Returns list of states which are reachable from given state,
 ##  it does not check correctness of arguments
 ##
-InstallGlobalFunction(ConnectedStatesInList,
+InstallGlobalFunction(AG_ConnectedStatesInList,
 function(state, list)
   local i, s, d, to_check, checked;
 
@@ -101,44 +101,44 @@ end);
 
 ###############################################################################
 ##
-#F  IsTrivialStateInList( <state>, <list>)
+##  AG_IsTrivialStateInList( <state>, <list>)
 ##
 ##  Checks whether given state is trivial.
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(IsTrivialStateInList,
+InstallGlobalFunction(AG_IsTrivialStateInList,
 function(state, list)
   local deg;
   deg := Length(list[1]) - 1;
   # IsOne works for Transformation's
-  return ForAll(ConnectedStatesInList(state, list),
+  return ForAll(AG_ConnectedStatesInList(state, list),
                 s -> IsOne(list[s][deg+1]));
 end);
 
 ###############################################################################
 ##
-#F  IsInvertibleStateInList( <state>, <list> )
+##  AG_IsInvertibleStateInList( <state>, <list> )
 ##
 ##  Checks whether given state is invertible.
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(IsInvertibleStateInList,
+InstallGlobalFunction(AG_IsInvertibleStateInList,
 function(state, list)
   local deg;
   deg := Length(list[1]) - 1;
-  return ForAll(ConnectedStatesInList(state, list),
+  return ForAll(AG_ConnectedStatesInList(state, list),
                 s -> AG_IsInvertibleTransformation(list[s][deg+1]));
 end);
 
 
 ###############################################################################
 ##
-#F  AreEquivalentStatesInList( <state1>, <state2>, <list> )
+##  AG_AreEquivalentStatesInList( <state1>, <state2>, <list> )
 ##
 ##  Checks whether two given states are equivalent.
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(AreEquivalentStatesInList,
+InstallGlobalFunction(AG_AreEquivalentStatesInList,
 function(state1, state2, list)
   local d, checked_pairs, pos, s1, s2, np, i;
 
@@ -169,12 +169,12 @@ end);
 
 ###############################################################################
 ##
-#F  AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
+##  AG_AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
 ##
 ##  Checks whether two given states in different lists are equivalent.
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(AreEquivalentStatesInLists,
+InstallGlobalFunction(AG_AreEquivalentStatesInLists,
 function(state1, state2, list1, list2)
   local d, checked_pairs, pos, s1, s2, np, i;
 
@@ -205,7 +205,7 @@ end);
 
 ###############################################################################
 ##
-#F  ReducedAutomatonInList( <list> )
+##  AG_ReducedAutomatonInList( <list> )
 ##
 ##  Returns [new_list, list_of_states, old_states] where new_list is a new list
 ##  which represents reduced form of given automaton, i-th elmt of list_of_states
@@ -222,7 +222,7 @@ end);
 ##
 ##  WARNING: do *NOT* change it.
 ##
-InstallGlobalFunction(ReducedAutomatonInList,
+InstallGlobalFunction(AG_ReducedAutomatonInList,
 function(list)
   local   i, n, triv_states, equiv_classes, checked_states, s, s1, s2,
           eq_cl, eq_cl_1, eq_cl_2, are_equiv, eq_cl_reprs,
@@ -236,7 +236,7 @@ function(list)
   deg := Length(list[1]) - 1;
 
   for s in [1..n] do
-      if IsTrivialStateInList(s, list) then
+      if AG_IsTrivialStateInList(s, list) then
           triv_states := Union(triv_states, [s]);
       fi;
   od;
@@ -244,7 +244,7 @@ function(list)
   equiv_classes:=[triv_states];
   for s1 in Difference([1..n], triv_states) do
   for s2 in Difference([s1+1..n], triv_states) do
-    are_equiv := AreEquivalentStatesInList(s1, s2, list);
+    are_equiv := AG_AreEquivalentStatesInList(s1, s2, list);
 
     if s1 in checked_states then
       for eq_cl in equiv_classes do
@@ -299,20 +299,20 @@ end);
 
 ###############################################################################
 ##
-#F  MinimalSubAutomatonInlist(<states>, <list>)
+##  AG_MinimalSubAutomatonInlist(<states>, <list>)
 ##
 ##  Returns list representation of automaton given by <list> which is minimal
 ##  subatomaton of automaton containing states <states>.
 ##
 ##  Does not check correctness of list.
 ##
-InstallGlobalFunction(MinimalSubAutomatonInlist,
+InstallGlobalFunction(AG_MinimalSubAutomatonInlist,
 function(states, list)
   local s, new_states, state, new_list, i, deg;
 
   new_states := [];
   for s in states do
-    new_states := Union(new_states, ConnectedStatesInList(s, list));
+    new_states := Union(new_states, AG_ConnectedStatesInList(s, list));
   od;
 
   new_list := [];
@@ -333,11 +333,11 @@ end);
 
 ###############################################################################
 ##
-#F  PermuteStatesInList(<list>, <perm>)
+##  AG_PermuteStatesInList(<list>, <perm>)
 ##
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(PermuteStatesInList,
+InstallGlobalFunction(AG_PermuteStatesInList,
 function(list, perm)
   local new_list, i, j, deg;
 
@@ -357,12 +357,12 @@ end);
 
 ###############################################################################
 ##
-#F  WordStateInList(<w>, <s>, <list>, <reduce>, <trivstate>)
+##  AG_WordStateInList(<w>, <s>, <list>, <reduce>, <trivstate>)
 ##
 ##  It's ProjectWord from selfs.g
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(WordStateInList,
+InstallGlobalFunction(AG_WordStateInList,
 function(w, s, list, reduce, trivstate)
   local i, perm, d, proj, red, reduce_word;
 
@@ -401,11 +401,11 @@ end);
 
 ###############################################################################
 ##
-#F  WordStateAndPermInList(<w>, <s>, <list>)
+##  AG_WordStateAndPermInList(<w>, <s>, <list>)
 ##
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(WordStateAndPermInList,
+InstallGlobalFunction(AG_WordStateAndPermInList,
 function(w, s, list)
   local i, perm, perm_res, new_state, d, proj;
   d := Length(list[1])-1;
@@ -424,11 +424,11 @@ end);
 
 ###############################################################################
 ##
-#F  ImageOfVertexInList(<list>, <init>, <vertex>)
+##  AG_ImageOfVertexInList(<list>, <init>, <vertex>)
 ##
 ##  Does not check correctness of arguments.
 ##
-InstallGlobalFunction(ImageOfVertexInList,
+InstallGlobalFunction(AG_ImageOfVertexInList,
 function(list, s, seq)
   local deg, img, x;
 
@@ -445,9 +445,9 @@ end);
 
 ###############################################################################
 ##
-#F  DiagonalActionInList(<list>, <n>)
+##  AG_DiagonalActionInList(<list>, <n>)
 ##
-InstallGlobalFunction(DiagonalActionInList,
+InstallGlobalFunction(AG_DiagonalActionInList,
 function(list, n, names)
   local d, nlist, nd, nalph, nstates, nperm,
         i, j, k, letter, n_letter, n_state, state,
@@ -484,9 +484,9 @@ end);
 
 ###############################################################################
 ##
-#F  MultAlphabetInList(<list>, <n>)
+##  AG_MultAlphabetInList(<list>, <n>)
 ##
-InstallGlobalFunction(MultAlphabetInList,
+InstallGlobalFunction(AG_MultAlphabetInList,
 function(list, n)
   local d, nlist, nd, nalph, nperm,
         i, j, k, letter, n_letter, st;
@@ -518,9 +518,9 @@ end);
 
 ###############################################################################
 ##
-#F  HasDualInList(<list>)
+##  AG_HasDualInList(<list>)
 ##
-InstallGlobalFunction(HasDualInList,
+InstallGlobalFunction(AG_HasDualInList,
 function(list)
   local i, j, p, d, n;
   d := Length(list[1]) - 1;
@@ -540,9 +540,9 @@ end);
 
 ###############################################################################
 ##
-#F  DualAutomatonList(<list>)
+##  AG_DualAutomatonList(<list>)
 ##
-InstallGlobalFunction(DualAutomatonList,
+InstallGlobalFunction(AG_DualAutomatonList,
 function(list)
   local dual, d, n;
   d := Length(list[1]) - 1;
@@ -554,19 +554,19 @@ end);
 
 ###############################################################################
 ##
-#F  HasDualOfInverseInList(<list>)
+##  AG_HasDualOfInverseInList(<list>)
 ##
-InstallGlobalFunction(HasDualOfInverseInList,
+InstallGlobalFunction(AG_HasDualOfInverseInList,
 function(list)
-  return HasDualInList(InverseAutomatonList(list));
+  return AG_HasDualInList(AG_InverseAutomatonList(list));
 end);
 
 
 ###############################################################################
 ##
-#F  InverseAutomatonList(<list>)
+##  AG_InverseAutomatonList(<list>)
 ##
-InstallGlobalFunction(InverseAutomatonList,
+InstallGlobalFunction(AG_InverseAutomatonList,
 function(list)
   local inv, d, i;
   d := Length(list[1]) - 1;

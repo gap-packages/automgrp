@@ -31,7 +31,7 @@ end);
 InstallMethod(DegreeOfLevel, "DegreeOfLevel(IsActingOnTree, IsPosInt)",
               [IsActingOnTree, IsPosInt],
 function(obj, k)
-  return DegreeOfLevelInSphericalIndex(SphericalIndex(obj), k);
+  return AG_DegreeOfLevelInSphericalIndex(SphericalIndex(obj), k);
 end);
 
 

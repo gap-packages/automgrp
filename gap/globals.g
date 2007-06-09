@@ -10,13 +10,13 @@
 
 ###############################################################################
 ##
-#V  AutomataParameters
+##  AG_Globals
 ##
 ##  This record contains various global variables for automata package.
 ##  It's made as one record with million (possible) entries in order to not
 ##  pollute global namespace (and we can put any trash in here).
 ##
-BindGlobal("AutomataParameters", rec(
+BindGlobal("AG_Globals", rec(
   identity_symbol := "1",
   state_symbol := "a",
   state_symbol_dual := "d",

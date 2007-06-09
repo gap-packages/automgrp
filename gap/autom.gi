@@ -170,7 +170,7 @@ function (a)
   local deg, printword, i;
 
   printword := function(w)
-    if IsOne(w) then Print(AutomataParameters.identity_symbol);
+    if IsOne(w) then Print(AG_Globals.identity_symbol);
     else Print(w); fi;
   end;
 
@@ -198,7 +198,7 @@ end);
 InstallMethod(ViewObj, "method for IsAutom",
               [IsAutom],
 function (a)
-  if IsOne(a!.word) then Print(AutomataParameters.identity_symbol);
+  if IsOne(a!.word) then Print(AG_Globals.identity_symbol);
   else Print(a!.word); fi;
 end);
 
@@ -290,7 +290,7 @@ function(a)
       if perm <> () then return false; fi;
       Add(checked, v);
       for j in [1..d] do
-        if not istrivstate(WordStateInList(v, j, autlist, true, trivstate)) then
+        if not istrivstate(AG_WordStateInList(v, j, autlist, true, trivstate)) then
           return false;
         fi;
       od;
@@ -354,8 +354,8 @@ function(a1, a2)
 
       AddSet(checked, p);
       for j in [1..d] do
-        if not areequalstates([WordStateInList(p[1], j, autlist, true, trivstate),
-                               WordStateInList(p[2], j, autlist, true, trivstate)])
+        if not areequalstates([AG_WordStateInList(p[1], j, autlist, true, trivstate),
+                               AG_WordStateInList(p[2], j, autlist, true, trivstate)])
         then
           return false;
         fi;
@@ -408,7 +408,8 @@ function(a1, a2)
       return false;
     fi;
     for i in [1..d] do
-      np := [WordStateInList(p[1], i, autlist, false, 0), WordStateInList(p[2], i, autlist, false, 0)];
+      np := [AG_WordStateInList(p[1], i, autlist, false, 0),
+             AG_WordStateInList(p[2], i, autlist, false, 0)];
       if not np in checked then
         Add(checked, np);
       fi;
@@ -549,8 +550,8 @@ function(seq, a)
     img := [];
     for i in [1..Length(seq)] do
         img[i] := seq[i]^cur[2];
-        cur := WordStateAndPermInList(cur[1], seq[i],
-                                      FamilyObj(a)!.automatonlist);
+        cur := AG_WordStateAndPermInList(cur[1], seq[i],
+                                         FamilyObj(a)!.automatonlist);
     od;
 
     return img;
@@ -606,7 +607,7 @@ end);
 #
 #   pf := function(w)
 #     if IsOne(w) then
-#       Print(AutomataParameters.identity_symbol);
+#       Print(AG_Globals.identity_symbol);
 #     else
 #       Print(w);
 #     fi;
@@ -649,7 +650,7 @@ end);
 #
 #   pf := function(w)
 #     if IsOne(w) then
-#       Print(AutomataParameters.identity_symbol);
+#       Print(AG_Globals.identity_symbol);
 #     else
 #       Print(w);
 #     fi;
@@ -755,7 +756,7 @@ function(a)
   for i in [1..Length(w)] do
     if w[i] < 0 then w[i] := -w[i]+FamilyObj(a)!.numstates; fi;
   od;
-  abels := AbelImagesGenerators(FamilyObj(a));
+  abels := AG_AbelImagesGenerators(FamilyObj(a));
   if not IsEmpty(w) then
     return Sum(List(w, x -> abels[x]));
   else

@@ -13,38 +13,23 @@
 #M  AutomGroup(<list>)
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsList)", [IsList],
-function (list)
-  local fam, g;
-
-  if not IsCorrectAutomatonList(list, true) then
-    Print("error in AutomGroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
-  fi;
-
-  fam := AutomFamily(list);
-  if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+function(list)
+  return AutomGroup(list, false);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomGroupNoBindGlobal(<list>)
+#M  AutomGroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsList)", [IsList],
-function (list)
-  local fam, g;
-
+InstallMethod(AutomGroup, "AutomGroup(IsList, IsBool)", [IsList, IsBool],
+function(list, bind_vars)
   if not IsCorrectAutomatonList(list, true) then
-    Print("error in AutomGroupNoBindGlobal(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("in AutomGroup(IsList, IsBool):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
-  fam := AutomFamilyNoBindGlobal(list);
-  if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+  return GroupOfAutomFamily(AutomFamily(list, bind_vars));
 end);
 
 
@@ -53,79 +38,64 @@ end);
 #M  AutomGroup(<list>, <names>)
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
-function (list, names)
-  local fam, g;
-
-  if not IsCorrectAutomatonList(list, true) then
-    Print("error in AutomGroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
-  fi;
-
-  fam := AutomFamily(list, names);
-  if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+function(list, names)
+  return AutomGroup(list, names, AutomataParameters.bind_vars_autom_family);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomGroupNoBindGlobal(<list>, <names>)
+#M  AutomGroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(AutomGroupNoBindGlobal,
-              "AutomGroupNoBindGlobal(IsList, IsList)", [IsList, IsList],
-function (list, names)
-  local fam, g;
-
+InstallMethod(AutomGroup,
+              "AutomGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
+function(list, names, bind_vars)
   if not IsCorrectAutomatonList(list, true) then
-    Print("error in AutomGroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("error in AutomGroup(IsList, IsList, IsBool):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
-  fam := AutomFamily(list, names, false);
-  if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+  return GroupOfAutomFamily(AutomFamily(list, names, bind_vars));
 end);
 
 
 ###############################################################################
 ##
 #M  AutomGroup(<string>)
-#M  AutomGroupNoBindGlobal(<string>)
+#M  AutomGroup(<string>, <bind_vars>)
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsString)", [IsString],
-function (string)
-    local s;
-    s := ParseAutomatonString(string);
-    return AutomGroup(s[2], s[1]);
+function(string)
+  return AutomGroup(string, AutomataParameters.bind_vars_autom_family);
 end);
-InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsString)", [IsString],
-function (string)
-    local s;
-    s := ParseAutomatonString(string);
-    return AutomGroupNoBindGlobal(s[2], s[1]);
+
+InstallMethod(AutomGroup, "AutomGroup(IsString, IsBool)", [IsString, IsBool],
+function(string, bind_vars)
+  local s;
+  s := ParseAutomatonString(string);
+  return AutomGroup(s[2], s[1], bind_vars);
 end);
 
 
 ###############################################################################
 ##
 #M  AutomGroup(<A>)
-#M  AutomGroupNoBindGlobal(<A>)
+#M  AutomGroup(<A>, <bind_vars>)
 ##
 InstallMethod(AutomGroup, "AutomGroup(IsAutomaton)", [IsAutomaton],
-function (A)
-    if not IsInvertible(A) then
-      Error("Automaton <A> is not invertible");
-    fi;
-    return AutomGroup(AutomatonList(A), A!.states);
+function(A)
+  if not IsInvertible(A) then
+    Error("Automaton <A> is not invertible");
+  fi;
+  return AutomGroup(AutomatonList(A), A!.states);
 end);
-InstallMethod(AutomGroupNoBindGlobal, "AutomGroupNoBindGlobal(IsAutomaton)", [IsAutomaton],
-function (A)
-    if not IsInvertible(A) then
-      Error("Automaton <A> is not invertible");
-    fi;
-    return AutomGroupNoBindGlobal(AutomatonList(A), A!.states);
+
+InstallMethod(AutomGroup, "AutomGroup(IsAutomaton, IsBool)", [IsAutomaton, IsBool],
+function(A, bind_vars)
+  if not IsInvertible(A) then
+    Error("Automaton <A> is not invertible");
+  fi;
+  return AutomGroup(AutomatonList(A), A!.states, bind_vars);
 end);
 
 

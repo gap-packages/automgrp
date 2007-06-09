@@ -14,39 +14,23 @@
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsList)", [IsList],
 function (list)
-  local fam, g;
-
-  if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomSemigroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
-  fi;
-
-  fam := AutomFamily(list);
-  if fam = fail then return fail; fi;
-  # XXX
-  return SemigroupOfAutomFamily(fam);
+  return AutomSemigroup(list, false);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomSemigroupNoBindGlobal(<list>)
+#M  AutomSemigroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroupNoBindGlobal, "AutomSemigroupNoBindGlobal(IsList)", [IsList],
-function (list)
-  local fam, g;
-
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsBool)", [IsList, IsBool],
+function (list, bind_vars)
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomSemigroupNoBindGlobal(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("in AutomSemigroup(IsList):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
-  #XXX
-  fam := AutomFamilyNoBindGlobal(list);
-  if fam = fail then return fail; fi;
-  return SemigroupOfAutomFamily(fam);
+  # XXX
+  return SemigroupOfAutomFamily(AutomFamily(list, bind_vars));
 end);
 
 
@@ -56,59 +40,49 @@ end);
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList)", [IsList, IsList],
 function (list, names)
-  local fam, g;
-
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomSemigroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("error in AutomSemigroup(IsList, IsList):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
   # XXX
-  fam := AutomFamily(list, names);
-  if fam = fail then return fail; fi;
-  return SemigroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(AutomFamily(list, names));
 end);
 
 
 ###############################################################################
 ##
-#M  AutomSemigroupNoBindGlobal(<list>, <names>)
+#M  AutomSemigroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroupNoBindGlobal,
-              "AutomSemigroupNoBindGlobal(IsList, IsList)", [IsList, IsList],
-function (list, names)
-  local fam, g;
-
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList, IsBool)",
+              [IsList, IsList, IsBool],
+function (list, names, bind_vars)
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomSemigroup(IsList):\n");
-    Print("  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("error in AutomSemigroup(IsList):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
   #XXX
-  fam := AutomFamily(list, names, false);
-  if fam = fail then return fail; fi;
-  return SemigroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(AutomFamily(list, names, bind_vars));
 end);
 
 
 ###############################################################################
 ##
 #M  AutomSemigroup(<string>)
-#M  AutomSemigroupNoBindGlobal(<string>)
+#M  AutomSemigroup(<string>, <bind_vars>)
 ##
 InstallMethod(AutomSemigroup, "AutomSemigroup(IsString)", [IsString],
-function (string)
+function(string)
     local s;
     s := ParseAutomatonString(string);
     return AutomSemigroup(s[2], s[1]);
 end);
-InstallMethod(AutomSemigroupNoBindGlobal, "AutomSemigroupNoBindGlobal(IsString)", [IsString],
-function (string)
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsString, IsBool)", [IsString, IsBool],
+function(string, bind_vars)
     local s;
     s := ParseAutomatonString(string);
-    return AutomSemigroupNoBindGlobal(s[2], s[1]);
+    return AutomSemigroup(s[2], s[1], bind_vars);
 end);
 
 

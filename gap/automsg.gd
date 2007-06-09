@@ -60,27 +60,27 @@ DeclareOperation("AutomSemigroup", [IsAutomaton]);
 DeclareOperation("AutomSemigroup", [IsList, IsList]);
 
 
-#############################################################################
-##
-#O  AutomSemigroupNoBindGlobal( <list>[, <names>] )
-#O  AutomSemigroupNoBindGlobal( <string> )
-#O  AutomSemigroupNoBindGlobal( <automaton> )
-##
-##  These three do the same thing as AutomSemigroup, except they do not assign
-##  generators of the group to variables.
-##  \beginexample
-##  gap> AutomSemigroupNoBindGlobal("t = (1, t)(1,2)");;
-##  gap> t;
-##  Variable: 't' must have a value
-##
-##  gap> AutomSemigroup("t = (1, t)(1,2)");;
-##  gap> t;
-##  t
-##  \endexample
-##
-DeclareOperation("AutomSemigroupNoBindGlobal", [IsList]);
-DeclareOperation("AutomSemigroupNoBindGlobal", [IsList, IsList]);
-DeclareOperation("AutomSemigroupNoBindGlobal", [IsAutomaton]);
+# #############################################################################
+# ##
+# #O  AutomSemigroupNoBindGlobal( <list>[, <names>] )
+# #O  AutomSemigroupNoBindGlobal( <string> )
+# #O  AutomSemigroupNoBindGlobal( <automaton> )
+# ##
+# ##  These three do the same thing as AutomSemigroup, except they do not assign
+# ##  generators of the group to variables.
+# ##  \beginexample
+# ##  gap> AutomSemigroupNoBindGlobal("t = (1, t)(1,2)");;
+# ##  gap> t;
+# ##  Variable: 't' must have a value
+# ##
+# ##  gap> AutomSemigroup("t = (1, t)(1,2)");;
+# ##  gap> t;
+# ##  t
+# ##  \endexample
+# ##
+DeclareOperation("AutomSemigroup", [IsList, IsBool]);
+DeclareOperation("AutomSemigroup", [IsAutomaton, IsBool]);
+DeclareOperation("AutomSemigroup", [IsList, IsList, IsBool]);
 
 
 #############################################################################

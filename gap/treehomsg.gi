@@ -8,7 +8,7 @@
 ##
 
 
-BindGlobal("AGMonoidIterator",
+BindGlobal("AG_MonoidIterator",
 function(arg)
   local next_iterator, is_done_iterator, shallow_copy,
         create_iter_rec, G, max_len;
@@ -137,12 +137,12 @@ end);
 
 InstallMethod(Iterator, [IsTreeHomomorphismSemigroup and IsMonoid],
 function(G)
-  return AGMonoidIterator(G, infinity);
+  return AG_MonoidIterator(G, infinity);
 end);
 
 InstallOtherMethod(Iterator, [IsTreeHomomorphismSemigroup and IsMonoid, IsCyclotomic],
 function(G, max_len)
-  return AGMonoidIterator(G, max_len);
+  return AG_MonoidIterator(G, max_len);
 end);
 
 

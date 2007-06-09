@@ -10,7 +10,7 @@ UnitTest("Iterator", function()
   ];
 
   inf_groups := [
-    [AutomGroup("a=(1,a)(1,2)", false), 100, 201],
+    [AutomGroup("a=(1,a)(1,2)", false), 50, 101],
     [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 4, 40],
     [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 5, 68],
     [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 6, 108],

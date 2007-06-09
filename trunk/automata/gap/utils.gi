@@ -36,6 +36,28 @@ function(tr)
   fi;
 end);
 
+#############################################################################
+##
+#F  AG_PrintTransformation( <tr> )
+##
+InstallGlobalFunction(AG_PrintTransformation,
+function(tr)
+  local list, i;
+  if IsPerm(tr) then
+    Print(tr);
+  else
+    list := ImageListOfTransformation(tr);
+    Print("[");
+    for i in list do
+      if i <> 0 then
+        Print(",");
+      fi;
+      Print(i);
+    od;
+    Print("]");
+  fi;
+end);
+
 
 #############################################################################
 ##

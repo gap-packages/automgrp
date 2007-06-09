@@ -711,8 +711,12 @@ end);
 InstallMethod(Random, "Random(IsAutomGroup)",
               [IsAutomGroup],
 function(G)
-  return Autom(Random(UnderlyingAutomFamily(G)!.freegroup),
-                UnderlyingAutomFamily(G));
+  # XXX! only for whole group
+  if IsTrivial(G) then
+    return One(G);
+  else
+    return Autom(Random(UnderlyingFreeGroup(G)), UnderlyingAutomFamily(G));
+  fi;
 end);
 
 

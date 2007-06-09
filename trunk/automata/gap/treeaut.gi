@@ -12,6 +12,7 @@
 ##
 #R  IsTreeAutomorphismRep
 ##
+## XXX remove it, use IsTreeHomomorphismRep
 DeclareRepresentation("IsTreeAutomorphismRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["states", "perm", "deg"]);
@@ -153,7 +154,7 @@ end);
 ##
 #M  PrintObj(<a>)
 ##
-InstallMethod(PrintObj, [IsTreeAutomorphism],
+InstallMethod(PrintObj, [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function (a)
     local deg, printword, i;
 

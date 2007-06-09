@@ -166,7 +166,9 @@ function (a)
         if i <> deg then Print(", "); fi;
     od;
     Print(")");
-    if not IsOne(perm) then Print(perm); fi;
+    if not IsOne(perm) then
+      AG_PrintTransformation(perm);
+    fi;
 end);
 
 
@@ -184,39 +186,48 @@ function(a)
 end);
 
 
-# ###############################################################################
-# ##
-# #M  TransformationOnLevel (<a>, <k>)
-# ##
-# InstallMethod(TransformationOnLevelOp, "method for IsTreeHomomorphism and IsPosInt",
-#               [IsTreeHomomorphism, IsPosInt],
-# function(a, k)
-#   local states, top, first_level, i, j, d1, d2, permuted;
-#
-#   if k = 1 then
-#     return Perm(a);
-#   fi;
-#
-#   # XXX test this function
-#
-#   # TODO: it goes through all vertices of the second level, it may be
-#   # unnecessary for sparse actions
-#   d1 := a!.deg;
-#   d2 := 1;
-#   for i in [2 .. k] do
-#     d2 := d2 * DegreeOfLevel(a, i);
-#   od;
-#   states := States(a);
-#   top := Perm(a);
-#   first_level := List(states, s -> PermOnLevel(s, k-1));
-#   permuted := [];
-#   for i in [1..d1] do
-#     for j in [1..d2] do
-#       permuted[d2*(i-1) + j] := d2*(i^top - 1) + j^first_level[i];
-#     od;
-#   od;
-#   return PermList(permuted);
-# end);
+###############################################################################
+##
+#M  TransformationOnLevel (<a>, <k>)
+##
+InstallMethod(TransformationOnLevelOp, "method for IsTreeHomomorphism and IsPosInt",
+              [IsTreeHomomorphism, IsPosInt],
+function(a, k)
+  local states, top, first_level, i, j, d1, d2, permuted, p;
+
+  if k = 1 then
+    return TransformationOnFirstLevel(a);
+  fi;
+
+  # TODO: it is unnesessarily greedy, it could check whether there
+  # are trivial permutations below
+  d1 := DegreeOfTree(a);
+  d2 := 1;
+  for i in [2 .. k] do
+    d2 := d2 * DegreeOfLevel(a, i);
+  od;
+  states := States(a);
+  top := TransformationOnFirstLevel(a);
+  first_level := List(states, s -> TransformationOnLevel(s, k-1));
+  permuted := [];
+  for i in [1..d1] do
+    for j in [1..d2] do
+      permuted[d2*(i-1) + j] := d2*(i^top - 1) + j^first_level[i];
+    od;
+  od;
+
+  p := PermList(permuted);
+  if p = fail then
+    p := Transformation(permuted);
+  fi;
+
+  return p;
+end);
+
+InstallMethod(TransformationOnFirstLevel, [IsTreeHomomorphism and IsTreeHomomorphismRep],
+function(a)
+  return a!.perm;
+end);
 
 
 ###############################################################################

@@ -25,7 +25,7 @@ function (list)
   fam := AutomFamily(list);
   if fam = fail then return fail; fi;
   # XXX
-  return GroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(fam);
 end);
 
 
@@ -46,7 +46,7 @@ function (list)
   #XXX
   fam := AutomFamilyNoBindGlobal(list);
   if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(fam);
 end);
 
 
@@ -67,7 +67,7 @@ function (list, names)
   # XXX
   fam := AutomFamily(list, names);
   if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(fam);
 end);
 
 
@@ -89,7 +89,7 @@ function (list, names)
   #XXX
   fam := AutomFamily(list, names, false);
   if fam = fail then return fail; fi;
-  return GroupOfAutomFamily(fam);
+  return SemigroupOfAutomFamily(fam);
 end);
 
 
@@ -402,9 +402,54 @@ end);
 InstallMethod(Random, "Random(IsAutomSemigroup)",
               [IsAutomSemigroup],
 function(G)
-  local fam;
-  fam := UnderlyingAutomFamily(G);
-  return Autom(Random(fam!.freegroup), fam);
+  local w, monoid;
+
+  # XXX! only for whole group
+  monoid := UnderlyingFreeMonoid(G);
+
+  if IsTrivial(monoid) then
+    w := One(monoid);
+  else
+    while true do
+      w := Random(monoid);
+      if not IsOne(w) then
+        break;
+      fi;
+    od;
+  fi;
+
+  return Autom(w, UnderlyingAutomFamily(G));
+end);
+
+
+###############################################################################
+##
+#M  UnderlyingFreeMonoid( <G> )
+##
+InstallMethod(UnderlyingFreeMonoid, "UnderlyingFreeMonoid(IsAutomSemigroup)",
+              [IsAutomSemigroup],
+function(G)
+  return UnderlyingFreeMonoid(UnderlyingAutomFamily(G));
+end);
+
+###############################################################################
+##
+#M  UnderlyingFreeGroup( <G> )
+##
+InstallMethod(UnderlyingFreeGroup, "UnderlyingFreeGroup(IsAutomSemigroup)",
+              [IsAutomSemigroup],
+function(G)
+  return UnderlyingFreeGroup(UnderlyingAutomFamily(G));
+end);
+
+###############################################################################
+##
+#M  UnderlyingFreeGenerators( <G> )
+##
+InstallMethod(UnderlyingFreeGenerators, "UnderlyingFreeGenerators(IsAutomSemigroup)",
+              [IsAutomSemigroup],
+function(G)
+  return List(GeneratorsOfSemigroup(G), g -> Word(g));
 end);
 
 

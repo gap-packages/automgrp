@@ -46,14 +46,24 @@ DeclareOperation("TreeHomomorphism", [IsList, IsTransformation]);
 ##
 DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 
+
 ###############################################################################
 ##
-#O  TransformationOnLevel( <a>[, <lev>] )
+#O  TransformationOnLevel( <a>, <lev> )
+#O  TransformationOnFirstLevel( <a> )
 ##
-##  Returns transformation induced by tree homomorphism <a> on the level <lev>
-##  (or first level if <lev> is not given). See also "Perm".
+##  `TransformationOnLevel' returns transformation induced by tree homomorphism
+##  <a> on the level <lev>. See also `PermOnLevel'~("PermOnLevel").
+##
+##  If the transformation is invertible then it returns a permutation, and
+##  `Transformation'~("ref:Transformation") otherwise.
+##
+##  `TransformationOnFirstLevel'(<a>) is equivalent to
+##  `TransformationOnLevel'(<a>, `1').
 ##
 KeyDependentOperation("TransformationOnLevel", IsTreeHomomorphism, IsPosInt, ReturnTrue);
+DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
+
 
 ###############################################################################
 ##

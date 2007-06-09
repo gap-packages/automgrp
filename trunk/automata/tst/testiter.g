@@ -10,10 +10,10 @@ UnitTest("Iterator", function()
   ];
 
   inf_groups := [
-    [AutomGroupNoBindGlobal("a=(1,a)(1,2)"), 100, 201],
-    [AutomGroupNoBindGlobal("a=(1,2), b=(a,c), c=(a,d), d=(1,b)"), 4, 40],
-    [AutomGroupNoBindGlobal("a=(1,2), b=(a,c), c=(a,d), d=(1,b)"), 5, 68],
-    [AutomGroupNoBindGlobal("a=(1,2), b=(a,c), c=(a,d), d=(1,b)"), 6, 108],
+    [AutomGroup("a=(1,a)(1,2)", false), 100, 201],
+    [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 4, 40],
+    [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 5, 68],
+    [AutomGroup("a=(1,2), b=(a,c), c=(a,d), d=(1,b)", false), 6, 108],
   ];
 
   for G in groups do

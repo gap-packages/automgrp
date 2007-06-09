@@ -61,9 +61,9 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
   local group, fam, w, a, b, c, count;
 
   if isgroup then
-    group := AutomGroupNoBindGlobal(table);
+    group := AutomGroup(table, false);
   else
-    group := AutomSemigroupNoBindGlobal(table);
+    group := AutomSemigroup(table, false);
   fi;
 
   fam := UnderlyingAutomFamily(group);

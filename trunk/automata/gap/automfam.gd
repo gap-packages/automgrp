@@ -10,13 +10,12 @@
 
 ###############################################################################
 ##
-#O  AutomFamily(<list>[, <names>])
-#O  AutomFamilyNoBindGlobal(<list>[, <names>])
+#O  AutomFamily(<list> [, <names>] [, <bind_vars>])
 ##
 DeclareOperation("AutomFamily", [IsList]);
+DeclareOperation("AutomFamily", [IsList, IsBool]);
 DeclareOperation("AutomFamily", [IsList, IsList]);
-DeclareOperation("AutomFamilyNoBindGlobal", [IsList]);
-DeclareOperation("AutomFamilyNoBindGlobal", [IsList, IsList]);
+DeclareOperation("AutomFamily", [IsList, IsList, IsBool]);
 
 # XXX
 DeclareAttribute("AutomatonList", IsAutomFamily);

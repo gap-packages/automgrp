@@ -45,7 +45,8 @@ DeclareRepresentation("IsAutomFamilyRep",
                       ]);
 
 
-fiddle_with_states := function(list, oldstates, names)
+BindGlobal("AG_FixAutomList",
+function(list, oldstates, names)
   local i, j, deg, isgroup, numstates, perm, trivstate;
 
   deg := Length(list[1]) - 1;
@@ -117,23 +118,23 @@ fiddle_with_states := function(list, oldstates, names)
   od;
 
   return [list, numstates, trivstate, isgroup];
-end;
+end);
 
 
 ###############################################################################
 ##
-#M  AutomFamily(<list>, <names>, <bind_global>)
+#M  AutomFamily(<list>, <names>, <bind_vars>)
 ##
-InstallOtherMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
-                   [IsList, IsList, IsBool],
+InstallMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
+              [IsList, IsList, IsBool],
 function (list, names, bind_global)
   local deg, tmp, trivstate, numstates, i,
         freegroup, freegens, a, family, oldstates,
         isgroup;
 
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomFamily(IsList, IsList, IsString):\n  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("in AutomFamily(IsList, IsList, IsString):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
 
 # 1. make a local copy of arguments, since they will be modified and put into the result
@@ -149,7 +150,7 @@ function (list, names, bind_global)
   oldstates := tmp[3];
   names := List(tmp[2], x->names[x]);
 
-  tmp := fiddle_with_states(list, oldstates, names);
+  tmp := AG_FixAutomList(list, oldstates, names);
   list := tmp[1];
   numstates := tmp[2];
   trivstate := tmp[3];
@@ -231,17 +232,27 @@ end);
 ##
 #M  AutomFamily(<list>)
 ##
-InstallOtherMethod(AutomFamily, "method for IsList",
-                   [IsList],
+InstallMethod(AutomFamily, "method for IsList", [IsList],
 function(list)
+  return AutomFamily(list, false);
+end);
+
+
+###############################################################################
+##
+#M  AutomFamily(<list>, <bind_vars>)
+##
+InstallMethod(AutomFamily, "method for IsList, IsBool", [IsList, IsBool],
+function(list, bind_vars)
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomFamily(IsList):\n  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("in AutomFamily(IsList):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
+
   return AutomFamily(list,
-    List([1..Length(list)],
-      i -> Concatenation(AutomataParameters.state_symbol, String(i))),
-    AutomataParameters.bind_vars_autom_family);
+                     List([1..Length(list)],
+                          i -> Concatenation(AutomataParameters.state_symbol, String(i))),
+                     bind_vars);
 end);
 
 
@@ -252,43 +263,11 @@ end);
 InstallMethod(AutomFamily, [IsList, IsList],
 function(list, names)
   if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomFamily(IsList, IsList):\n  given list is not a correct list representing automaton\n");
-    return fail;
+    Error("in AutomFamily(IsList, IsList):\n",
+          "  given list is not a correct list representing automaton\n");
   fi;
+
   return AutomFamily(list, names, AutomataParameters.bind_vars_autom_family);
-end);
-
-
-###############################################################################
-##
-#M  AutomFamilyNoBindGlobal(<list>)
-##
-InstallOtherMethod(AutomFamilyNoBindGlobal, "method for IsList", [IsList],
-function(list)
-  if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomFamilyNoBindGlobal(IsList):\n",
-          "  given list is not a correct list representing automaton\n");
-    return fail;
-  fi;
-  return AutomFamily(list,
-    List([1..Length(list)],
-      i -> Concatenation(AutomataParameters.state_symbol, String(i))), false);
-end);
-
-
-###############################################################################
-##
-#M  AutomFamilyNoBindGlobal(<list>, <names>)
-##
-InstallMethod(AutomFamilyNoBindGlobal,
-              "AutomFamilyNoBindGlobal(IsList, IsList)", [IsList, IsList],
-function(list, names)
-  if not IsCorrectAutomatonList(list, false) then
-    Print("error in AutomFamilyNoBindGlobal(IsList):\n",
-          "  given list is not a correct list representing automaton\n");
-    return fail;
-  fi;
-  return AutomFamily(list, names, false);
 end);
 
 

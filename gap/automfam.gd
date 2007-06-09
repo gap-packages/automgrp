@@ -47,8 +47,10 @@ DeclareAttribute("AbelImagesGenerators", IsAutomFamily);
 #############################################################################
 ##
 #A  GroupOfAutomFamily(<fam>)
+#A  SemigroupOfAutomFamily(<fam>)
 ##
 DeclareAttribute("GroupOfAutomFamily", IsAutomFamily);
+DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 
 
 ###############################################################################
@@ -69,6 +71,15 @@ KeyDependentOperation("MultAutomAlphabet", IsAutomFamily, IsPosInt, ReturnTrue);
 #A  GeneratorsOfOrderTwo(<fam>)
 ##
 DeclareAttribute("GeneratorsOfOrderTwo", IsAutomFamily);
+
+
+#############################################################################
+##
+#A  UnderlyingFreeMonoid(<G>)
+#A  UnderlyingFreeGroup(<G>)
+##
+DeclareAttribute("UnderlyingFreeMonoid", IsAutomFamily);
+DeclareAttribute("UnderlyingFreeGroup", IsAutomFamily);
 
 
 #E

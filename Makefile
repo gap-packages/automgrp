@@ -17,6 +17,8 @@ gap_files =			\
     gap/autom.gi		\
     gap/automgroup.gd		\
     gap/automgroup.gi		\
+    gap/automsg.gd		\
+    gap/automsg.gi		\
     gap/globals.g		\
     gap/listops.gd		\
     gap/listops.gi		\

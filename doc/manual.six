@@ -25,9 +25,9 @@ C elements.tex 3. Properties and operations with group elements
 S 3.1. Properties and attributes of tree automorphisms
 F 3.1. IsSphericallyTransitive![treeaut]
 F 3.1. IsTransitiveOnLevel
-F 3.1. IsOne 
+F 3.1. IsOne
 F 3.1. IsOneContr
-F 3.1. Order 
+F 3.1. Order
 F 3.1. OrderUsingSections
 F 3.1. Perm
 F 3.1. PermOnLevel
@@ -90,8 +90,10 @@ F 4.2. MarkovOperator
 F 4.2. AbelImage
 F 4.2. DiagonalAction
 F 4.2. MultAutomAlphabet
+F 4.2. UnderlyingAutomFamily
 F 4.2. UnderlyingFreeSubgroup
 F 4.2. UnderlyingFreeGenerators
+F 4.2. UnderlyingFreeMonoid
 F 4.2. UnderlyingFreeGroup
 F 4.2. IndexInFreeGroup
 F 4.2. MihailovaSystem

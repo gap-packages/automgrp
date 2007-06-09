@@ -45,6 +45,81 @@ DeclareRepresentation("IsAutomFamilyRep",
                       ]);
 
 
+fiddle_with_states := function(list, oldstates, names)
+  local i, j, deg, isgroup, numstates, perm, trivstate;
+
+  deg := Length(list[1]) - 1;
+  isgroup := true;
+  trivstate := 0;
+  numstates := Length(list);
+
+  for i in [1..Length(list)] do
+    if IsTrivialStateInList(i, list) then
+      trivstate := i;
+      numstates := numstates - 1;
+      break;
+    fi;
+  od;
+
+  # make sure trivial state in oldstates is right
+  if trivstate <> 0 then
+    for i in [1..Length(oldstates)] do
+      if oldstates[i] = trivstate then
+        oldstates[i] := 2*numstates + 1;
+      elif oldstates[i] > trivstate then
+        oldstates[i] := oldstates[i] - 1;
+      fi;
+    od;
+
+    Remove(names, trivstate);
+  fi;
+
+  # move trivial state to the end
+  if trivstate <> 0 then
+    for i in [1..Length(list)] do
+      for j in [1..deg] do
+        if list[i][j] = trivstate then
+          list[i][j] := 2*numstates + 1;
+        elif list[i][j] > trivstate then
+          list[i][j] := list[i][j] - 1;
+        fi;
+      od;
+    od;
+
+    list := Concatenation(list{[1..(trivstate-1)]},
+                          list{[(trivstate+1)..Length(list)]});
+    trivstate := 2*numstates + 1;
+    list[trivstate] := List([1..deg], k->trivstate);
+    list[trivstate][deg+1] := ();
+  fi;
+
+  # add inverses of states
+  for i in [1..numstates] do
+    if IsInvertibleStateInList(i, list) then
+      list[i+numstates] := [];
+
+      list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
+
+      perm := list[i][deg+1];
+      list[i+numstates][deg+1] := perm^-1;
+      for j in [1..deg] do
+        list[i+numstates][j] := list[i][j^(perm^-1)];
+        if list[i+numstates][j] <> trivstate then
+          list[i+numstates][j] := list[i+numstates][j] + numstates;
+        fi;
+      od;
+    else
+      isgroup := false;
+      if AG_IsInvertibleTransformation(list[i][deg+1]) then
+        list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
+      fi;
+    fi;
+  od;
+
+  return [list, numstates, trivstate, isgroup];
+end;
+
+
 ###############################################################################
 ##
 #M  AutomFamily(<list>, <names>, <bind_global>)
@@ -52,8 +127,9 @@ DeclareRepresentation("IsAutomFamilyRep",
 InstallOtherMethod(AutomFamily, "AutomFamily(IsList, IsList, IsBool)",
                    [IsList, IsList, IsBool],
 function (list, names, bind_global)
-  local deg, tmp, trivstate, numstates, numallstates, i, j, perm,
-        freegroup, freegens, a, family, oldstates, isgroup;
+  local deg, tmp, trivstate, numstates, i,
+        freegroup, freegens, a, family, oldstates,
+        isgroup;
 
   if not IsCorrectAutomatonList(list, false) then
     Print("error in AutomFamily(IsList, IsList, IsString):\n  given list is not a correct list representing automaton\n");
@@ -73,83 +149,18 @@ function (list, names, bind_global)
   oldstates := tmp[3];
   names := List(tmp[2], x->names[x]);
 
-  trivstate := 0;
-  for i in [1..Length(list)] do
-    if IsTrivialStateInList(i, list) then
-      trivstate := i;
-    fi;
-  od;
-
-  numallstates := Length(list);
-  if trivstate = 0 then
-    numstates := Length(list);
-  else
-    numstates := Length(list) - 1;
-  fi;
-
-  if trivstate <> 0 then
-    for i in [1..Length(oldstates)] do
-      if oldstates[i] = trivstate then
-        oldstates[i] := 2*numstates + 1;
-      fi;
-    od;
-  fi;
-
-  # First move trivial state to the end of list
-  if trivstate <> 0 then
-    if trivstate <> numstates + 1 then
-      perm := PermListList([1..Length(list)],
-        Concatenation(  [1..(trivstate-1)],
-                        [(trivstate+1)..Length(list)],
-                        [trivstate] )
-      );
-      list := PermuteStatesInList(list, perm^-1);
-      names := Permuted(names, perm^-1);
-    fi;
-    trivstate := Length(list);
-    names[trivstate] := AutomataParameters.identity_symbol;
-  fi;
-
-  # Now add inverses of states and move trivial state to the end
-  isgroup := true;
-  for i in [1..numstates] do
-    if IsInvertibleStateInList(i, list) then
-      list[i+numallstates] := [];
-
-      list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
-
-      perm := list[i][deg+1];
-      list[i+numallstates][deg+1] := perm^-1;
-      for j in [1..deg] do
-        list[i+numallstates][j] := list[i][j^(perm^-1)];
-        if list[i+numallstates][j] <> trivstate then
-          list[i+numallstates][j] := list[i+numallstates][j] + numallstates;
-        fi;
-      od;
-    else
-      isgroup := false;
-      if AG_IsInvertibleTransformation(list[i][deg+1]) then
-        list[i][deg+1] := AG_PermFromTransformation(list[i][deg+1]);
-      fi;
-    fi;
-  od;
-
-  if trivstate <> 0 then
-    perm := PermListList([1..Length(list)],
-      Concatenation([1..numstates],
-                    [numstates+2..2*numstates+1],
-                    [trivstate])
-    );
-    list := PermuteStatesInList(list, perm^-1);
-    trivstate := Length(list);
-  fi;
+  tmp := fiddle_with_states(list, oldstates, names);
+  list := tmp[1];
+  numstates := tmp[2];
+  trivstate := tmp[3];
+  isgroup := tmp[4];
 
 # 3. Create FreeGroup and FreeGens
 
-  freegroup := FreeGroup(names{[1..numstates]});
+  freegroup := FreeGroup(names);
   freegens := ShallowCopy(FreeGeneratorsOfFpGroup(freegroup));
   for i in [1..numstates] do
-    if IsInvertibleStateInList(i, list) then
+    if IsBound(list[i+numstates]) then
       freegens[i+numstates] := freegens[i]^-1;
     fi;
   od;
@@ -175,7 +186,7 @@ function (list, names, bind_global)
   family!.deg := deg;
   family!.numstates := numstates;
   family!.trivstate := trivstate;
-  family!.names := names{[1..numstates]};
+  family!.names := names;
   family!.freegroup := freegroup;
   family!.freegens := freegens;
   family!.automatonlist := list;
@@ -327,7 +338,7 @@ function(fam)
   local g;
 
   if not fam!.isgroup then
-    Error("the group is not generated by an invertible automaton");
+    return fail;
   fi;
 
   if fam!.numstates > 0 then
@@ -346,6 +357,69 @@ function(fam)
   SetIsActingOnBinaryTree(g, fam!.deg = 2);
 
   return g;
+end);
+
+###############################################################################
+##
+#M  SemigroupOfAutomFamily( <fam> )
+##
+InstallMethod(SemigroupOfAutomFamily, "SemigroupOfAutomFamily(IsAutomFamily)",
+              [IsAutomFamily],
+function(fam)
+  local g;
+
+  if fam!.trivstate <> 0 then
+    if fam!.numstates = 0 then
+      g := Group(One(fam!.automgens[fam!.trivstate]));
+    else
+      g := MonoidByGenerators(fam!.automgens{[1..fam!.numstates]});
+    fi;
+  else
+    g := SemigroupByGenerators(fam!.automgens{[1..fam!.numstates]});
+  fi;
+
+  SetUnderlyingAutomFamily(g, fam);
+
+  # XXX
+  SetGeneratingAutomatonList(g, fam!.automatonlist);
+  SetAutomatonList(g, fam!.automatonlist);
+
+  SetDegreeOfTree(g, fam!.deg);
+  SetTopDegreeOfTree(g, fam!.deg);
+  SetIsActingOnBinaryTree(g, fam!.deg = 2);
+
+  return g;
+end);
+
+
+###############################################################################
+##
+#M  UnderlyingFreeMonoid( <G> )
+##
+InstallMethod(UnderlyingFreeMonoid, "UnderlyingFreeMonoid(IsAutomFamily)",
+              [IsAutomFamily],
+function(fam)
+  local monoid;
+
+  if fam!.numstates <> 0 then
+    monoid := MonoidByGenerators(GeneratorsOfGroup(fam!.freegroup));
+    SetSize(monoid, infinity);
+  else
+    monoid := MonoidByGenerators(fam!.freegens[1]);
+    SetSize(monoid, 1);
+  fi;
+
+  return monoid;
+end);
+
+###############################################################################
+##
+#M  UnderlyingFreeGroup( <G> )
+##
+InstallMethod(UnderlyingFreeGroup, "UnderlyingFreeGroup(IsAutomFamily)",
+              [IsAutomFamily],
+function(fam)
+  return fam!.freegroup;
 end);
 
 

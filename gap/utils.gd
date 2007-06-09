@@ -38,6 +38,7 @@ DeclareGlobalFunction("AbelImageAutomatonInList");
 
 DeclareGlobalFunction("AG_IsInvertibleTransformation");
 DeclareGlobalFunction("AG_PermFromTransformation");
+DeclareGlobalFunction("AG_PrintTransformation");
 
 
 #E

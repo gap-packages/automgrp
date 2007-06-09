@@ -112,8 +112,8 @@ function(w, fam)
 
   invertible := true;
   if not fam!.isgroup then
-    for i in w do
-      if i > 0 and not IsInvertibleAutom(fam!.automgens[i]) then
+    for i in exp do
+      if i < fam!.numstates and not IsInvertibleAutom(fam!.automgens[i]) then
         invertible := false;
         break;
       fi;
@@ -187,7 +187,7 @@ function (a)
     if i <> deg then Print(", "); fi;
   od;
   Print(")");
-  if not IsOne(a!.perm) then Print(a!.perm); fi;
+  if not IsOne(a!.perm) then AG_PrintTransformation(a!.perm); fi;
 end);
 
 
@@ -266,7 +266,7 @@ function(a)
   if IsOne(a!.word) then return true; fi;
 
   G:=GroupOfAutomFamily(FamilyObj(a));
-  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+  if G <>fail and HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
     return IsOneContr(a);
   fi;
 
@@ -277,6 +277,11 @@ function(a)
 
   istrivstate := function(v)
     local i,j,perm;
+
+    if IsEmpty(v) then
+      return true;
+    fi;
+
     if v in checked then
       return true;
     else
@@ -314,7 +319,7 @@ function(a1, a2)
   local areequalstates, exp, i, d, checked, autlist, G, trivstate;
 
   G:=GroupOfAutomFamily(FamilyObj(a1));
-  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+  if G <> fail and HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
     return IsOneContr(a1*a2^-1);
   fi;
 
@@ -325,15 +330,29 @@ function(a1, a2)
 
   areequalstates := function(p)
     local i, j, perm1, perm2;
+
+    if p[1] = p[2] then
+      return true;
+    fi;
+
     if p in checked then
       return true;
     else
       perm1 := ();
       perm2 := ();
-      for i in [1..Length(p[1])] do perm1 := perm1 * autlist[p[1][i]][d+1]; od;
-      for i in [1..Length(p[2])] do perm2 := perm2 * autlist[p[2][i]][d+1]; od;
-      if perm1 <> perm2 then return false; fi;
-      Add(checked, p);
+
+      for i in [1..Length(p[1])] do
+        perm1 := perm1 * autlist[p[1][i]][d+1];
+      od;
+      for i in [1..Length(p[2])] do
+        perm2 := perm2 * autlist[p[2][i]][d+1];
+      od;
+
+      if perm1 <> perm2 then
+        return false;
+      fi;
+
+      AddSet(checked, p);
       for j in [1..d] do
         if not areequalstates([WordStateInList(p[1], j, autlist, true, trivstate),
                                WordStateInList(p[2], j, autlist, true, trivstate)])
@@ -353,40 +372,6 @@ function(a1, a2)
     if exp[2][i] < 0 then exp[2][i] := -exp[2][i] + FamilyObj(a2)!.numstates; fi;
   od;
   return areequalstates(exp);
-
-#   local d, checked_pairs, pos, aw1, aw2, np, i;
-#
-#   d := a1!.deg;
-#   checked_pairs := [[a1!.word, a2!.word]];
-#   if checked_pairs[1][1] = checked_pairs[1][2] then
-#     return true;
-#   fi;
-#   pos := 0;
-#
-#   while Length(checked_pairs) <> pos do
-#     pos := pos + 1;
-#     aw1 := Autom(checked_pairs[pos][1], a1);
-#     aw2 := Autom(checked_pairs[pos][2], a2);
-#
-#     if Perm(aw1) <> Perm(aw2) then
-#       return false;
-#     fi;
-#
-#     for i in [1..d] do
-#       np := [aw1!.states[i], aw2!.states[i]];
-#       if not np in checked_pairs then
-#         checked_pairs := Concatenation(checked_pairs, [np]);
-#       fi;
-#     od;
-#   od;
-#
-#   for i in [1..Length(checked_pairs)] do
-#     if checked_pairs[i][1] <> checked_pairs[i][2] then
-#       Add(FamilyObj(a1)!.relators,
-#         checked_pairs[i][1]*checked_pairs[i][2]^-1);
-#     fi;
-#   od;
-#   return true;
 end);
 
 
@@ -431,33 +416,6 @@ function(a1, a2)
   od;
 
   return false;
-
-#   local d, checked_pairs, pos, aw1, aw2, np, i;
-#
-#   d := a1!.deg;
-#   checked_pairs := [[a1!.word, a2!.word]];
-#   pos := 0;
-#
-#   while Length(checked_pairs) <> pos do
-#     pos := pos + 1;
-#     aw1 := Autom(checked_pairs[pos][1], a1);
-#     aw2 := Autom(checked_pairs[pos][2], a2);
-#
-#     if Perm(aw1) < Perm(aw2) then
-#       return true;
-#     elif Perm(aw1) > Perm(aw2) then
-#       return false;
-#     fi;
-#
-#     for i in [1..d] do
-#       np := [aw1!.states[i], aw2!.states[i]];
-#       if not np in checked_pairs then
-#         Add(checked_pairs, np);
-#       fi;
-#     od;
-#   od;
-#
-#   return false;
 end);
 
 
@@ -465,7 +423,7 @@ end);
 ##
 #M  InverseOp(<a>)
 ##
-InstallMethod(InverseOp, "InverseOp(IsAutom)", [IsInvertibleAutom],
+InstallMethod(InverseOp, "InverseOp(IsInvertibleAutom)", [IsInvertibleAutom],
 function(a)
   local i, inv, fam, word, states;
 
@@ -609,11 +567,16 @@ InstallMethod(PermOnLevelOp, "PermOnLevelOp(IsAutom, IsPosInt)",
 function(a, k)
     local dom, perm;
 
-    dom := AsList(Tuples([1..DegreeOfTree(a)], k));
+    dom := AsList(Tuples([1.. a!.deg], k));
     perm := List(dom, s -> s ^ a);
     perm := PermListList(dom, perm);
 
     return perm;
+end);
+
+InstallMethod(TransformationOnFirstLevel, [IsAutom],
+function(a)
+  return a!.perm;
 end);
 
 

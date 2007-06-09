@@ -108,7 +108,7 @@ function (G)
   fi;
 
   if IsActingOnBinaryTree(G) then
-    if AutomataAbelImageSpherTrans in AbelImage(G) then
+    if AG_AbelImageSpherTrans in AbelImage(G) then
       Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomGrp, 3, "  using AbelImage");
       Info(InfoAutomGrp, 3, "  G = ", G);
@@ -131,7 +131,7 @@ end);
 ##
 InstallMethod(IsTransitiveOnLevel, [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
-  return IsTransitive(G, TreeLevelTuples(SphericalIndex(G), k));
+  return IsTransitive(G, AG_TreeLevelTuples(SphericalIndex(G), k));
 end);
 
 

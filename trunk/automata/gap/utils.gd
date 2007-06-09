@@ -8,32 +8,29 @@
 ##
 
 
-DeclareOperation("CalculateWord", [IsAssocWord, IsList]);
-DeclareOperation("CalculateWords", [IsList, IsList]);
+DeclareOperation("AG_CalculateWord", [IsAssocWord, IsList]);
+DeclareOperation("AG_CalculateWords", [IsList, IsList]);
 
-DeclareGlobalFunction("ReducedSphericalIndex");
-DeclareGlobalFunction("IsEqualSphericalIndex");
-DeclareGlobalFunction("TopDegreeInSphericalIndex");
-DeclareGlobalFunction("DegreeOfLevelInSphericalIndex");
+DeclareGlobalFunction("AG_ReducedSphericalIndex");
+DeclareGlobalFunction("AG_IsEqualSphericalIndex");
+DeclareGlobalFunction("AG_TopDegreeInSphericalIndex");
+DeclareGlobalFunction("AG_DegreeOfLevelInSphericalIndex");
 
-DeclareGlobalFunction("TreeLevelTuples");
+DeclareGlobalFunction("AG_TreeLevelTuples");
+DeclareGlobalFunction("AG_ParseAutomatonString");
 
-DeclareGlobalFunction("ParseAutomatonString");
+DeclareGlobalVariable("AG_AbelImageX");
+DeclareGlobalVariable("AG_AbelImageSpherTrans");
 
-
-BindGlobal("$AutomataAbelImageIndeterminate", Indeterminate(GF(2), "x"));
-BindGlobal("AutomataAbelImageSpherTrans",
-  One($AutomataAbelImageIndeterminate)/
-    (One($AutomataAbelImageIndeterminate)+$AutomataAbelImageIndeterminate));
 
 #############################################################################
 ##
-#F  AbelImageAutomatonInList(<list>)
+##  AG_AbelImageAutomatonInList(<list>)
 ##
 ##  Returns list of images of the automaton states under the canonical
 ##  projection onto \mathbb{Z}^\mathbb{N}.
 ##
-DeclareGlobalFunction("AbelImageAutomatonInList");
+DeclareGlobalFunction("AG_AbelImageAutomatonInList");
 
 
 DeclareGlobalFunction("AG_IsInvertibleTransformation");

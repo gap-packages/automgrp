@@ -100,7 +100,7 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
         AssertEqual(a*a^-1, One(a));
       fi;
 
-      if AutomataParameters.run_tests_forever then
+      if AG_Globals.run_tests_forever then
         AssertEqual(a*a, a^2);
       fi;
 

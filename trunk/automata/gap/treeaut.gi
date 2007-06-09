@@ -29,7 +29,7 @@ DeclareRepresentation("IsTreeAutomorphismFamilyRep",
 
 ###############################################################################
 ##
-#V  AG_CreatedTreeAutomorphismFamilies
+##  AG_CreatedTreeAutomorphismFamilies
 ##
 BindGlobal("AG_CreatedTreeAutomorphismFamilies", []);
 
@@ -41,7 +41,7 @@ BindGlobal("AG_CreatedTreeAutomorphismFamilies", []);
 InstallMethod(TreeAutomorphismFamily, [IsRecord],
 function(sph_ind)
   local p, red_ind, fam;
-  red_ind := ReducedSphericalIndex(sph_ind);
+  red_ind := AG_ReducedSphericalIndex(sph_ind);
   for p in AG_CreatedTreeAutomorphismFamilies do
     if p[1] = red_ind then
       return p[2]; fi;
@@ -139,7 +139,7 @@ InstallMethod(ViewObj, [IsTreeAutomorphism],
 function (a)
     local deg, printword, i;
 
-    deg := TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
+    deg := AG_TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
     Print("(");
     for i in [1..deg] do
         View(a!.states[i]);
@@ -158,7 +158,7 @@ InstallMethod(PrintObj, [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function (a)
     local deg, printword, i;
 
-    deg := TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
+    deg := AG_TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
     Print("(");
     for i in [1..deg] do
       if (IsAutom(a!.states[i])) then

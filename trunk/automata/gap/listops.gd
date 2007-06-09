@@ -13,7 +13,7 @@
 
 ###############################################################################
 ##
-#F  IsCorrectAutomatonList( <list>, <invertible> )
+##  AG_IsCorrectAutomatonList( <list>, <invertible> )
 ##
 ##  Checks whether the list is correct list to define automaton, i.e.:
 ##  $[[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]]$,
@@ -21,63 +21,63 @@
 ##  in SymmetricalGroup(n) (semigroup of transformations of the set $\{1..n\}$)
 ##  if invertible=true (false).
 ##
-DeclareGlobalFunction("IsCorrectAutomatonList");
+DeclareGlobalFunction("AG_IsCorrectAutomatonList");
 
 
 ###############################################################################
 ##
-#F  InverseAutomatonList(<list>)
+##  AG_InverseAutomatonList(<list>)
 ##
-DeclareGlobalFunction("InverseAutomatonList");
+DeclareGlobalFunction("AG_InverseAutomatonList");
 
 
 ###############################################################################
 ##
-#F  ConnectedStatesInList( <state>, <list>)
+##  AG_ConnectedStatesInList( <state>, <list>)
 ##
 ##  Returns list of states which can be reached from given state.
 ##
-DeclareGlobalFunction("ConnectedStatesInList");
+DeclareGlobalFunction("AG_ConnectedStatesInList");
 
 
 ###############################################################################
 ##
-#F  IsTrivialStateInList( <state>, <list>)
+##  AG_IsTrivialStateInList( <state>, <list>)
 ##
 ##  Checks whether given state is trivial.
 ##
-DeclareGlobalFunction("IsTrivialStateInList");
+DeclareGlobalFunction("AG_IsTrivialStateInList");
 
 ###############################################################################
 ##
-#F  IsInvertibleStateInList( <state>, <list>)
+##  AG_IsInvertibleStateInList( <state>, <list>)
 ##
 ##  Checks whether given state is invertible.
 ##
-DeclareGlobalFunction("IsInvertibleStateInList");
+DeclareGlobalFunction("AG_IsInvertibleStateInList");
 
 
 ###############################################################################
 ##
-#F  AreEquivalentStatesInList( <state1>, <state2>, <list> )
+##  AG_AreEquivalentStatesInList( <state1>, <state2>, <list> )
 ##
 ##  Checks whether two given states are equivalent.
 ##
-DeclareGlobalFunction("AreEquivalentStatesInList");
+DeclareGlobalFunction("AG_AreEquivalentStatesInList");
 
 
 ###############################################################################
 ##
-#F  AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
+##  AG_AreEquivalentStatesInLists( <state1>, <state2>, <list1>, <list2>)
 ##
 ##  Checks whether two given states in different lists are equivalent.
 ##
-DeclareGlobalFunction("AreEquivalentStatesInLists");
+DeclareGlobalFunction("AG_AreEquivalentStatesInLists");
 
 
 ###############################################################################
 ##
-#F  ReducedAutomatonInList( <list> )
+##  AG_ReducedAutomatonInList( <list> )
 ##
 ##  Returns [new_list, list_of_states] where new_list is a new list which
 ##  represents reduced form of given automaton, i-th elmt of list_of_states
@@ -88,69 +88,69 @@ DeclareGlobalFunction("AreEquivalentStatesInLists");
 ##  it just removes equivalent states.
 ##  TODO: write such function which removes trivial state
 ##
-DeclareGlobalFunction("ReducedAutomatonInList");
+DeclareGlobalFunction("AG_ReducedAutomatonInList");
 
 
 ###############################################################################
 ##
-#F  MinimalSubAutomatonInlist(<states>, <list>)
+##  AG_MinimalSubAutomatonInlist(<states>, <list>)
 ##
 ##  Returns list representation of automaton given by <list> which is minimal
 ##  subatomaton of automaton containing states <states>.
 ##
-DeclareGlobalFunction("MinimalSubAutomatonInlist");
+DeclareGlobalFunction("AG_MinimalSubAutomatonInlist");
 
 
 ###############################################################################
 ##
-#F  PermuteStatesInList(<list>, <perm>)
+##  AG_PermuteStatesInList(<list>, <perm>)
 ##
 ##  I guess it means that i-th state goes to (i^perm)-th place.
 ##
-DeclareGlobalFunction("PermuteStatesInList");
+DeclareGlobalFunction("AG_PermuteStatesInList");
 
 
 ###############################################################################
 ##
-#F  ImageOfVertexInList(<list>, <init>, <vertex>)
+##  AG_ImageOfVertexInList(<list>, <init>, <vertex>)
 ##
-DeclareGlobalFunction("ImageOfVertexInList");
+DeclareGlobalFunction("AG_ImageOfVertexInList");
 
 
 ###############################################################################
 ##
-#F  WordStateInList(<word>, <s>, <list>, <reduce>, <trivstate>)
-#F  WordStateAndPermInList(<word>, <s>, <list>)
+##  AG_WordStateInList(<word>, <s>, <list>, <reduce>, <trivstate>)
+##  AG_WordStateAndPermInList(<word>, <s>, <list>)
 ##
 ##  It's ProjectWord from selfs.g
 ##
-DeclareGlobalFunction("WordStateInList");
-DeclareGlobalFunction("WordStateAndPermInList");
+DeclareGlobalFunction("AG_WordStateInList");
+DeclareGlobalFunction("AG_WordStateAndPermInList");
 
 
 ###############################################################################
 ##
-#F  DiagonalActionInList(<list>, <n>)
+##  AG_DiagonalActionInList(<list>, <n>)
 ##
-DeclareGlobalFunction("DiagonalActionInList");
+DeclareGlobalFunction("AG_DiagonalActionInList");
 
 
 ###############################################################################
 ##
-#F  MultAlphabetInList(<list>, <n>)
+##  AG_MultAlphabetInList(<list>, <n>)
 ##
-DeclareGlobalFunction("MultAlphabetInList");
+DeclareGlobalFunction("AG_MultAlphabetInList");
 
 
 ###############################################################################
 ##
-#F  HasDualInList(<list>)
-#F  HasDualOfInverseInList(<list>)
-#F  DualAutomatonList(<list>)
+##  AG_HasDualInList(<list>)
+##  AG_HasDualOfInverseInList(<list>)
+##  AG_DualAutomatonList(<list>)
 ##
-DeclareGlobalFunction("HasDualInList");
-DeclareGlobalFunction("HasDualOfInverseInList");
-DeclareGlobalFunction("DualAutomatonList");
+DeclareGlobalFunction("AG_HasDualInList");
+DeclareGlobalFunction("AG_HasDualOfInverseInList");
+DeclareGlobalFunction("AG_DualAutomatonList");
 
 
 #E

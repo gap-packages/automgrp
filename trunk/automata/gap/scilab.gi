@@ -66,7 +66,7 @@ end);
 InstallOtherMethod(PlotSpectraInScilabAddInverses,
                    [IsTreeAutomorphismGroup, IsPosInt],
 function(G, lev)
-  PlotSpectraInScilabAddInverses(G, lev, AutomataParameters.round_spectra);
+  PlotSpectraInScilabAddInverses(G, lev, AG_Globals.round_spectra);
 end);
 
 
@@ -93,7 +93,7 @@ InstallMethod(PlotSpectraInScilabAddInverses,
 function(perms, perm_deg, round)
   PlotSpectraPermsInScilab( Concatenation(perms, List(perms, p -> p^-1)),
                             perm_deg, round,
-                            AutomataParameters.scilab_stacksize );
+                            AG_Globals.scilab_stacksize );
 end);
 
 

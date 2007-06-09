@@ -91,7 +91,7 @@ $FA_rws_print_word := function(rws, word)
   len := Length(word);
 
   if len = 0 then
-    return AutomataParameters.identity_symbol;
+    return AG_Globals.identity_symbol;
   fi;
 
   i := 1;
@@ -234,7 +234,7 @@ InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAutom
 function(rws, grp)
   local gens;
   gens := Difference(ReducedForm(rws, GeneratorsOfGroup(grp)), [One(grp)]);
-  gens := ReducedForm(rws, ReducedByNielsen(gens));
+  gens := ReducedForm(rws, AG_ReducedByNielsen(gens));
   gens := Difference(gens, [One(grp)]);
   if IsEmpty(gens) then
     return Group(One(grp));

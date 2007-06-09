@@ -10,7 +10,7 @@
 
 #############################################################################
 ##
-#F  AG_IsInvertibleTransformation( <tr> )
+##  AG_IsInvertibleTransformation( <tr> )
 ##
 InstallGlobalFunction(AG_IsInvertibleTransformation,
 function(tr)
@@ -25,7 +25,7 @@ end);
 
 #############################################################################
 ##
-#F  AG_PermFromTransformation( <tr> )
+##  AG_PermFromTransformation( <tr> )
 ##
 InstallGlobalFunction(AG_PermFromTransformation,
 function(tr)
@@ -38,7 +38,7 @@ end);
 
 #############################################################################
 ##
-#F  AG_PrintTransformation( <tr> )
+##  AG_PrintTransformation( <tr> )
 ##
 InstallGlobalFunction(AG_PrintTransformation,
 function(tr)
@@ -61,10 +61,10 @@ end);
 
 #############################################################################
 ##
-#M  CalculateWord(<word>, <list>)
+##  AG_CalculateWord(<word>, <list>)
 ##
 # XXX do not use this
-InstallMethod(CalculateWord, [IsAssocWord, IsList],
+InstallMethod(AG_CalculateWord, [IsAssocWord, IsList],
 function(w, dom)
   local result, i;
 
@@ -80,15 +80,15 @@ end);
 
 #############################################################################
 ##
-#M  CalculateWords(<words_list>, <list>)
+##  AG_CalculateWords(<words_list>, <list>)
 ##
-InstallMethod(CalculateWords, [IsList, IsList],
+InstallMethod(AG_CalculateWords, [IsList, IsList],
 function(words, domain)
   local result, i;
 
   result := [];
   for i in [1..Length(words)] do
-    result[i] := CalculateWord(words[i], domain);
+    result[i] := AG_CalculateWord(words[i], domain);
   od;
 
   return result;
@@ -97,9 +97,9 @@ end);
 
 ###############################################################################
 ##
-#F  ReducedSphericalIndex(<ind>)
+##  AG_ReducedSphericalIndex(<ind>)
 ##
-InstallGlobalFunction("ReducedSphericalIndex",
+InstallGlobalFunction("AG_ReducedSphericalIndex",
 function(M)
   local beg, per, beg_len, per_len, i;
   if IsEmpty(M.period) then return StructuralCopy(M); fi;
@@ -125,19 +125,19 @@ end);
 
 ###############################################################################
 ##
-#F  IsEqualSphericalIndex(<ind1>, <ind2>)
+##  AG_IsEqualSphericalIndex(<ind1>, <ind2>)
 ##
-InstallGlobalFunction("IsEqualSphericalIndex",
+InstallGlobalFunction("AG_IsEqualSphericalIndex",
 function(M1, M2)
-  return ReducedSphericalIndex(M1) = ReducedSphericalIndex(M2);
+  return AG_ReducedSphericalIndex(M1) = AG_ReducedSphericalIndex(M2);
 end);
 
 
 ###############################################################################
 ##
-#F  TopDegreeInSphericalIndex(<ind>)
+##  AG_TopDegreeInSphericalIndex(<ind>)
 ##
-InstallGlobalFunction("TopDegreeInSphericalIndex",
+InstallGlobalFunction("AG_TopDegreeInSphericalIndex",
 function(M)
   if not IsEmpty(M.start) then return M.start[1];
   else return M.period[1]; fi;
@@ -146,9 +146,9 @@ end);
 
 ###############################################################################
 ##
-#F  DegreeOfLevelInSphericalIndex(<ind>)
+##  AG_DegreeOfLevelInSphericalIndex(<ind>)
 ##
-InstallGlobalFunction("DegreeOfLevelInSphericalIndex",
+InstallGlobalFunction("AG_DegreeOfLevelInSphericalIndex",
 function(M, k)
   local i;
   if Length(M.start) >= k then return M.start[k]; fi;
@@ -160,11 +160,11 @@ end);
 
 ###############################################################################
 ##
-#F  TreeLevelTuples(<ind>)
-#F  TreeLevelTuples(<ind>, <n>)
-#F  TreeLevelTuples(<start>, <period>, <n>)
+##  AG_TreeLevelTuples(<ind>)
+##  AG_TreeLevelTuples(<ind>, <n>)
+##  AG_TreeLevelTuples(<start>, <period>, <n>)
 ##
-InstallGlobalFunction("TreeLevelTuples",
+InstallGlobalFunction("AG_TreeLevelTuples",
 function(arg)
   local n, m, args, ind, start, period;
 
@@ -175,7 +175,7 @@ function(arg)
     Add(args, function(arg) return arg; end);
     return CallFuncList(ListX, args);
   elif Length(arg) = 2 and IsRecord(arg[1]) and IsPosInt(arg[2]) then
-    return TreeLevelTuples(arg[1].start, arg[1].period, arg[2]);
+    return AG_TreeLevelTuples(arg[1].start, arg[1].period, arg[2]);
   elif Length(arg) = 3 and IsList(arg[1]) and IsList(arg[2]) and IsPosInt(arg[3]) then
     start := arg[1];
     period := arg[2];
@@ -203,19 +203,19 @@ function(arg)
     Add(args, function(arg) return arg; end);
     return CallFuncList(ListX, args);
   else
-    Error("in TreeLevelTuples\n",
-          "  usage: TreeLevelTuples([n_1, n_2, ..., n_k])\n",
-          "         TreeLevelTuples(<spher_ind>, k)\n",
-          "         TreeLevelTuples(start, period, k)\n");
+    Error("in AG_TreeLevelTuples\n",
+          "  usage: AG_TreeLevelTuples([n_1, n_2, ..., n_k])\n",
+          "         AG_TreeLevelTuples(<spher_ind>, k)\n",
+          "         AG_TreeLevelTuples(start, period, k)\n");
   fi;
 end);
 
 
 ###############################################################################
 ##
-#F  ParseAutomatonString(<str>)
+##  AG_ParseAutomatonString(<str>)
 ##
-$FA_split_states := function(str)
+$AG_split_states := function(str)
   local states, s, c, i, parens;
 
   states := [];
@@ -247,7 +247,7 @@ $FA_split_states := function(str)
   return states;
 end;
 
-$FA_split_perms := function(str)
+$AG_split_perms := function(str)
   local s, perms, elms, cl, op;
 
   s := 0;
@@ -271,7 +271,7 @@ $FA_split_perms := function(str)
   return perms;
 end;
 
-$FA_is_permutation := function(list)
+$AG_is_permutation := function(list)
   local s, d, one;
   one := true;
   for s in list do
@@ -285,7 +285,7 @@ $FA_is_permutation := function(list)
   return not one;
 end;
 
-$FA_make_states := function(list, str)
+$AG_make_states := function(list, str)
   local states, s;
 
   states := [];
@@ -305,7 +305,7 @@ $FA_make_states := function(list, str)
   return states;
 end;
 
-$FA_make_permutation := function(list)
+$AG_make_permutation := function(list)
   local indices, s, d;
 
   indices := [];
@@ -326,7 +326,7 @@ $FA_make_permutation := function(list)
   fi;
 end;
 
-$FA_parse_state := function(str)
+$AG_parse_state := function(str)
   local id_and_def, id, def,
         states, perm, i, p;
 
@@ -338,7 +338,7 @@ $FA_parse_state := function(str)
   fi;
 
   id := id_and_def[1];
-  def := $FA_split_perms(id_and_def[2]);
+  def := $AG_split_perms(id_and_def[2]);
 
   if IsEmpty(def) then
     Error("Invalid state '", str, "'");
@@ -348,10 +348,10 @@ $FA_parse_state := function(str)
   perm := ();
 
   for i in [1..Length(def)] do
-    if i = 1 and not $FA_is_permutation(def[i]) then
-      states := $FA_make_states(def[i], str);
+    if i = 1 and not $AG_is_permutation(def[i]) then
+      states := $AG_make_states(def[i], str);
     else
-      p := $FA_make_permutation(def[i]);
+      p := $AG_make_permutation(def[i]);
       if states = fail then
         Error("Invalid permutation ", def[i], " in '", str, "'");
       fi;
@@ -362,12 +362,12 @@ $FA_parse_state := function(str)
   return [id, states, perm];
 end;
 
-InstallGlobalFunction("ParseAutomatonString",
+InstallGlobalFunction("AG_ParseAutomatonString",
 function(str)
   local states, aut_list, aut_states, need_one, alph, i, j, s;
 
-  states := $FA_split_states(str);
-  Apply(states, $FA_parse_state);
+  states := $AG_split_states(str);
+  Apply(states, $AG_parse_state);
 #   Display(states);
 
   need_one := false;
@@ -422,15 +422,24 @@ end);
 
 #############################################################################
 ##
-##  AbelImageAutomatonInList(<list>)
+##  AG_AbelImageX
+##  AG_AbelImageSpherTrans
 ##
-InstallGlobalFunction(AbelImageAutomatonInList,
+InstallValue(AG_AbelImageX, Indeterminate(GF(2), "x"));
+InstallValue(AG_AbelImageSpherTrans, One(AG_AbelImageX)/ (One(AG_AbelImageX) + AG_AbelImageX));
+
+
+#############################################################################
+##
+##  AG_AbelImageAutomatonInList(<list>)
+##
+InstallGlobalFunction(AG_AbelImageAutomatonInList,
 function(list)
   local zero, one, x, m, mk, e, n, d, s, i, det, detk, result;
 
   n := Length(list);
   d := Length(list[1]) - 1;
-  x := $AutomataAbelImageIndeterminate;
+  x := AG_AbelImageX;
   m := IdentityMat(n, x);
   e := [];
   zero := 0*x;

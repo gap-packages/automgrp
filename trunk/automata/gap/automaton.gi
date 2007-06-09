@@ -37,12 +37,12 @@ BindGlobal("_AG_CreateAutomaton",
 function(table, states, alphabet)
   local a, s, i, n_states, invertible, degree, perms;
 
-  if not IsCorrectAutomatonList(table, false) then
+  if not AG_IsCorrectAutomatonList(table, false) then
     Error("'", table, "' is not a correct table representing a finite automaton");
   fi;
 
   if states = fail then
-    states := List([1..Length(table)], i -> Concatenation(AutomataParameters.state_symbol, String(i)));
+    states := List([1..Length(table)], i -> Concatenation(AG_Globals.state_symbol, String(i)));
   else
     if Length(states) <> Length(table) then
       Error("number of state names is not equal to the number of states");
@@ -132,7 +132,7 @@ end);
 InstallMethod(Automaton, [IsString],
 function(string)
   local ret;
-  ret := ParseAutomatonString(string);
+  ret := AG_ParseAutomatonString(string);
   return Automaton(ret[2], ret[1]);
 end);
 
@@ -145,6 +145,7 @@ end);
 InstallMethod(PrintObj, [IsAutomaton and IsAutomatonRep],
 function(a)
   local i, j;
+
   for i in [1..a!.n_states] do
     Print(a!.states[i], " = (");
     for j in [1..a!.degree] do
@@ -167,8 +168,10 @@ end);
 BindGlobal("_AG_AutomatonTransform",
 function(a, q, x)
   local i, j, nq, nx, t;
+
   nq := Length(q);
   nx := Length(x);
+
   for i in [1..nq] do
     for j in [1..nx] do
       t := x[j];
@@ -213,26 +216,24 @@ end);
 
 InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomaton)", [IsAutomaton],
 function(A)
-  return AG_AddInversesList(List(AutomatonList(A),x->List(x)));
+  return AG_AddInversesList(List(AutomatonList(A), x->List(x)));
 end);
 
 
 InstallGlobalFunction(MinimizationOfAutomatonTrack,
 function(a)
   local min_aut;
-  min_aut:=AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a),x->List(x)),[1..a!.n_states],[1..a!.n_states]);
-  return [Automaton(min_aut[1],a!.states{min_aut[2]}),min_aut[2],min_aut[3]];
+  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x->List(x)), [1..a!.n_states], [1..a!.n_states]);
+  return [Automaton(min_aut[1], a!.states{min_aut[2]}), min_aut[2], min_aut[3]];
 end);
 
 
 InstallGlobalFunction(MinimizationOfAutomaton,
 function(a)
   local min_aut;
-  min_aut:=AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a),x->List(x)),[1..a!.n_states],[1..a!.n_states]);
-  return Automaton(min_aut[1],a!.states{min_aut[2]});
+  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x->List(x)), [1..a!.n_states], [1..a!.n_states]);
+  return Automaton(min_aut[1], a!.states{min_aut[2]});
 end);
-
-
 
 
 #InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
@@ -249,31 +250,32 @@ end);
 #end);
 
 
-
 InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
-  local i,d,ver,nstates,cycles,cycle_of_vertex,
-        IsNewCycle,known_vertices,aut_list,HasPolyGrowth,
-        cycle_order,next_cycles,cur_cycles,cur_path,cycles_of_level,
-        lev,ContainsTrivState,s;
+  local i, d, ver, nstates, cycles, cycle_of_vertex,
+        IsNewCycle, known_vertices, aut_list, HasPolyGrowth,
+        cycle_order, next_cycles, cur_cycles, cur_path, cycles_of_level,
+        lev, ContainsTrivState, s;
 
-  IsNewCycle:=function(C)
+  IsNewCycle := function(C)
     local i, l, cur_cycle, long_cycle;
-    l:=[2..Length(C)];
-    Add(l,1);
-    long_cycle:=PermList(l);
+
+    l := [2..Length(C)];
+    Add(l, 1);
+    long_cycle := PermList(l);
 
     for cur_cycle in cycles do
-      if Intersection(cur_cycle,C)<>[] then
+      if Intersection(cur_cycle, C) <> [] then
 #        if Length(C)<>Length(cur_cycle) then return fail; fi;
 #        for i in [0..Length(C)-1] do
 #          if cur_cycle=Permuted(C,long_cycle^i) then return false; fi;
 #        od;
-        Info(InfoAutomGrp,5,"cycle1=",cur_cycle,"cycle2=",C);
+        Info(InfoAutomGrp, 5, "cycle1=", cur_cycle, "cycle2=", C);
         return fail;
       fi;
     od;
+
     return true;
   end;
 
@@ -282,119 +284,124 @@ function(A)
 #  cur_cycles = [1,3] (the first and the third cycles)
 #  cycle_order = [[2,3],[3],[]] (means 1->2->3,  1->3)
 
-  HasPolyGrowth:=function(v)
-    local i,v_next,is_new,C,ver;
+  HasPolyGrowth := function(v)
+    local i, v_next, is_new, C, ver;
 #    Print("v=",v,"\n");
-    Add(cur_path,v);
+    Add(cur_path, v);
     for i in [1..d] do
-      v_next:=aut_list[v][i];
-      if not (v_next in known_vertices or v_next=nstates+1) then
+      v_next := aut_list[v][i];
+      if not (v_next in known_vertices or v_next = nstates+1) then
         if v_next in cur_path then
-          C:=cur_path{[Position(cur_path,v_next)..Length(cur_path)]};
-          is_new:=IsNewCycle(C);
-          if is_new=fail then
+          C := cur_path{[Position(cur_path, v_next)..Length(cur_path)]};
+          is_new := IsNewCycle(C);
+          if is_new = fail then
             return false;
-          else
-            Add(cycles,C);
-            Add(cycle_order,[]);
-            for ver in C do
-#              Print("next_cycles = ",next_cycles);
-              UniteSet(cycle_order[Length(cycles)],next_cycles[ver]);
-              cycle_of_vertex[ver]:=Length(cycles);
-              next_cycles[ver]:=[Length(cycles)];
-            od;
           fi;
+
+          Add(cycles, C);
+          Add(cycle_order, []);
+          for ver in C do
+#              Print("next_cycles = ",next_cycles);
+            UniteSet(cycle_order[Length(cycles)], next_cycles[ver]);
+            cycle_of_vertex[ver] := Length(cycles);
+            next_cycles[ver] := [Length(cycles)];
+          od;
         else
           if not HasPolyGrowth(v_next) then
             return false;
           fi;
-          if cycle_of_vertex[v]=0 then
-            UniteSet(next_cycles[v],next_cycles[v_next]);
-          elif cycle_of_vertex[v]<>cycle_of_vertex[v_next] then
-            UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
-            Info(InfoAutomGrp,5,"v=",v,"; v_next=",v_next);
-            Info(InfoAutomGrp,5,"cycle_order (local) = ",cycle_order);
+          if cycle_of_vertex[v] = 0 then
+            UniteSet(next_cycles[v], next_cycles[v_next]);
+          elif cycle_of_vertex[v] <> cycle_of_vertex[v_next] then
+            UniteSet(cycle_order[cycle_of_vertex[v]], next_cycles[v_next]);
+            Info(InfoAutomGrp, 5, "v=", v, "; v_next=", v_next);
+            Info(InfoAutomGrp, 5, "cycle_order (local) = ", cycle_order);
           fi;
         fi;
       elif v_next in known_vertices then
         if cycle_of_vertex[v]=0 then
-          UniteSet(next_cycles[v],next_cycles[v_next]);
-        elif cycle_of_vertex[v]=cycle_of_vertex[v_next] then
+          UniteSet(next_cycles[v], next_cycles[v_next]);
+        elif cycle_of_vertex[v] = cycle_of_vertex[v_next] then
           return false;
         else
-          UniteSet(cycle_order[cycle_of_vertex[v]],next_cycles[v_next]);
+          UniteSet(cycle_order[cycle_of_vertex[v]], next_cycles[v_next]);
         fi;
 
       fi;
     od;
+
     Remove(cur_path);
-    Add(known_vertices,v);
+    Add(known_vertices, v);
     return true;
   end;
 
 
-  aut_list:=AG_MinimizationOfAutomatonList(List(AutomatonList(A),x->List(x)));
+  aut_list := AG_MinimizationOfAutomatonList(List(AutomatonList(A),x->List(x)));
 
 # below we put the trivial state to the last position in the aut_list
-  ContainsTrivState:=false;
+  ContainsTrivState := false;
 
   for s in [1..Length(aut_list)] do
-    if IsTrivialStateInList(s,aut_list) then
-      ContainsTrivState:=true;
-      if s<Length(aut_list) then aut_list:=PermuteStatesInList(aut_list,(s,Length(aut_list))); fi;
+    if AG_IsTrivialStateInList(s, aut_list) then
+      ContainsTrivState := true;
+      if s < Length(aut_list) then
+        aut_list := AG_PermuteStatesInList(aut_list, (s, Length(aut_list)));
+      fi;
       break;
     fi;
   od;
 
   if not ContainsTrivState then
-    SetIsBounded(A,false);
+    SetIsBounded(A, false);
     return false;
   fi;
 
-  nstates:=Length(aut_list)-1;
-  d:=A!.degree;
-  cycles:=[];
-  cycle_of_vertex:=List([1..nstates],x->0);  #if vertex i is in cycle j, then cycle_of_vertex[i]=j
-  next_cycles:=List([1..nstates],x->[]); #if vertex i is not in a cycle, next_cycles[i] stores the list of cycles, that can be reached immediately (with no cycles in between) from this vertex
-  known_vertices:=[];
-  cur_path:=[];
-  cycle_order:=[];
+  nstates := Length(aut_list) - 1;
+  d := A!.degree;
+  cycles := [];
+  cycle_of_vertex := List([1..nstates], x->0);  #if vertex i is in cycle j, then cycle_of_vertex[i]=j
+  next_cycles := List([1..nstates], x->[]); #if vertex i is not in a cycle, next_cycles[i] stores the list of cycles, that can be reached immediately (with no cycles in between) from this vertex
+  known_vertices := [];
+  cur_path := [];
+  cycle_order := [];
 
-  while Length(known_vertices)<nstates do
-    ver:=Difference([1..nstates],known_vertices)[1];
+  while Length(known_vertices) < nstates do
+    ver := Difference([1..nstates], known_vertices)[1];
     if not HasPolyGrowth(ver) then
-      SetIsBounded(A,false);
+      SetIsBounded(A, false);
       return false;
     fi;
   od;
 
 # Now we find the longest chain in the poset of cycles
-  cycles_of_level:=[[]];
+  cycles_of_level := [[]];
   for i in [1..Length(cycles)] do
-    if cycle_order[i]=[] then Add(cycles_of_level[1],i); fi;
+    if cycle_order[i] = [] then
+      Add(cycles_of_level[1], i);
+    fi;
   od;
 
-  lev:=1;
+  lev := 1;
 
-  while cycles_of_level[Length(cycles_of_level)]<>[] do
-    Add(cycles_of_level,[]);
+  while cycles_of_level[Length(cycles_of_level)] <> [] do
+    Add(cycles_of_level, []);
     for i in [1..Length(cycles)] do
-      if Intersection(cycles_of_level[lev],cycle_order[i])<>[] then
-        Add(cycles_of_level[lev+1],i);
+      if Intersection(cycles_of_level[lev], cycle_order[i]) <> [] then
+        Add(cycles_of_level[lev+1], i);
       fi;
     od;
-    lev:=lev+1;
+    lev := lev+1;
   od;
 
   if lev<=2 then
-    SetIsBounded(A,true);
+    SetIsBounded(A, true);
   else
-    SetIsBounded(A,false);
+    SetIsBounded(A, false);
   fi;
-  SetPolynomialDegreeOfGrowthOfAutomaton(A,lev-2);
-  Info(InfoAutomGrp,5,"Cycles = ", cycles);
-  Info(InfoAutomGrp,5,"cycle_order = ", cycle_order);
-  Info(InfoAutomGrp,5,"next_cycles = ", next_cycles);
+  SetPolynomialDegreeOfGrowthOfAutomaton(A, lev-2);
+  Info(InfoAutomGrp, 5, "Cycles = ", cycles);
+  Info(InfoAutomGrp, 5, "cycle_order = ", cycle_order);
+  Info(InfoAutomGrp, 5, "next_cycles = ", next_cycles);
   return true;
 end);
 
@@ -404,36 +411,42 @@ end);
 InstallMethod(IsBounded,"IsBounded(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
+  # XXX ???
   local res;
-  res:=IsOfPolynomialGrowth(A);
+  res := IsOfPolynomialGrowth(A);
   return IsBounded(A);
 end);
 
 
-InstallMethod(PolynomialDegreeOfGrowthOfAutomaton,"PolynomialDegreeOfGrowthOfAutomaton(IsAutomaton)",true,
+InstallMethod(PolynomialDegreeOfGrowthOfAutomaton, "PolynomialDegreeOfGrowthOfAutomaton(IsAutomaton)", true,
               [IsAutomaton],
 function(A)
   local res;
-  res:=IsOfPolynomialGrowth(A);
+
+  res := IsOfPolynomialGrowth(A);
+
   if not res then
-    Info(InfoAutomGrp,1,"Error: the automaton <A> has exponenetial growth");
+    Info(InfoAutomGrp, 1, "Error: the automaton <A> has exponential growth");
     return fail;
   fi;
+
   return PolynomialDegreeOfGrowthOfAutomaton(A);
 end);
 
 
-InstallMethod(DualAutomaton,"DualAutomaton(IsAutomaton)",true,
+InstallMethod(DualAutomaton, "DualAutomaton(IsAutomaton)", true,
               [IsAutomaton],
 function(A)
   local list, dual_list, states, d, n;
-  list:=AutomatonList(A);
+
+  list := AutomatonList(A);
   d := Length(list[1]) - 1;
   n := Length(list);
-  dual_list:=List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]),
-    [Transformation(List([1..n], j -> list[j][i]))]));
-  states:=List([1..d],i -> Concatenation(AutomataParameters.state_symbol_dual,String(i)));
-  return Automaton(dual_list,states);
+  dual_list := List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]),
+                                               [Transformation(List([1..n], j -> list[j][i]))]));
+  states := List([1..d], i -> Concatenation(AG_Globals.state_symbol_dual, String(i)));
+
+  return Automaton(dual_list, states);
 end);
 
 
@@ -441,13 +454,16 @@ InstallMethod(InverseAutomaton,"DualAutomaton(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
   local list, inv_list, states, n;
+
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
   fi;
-  list:=AutomatonList(A);
+
+  list := AutomatonList(A);
   n := Length(list);
-  inv_list:=InverseAutomatonList(list);
-  states:=List([1..n],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
+  inv_list := AG_InverseAutomatonList(list);
+  states := List([1..n],i -> Concatenation(AG_Globals.state_symbol, String(i)));
+
   return Automaton(inv_list,states);
 end);
 
@@ -456,10 +472,9 @@ InstallMethod(IsBireversible,"IsBireversible(IsAutomaton)",true,
               [IsAutomaton],
 function(A)
   local list, inv_list, states, n;
-  if IsInvertible(A) and IsInvertible(DualAutomaton(A)) and IsInvertible(DualAutomaton(InverseAutomaton(A))) then
-    return true;
-  fi;
-  return false;
+
+  return IsInvertible(A) and IsInvertible(DualAutomaton(A)) and
+         IsInvertible(DualAutomaton(InverseAutomaton(A)));
 end);
 
 
@@ -472,80 +487,94 @@ end);
 InstallMethod(\*, "\*(IsAutomaton, IsAutomaton)", [IsAutomaton, IsAutomaton],
 function(A1, A2)
   local n, m, d, i, j, aut_list, states;
-  d:=A1!.degree;
-  if d<>A2!.degree then
+
+  d := A1!.degree;
+  if d <> A2!.degree then
     Error("The cardinalities of alphabets in <A1> and <A2> do not coincide");
   fi;
-  n:=A1!.n_states;
-  m:=A2!.n_states;
-  aut_list:=[];
+
+  n := A1!.n_states;
+  m := A2!.n_states;
+  aut_list := [];
   for i in [1..n] do
     for j in [1..m] do
 #     (i,j)                                <->    m*(i-1)+j
 #     (Int((x-1)/m)+1, ((x-1) mod m) + 1 ) <->    x
-      Add(aut_list,Concatenation(List([1..d],x->m*(A1!.table[i][x]-1)+A2!.table[j][x^A1!.perms[i]]),[A1!.perms[i]*A2!.perms[j]]));
+      Add(aut_list, Concatenation(List([1..d], x->m*(A1!.table[i][x]-1) + A2!.table[j][x^A1!.perms[i]]), [A1!.perms[i]*A2!.perms[j]]));
     od;
   od;
-  states:=List([1..n*m],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
-  return Automaton(aut_list,states);
+  states := List([1..n*m], i -> Concatenation(AG_Globals.state_symbol, String(i)));
+  return Automaton(aut_list, states);
 end);
 
 
 InstallMethod(IsTrivial, "IsTrivial(IsAutomaton)", [IsAutomaton],
 function(A)
-  return AutomatonList(MinimizationOfAutomaton(A))=[Concatenation(List([1..A!.degree],x->1),[()])];
+  # XXX trivial transformation
+  return AutomatonList(MinimizationOfAutomaton(A)) = [Concatenation(List([1..A!.degree], x->1), [()])];
 end);
 
 
 InstallMethod(DisjointUnion, "IsTrivial(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
-function(A,B)
+function(A, B)
   local n, m, aut_list, states, perms, tableA, tableB;
-  if A!.degree<>B!.degree then
+
+  if A!.degree <> B!.degree then
     Error("The cardinalities of alphabets in <A> and <B> do not coincide");
   fi;
-  n:=A!.n_states;
-  m:=B!.n_states;
-  tableA:=List(A!.table,x->List(x));
-  tableB:=List(B!.table,x->List(x));
-  Append(tableA,List(tableB,x->List(x,y->y+n)));
-  perms:=Concatenation(A!.perms,B!.perms);
 
-  aut_list:=List([1..n+m], i->Concatenation(tableA[i],[perms[i]]));
+  n := A!.n_states;
+  m := B!.n_states;
+  tableA := List(A!.table, x->List(x));
+  tableB := List(B!.table, x->List(x));
+  Append(tableA, List(tableB, x->List(x, y -> y+n)));
+  perms := Concatenation(A!.perms, B!.perms);
 
-  states:=List([1..n+m],i -> Concatenation(AutomataParameters.state_symbol,String(i)));
+  aut_list := List([1..n+m], i->Concatenation(tableA[i], [perms[i]]));
 
-  return Automaton(aut_list,states);
+  states := List([1..n+m], i -> Concatenation(AG_Globals.state_symbol, String(i)));
+
+  return Automaton(aut_list, states);
 end);
 
 
 InstallMethod(IsEquivAutomata, "IsEquivAutomata(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
-function(A,B)
+function(A, B)
   local n, m, i, j, aut_list, found, Am, Bm, C, equiv_statesB;
-  if A!.degree<>B!.degree then return false; fi;
-  Am:=MinimizationOfAutomaton(A); Bm:=MinimizationOfAutomaton(B);
-  n:=Am!.n_states;
-  m:=Bm!.n_states;
-  if m<>n then return false; fi;
 
-  C:=DisjointUnion(Am,Bm);
-  aut_list:=AutomatonList(C);
+  if A!.degree <> B!.degree then
+    return false;
+  fi;
 
-  equiv_statesB:=[];
+  Am := MinimizationOfAutomaton(A);
+  Bm := MinimizationOfAutomaton(B);
+  n := Am!.n_states;
+  m := Bm!.n_states;
+  if m <> n then
+    return false;
+  fi;
+
+  C := DisjointUnion(Am, Bm);
+  aut_list := AutomatonList(C);
+
+  equiv_statesB := [];
 
   for i in [1..n] do
-    found:=false;
+    found := false;
     for j in [n+1..n+m] do
-      if (not j in equiv_statesB) and AreEquivalentStatesInList(i,j,aut_list) then
-        found:=true;
-        Add(equiv_statesB,j);
+      if (not j in equiv_statesB) and AG_AreEquivalentStatesInList(i, j, aut_list) then
+        found := true;
+        Add(equiv_statesB, j);
         break;
       fi;
     od;
-    if not found then return false; fi;
+    if not found then
+      return false;
+    fi;
   od;
+
   return true;
 end);
-
 
 
 #E

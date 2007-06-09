@@ -38,9 +38,9 @@ DeclareAttribute("One", IsAutomFamily);
 
 ###############################################################################
 ##
-#A  AbelImagesGenerators(<fam>)
+##  AG_AbelImagesGenerators(<fam>)
 ##
-DeclareAttribute("AbelImagesGenerators", IsAutomFamily);
+DeclareAttribute("AG_AbelImagesGenerators", IsAutomFamily);
 
 
 #############################################################################

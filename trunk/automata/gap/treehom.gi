@@ -26,7 +26,7 @@ DeclareRepresentation("IsTreeHomomorphismFamilyRep",
 
 ###############################################################################
 ##
-#V  AG_CreatedTreeHomomorphismFamilies
+##  AG_CreatedTreeHomomorphismFamilies
 ##
 ##  Contains all created TreeHomomorphismFamily objects; for each spherical
 ##  index there exists one family, to which all objects created with TreeHomomorphism
@@ -42,7 +42,7 @@ InstallMethod(TreeHomomorphismFamily, [IsRecord],
 function(sph_ind)
   local fam, pos;
 
-  sph_ind := ReducedSphericalIndex(sph_ind);
+  sph_ind := AG_ReducedSphericalIndex(sph_ind);
   if sph_ind in AG_CreatedTreeHomomorphismFamilies.ind then
     for fam in AG_CreatedTreeHomomorphismFamilies.fam do
       if fam!.spher_index = sph_ind then
@@ -55,7 +55,7 @@ function(sph_ind)
                    IsTreeHomomorphism, IsTreeHomomorphism,
                    IsTreeHomomorphismFamily and IsTreeHomomorphismFamilyRep);
   fam!.spher_index := sph_ind;
-  fam!.top_deg := TopDegreeInSphericalIndex(sph_ind);
+  fam!.top_deg := AG_TopDegreeInSphericalIndex(sph_ind);
 
   AddSet(AG_CreatedTreeHomomorphismFamilies.ind, sph_ind);
   Add(AG_CreatedTreeHomomorphismFamilies.fam, fam);

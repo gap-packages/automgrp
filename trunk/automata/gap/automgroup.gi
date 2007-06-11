@@ -771,7 +771,7 @@ end);
 ##
 #M  IsAutomatonGroup(<G>)
 ##
-InstallImmediateMethod(IsAutomatonGroup,IsAutomGroup,0,
+InstallImmediateMethod(IsAutomatonGroup, IsAutomGroup, 0,
 function(G)
   local fam;
   fam := UnderlyingAutomFamily(G);

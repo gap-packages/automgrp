@@ -13,7 +13,6 @@
 \Section{Objects acting on trees}
 
 \Declaration{AutomGroup}
-\Declaration{AutomGroupNoBindGlobal}
 \Declaration{AutomFamily}
 \Declaration{TreeAutomorphism}
 \Declaration{Autom}

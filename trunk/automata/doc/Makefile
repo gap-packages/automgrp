@@ -61,7 +61,7 @@ pdf: .pdf-stamp
 htm: .htm-stamp
 .htm-stamp: .manual-stamp
 	mkdir -p ../htm && \
-	./convert.pl -c -t -n automgrp . ../htm && \
+	./convert.pl -c -t -u -n automgrp . ../htm && \
 	date > .htm-stamp
 
 dist: pdf htm

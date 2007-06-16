@@ -1,6 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Chapter{Properties and operations with group elements}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Creation of tree automorphisms and homomorphisms}
+
+\Declaration{TreeAutomorphism}
+\Declaration{Autom}
+\Declaration{AutomFamily}
+
+\Declaration{IsTreeAutomorphismGroup}
+\Declaration{IsAutomGroup}
+\Declaration{IsAutomatonGroup}
+
+
 In the examples below we will consider the elements of the lamplighter group. First we define it as
 \beginexample
 gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
@@ -95,6 +107,7 @@ false
 
 \Declaration{OrbitOfVertex}
 \Declaration{PrintOrbitOfVertex}
+\Declaration{PermActionOnLevel}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

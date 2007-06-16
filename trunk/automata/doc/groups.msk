@@ -1,6 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Chapter{Properties and operations with groups}
+\Chapter{Properties and operations with groups and semigroups}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Creation of groups and semigroups}
+
+\Declaration{AutomGroup}
+\Declaration{AutomGroupNoBindGlobal}
 
 In the examples below we will consider the elements of Basilica group and 
 Grigorchuk group. First we define them as
@@ -13,7 +19,7 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Basic properties of groups}
+\Section{Basic properties of groups and semigroups}
 
 \Declaration{DegreeOfTree}
 \Declaration{IsFractal}
@@ -27,6 +33,7 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfAutomaton}
+\Declaration{UnderlyingAutomaton}
 \Declaration{AutomatonList}
 
 

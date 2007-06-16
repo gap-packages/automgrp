@@ -383,6 +383,7 @@ end);
 ##
 InstallMethod(Expand, [IsTreeHomomorphism, IsPosInt],
 function(a, level)
+  Print("lalal");
   return TreeHomomorphism(States(a, level), TransformationOnLevel(a, level));
 end);
 

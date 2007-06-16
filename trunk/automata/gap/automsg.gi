@@ -86,6 +86,22 @@ end);
 
 ###############################################################################
 ##
+#M  AutomSemigroup(<A>)
+#M  AutomSemigroup(<A>, <bind_vars>)
+##
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsAutomaton)", [IsAutomaton],
+function(A)
+  return AutomSemigroup(AutomatonList(A), A!.states);
+end);
+
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsAutomaton, IsBool)", [IsAutomaton, IsBool],
+function(A, bind_vars)
+  return AutomSemigroup(AutomatonList(A), A!.states, bind_vars);
+end);
+
+
+###############################################################################
+##
 #M  UnderlyingAutomFamily(<G>)
 ##
 InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomSemigroup)",
@@ -493,5 +509,34 @@ function(G)
   return UnderlyingAutomFamily(G)!.deg;
 end);
 
+
+###############################################################################
+##
+#M  UnderlyingAutomaton(<G>)
+##
+InstallMethod(UnderlyingAutomaton, "UnderlyingAutomFamily(IsAutomGroup)",
+              [IsAutomSemigroup],
+function(G)
+  local fam,numstates,automatonlist,d,i,j;
+  fam:=UnderlyingAutomFamily(G);
+  numstates:=fam!.numstates;
+# if you do the next 2 operations in one "List", it will remove unbinded spaces
+  automatonlist:=List(fam!.automatonlist);
+  Apply(automatonlist,x->ShallowCopy(x));
+  d:=fam!.deg;
+
+# in case we have 1 in the list we move it to the numstates+1 postion
+  if Length(automatonlist)=2*numstates+1 then
+    for i in [1..numstates] do
+      for j in [1..d] do
+        if automatonlist[i][j]=2*numstates+1 then automatonlist[i][j]:=numstates+1; fi;
+      od;
+    od;
+    automatonlist[numstates+1]:=List([1..d],x->numstates+1);
+    Add(automatonlist[numstates+1],automatonlist[2*numstates+1][d+1]);
+    numstates:=numstates+1;
+  fi;
+  return Automaton(automatonlist{[1..numstates]});
+end);
 
 #E

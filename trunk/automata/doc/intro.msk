@@ -58,19 +58,19 @@ vertices of levels bigger than $n$ belong to $N$. The smallest set
 with such property is called the <nucleus> of $G$.
 
 Any automorphism $f$ of a rooted tree can be decomposed as 
-$$f=(f_1,f_2,\ldots,f_d)s,$$ 
+$$f=(f_1,f_2,\ldots,f_d)\sigma,$$ 
 
 where $f_1,\ldots,f_d$ are the sections of $f$ at the vertices of 
 the first level and $s$ is a permutation which permutes the subtrees 
 hanging down from these vertices.
 
 This notation is very convenient for performing multiplication of 
-elements. If $f=(f_1,f_2,\ldots,f_d)s$ and 
-$g=(g_1,g_2,\ldots,g_d)t$, then 
+elements. If $f=(f_1,f_2,\ldots,f_d)\sigma$ and 
+$g=(g_1,g_2,\ldots,g_d)\pi$, then 
 
-$$f.g=(f_1.g_{s(1)},\ldots,f_d.g_{s(d)})st,$$
+$$f.g=(f_1.g_{\sigma(1)},\ldots,f_d.g_{\sigma(d)})\sigma\pi,$$
 
-$$f^{-1}=(f_{s^{-1}(1)}^{-1},\ldots,f_{s^{-1}(d)}^{-1})s^{-1}\.$$
+$$f^{-1}=(f_{\sigma^{-1}(1)}^{-1},\ldots,f_{\sigma^{-1}(d)}^{-1})\sigma^{-1}\.$$
 
 The group of automorphisms of a rooted tree is siad to be 
 <level-transitive> if it acts transitively on each level of the 

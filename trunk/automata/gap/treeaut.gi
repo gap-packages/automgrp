@@ -101,11 +101,12 @@ function(states, perm)
           "without information about the tree");
   fi;
 
-  nstates := List(states, function(s)
-                            if IsOne(s) then
+
+  nstates := List(states, function(x)
+                            if IsOne(x) then
                               return One(autom);
                             else
-                              return s;
+                              return x;
                             fi;
                           end);
 

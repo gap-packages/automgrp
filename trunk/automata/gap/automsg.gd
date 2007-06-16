@@ -104,4 +104,27 @@ DeclareAttribute("UnderlyingFreeMonoid", IsAutomSemigroup);
 DeclareAttribute("UnderlyingFreeGroup", IsAutomSemigroup);
 
 
+#############################################################################
+##
+#A  UnderlyingAutomaton(<G>)
+##
+##  For a group (or semigroup) <G> returns an automaton generating a
+##  self-similar group (or semigroup) containing <G>.
+##  \beginexample
+##  gap> GS:=AutomSemigroup([[1,2,Transformation([1,1])],[2,2,(1,2)]],["x","y"]);
+##  < x, y >
+##  gap> UnderlyingAutomaton(GS);
+##  <automaton>
+##  gap> A:=UnderlyingAutomaton(GS);
+##  <automaton>
+##  gap> Print(A);
+##  a1 = (a1, a2)[ 1, 1 ], a2 = (a2, a2)[ 2, 1 ]
+##  gap> H:=Group([u*v^-1,v^2]);
+##  < u*v^-1, v^2 >
+##  gap> Print(UnderlyingAutomaton(H));
+##  a1 = (a1, a1), a2 = (a3, a1)(1,2), a3 = (a2, a1)
+##  \endexample
+##
+DeclareAttribute("UnderlyingAutomaton", IsAutomSemigroup);
+
 #E

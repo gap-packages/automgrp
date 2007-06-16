@@ -98,9 +98,9 @@ DeclareOperation("States", [IsTreeHomomorphism]);
 #O  Expand( <a>[, <k>] )
 ##
 ##  Returns an ``expanded'' form of tree homomorphism <a>, i.e. the
-##  representation of the form $$a = (a_1, a_2, ..., a_{d_1\times...\times d_k})s$$
-##  where $a_i$ are the states of <a> at the <k>-th level, and $s$ is the
-##  transformation of the k-th level. By default <k> is equal to 1.
+##  representation of the form $$a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma$$
+##  where $a_i$ are the states of <a> at the <k>-th level, and $\sigma$ is the
+##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
 ##  \beginexample
 ##  gap> Expand(a*b^2);
 ##  (a*b^2, b*a^2)(1,2)

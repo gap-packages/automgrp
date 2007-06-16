@@ -34,7 +34,7 @@ DeclareAttribute("AutomatonList", IsTreeHomomorphism and IsActingOnRegularTree, 
 ##  Constructs an automaton transformation with states <states> and acting
 ##  on the first level with transformation <tr>.
 ##
-DeclareOperation("TreeHomomorphism", [IsList, IsTransformation]);
+DeclareOperation("TreeHomomorphism", [IsList, IsObject]);
 
 ###############################################################################
 ##

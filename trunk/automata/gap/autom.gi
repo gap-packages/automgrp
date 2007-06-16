@@ -32,6 +32,12 @@ function(family, word, states, perm, invertible)
 
   if invertible then
     cat := IsInvertibleAutom and IsAutomRep;
+
+    if not AG_IsInvertibleTransformation(perm) then
+      Error(perm, " is not invertible");
+    else
+      perm := AG_PermFromTransformation(perm);
+    fi;
   else
     cat := IsAutom and IsAutomRep;
   fi;
@@ -113,7 +119,7 @@ function(w, fam)
   invertible := true;
   if not fam!.isgroup then
     for i in exp do
-      if i < fam!.numstates and not IsInvertibleAutom(fam!.automgens[i]) then
+      if i <= fam!.numstates and not IsInvertibleAutom(fam!.automgens[i]) then
         invertible := false;
         break;
       fi;
@@ -566,13 +572,17 @@ end);
 InstallMethod(PermOnLevelOp, "PermOnLevelOp(IsAutom, IsPosInt)",
               [IsInvertibleAutom, IsPosInt],
 function(a, k)
-    local dom, perm;
+  local dom, perm;
 
-    dom := AsList(Tuples([1.. a!.deg], k));
-    perm := List(dom, s -> s ^ a);
-    perm := PermListList(dom, perm);
+  if k = 1 then
+    return a!.perm;
+  fi;
 
-    return perm;
+  dom := AsList(Tuples([1.. a!.deg], k));
+  perm := List(dom, s -> s ^ a);
+  perm := PermListList(dom, perm);
+
+  return perm;
 end);
 
 InstallMethod(TransformationOnFirstLevel, [IsAutom],

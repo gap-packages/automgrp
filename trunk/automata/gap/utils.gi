@@ -29,11 +29,18 @@ end);
 ##
 InstallGlobalFunction(AG_PermFromTransformation,
 function(tr)
-  if not IsPerm(tr) then
-    return PermList(ImageListOfTransformation(tr));
-  else
+  local perm;
+
+  if IsPerm(tr) then
     return tr;
   fi;
+
+  perm := PermList(ImageListOfTransformation(tr));
+  if not IsPerm(perm) then
+    Error(tr, " is not invertible");
+  fi;
+
+  return perm;
 end);
 
 #############################################################################

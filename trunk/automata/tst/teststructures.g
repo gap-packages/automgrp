@@ -84,7 +84,7 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
     a := Random(group);
     b := Random(group);
     c := Random(group);
-    AssertTrue((a*b)*c = a*(b*c));
+    AssertEqual((a*b)*c, a*(b*c));
   od;
 
   count := 0;
@@ -139,5 +139,17 @@ UnitTest("Rewriting systems", function()
         $ST_TestMultiplication1(l[1], true, true, true);
       fi;
     fi;
+  od;
+end);
+
+
+UnitTest("Expand", function()
+  local l, group, a, b, count;
+  for l in $ST_Semigroups do
+    group := AutomSemigroup(l[1]);
+
+    for count in [1..50] do
+      Expand(Random(group));
+    od;
   od;
 end);

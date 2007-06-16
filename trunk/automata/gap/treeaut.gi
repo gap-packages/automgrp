@@ -90,7 +90,6 @@ function(states, perm)
   for s in states do
     if IsTreeAutomorphism(s) then
       autom := s;
-      break;
     elif not IsOne(s) then
       Error("Invalid state `", s, "'");
     fi;
@@ -211,7 +210,7 @@ end);
 InstallMethod(PermOnLevelOp, "method for IsTreeAutomorphism and IsPosInt",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
-  local states, top, first_level, i, j, d1, d2, permuted;
+  local states, top, first_level, i, j, d1, d2, permuted, p;
 
   if k = 1 then
     return Perm(a);
@@ -235,7 +234,12 @@ function(a, k)
       permuted[d2*(i-1) + j] := d2*(i^top - 1) + j^first_level[i];
     od;
   od;
-  return PermList(permuted);
+
+  p := PermList(permuted);
+  if not IsPerm(p) then
+    Error();
+  fi;
+  return p;
 end);
 
 

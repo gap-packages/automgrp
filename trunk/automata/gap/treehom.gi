@@ -68,14 +68,30 @@ end);
 #M  TreeHomomorphism (<states>, <tr>)
 ##
 InstallMethod(TreeHomomorphism,
-              [IsList and IsTreeHomomorphismCollection, IsTransformation],
+              [IsList and IsTreeHomomorphismCollection, IsObject],
 function(states, perm)
-  local top_deg, bot_deg, ind, fam;
+  local top_deg, bot_deg, ind, fam, a;
+
+  if not IsPerm(perm) and not IsTransformation(perm) then
+    Error();
+  fi;
+
+  if AG_IsInvertibleTransformation(perm) and
+     ForAll(states, IsTreeAutomorphism)
+  then
+    return TreeAutomorphism(states, AG_PermFromTransformation(perm));
+  fi;
 
   top_deg := Length(states);
 
-  if not IsOne(perm) and top_deg < DegreeOfTransformation(perm) then
-    Error();
+  if IsPerm(perm) then
+    if not IsOne(perm) and top_deg < Maximum(MovedPoints(perm)) then
+      Error();
+    fi;
+  else
+    if not IsOne(perm) and top_deg < DegreeOfTransformation(perm) then
+      Error();
+    fi;
   fi;
 
   bot_deg := DegreeOfTree(states[1]);

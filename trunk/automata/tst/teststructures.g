@@ -9,12 +9,35 @@ $ST_Groups := [
 ];
 
 $ST_Semigroups := Concatenation($ST_Groups, [
-  [[[1,1,Transformation([1,2])]]],
-  [[[1,1,Transformation([1,1])]]],
-  [[[1,1,Transformation([1,1])], [1,1,Transformation([1,1])]]],
-  [[[1,2,Transformation([1,1])], [1,1,Transformation([1,2])]]],
+  ["a=(a,a)[1,2]"],
+  ["a=(a,a)[1,1]"],
+  ["a=(a,a)[1,1], b = (a,a) [1,1]"],
+  ["a=(a ,b) [1, 1]; b=(a, a)[1,2]"],
 ]);
 
+
+UnitTest("Parsing automaton string", function()
+  local list, l;
+
+  list := [
+    [ "a=(1,1)", [ [ "a", 1 ], [ [ 2, 2, () ], [ 2, 2, () ] ] ] ],
+    [ "a=(1,1)(1,2)", [ [ "a", 1 ], [ [ 2, 2, (1,2) ], [ 2, 2, () ] ] ] ],
+    [ "a=(1,1)(1,2)", [ [ "a", 1 ], [ [ 2, 2, (1,2) ], [ 2, 2, () ] ] ] ],
+    [ "a=(1,b)(1,2), b=(1,a)", [ [ "a", "b", 1 ], [ [ 3, 2, (1,2) ], [ 3, 1, () ], [ 3, 3, () ] ] ] ],
+    [ "a=(1,1)(1,2), b=(a,c), c=(a,d), d=(1,b)", [ [ "a", "b", "c", "d", 1 ], [ [ 5, 5, (1,2) ], [ 1, 3, () ], [ 1, 4, () ], [ 5, 2, () ], [ 5, 5, () ] ] ] ],
+    [ "a=(1,2)(3,4)(5,6), b=(1,c,a,c,a,c), c=(a,d,1,d,a,d), d=(a,b,a,b,1,b)", [ [ "a", "b", "c", "d", 1 ], [ [ 5, 5, 5, 5, 5, 5, (1,2)(3,4)(5,6) ], [ 5, 3, 1, 3, 1, 3, () ], [ 1, 4, 5, 4, 1, 4, () ], [ 1, 2, 1, 2, 5, 2, () ], [ 5, 5, 5, 5, 5, 5, () ] ] ] ],
+    [ "a=(c,b), b=(b,c), c=(a,a)(1,2)", [ [ "a", "b", "c" ], [ [ 3, 2, () ], [ 2, 3, () ], [ 1, 1, (1,2) ] ] ] ],
+    [ "a=(c,b)(1,2), b=(b,c)(1,2), c=(a,a)", [ [ "a", "b", "c" ], [ [ 3, 2, (1,2) ], [ 2, 3, (1,2) ], [ 1, 1, () ] ] ] ],
+    [ "a=(a,a)[1,2]", [ [ "a" ], [ [ 1, 1, Transformation( [ 1, 2 ] ) ] ] ] ],
+    [ "a=(a,a)[1,1]", [ [ "a" ], [ [ 1, 1, Transformation( [ 1, 1 ] ) ] ] ] ],
+    [ "a=(a,a)[1,1], b = (a,a) [1,1]", [ [ "a", "b" ], [ [ 1, 1, Transformation( [ 1, 1 ] ) ], [ 1, 1, Transformation( [ 1, 1 ] ) ] ] ] ],
+    [ "a=(a ,b) [1, 1]; b=(a, a)[1,2]", [ [ "a", "b" ], [ [ 1, 2, Transformation( [ 1, 1 ] ) ], [ 1, 1, Transformation( [ 1, 2 ] ) ] ] ] ]
+  ];
+
+  for l in list do
+    AssertEqual(AG_ParseAutomatonString(l[1]), l[2]);
+  od;
+end);
 
 UnitTest("Groups", function()
   local l;
@@ -80,7 +103,7 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
     fi;
   fi;
 
-  for count in [1..50] do
+  for count in [1..10] do
     a := Random(group);
     b := Random(group);
     c := Random(group);
@@ -148,8 +171,9 @@ UnitTest("Expand", function()
   for l in $ST_Semigroups do
     group := AutomSemigroup(l[1]);
 
-    for count in [1..50] do
-      Expand(Random(group));
+    for count in [1..10] do
+      a := Random(group);
+      AssertEqual(Expand(a), Expand(a));
     od;
   od;
 end);

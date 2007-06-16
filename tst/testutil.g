@@ -96,7 +96,7 @@ UnitTestRun := function()
   if total_failed > 0 then
     Print("\n", total_failed, " of ", total, " tests failed\n");
   else
-    Print("\nAll tests passed\n");
+    Print("\nAll ", total, " tests passed\n");
   fi;
 end;
 
@@ -109,12 +109,13 @@ Assert_ := function(condition, test_args, msg_args, def_msg_args)
 
   if condition then
     result := [true];
+    Print(".");
   else
     result := [false, test_args, msg_args];
+    Print("F");
   fi;
 
   Add(UnitTestData.current_test.results, result);
-  Print(".");
 end;
 
 AssertTrue := function(arg)

@@ -226,21 +226,25 @@ $AG_split_states := function(str)
   local states, s, c, i, parens;
 
   states := [];
-  parens := 0;
+  parens := [];
   s := "";
 
   for i in [1..Length(str)] do
     c := str[i];
-    if c = '(' then
-      parens := parens + 1;
+    if c = '(' or c = '[' then
+      if c = '(' then
+        Add(parens, ')');
+      else
+        Add(parens, ']');
+      fi;
       Add(s, c);
-    elif c = ')' then
-      if parens = 0 then
+    elif c = ')' or c = ']' then
+      if IsEmpty(parens) or parens[Length(parens)] <> c then
         Error("Unmatched parenthesis: ", str{[i..Length(str)]});
       fi;
-      parens := parens - 1;
+      Remove(parens, Length(parens));
       Add(s, c);
-    elif c = ',' and parens = 0 then
+    elif (c = ',' or c = ';') and IsEmpty(parens) then
       NormalizeWhitespace(s);
       Add(states, s);
       s := "";
@@ -255,23 +259,37 @@ $AG_split_states := function(str)
 end;
 
 $AG_split_perms := function(str)
-  local s, perms, elms, cl, op;
+  local s, perms, elms, cl, op,
+        paren, bracket, isperm;
 
   s := 0;
   perms := [];
 
   while s < Length(str) do
-    op := Position(str, '(', s);
-    if op = fail then
+    paren := Position(str, '(', s);
+    bracket := Position(str, '[', s);
+
+    if paren <> fail and (bracket = fail or bracket > paren) then
+      isperm := true;
+      op := paren;
+      cl := Position(str, ')', op);
+    elif bracket <> fail then
+      isperm := false;
+      op := bracket;
+      cl := Position(str, ']', op);
+    else
       Error("Invalid state string '", str, "'");
     fi;
-    cl := Position(str, ')', op);
+
     if cl = fail then
       Error("Invalid state string '", str, "'");
     fi;
-    elms := SplitString(str{[op+1 .. cl-1]}, ",");
+
+    elms := SplitString(str{[op+1 .. cl-1]}, ",;");
     Perform(elms, NormalizeWhitespace);
-    Add(perms, elms);
+
+    Add(perms, [elms, isperm]);
+
     s := cl;
   od;
 
@@ -316,7 +334,7 @@ $AG_make_permutation := function(list)
   local indices, s, d;
 
   indices := [];
-  for s in list do
+  for s in list[1] do
     d := Int(s);
     if d = fail then
       return fail;
@@ -326,10 +344,12 @@ $AG_make_permutation := function(list)
 
   if Length(indices) < 2 then
     return ();
-  else
+  elif list[2] then
     return MappingPermListList(indices,
                                Concatenation(indices{[2..Length(indices)]},
                                              [indices[1]]));
+  else
+    return Transformation(indices);
   fi;
 end;
 
@@ -355,11 +375,11 @@ $AG_parse_state := function(str)
   perm := ();
 
   for i in [1..Length(def)] do
-    if i = 1 and not $AG_is_permutation(def[i]) then
-      states := $AG_make_states(def[i], str);
+    if i = 1 and def[i][2] and not $AG_is_permutation(def[i][1]) then
+      states := $AG_make_states(def[i][1], str);
     else
       p := $AG_make_permutation(def[i]);
-      if states = fail then
+      if p = fail then
         Error("Invalid permutation ", def[i], " in '", str, "'");
       fi;
       perm := perm * p;
@@ -371,7 +391,8 @@ end;
 
 InstallGlobalFunction("AG_ParseAutomatonString",
 function(str)
-  local states, aut_list, aut_states, need_one, alph, i, j, s;
+  local states, aut_list, aut_states, need_one, alph, i, j, s,
+        largest_moved_point;
 
   states := $AG_split_states(str);
   Apply(states, $AG_parse_state);
@@ -379,7 +400,16 @@ function(str)
 
   need_one := false;
   aut_states := [];
-  alph := Maximum(List(states, s -> LargestMovedPointPerm(s[3])));
+
+  largest_moved_point := function(p)
+    if IsPerm(p) then
+      return LargestMovedPointPerm(p);
+    else
+      return DegreeOfTransformation(p);
+    fi;
+  end;
+
+  alph := Maximum(List(states, s -> largest_moved_point(s[3])));
 
   for s in states do
     if s[1] in aut_states then

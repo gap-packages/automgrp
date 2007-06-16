@@ -829,4 +829,17 @@ function(G)
 end);
 
 
+###############################################################################
+##
+#M  UnderlyingAutomaton(<G>)
+##
+InstallMethod(UnderlyingAutomaton, "UnderlyingAutomFamily(IsAutomGroup)",
+              [IsAutomGroup],
+function(G)
+  local fam;
+  fam:=UnderlyingAutomFamily(G);
+  return Automaton(AG_AddInversesList(fam!.automatonlist){[1..fam!.numstates+1]});
+end);
+
+
 #E

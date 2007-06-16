@@ -55,11 +55,11 @@ function(tr)
   else
     list := ImageListOfTransformation(tr);
     Print("[");
-    for i in list do
-      if i <> 0 then
+    for i in [1..Length(list)] do
+      if i <> 1 then
         Print(",");
       fi;
-      Print(i);
+      Print(list[i]);
     od;
     Print("]");
   fi;

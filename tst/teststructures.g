@@ -128,7 +128,7 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
       fi;
 
       count := count + 1;
-      if count > 50 then
+      if count > 20 then
         break;
       fi;
     fi;
@@ -173,6 +173,8 @@ UnitTest("Expand", function()
 
     for count in [1..10] do
       a := Random(group);
+      AssertEqual(Expand(a), Expand(a));
+      a := Expand(a) * Expand(a);
       AssertEqual(Expand(a), Expand(a));
     od;
   od;

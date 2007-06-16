@@ -57,27 +57,25 @@ function(sph_ind)
 end);
 
 
-###############################################################################
-##
-#M  TreeAutomorphism(<states_list>, <perm>)
-##
-InstallMethod(TreeAutomorphism, [IsList and IsTreeAutomorphismCollection, IsPerm],
+BindGlobal("AG_TreeAutomorphism",
 function(list_states, permutation)
   local top_deg, bot_deg, ind, fam;
+
   top_deg := Length(list_states);
   if not IsOne(permutation) and
       top_deg < Maximum(MovedPoints(permutation)) then
     Error();
   fi;
+
   bot_deg := DegreeOfTree(list_states[1]);
   ind := rec(start := [top_deg], period := [bot_deg]);
   fam := TreeAutomorphismFamily(ind);
+
   return Objectify( NewType(fam, IsTreeAutomorphism and IsTreeAutomorphismRep),
                     rec(states := list_states,
                         perm := permutation,
                         deg := top_deg));
 end);
-
 
 ###############################################################################
 ##
@@ -99,6 +97,7 @@ function(states, perm)
   od;
 
   if autom = fail then
+    # XXX homogenous tree, stupid!
     Error("Can't create an automaton with all trivial states ",
           "without information about the tree");
   fi;
@@ -111,7 +110,7 @@ function(states, perm)
                             fi;
                           end);
 
-  return TreeAutomorphism(nstates, perm);
+  return AG_TreeAutomorphism(nstates, perm);
 end);
 
 

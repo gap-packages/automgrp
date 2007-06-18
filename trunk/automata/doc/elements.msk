@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Chapter{Properties and operations with group elements}
+\Chapter{Properties and operations with group and semigroup elements}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Creation of tree automorphisms and homomorphisms}
@@ -21,7 +21,7 @@ gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Properties and attributes of tree automorphisms}
+\Section{Properties and attributes of tree automorphisms and homomorphisms}
 
 \Declaration{IsSphericallyTransitive}[treeaut]
 \Declaration{IsTransitiveOnLevel}
@@ -64,7 +64,7 @@ infinity
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Operations with tree automorphisms}
+\Section{Operations with tree automorphisms and homomorphisms}
 
 The multiplication of tree homomorphisms is defined in the standard way 
 

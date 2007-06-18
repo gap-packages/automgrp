@@ -38,7 +38,7 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Operations with groups}
+\Section{Operations with groups and semigroups}
 
 \Declaration{PermGroupOnLevel}
 \Declaration{StabilizerOfLevel}
@@ -48,9 +48,8 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{FixesVertex}
 \Declaration{Projection}
 \Declaration{ProjStab}
-\Declaration{FindRelationsSubs}
-\Declaration{FindRelationsSubsSG}
-\Declaration{FindRelations}
+\Declaration{FindGroupRelations}
+\Declaration{FindSemigroupRelations}
 \Declaration{FindGroupElement}
 \Declaration{FindGroupElements}
 \Declaration{FindElementOfInfiniteOrder}

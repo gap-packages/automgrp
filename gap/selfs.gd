@@ -732,6 +732,7 @@ DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic]);
 DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic, IsCyclotomic]);
 
 
+DeclareOperation("FindGroupRelations1", [IsGroup, IsCyclotomic, IsCyclotomic]);
 
 ################################################################################
 ##

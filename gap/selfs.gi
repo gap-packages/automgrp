@@ -2039,11 +2039,11 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true,
+InstallMethod(FindGroupRelations1, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true,
               [IsGroup, IsCyclotomic, IsCyclotomic],
 function(G,max_len,num_of_rels)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,oldgr,New,k, rels,rel,F,relsF,ElListF,genf,f,fgens,all_relsF,rel1,new_rel,r,orig_fgens,\
-        IsNewRel, CyclicConjugates, ngens, Fhom_images, Fhom, ElList_inv,inv_gens;
+        IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom, FGhom_images, FGhom, ElList_inv,inv_gens;
 
   IsNewRel:=function(rel)
     local rel1,r;
@@ -2075,8 +2075,8 @@ function(G,max_len,num_of_rels)
 
   F:=FreeGroup(ngens);
   orig_fgens:=ShallowCopy(GeneratorsOfGroup(F));
-  Fhom_images:=ShallowCopy(GeneratorsOfGroup(F));
-
+  FFhom_images:=ShallowCopy(GeneratorsOfGroup(F));
+  FGhom_images:=ShallowCopy(GeneratorsOfGroup(G));
 
   Append(orig_gens,List(orig_gens,x->x^-1));
   Append(orig_fgens,List(orig_fgens,x->x^-1));
@@ -2104,8 +2104,8 @@ function(G,max_len,num_of_rels)
             if i>ngens and j<=ngens then
 #              hom_images[i-ngens]:=orig_gens[j+ngens];
 #              hom_images[j]:=orig_gens[i];
-              Fhom_images[i-ngens]:=orig_fgens[j+ngens];
-              Fhom_images[j]:=orig_fgens[i];
+              FFhom_images[i-ngens]:=orig_fgens[j+ngens];
+              FFhom_images[j]:=orig_fgens[i];
             fi;
           fi;
           break;
@@ -2114,6 +2114,9 @@ function(G,max_len,num_of_rels)
       if new_gen then
         Add(gens,orig_gens[i]);
         Add(fgens,orig_fgens[i]);
+        if i<=ngens then
+          FGhom_images[i]:=orig_gens[i];
+        fi;
       fi;
     else
       if not IsIdenticalObj(orig_gens[i],One(orig_gens[i])) then
@@ -2139,7 +2142,8 @@ function(G,max_len,num_of_rels)
   Print("gens=",gens,"\n");
   Print("inv_gens=",inv_gens,"\n");
 
-  Fhom:=GroupHomomorphismByImagesNC(F,F,GeneratorsOfGroup(F),Fhom_images);
+  FFhom:=GroupHomomorphismByImagesNC(F,F,GeneratorsOfGroup(F),FFhom_images);
+  FGhom:=GroupHomomorphismByImagesNC(F,G,GeneratorsOfGroup(F),FGhom_images);
 #  Print("hom=",hom,"\n");
 
   ElList:=[One(G)];
@@ -2175,12 +2179,13 @@ function(G,max_len,num_of_rels)
             Add(ElListF,f);
           else
             new_rel:=true;
-            rel:=CyclicallyReducedWord(Image(Fhom,f^-1)*ElListF[k-1]);
+            rel:=CyclicallyReducedWord(Image(FFhom,f^-1)*ElListF[k-1]);
             if Length(rel)<Length(f)+Length(ElListF[k-1]) then new_rel:=false; fi;
 
 
-            if IsNewRel(rel) and IsNewRel(Image(Fhom,rel^-1)) then
-              Add(rels,inv_gens[j]*ElList_inv[i]*ElList[k-1]);
+            if IsNewRel(rel) and IsNewRel(Image(FFhom,rel^-1)) then
+#              Add(rels,inv_gens[j]*ElList_inv[i]*ElList[k-1]);
+              Add(rels,Image(FGhom,rel));
               Add(relsF,rel);
               Info(InfoAutomGrp, 3, inv_gens[j]*ElList_inv[i]*ElList[k-1]);
               Append(all_relsF,CyclicConjugates(rel));
@@ -2248,7 +2253,7 @@ InstallMethod(FindGroupRelations, "for [IsList, IsList, IsCyclotomic, IsCyclotom
               [IsList, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words,names,max_len,num_of_rels)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,oldgr,New,k, rel,F,relsF,ElListF,genf,f,fgens,all_relsF,rel1,new_rel,r,orig_fgens,\
-        IsNewRel, CyclicConjugates, ngens, Fhom_images, Fhom;
+        IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom;
 
   IsNewRel:=function(rel)
     local rel1,r;
@@ -2285,7 +2290,7 @@ function(subs_words,names,max_len,num_of_rels)
   orig_fgens:=ShallowCopy(GeneratorsOfGroup(F));
   ngens:=Length(orig_gens);
 
-  Fhom_images:=ShallowCopy(GeneratorsOfGroup(F));
+  FFhom_images:=ShallowCopy(GeneratorsOfGroup(F));
 
 
   Append(orig_gens,List(orig_gens,x->x^-1));
@@ -2309,8 +2314,8 @@ function(subs_words,names,max_len,num_of_rels)
 
             Append(all_relsF,CyclicConjugates(orig_fgens[i]^-1*orig_fgens[j]));
             if i>ngens and j<=ngens then
-              Fhom_images[i-ngens]:=orig_fgens[j+ngens];
-              Fhom_images[j]:=orig_fgens[i];
+              FFhom_images[i-ngens]:=orig_fgens[j+ngens];
+              FFhom_images[j]:=orig_fgens[i];
             fi;
           fi;
           break;
@@ -2327,7 +2332,7 @@ function(subs_words,names,max_len,num_of_rels)
   od;
 
 
-  Fhom:=GroupHomomorphismByImagesNC(F,F,GeneratorsOfGroup(F),Fhom_images);
+  FFhom:=GroupHomomorphismByImagesNC(F,F,GeneratorsOfGroup(F),FFhom_images);
 
   ElList:=[One(subs_words[1])];
   ElListF:=[One(F)];
@@ -2359,11 +2364,11 @@ function(subs_words,names,max_len,num_of_rels)
             Add(ElListF,f);
           else
             new_rel:=true;
-            rel:=CyclicallyReducedWord(Image(Fhom,f^-1)*ElListF[k-1]);
+            rel:=CyclicallyReducedWord(Image(FFhom,f^-1)*ElListF[k-1]);
             if Length(rel)<Length(f)+Length(ElListF[k-1]) then new_rel:=false; fi;
 
 
-            if IsNewRel(rel) and IsNewRel(Image(Fhom,rel^-1)) then
+            if IsNewRel(rel) and IsNewRel(Image(FFhom,rel^-1)) then
               Add(relsF,rel);
               Info(InfoAutomGrp, 3, rel);
               Append(all_relsF,CyclicConjugates(rel));

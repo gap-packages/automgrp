@@ -604,9 +604,9 @@ end);
 
 # ###############################################################################
 # ##
-# #M  Expand(a)
+# #M  Decompose(a)
 # ##
-# InstallMethod(Expand, [IsFGAutom],
+# InstallMethod(Decompose, [IsFGAutom],
 # function(a)
 #   local deg, listrep, list, names, i, j, pf;
 #
@@ -643,9 +643,9 @@ end);
 #
 # ###############################################################################
 # ##
-# #M  ExpandRen(a)
+# #M  DecomposeRen(a)
 # ##
-# InstallMethod(ExpandRen, [IsFGAutom],
+# InstallMethod(DecomposeRen, [IsFGAutom],
 # function(a)
 #   local letters, deg, listrep, list, states, names, i, j, pf;
 #

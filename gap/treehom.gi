@@ -379,14 +379,14 @@ end);
 
 ###############################################################################
 ##
-#M  Expand(<a>, <k>)
+#M  Decompose(<a>, <k>)
 ##
-InstallMethod(Expand, [IsTreeHomomorphism, IsPosInt],
+InstallMethod(Decompose, [IsTreeHomomorphism, IsPosInt],
 function(a, level)
   return TreeHomomorphism(States(a, level), TransformationOnLevel(a, level));
 end);
 
-InstallOtherMethod(Expand, [IsTreeHomomorphism, IsInt and IsZero],
+InstallOtherMethod(Decompose, [IsTreeHomomorphism, IsInt and IsZero],
 function(a, level)
   return a;
 end);
@@ -394,11 +394,11 @@ end);
 
 ###############################################################################
 ##
-#M  Expand(<a>)
+#M  Decompose(<a>)
 ##
-InstallMethod(Expand, [IsTreeHomomorphism],
+InstallMethod(Decompose, [IsTreeHomomorphism],
 function(a)
-  return Expand(a, 1);
+  return Decompose(a, 1);
 end);
 
 

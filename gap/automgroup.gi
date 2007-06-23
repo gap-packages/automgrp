@@ -82,7 +82,7 @@ end);
 #M  AutomGroup(<A>)
 #M  AutomGroup(<A>, <bind_vars>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsAutomaton)", [IsAutomaton],
+InstallMethod(AutomGroup, "AutomGroup(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -90,7 +90,7 @@ function(A)
   return AutomGroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomGroup, "AutomGroup(IsAutomaton, IsBool)", [IsAutomaton, IsBool],
+InstallMethod(AutomGroup, "AutomGroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -212,7 +212,7 @@ function(G)
   local i, gens, printone;
 
   printone := function(a)
-    Print(a, " = ", Expand(a));
+    Print(a, " = ", Decompose(a));
   end;
 
   gens := GeneratorsOfGroup(G);
@@ -838,7 +838,7 @@ InstallMethod(UnderlyingAutomaton, "UnderlyingAutomFamily(IsAutomGroup)",
 function(G)
   local fam;
   fam:=UnderlyingAutomFamily(G);
-  return Automaton(AG_AddInversesList(fam!.automatonlist){[1..fam!.numstates+1]});
+  return MealyAutomaton(AG_AddInversesList(fam!.automatonlist){[1..fam!.numstates+1]});
 end);
 
 

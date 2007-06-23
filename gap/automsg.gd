@@ -49,14 +49,14 @@ DeclareSynonym("IsAutomSemigroup", IsSemigroup and IsAutomCollection);
 ##  < a, b >
 ##  gap> AutomSemigroup("a=(b, a, 1)(2,3), b=(1, a, b)(1,2,3)");
 ##  < a, b >
-##  gap> A:=Automaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> A:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 ##  <automaton>
 ##  gap> G:=AutomSemigroup(A);
 ##  < a, b >
 ##  \endexample
 ##
 DeclareOperation("AutomSemigroup", [IsList]);
-DeclareOperation("AutomSemigroup", [IsAutomaton]);
+DeclareOperation("AutomSemigroup", [IsMealyAutomaton]);
 DeclareOperation("AutomSemigroup", [IsList, IsList]);
 
 
@@ -79,7 +79,7 @@ DeclareOperation("AutomSemigroup", [IsList, IsList]);
 # ##  \endexample
 # ##
 DeclareOperation("AutomSemigroup", [IsList, IsBool]);
-DeclareOperation("AutomSemigroup", [IsAutomaton, IsBool]);
+DeclareOperation("AutomSemigroup", [IsMealyAutomaton, IsBool]);
 DeclareOperation("AutomSemigroup", [IsList, IsList, IsBool]);
 
 

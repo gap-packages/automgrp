@@ -2,7 +2,7 @@ msk_files =		\
     groups.msk	\
     automlist.msk	\
     autom.msk		\
-    data.msk		\
+    misc.msk		\
     intro.msk		\
     elements.msk	\
     manual.msk

@@ -465,14 +465,14 @@ end);
 
 ###############################################################################
 ##
-#M  Expand(<a>, <k>)
+#M  Decompose(<a>, <k>)
 ##
-InstallMethod(Expand, [IsTreeAutomorphism, IsPosInt],
+InstallMethod(Decompose, [IsTreeAutomorphism, IsPosInt],
 function(a, level)
   return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
 end);
 
-InstallOtherMethod(Expand, [IsTreeAutomorphism, IsInt and IsZero],
+InstallOtherMethod(Decompose, [IsTreeAutomorphism, IsInt and IsZero],
 function(a, level)
   return a;
 end);
@@ -480,11 +480,11 @@ end);
 
 ###############################################################################
 ##
-#M  Expand(<a>)
+#M  Decompose(<a>)
 ##
-InstallOtherMethod(Expand, [IsTreeAutomorphism],
+InstallOtherMethod(Decompose, [IsTreeAutomorphism],
 function(a)
-  return Expand(a, 1);
+  return Decompose(a, 1);
 end);
 
 

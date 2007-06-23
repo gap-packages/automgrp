@@ -631,7 +631,7 @@ function(H)
   if not HasIsContracting(H) then
     Info(InfoWarning, 1, "If <H> is not contracting, the algorithm will never stop");
   fi;
-  return ContractingLevelLocal(NucleusIncludingGeneratingSetAutom(H));
+  return ContractingLevelLocal(AG_GeneratingSetWithNucleusAutom(H));
 end);
 
 
@@ -684,7 +684,7 @@ function(H)
   if not HasIsContracting(H) then
     Info(InfoWarning, 1, "If <H> is not contracting, the algorithm will never stop");
   fi;
-  return _ContractingTableLocal(NucleusIncludingGeneratingSetAutom(H));
+  return _ContractingTableLocal(AG_GeneratingSetWithNucleusAutom(H));
 end);
 
 
@@ -697,7 +697,7 @@ function(H)
   for i in [1..numstates] do
     for j in [1..numstates] do
       for k in [1..deg] do
-        T[i][j][k]:=NucleusIncludingGeneratingSet(H)[T[i][j][k]];
+        T[i][j][k]:=GeneratingSetWithNucleus(H)[T[i][j][k]];
       od;
       T[i][j]:=TreeAutomorphism(T[i][j]{[1..deg]} , T[i][j][deg+1]);
     od;
@@ -950,7 +950,7 @@ function(H,max_nucl)
       res:=IsElemInNucleus(G[g][i]);
       i:=i+1;
     od;
-    tmp:=tmp{[1..Length(tmp)-1]};
+    Remove(tmp);
     return res;
   end;
 
@@ -1044,17 +1044,13 @@ function(H,max_nucl)
   od;
 
 # now add sections of elements
-  repeat
-    found:=false;
-    for g in Nucl do
-      for i in [1..d] do
-        if not (G[g][i] in Nucl) then
-          found:=true;
-          Add(Nucl,G[g][i]);
-        fi;
-      od;
+  for g in Nucl do
+    for i in [1..d] do
+      if not (G[g][i] in Nucl) then
+        Add(Nucl,G[g][i]);
+      fi;
     od;
-  until not found;
+  od;
 #  Print("Nucleus:",Nucl,"\n");
 
   nucl_final:=[];
@@ -1062,13 +1058,14 @@ function(H,max_nucl)
 
   SetIsContracting(H, true);
   SetGroupNucleus(H, nucl_final);
-  SetNucleusIncludingGeneratingSet(H, cur_nucl);
-  SetNucleusIncludingGeneratingSetAutom(H, G);
+  SetGeneratingSetWithNucleus(H, cur_nucl);
+  SetAG_GeneratingSetWithNucleusAutom(H, G);
+  SetGeneratingSetWithNucleusAutom(H, MealyAutomaton(G));
   SetContractingLevel(H, maxlev);
   SetUseContraction(H, true);
   SetInfoLevel(InfoAutomGrp,info);
 
-  return [nucl_final,cur_nucl,G];
+  return [nucl_final,cur_nucl,GeneratingSetWithNucleusAutom(H)];
 end);
 
 
@@ -1117,28 +1114,28 @@ function(G)
 end);
 
 
-InstallMethod(NucleusIncludingGeneratingSet, "NucleusIncludingGeneratingSet(IsAutomGroup)", true,
+InstallMethod(GeneratingSetWithNucleus, "GeneratingSetWithNucleus(IsAutomGroup)", true,
               [IsAutomGroup],
 function(G)
   local info,res;
   info:=INFO_FLAG(G);
   SetINFO_FLAG(G, 1);
   FindNucleus(G);
-  res:=NucleusIncludingGeneratingSet(G);
+  res:=GeneratingSetWithNucleus(G);
   SetINFO_FLAG(G, info);
   return res;
 end);
 
 
 
-InstallMethod(NucleusIncludingGeneratingSetAutom, "NucleusIncludingGeneratingSetAutom(IsAutomGroup)", true,
+InstallMethod(AG_GeneratingSetWithNucleusAutom, "AG_GeneratingSetWithNucleusAutom(IsAutomGroup)", true,
               [IsAutomGroup],
 function(G)
   local info,res;
   info:=INFO_FLAG(G);
   SetINFO_FLAG(G, 1);
   FindNucleus(G);
-  res:=NucleusIncludingGeneratingSetAutom(G);
+  res:=AG_GeneratingSetWithNucleusAutom(G);
   SetINFO_FLAG(G, info);
   return res;
 end);
@@ -1199,8 +1196,8 @@ InstallGlobalFunction(AG_AutomPortraitMain,function(w)
   end;
 
   d:=w!.deg;
-  G:=NucleusIncludingGeneratingSetAutom(GroupOfAutomFamily(FamilyObj(w)));
-  nucl:=NucleusIncludingGeneratingSet(GroupOfAutomFamily(FamilyObj(w)));
+  G:=AG_GeneratingSetWithNucleusAutom(GroupOfAutomFamily(FamilyObj(w)));
+  nucl:=GeneratingSetWithNucleus(GroupOfAutomFamily(FamilyObj(w)));
 
   Gi:=MINIMIZED_AUTOMATON_LIST(GroupOfAutomFamily(FamilyObj(w)));
   track_l:=Gi[3];
@@ -1905,7 +1902,7 @@ function(G,max_len,num_of_rels)
 
     invslist:=[];
     for i in [1..Length(subs)] do
-      for j in [i..i] do
+      for j in [i..Length(subs)] do
 #        Print(AssocW([Gi[2][i+1],Gi[2][j+1]])!.word,"\n");
         if IS_ONE_LIST(Concatenation(subs[i],subs[j]),G) then
           invslist[i]:=j; invslist[j]:=i;
@@ -2039,11 +2036,11 @@ end);
 
 
 
-InstallMethod(FindGroupRelations1, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true,
+InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true,
               [IsGroup, IsCyclotomic, IsCyclotomic],
 function(G,max_len,num_of_rels)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,oldgr,New,k, rels,rel,F,relsF,ElListF,genf,f,fgens,all_relsF,rel1,new_rel,r,orig_fgens,\
-        IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom, FGhom_images, FGhom, ElList_inv,inv_gens;
+        IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom, FGhom_images, FGhom, ElList_inv,inv_gens,cur_rel;
 
   IsNewRel:=function(rel)
     local rel1,r;
@@ -2129,29 +2126,29 @@ function(G,max_len,num_of_rels)
   od;
 
 
-  inv_gens:=[];
-  for i in [1..Length(gens)] do
-    for j in [1..i] do
-      if IsOne(gens[i]*gens[j]) then
-        inv_gens[i]:=gens[j]; inv_gens[j]:=gens[i];
-      fi;
-    od;
-  od;
+#  inv_gens:=[];
+#  for i in [1..Length(gens)] do
+#    for j in [1..i] do
+#      if IsOne(gens[i]*gens[j]) then
+#        inv_gens[i]:=gens[j]; inv_gens[j]:=gens[i];
+#      fi;
+#    od;
+#  od;
 
 
-  Print("gens=",gens,"\n");
-  Print("inv_gens=",inv_gens,"\n");
+#  Print("gens=",gens,"\n");
+#  Print("inv_gens=",inv_gens,"\n");
 
   FFhom:=GroupHomomorphismByImagesNC(F,F,GeneratorsOfGroup(F),FFhom_images);
   FGhom:=GroupHomomorphismByImagesNC(F,G,GeneratorsOfGroup(F),FGhom_images);
 #  Print("hom=",hom,"\n");
 
   ElList:=[One(G)];
-  ElList_inv:=[One(G)];
+#  ElList_inv:=[One(G)];
   ElListF:=[One(F)];
 
   Append(ElList,ShallowCopy(gens));
-  Append(ElList_inv,ShallowCopy(inv_gens));
+#  Append(ElList_inv,ShallowCopy(inv_gens));
   Append(ElListF,ShallowCopy(fgens));
 
   GrList:=[1,Length(gens)+1];
@@ -2175,7 +2172,7 @@ function(G,max_len,num_of_rels)
           od;
           if New then
             Add(ElList,g);
-            Add(ElList_inv,inv_gens[j]*ElList_inv[i]);
+#            Add(ElList_inv,inv_gens[j]*ElList_inv[i]);
             Add(ElListF,f);
           else
             new_rel:=true;
@@ -2185,9 +2182,10 @@ function(G,max_len,num_of_rels)
 
             if IsNewRel(rel) and IsNewRel(Image(FFhom,rel^-1)) then
 #              Add(rels,inv_gens[j]*ElList_inv[i]*ElList[k-1]);
-              Add(rels,Image(FGhom,rel));
+              cur_rel:=Image(FGhom,rel);
+              Add(rels,cur_rel);
               Add(relsF,rel);
-              Info(InfoAutomGrp, 3, inv_gens[j]*ElList_inv[i]*ElList[k-1]);
+              Info(InfoAutomGrp, 3, cur_rel);
               Append(all_relsF,CyclicConjugates(rel));
             fi;
 

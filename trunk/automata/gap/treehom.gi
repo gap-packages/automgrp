@@ -442,25 +442,37 @@ end);
 InstallMethod(\<, [IsTreeHomomorphism and IsTreeHomomorphismRep,
                    IsTreeHomomorphism and IsTreeHomomorphismRep],
 function(a1, a2)
+  return AG_TreeHomomorphismCmp(a1, a2) < 0;
+end);
+
+
+###############################################################################
+##
+##  AG_TreeHomomorphismCmp(a1, a2)
+##
+##  Global function to be used from IsTreeAutomomorphism too
+##
+InstallGlobalFunction(AG_TreeHomomorphismCmp,
+function(a1, a2)
   local i, cmp;
 
-  cmp := AG_TrCmp(a1!.perm, a2!.perm, a1.!deg);
+  cmp := AG_TrCmp(a1!.perm, a2!.perm, a1!.deg);
 
   if cmp < 0 then
-    return true;
+    return -1;
   elif cmp > 0 then
-    return false;
+    return 1;
   fi;
 
   for i in [1..a1!.deg] do
     if a1!.states[i] < a2!.states[i] then
-      return true;
+      return -1;
     elif a1!.states[i] > a2!.states[i] then
-      return false;
+      return 1;
     fi;
   od;
 
-  return false;
+  return 0;
 end);
 
 

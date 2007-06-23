@@ -551,14 +551,7 @@ end);
 InstallMethod(\<, [IsTreeAutomorphism and IsTreeAutomorphismRep,
                    IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a1, a2)
-  local i;
-  if a1!.perm < a2!.perm then return true;
-  elif a1!.perm > a2!.perm then return false; fi;
-  for i in [1..a1!.deg] do
-    if a1!.states[i] < a2!.states[i] then return true;
-    elif a1!.states[i] > a2!.states[i] then return false; fi;
-  od;
-  return false;
+  return AG_TreeHomomorphismCmp(a1, a2) < 0;
 end);
 
 

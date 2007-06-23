@@ -1,124 +1,128 @@
 C intro.tex 1. Introduction
 S 1.1. Short math background
 S 1.2. Quick example
-C data.tex 2. Data structures
-S 2.1. Trees
-F 2.1. NumberOfVertex
-F 2.1. VertexNumber
-S 2.2. Objects acting on trees
-F 2.2. AutomGroup
-F 2.2. AutomGroup
-F 2.2. AutomGroup
-F 2.2. AutomFamily
-F 2.2. TreeAutomorphism
-F 2.2. Autom
-F 2.2. Autom
-F 2.2. PermActionOnLevel
-F 2.2. IsTreeAutomorphismGroup
-F 2.2. IsAutomGroup
+C groups.tex 2. Properties and operations with groups and semigroups
+S 2.1. Creation of groups and semigroups
+F 2.1. AutomGroup
+F 2.1. AutomGroup
+F 2.1. AutomGroup
+S 2.2. Basic properties of groups and semigroups
+F 2.2. DegreeOfTree
+F 2.2. IsFractal
+F 2.2. IsFractalByWords
+F 2.2. IsSphericallyTransitive![treeautgrp]
+F 2.2. IsTransitiveOnLevel![treeautgrp]
 F 2.2. IsAutomatonGroup
-C elements.tex 3. Properties and operations with group elements
-S 3.1. Properties and attributes of tree automorphisms
-F 3.1. IsSphericallyTransitive![treeaut]
-F 3.1. IsTransitiveOnLevel
-F 3.1. IsOne
-F 3.1. IsOneContr
-F 3.1. Order
-F 3.1. OrderUsingSections
-F 3.1. Perm
-F 3.1. PermOnLevel
-F 3.1. PermOnLevelAsMatrix
-F 3.1. Word
-S 3.2. Operations with tree automorphisms
-F 3.2. product!for tree homomorphisms
-F 3.2. action!of tree homomorphism on letter
-F 3.2. action!of tree homomorphism on vertex
-F 3.2. State
-F 3.2. States
-F 3.2. Expand
-F 3.2. in
-F 3.2. OrbitOfVertex
-F 3.2. PrintOrbitOfVertex
-S 3.3. Elements of contracting groups
-F 3.3. AutomPortrait
-F 3.3. AutomPortraitBoundary
-F 3.3. AutomPortraitDepth
-C groups.tex 4. Properties and operations with groups
-S 4.1. Basic properties of groups
-F 4.1. DegreeOfTree
-F 4.1. IsFractal
-F 4.1. IsFractalByWords
-F 4.1. IsSphericallyTransitive![treeautgrp]
-F 4.1. IsTransitiveOnLevel![treeautgrp]
-F 4.1. IsAutomatonGroup
-F 4.1. IsSelfSimilar
-F 4.1. IsContracting
-F 4.1. IsNoncontracting
-F 4.1. IsGeneratedByAutomatonOfPolynomialGrowth
-F 4.1. IsGeneratedByBoundedAutomaton
-F 4.1. PolynomialDegreeOfGrowthOfAutomaton
-F 4.1. AutomatonList
-S 4.2. Operations with groups
-F 4.2. PermGroupOnLevel
-F 4.2. StabilizerOfLevel
-F 4.2. StabilizerOfFirstLevel
-F 4.2. StabilizerOfVertex
-F 4.2. FixesLevel
-F 4.2. FixesVertex
-F 4.2. Projection
-F 4.2. ProjectionNC
-F 4.2. ProjStab
-F 4.2. FindRelationsSubs
-F 4.2. FindRelationsSubsSG
-F 4.2. FindRelations
-F 4.2. FindGroupElement
-F 4.2. FindGroupElements
-F 4.2. FindElementOfInfiniteOrder
-F 4.2. FindElementsOfInfiniteOrder
-F 4.2. GroupGrowth
-F 4.2. GroupElements
-F 4.2. FindNucleus
-F 4.2. LevelOfFaithfulAction
-F 4.2. LevelOfFaithfulAction
-F 4.2. IsomorphismPermGroup
-F 4.2. IsomorphismPermGroup
-F 4.2. MarkovOperator
-F 4.2. AbelImage
-F 4.2. DiagonalAction
-F 4.2. MultAutomAlphabet
-F 4.2. UnderlyingAutomFamily
-F 4.2. UnderlyingFreeSubgroup
-F 4.2. UnderlyingFreeGenerators
-F 4.2. UnderlyingFreeMonoid
-F 4.2. UnderlyingFreeGroup
-F 4.2. IndexInFreeGroup
-F 4.2. MihailovaSystem
-S 4.3. Contracting groups
-F 4.3. GroupNucleus
-F 4.3. NucleusIncludingGeneratingSet
-F 4.3. NucleusIncludingGeneratingSetAutom
-F 4.3. ContractingLevel
-F 4.3. ContractingTable
-F 4.3. UseContraction
-C autom.tex 5. Noninitial Automata
-S 5.1. Definition
-F 5.1. Automaton
-F 5.1. Automaton
-F 5.1. IsAutomaton
-F 5.1. NumberOfStates
-F 5.1. SizeOfAlphabet
-F 5.1. AutomatonList![automaton]
-S 5.2. Tools
-F 5.2. IsTrivial
-F 5.2. IsInvertible
-F 5.2. MinimizationOfAutomaton
-F 5.2. MinimizationOfAutomatonTrack
-F 5.2. IsOfPolynomialGrowth
-F 5.2. IsBounded
-F 5.2. PolynomialDegreeOfGrowthOfAutomaton![automaton]
-F 5.2. DualAutomaton
-F 5.2. InverseAutomaton
-F 5.2. IsBireversible
-F 5.2. DisjointUnion
-F 5.2. product!for noninitial automata
-F 5.2. IsEquivAutomata
+F 2.2. IsSelfSimilar
+F 2.2. IsContracting
+F 2.2. IsNoncontracting
+F 2.2. IsGeneratedByAutomatonOfPolynomialGrowth
+F 2.2. IsGeneratedByBoundedAutomaton
+F 2.2. PolynomialDegreeOfGrowthOfAutomaton
+F 2.2. UnderlyingAutomaton
+F 2.2. AutomatonList
+S 2.3. Operations with groups and semigroups
+F 2.3. PermGroupOnLevel
+F 2.3. StabilizerOfLevel
+F 2.3. StabilizerOfFirstLevel
+F 2.3. StabilizerOfVertex
+F 2.3. FixesLevel
+F 2.3. FixesVertex
+F 2.3. Projection
+F 2.3. ProjectionNC
+F 2.3. ProjStab
+F 2.3. FindGroupRelations
+F 2.3. FindGroupRelations
+F 2.3. FindSemigroupRelations
+F 2.3. FindSemigroupRelations
+F 2.3. FindGroupElement
+F 2.3. FindGroupElements
+F 2.3. FindElementOfInfiniteOrder
+F 2.3. FindElementsOfInfiniteOrder
+F 2.3. GroupGrowth
+F 2.3. GroupElements
+F 2.3. FindNucleus
+F 2.3. LevelOfFaithfulAction
+F 2.3. LevelOfFaithfulAction
+F 2.3. IsomorphismPermGroup
+F 2.3. IsomorphismPermGroup
+F 2.3. MarkovOperator
+F 2.3. AbelImage
+F 2.3. DiagonalAction
+F 2.3. MultAutomAlphabet
+F 2.3. UnderlyingAutomFamily
+F 2.3. UnderlyingFreeSubgroup
+F 2.3. UnderlyingFreeGenerators
+F 2.3. UnderlyingFreeMonoid
+F 2.3. UnderlyingFreeGroup
+F 2.3. IndexInFreeGroup
+F 2.3. MihailovaSystem
+S 2.4. Contracting groups
+F 2.4. GroupNucleus
+F 2.4. GeneratingSetWithNucleus
+F 2.4. GeneratingSetWithNucleusAutom
+F 2.4. ContractingLevel
+F 2.4. ContractingTable
+F 2.4. UseContraction
+C elements.tex 3. Properties and operations with group and semigroup elements
+S 3.1. Creation of tree automorphisms and homomorphisms
+F 3.1. TreeAutomorphism
+F 3.1. Autom
+F 3.1. Autom
+F 3.1. AutomFamily
+F 3.1. IsTreeAutomorphismGroup
+F 3.1. IsAutomGroup
+F 3.1. IsAutomatonGroup
+S 3.2. Properties and attributes of tree automorphisms and homomorphisms
+F 3.2. IsSphericallyTransitive![treeaut]
+F 3.2. IsTransitiveOnLevel
+F 3.2. IsOne
+F 3.2. IsOneContr
+F 3.2. Order
+F 3.2. OrderUsingSections
+F 3.2. Perm
+F 3.2. PermOnLevel
+F 3.2. PermOnLevelAsMatrix
+F 3.2. Word
+S 3.3. Operations with tree automorphisms and homomorphisms
+F 3.3. product!for tree homomorphisms
+F 3.3. action!of tree homomorphism on letter
+F 3.3. action!of tree homomorphism on vertex
+F 3.3. State
+F 3.3. States
+F 3.3. in
+F 3.3. OrbitOfVertex
+F 3.3. PrintOrbitOfVertex
+F 3.3. PermActionOnLevel
+S 3.4. Elements of contracting groups
+F 3.4. AutomPortrait
+F 3.4. AutomPortraitBoundary
+F 3.4. AutomPortraitDepth
+C autom.tex 4. Noninitial Automata
+S 4.1. Definition
+F 4.1. MealyAutomaton
+F 4.1. MealyAutomaton
+F 4.1. IsMealyAutomaton
+F 4.1. NumberOfStates
+F 4.1. SizeOfAlphabet
+F 4.1. AutomatonList![automaton]
+S 4.2. Tools
+F 4.2. IsTrivial
+F 4.2. IsInvertible
+F 4.2. MinimizationOfAutomaton
+F 4.2. MinimizationOfAutomatonTrack
+F 4.2. IsOfPolynomialGrowth
+F 4.2. IsBounded
+F 4.2. PolynomialDegreeOfGrowthOfAutomaton![automaton]
+F 4.2. DualAutomaton
+F 4.2. InverseAutomaton
+F 4.2. IsBireversible
+F 4.2. DisjointUnion
+F 4.2. product!for noninitial automata
+F 4.2. SubautomatonWithStates
+F 4.2. AutomatonNucleus
+F 4.2. AreEquivalentAutomata
+C misc.tex 5. Miscellaneous
+S 5.1. Trees
+F 5.1. NumberOfVertex
+F 5.1. VertexNumber

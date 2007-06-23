@@ -89,12 +89,12 @@ end);
 #M  AutomSemigroup(<A>)
 #M  AutomSemigroup(<A>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsAutomaton)", [IsAutomaton],
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   return AutomSemigroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsAutomaton, IsBool)", [IsAutomaton, IsBool],
+InstallMethod(AutomSemigroup, "AutomSemigroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   return AutomSemigroup(AutomatonList(A), A!.states, bind_vars);
 end);
@@ -219,7 +219,7 @@ function(G)
   local i, gens, printone;
 
   printone := function(a)
-    Print(a, " = ", Expand(a));
+    Print(a, " = ", Decompose(a));
   end;
 
   gens := GeneratorsOfSemigroup(G);
@@ -536,7 +536,7 @@ function(G)
     Add(automatonlist[numstates+1],automatonlist[2*numstates+1][d+1]);
     numstates:=numstates+1;
   fi;
-  return Automaton(automatonlist{[1..numstates]});
+  return MealyAutomaton(automatonlist{[1..numstates]});
 end);
 
 #E

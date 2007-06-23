@@ -81,8 +81,8 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Section{Contracting groups}
 
 \Declaration{GroupNucleus}
-\Declaration{NucleusIncludingGeneratingSet}
-\Declaration{NucleusIncludingGeneratingSetAutom}
+\Declaration{GeneratingSetWithNucleus}
+\Declaration{GeneratingSetWithNucleusAutom}
 \Declaration{ContractingLevel}
 \Declaration{ContractingTable}
 \Declaration{UseContraction}

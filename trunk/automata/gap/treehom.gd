@@ -95,21 +95,21 @@ DeclareOperation("States", [IsTreeHomomorphism]);
 
 ###############################################################################
 ##
-#O  Expand( <a>[, <k>] )
+#O  Decompose( <a>[, <k>] )
 ##
-##  Returns an ``expanded'' form of tree homomorphism <a>, i.e. the
+##  Returns a decomposition of tree homomorphism <a> on the <k>-th level of the tree, i.e. the
 ##  representation of the form $$a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma$$
 ##  where $a_i$ are the states of <a> at the <k>-th level, and $\sigma$ is the
 ##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
 ##  \beginexample
-##  gap> Expand(a*b^2);
+##  gap> Decompose(a*b^2);
 ##  (a*b^2, b*a^2)(1,2)
-##  gap> Expand(a*b^2,3);
+##  gap> Decompose(a*b^2,3);
 ##  (a*b^2, b*a^2, a^2*b, b^2*a, a*b*a, b*a*b, a^3, b^3)(1,8,3,5)(2,7,4,6)
 ##  \endexample
 ##
-DeclareOperation("Expand", [IsTreeHomomorphism]);
-DeclareOperation("Expand", [IsTreeHomomorphism, IsPosInt]);
+DeclareOperation("Decompose", [IsTreeHomomorphism]);
+DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 
 
 #E

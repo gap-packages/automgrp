@@ -15,7 +15,7 @@
 ##  Tries to compute the <nucleus> (the minimal set that need not contain original
 ##  generators) of a self-similar group <G>. It uses `FindNucleus' (see "FindNucleus")
 ##  operation and behaves accordingly: if the group is not contracting it will loop
-##  forever. See also "NucleusIncludingGeneratingSet".
+##  forever. See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##
 ##  \beginexample
 ##  gap> GroupNucleus(Basilica);
@@ -27,30 +27,39 @@ DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
 
 ################################################################################
 ##
-#A  NucleusIncludingGeneratingSet (<G>)
+#A  GeneratingSetWithNucleus (<G>)
 ##
 ##  Tries to compute the generating set of the group which includes original
 ##  generators and the <nucleus> (the minimal set that need not contain original
 ##  generators) of a self-similar group <G>. It uses `FindNucleus' operation
 ##  and behaves accordingly: if the group is not contracting
 ##  it will loop forever (modulo memory constraints, of course).
-##  See also "GroupNucleus".
+##  See also `GroupNucleus' ("GroupNucleus").
 ##
 ##  \beginexample
-##  gap> NucleusIncludingGeneratingSet(Basilica);
+##  gap> GeneratingSetWithNucleus(Basilica);
 ##  [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
 ##  \endexample
 ##
-DeclareAttribute( "NucleusIncludingGeneratingSet", IsTreeAutomorphismGroup, "mutable" );
+DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable" );
 
 
 ###############################################################################
 ##
-#A  NucleusIncludingGeneratingSetAutom (<G>)
+#A  GeneratingSetWithNucleusAutom (<G>)
 ##
-##  Computes automaton of nucleus.
+##  Computes automaton of the generating set that includes nucleus of the contracting group <G>.
+##  See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
+##  \beginexample
+##  gap> B_autom:=GeneratingSetWithNucleusAutom(Basilica);
+##  <automaton>
+##  gap> Print(B_autom);
+##  a1 = (a1, a1), a2 = (a3, a1)(1,2), a3 = (a2, a1), a4 = (a1, a5)
+##  (1,2), a5 = (a4, a1), a6 = (a1, a7)(1,2), a7 = (a6, a1)(1,2)
+##  \endexample
 ##
-DeclareAttribute( "NucleusIncludingGeneratingSetAutom", IsTreeAutomorphismGroup, "mutable" );
+DeclareAttribute( "GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "mutable" );
+DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "mutable" );
 
 
 ######################################################################################
@@ -58,7 +67,7 @@ DeclareAttribute( "NucleusIncludingGeneratingSetAutom", IsTreeAutomorphismGroup,
 #A  ContractingLevel (<G>)
 ##
 ##  Given a contracting group <G> with nucleus $N$, stored in
-##  `NucleusIncludingGeneratingSet'(<G>) (see "NucleusIncludingGeneratingSet") computes the
+##  `GeneratingSetWithNucleus'(<G>) (see "GeneratingSetWithNucleus") computes the
 ##  minimal level $n$, such that for every vertex $v$ of the $n$-th
 ##  level and all $g, h \in N$ the section $gh|_v \in N$.
 ##
@@ -81,7 +90,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 #A  ContractingTable (<G>)
 ##
 ##  Given a contracting group <G> with nucleus $N$ of size $k$, stored in
-##  `NucleusIncludingGeneratingSet'(<G>)~(see "NucleusIncludingGeneratingSet")
+##  `GeneratingSetWithNucleus'(<G>)~(see "GeneratingSetWithNucleus")
 ##  computes the $k\times k$ table, whose
 ##  [i][j]-th entry contains decomposition of $N$[i]$N$[j] on
 ##  the `ContractingLevel'(<G>) level~(see "ContractingLevel"). By construction the sections of
@@ -512,9 +521,9 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 ##  Given a self-similar group <G> it tries to find its nucleus. If the group
 ##  is not contracting it will loop forever. When it finds the nucleus it returns
-##  the triple [`NucleusIncludingGeneratingSet'(<G>), `GroupNucleus'(<G>),
-##  `NucleusIncludingGeneratingSetAutom'(<G>)] (see "NucleusIncludingGeneratingSet",
-##  "GroupNucleus", "NucleusIncludingGeneratingSetAutom").
+##  the triple [`GeneratingSetWithNucleus'(<G>), `GroupNucleus'(<G>),
+##  `GeneratingSetWithNucleusAutom'(<G>)] (see "GeneratingSetWithNucleus",
+##  "GroupNucleus", "GeneratingSetWithNucleusAutom").
 ##
 ##  If <max_nucl> is given stops after finding <max_nucl> elements that need to be in
 ##  the nucleus and returns `fail' if the nucleus was not found.
@@ -731,8 +740,6 @@ DeclareOperation("FindGroupRelations", [IsList]);
 DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic]);
 DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic, IsCyclotomic]);
 
-
-DeclareOperation("FindGroupRelations1", [IsGroup, IsCyclotomic, IsCyclotomic]);
 
 ################################################################################
 ##

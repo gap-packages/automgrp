@@ -51,7 +51,7 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  < a, b >
 ##  gap> AutomGroup("a=(b, a, 1)(2,3), b=(1, a, b)(1,2,3)");
 ##  < a, b >
-##  gap> A:=Automaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> A:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 ##  <automaton>
 ##  gap> G:=AutomGroup(A);
 ##  < a, b >
@@ -70,10 +70,10 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  \endexample
 ##
 DeclareOperation("AutomGroup", [IsList]);
-DeclareOperation("AutomGroup", [IsAutomaton]);
+DeclareOperation("AutomGroup", [IsMealyAutomaton]);
 DeclareOperation("AutomGroup", [IsList, IsList]);
 DeclareOperation("AutomGroup", [IsList, IsBool]);
-DeclareOperation("AutomGroup", [IsAutomaton, IsBool]);
+DeclareOperation("AutomGroup", [IsMealyAutomaton, IsBool]);
 DeclareOperation("AutomGroup", [IsList, IsList, IsBool]);
 
 

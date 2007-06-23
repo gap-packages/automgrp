@@ -24,7 +24,7 @@ DeclareRepresentation("IsAutomatonRep",
                        "states",    # names of the states
                        "n_states",  # Length(states), Length(table)
                        ]);
-BindGlobal("_AG_AutomatonFamily", NewFamily("AutomatonFamily", IsAutomaton, IsAutomaton, IsAutomatonFamily));
+BindGlobal("_AG_AutomatonFamily", NewFamily("AutomatonFamily", IsMealyAutomaton, IsMealyAutomaton, IsMealyAutomatonFamily));
 
 
 BindGlobal("_AG_IsInvertible",
@@ -89,7 +89,7 @@ function(table, states, alphabet)
     od;
   fi;
 
-  a := Objectify(NewType(_AG_AutomatonFamily, IsAutomaton and IsAutomatonRep),
+  a := Objectify(NewType(_AG_AutomatonFamily, IsMealyAutomaton and IsAutomatonRep),
                  rec(table := table,
                      perms := perms,
                      trans := List([1..n_states], i->List([1..degree], j->j^perms[i])),
@@ -114,35 +114,35 @@ function(p)
 end);
 
 
-InstallMethod(Automaton, [IsList, IsList, IsList],
+InstallMethod(MealyAutomaton, [IsList, IsList, IsList],
 function(table, states, alphabet)
   return _AG_CreateAutomaton(table, states, alphabet);
 end);
 
-InstallMethod(Automaton, [IsList, IsList],
+InstallMethod(MealyAutomaton, [IsList, IsList],
 function(table, states)
   return _AG_CreateAutomaton(table, states, fail);
 end);
 
-InstallMethod(Automaton, [IsList],
+InstallMethod(MealyAutomaton, [IsList],
 function(table)
   return _AG_CreateAutomaton(table, fail, fail);
 end);
 
-InstallMethod(Automaton, [IsString],
+InstallMethod(MealyAutomaton, [IsString],
 function(string)
   local ret;
   ret := AG_ParseAutomatonString(string);
-  return Automaton(ret[2], ret[1]);
+  return MealyAutomaton(ret[2], ret[1]);
 end);
 
 
-InstallMethod(ViewObj, [IsAutomaton],
+InstallMethod(ViewObj, [IsMealyAutomaton],
 function(a)
   Print("<automaton>");
 end);
 
-InstallMethod(PrintObj, [IsAutomaton and IsAutomatonRep],
+InstallMethod(PrintObj, [IsMealyAutomaton and IsAutomatonRep],
 function(a)
   local i, j;
 
@@ -182,7 +182,7 @@ function(a, q, x)
 end);
 
 
-# InstallMethod(TransitionFunction, [IsAutomaton and IsAutomatonRep],
+# InstallMethod(TransitionFunction, [IsMealyAutomaton and IsAutomatonRep],
 # function(a)
 #   local func, table;
 #
@@ -196,25 +196,25 @@ end);
 # end);
 
 
-InstallMethod(AutomatonList, [IsAutomaton],
+InstallMethod(AutomatonList, [IsMealyAutomaton],
 function(a)
   return List([1..a!.n_states], i->Concatenation(a!.table[i],[a!.perms[i]]));
 end);
 
 
-InstallMethod(NumberOfStates, [IsAutomaton],
+InstallMethod(NumberOfStates, [IsMealyAutomaton],
 function(A)
   return A!.n_states;
 end);
 
 
-InstallMethod(SizeOfAlphabet, [IsAutomaton],
+InstallMethod(SizeOfAlphabet, [IsMealyAutomaton],
 function(A)
   return A!.degree;
 end);
 
 
-InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsAutomaton)", [IsAutomaton],
+InstallMethod(MINIMIZED_AUTOMATON_LIST, "MINIMIZED_AUTOMATON_LIST(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   return AG_AddInversesList(List(AutomatonList(A), x->List(x)));
 end);
@@ -224,7 +224,7 @@ InstallGlobalFunction(MinimizationOfAutomatonTrack,
 function(a)
   local min_aut;
   min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x->List(x)), [1..a!.n_states], [1..a!.n_states]);
-  return [Automaton(min_aut[1], a!.states{min_aut[2]}), min_aut[2], min_aut[3]];
+  return [MealyAutomaton(min_aut[1], a!.states{min_aut[2]}), min_aut[2], min_aut[3]];
 end);
 
 
@@ -232,12 +232,12 @@ InstallGlobalFunction(MinimizationOfAutomaton,
 function(a)
   local min_aut;
   min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x->List(x)), [1..a!.n_states], [1..a!.n_states]);
-  return Automaton(min_aut[1], a!.states{min_aut[2]});
+  return MealyAutomaton(min_aut[1], a!.states{min_aut[2]});
 end);
 
 
-#InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
-#              [IsAutomaton],
+#InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsMealyAutomaton)",true,
+#              [IsMealyAutomaton],
 #function(A)
 #  local G, res;
 #  G:=AutomGroup(A);
@@ -250,8 +250,8 @@ end);
 #end);
 
 
-InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsAutomaton)",true,
-              [IsAutomaton],
+InstallMethod(IsOfPolynomialGrowth,"IsOfPolynomialGrowth(IsMealyAutomaton)",true,
+              [IsMealyAutomaton],
 function(A)
   local i, d, ver, nstates, cycles, cycle_of_vertex,
         IsNewCycle, known_vertices, aut_list, HasPolyGrowth,
@@ -408,8 +408,8 @@ end);
 
 
 
-InstallMethod(IsBounded,"IsBounded(IsAutomaton)",true,
-              [IsAutomaton],
+InstallMethod(IsBounded,"IsBounded(IsMealyAutomaton)",true,
+              [IsMealyAutomaton],
 function(A)
   # XXX ???
   local res;
@@ -418,8 +418,8 @@ function(A)
 end);
 
 
-InstallMethod(PolynomialDegreeOfGrowthOfAutomaton, "PolynomialDegreeOfGrowthOfAutomaton(IsAutomaton)", true,
-              [IsAutomaton],
+InstallMethod(PolynomialDegreeOfGrowthOfAutomaton, "PolynomialDegreeOfGrowthOfAutomaton(IsMealyAutomaton)", true,
+              [IsMealyAutomaton],
 function(A)
   local res;
 
@@ -434,8 +434,8 @@ function(A)
 end);
 
 
-InstallMethod(DualAutomaton, "DualAutomaton(IsAutomaton)", true,
-              [IsAutomaton],
+InstallMethod(DualAutomaton, "DualAutomaton(IsMealyAutomaton)", true,
+              [IsMealyAutomaton],
 function(A)
   local list, dual_list, states, d, n;
 
@@ -446,17 +446,17 @@ function(A)
                                                [Transformation(List([1..n], j -> list[j][i]))]));
   states := List([1..d], i -> Concatenation(AG_Globals.state_symbol_dual, String(i)));
 
-  return Automaton(dual_list, states);
+  return MealyAutomaton(dual_list, states);
 end);
 
 
-InstallMethod(InverseAutomaton,"DualAutomaton(IsAutomaton)",true,
-              [IsAutomaton],
+InstallMethod(InverseAutomaton,"DualAutomaton(IsMealyAutomaton)",true,
+              [IsMealyAutomaton],
 function(A)
   local list, inv_list, states, n;
 
   if not IsInvertible(A) then
-    Error("Automaton <A> is not invertible");
+    Error("MealyAutomaton <A> is not invertible");
   fi;
 
   list := AutomatonList(A);
@@ -464,12 +464,12 @@ function(A)
   inv_list := AG_InverseAutomatonList(list);
   states := List([1..n],i -> Concatenation(AG_Globals.state_symbol, String(i)));
 
-  return Automaton(inv_list,states);
+  return MealyAutomaton(inv_list,states);
 end);
 
 
-InstallMethod(IsBireversible,"IsBireversible(IsAutomaton)",true,
-              [IsAutomaton],
+InstallMethod(IsBireversible,"IsBireversible(IsMealyAutomaton)",true,
+              [IsMealyAutomaton],
 function(A)
   local list, inv_list, states, n;
 
@@ -484,7 +484,7 @@ end);
 ##
 ##  Constructs a product of two noninitial automata
 ##
-InstallMethod(\*, "\*(IsAutomaton, IsAutomaton)", [IsAutomaton, IsAutomaton],
+InstallMethod(\*, "\*(IsMealyAutomaton, IsMealyAutomaton)", [IsMealyAutomaton, IsMealyAutomaton],
 function(A1, A2)
   local n, m, d, i, j, aut_list, states;
 
@@ -504,18 +504,18 @@ function(A1, A2)
     od;
   od;
   states := List([1..n*m], i -> Concatenation(AG_Globals.state_symbol, String(i)));
-  return Automaton(aut_list, states);
+  return MealyAutomaton(aut_list, states);
 end);
 
 
-InstallMethod(IsTrivial, "IsTrivial(IsAutomaton)", [IsAutomaton],
+InstallMethod(IsTrivial, "IsTrivial(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   # XXX trivial transformation
   return AutomatonList(MinimizationOfAutomaton(A)) = [Concatenation(List([1..A!.degree], x->1), [()])];
 end);
 
 
-InstallMethod(DisjointUnion, "IsTrivial(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
+InstallMethod(DisjointUnion, "IsTrivial(IsMealyAutomaton,IsMealyAutomaton)", [IsMealyAutomaton,IsMealyAutomaton],
 function(A, B)
   local n, m, aut_list, states, perms, tableA, tableB;
 
@@ -534,11 +534,11 @@ function(A, B)
 
   states := List([1..n+m], i -> Concatenation(AG_Globals.state_symbol, String(i)));
 
-  return Automaton(aut_list, states);
+  return MealyAutomaton(aut_list, states);
 end);
 
 
-InstallMethod(IsEquivAutomata, "IsEquivAutomata(IsAutomaton,IsAutomaton)", [IsAutomaton,IsAutomaton],
+InstallMethod(AreEquivalentAutomata, "AreEquivalentAutomata(IsMealyAutomaton,IsMealyAutomaton)", [IsMealyAutomaton,IsMealyAutomaton],
 function(A, B)
   local n, m, i, j, aut_list, found, Am, Bm, C, equiv_statesB;
 
@@ -577,4 +577,70 @@ function(A, B)
 end);
 
 
+InstallMethod(SubautomatonWithStates, "for [IsMealyAutomaton, IsList]", [IsMealyAutomaton, IsList],
+function(A, states)
+  local G, d, i, g, perm, subautom_list, newsubautom_list;
+
+  G:=AutomatonList(A);
+  d:=A!.degree;
+
+# first we add all states of <states> in the list
+  for g in states do
+    for i in [1..d] do
+      if not (G[g][i] in states) then
+        Add(states,G[g][i]);
+      fi;
+    od;
+  od;
+
+  Sort(states);
+  subautom_list:=G{states};
+  newsubautom_list:=[];
+
+  for g in subautom_list do
+    perm:=g[d+1];
+    g:=List(g{[1..d]},x->Position(states,x));
+    Add(g,perm);
+    Add(newsubautom_list,g);
+  od;
+
+  return MealyAutomaton(newsubautom_list,A!.states{states});
+end);
+
+
+
+InstallMethod(AutomatonNucleus, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+function(A)
+  local IsElemInNucleus, G, tmp, d, Nucl, i;
+
+  IsElemInNucleus:=function(g)
+    local i,res;
+    if g in tmp then
+      for i in [Position(tmp,g)..Length(tmp)] do
+        if not (tmp[i] in Nucl) then Add(Nucl,tmp[i]); fi;
+      od;
+      return g=tmp[1];
+    fi;
+    Add(tmp,g);
+    res:=false; i:=1;
+    while (not res) and i<=d do
+      res:=IsElemInNucleus(G[g][i]);
+      i:=i+1;
+    od;
+    Remove(tmp);
+    return res;
+  end;
+
+  G:=AutomatonList(A);
+  d:=A!.degree;
+
+  Nucl:=[];
+# first add elements of cycles
+  for i in [1..Length(G)] do
+    tmp:=[];
+    if not (i in Nucl) then IsElemInNucleus(i); fi;
+  od;
+
+  return SubautomatonWithStates(A, Nucl);
+end);
 #E

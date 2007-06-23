@@ -4,8 +4,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Definition}
 
-\Declaration{Automaton}
-\Declaration{IsAutomaton}
+\Declaration{MealyAutomaton}
+\Declaration{IsMealyAutomaton}
 \Declaration{NumberOfStates}
 \Declaration{SizeOfAlphabet}
 \Declaration{AutomatonList}[automaton]
@@ -38,7 +38,10 @@ a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)
 (1,2), a4 = (a2, a4), a5 = (a1, a6)(1,2), a6 = (a3, a5)
 \endexample
 
-\Declaration{IsEquivAutomata}
+\Declaration{SubautomatonWithStates}
+\Declaration{AutomatonNucleus}
+\Declaration{AreEquivalentAutomata}
+
 
 
 

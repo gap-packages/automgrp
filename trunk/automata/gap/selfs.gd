@@ -533,9 +533,8 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 ##  \beginexample
 ##  gap> FindNucleus(Basilica);
-##  [ [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ], [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
-##    , [ [ 1, 1, () ], [ 3, 1, (1,2) ], [ 2, 1, () ], [ 1, 5, (1,2) ],
-##      [ 4, 1, () ], [ 1, 7, (1,2) ], [ 6, 1, (1,2) ] ] ]
+##  [ [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ], [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
+##      , <automaton> ]
 ##  \endexample
 ##
 DeclareOperation("FindNucleus",[IsAutomatonGroup]);

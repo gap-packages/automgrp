@@ -66,6 +66,36 @@ function(tr)
 end);
 
 
+InstallGlobalFunction(AG_TrCmp,
+function(p1, p2, d)
+  local l1, l2, getlist;
+
+  if IsIdenticalObj(p1, p2) then
+    return 0;
+  fi;
+
+  getlist := function(p)
+    local l;
+    if IsTransformation(p) then
+      return ImageListOfTransformation(p);
+    else
+      return [1..d]^p;
+    fi;
+  end;
+
+  l1 := getlist(p1);
+  l2 := getlist(p2);
+
+  if l1 = l2 then
+    return 0;
+  elif l1 < l2 then
+    return -1;
+  else
+    return 1;
+  fi;
+end);
+
+
 #############################################################################
 ##
 ##  AG_CalculateWord(<word>, <list>)

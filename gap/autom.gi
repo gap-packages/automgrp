@@ -387,7 +387,7 @@ end);
 ##
 InstallMethod(\<, "\<(IsAutom, IsAutom)", IsIdenticalObj, [IsAutom, IsAutom],
 function(a1, a2)
-  local d, checked, pos, aw1, aw2, p, np, i, exp, perm1, perm2, autlist;
+  local d, checked, pos, aw1, aw2, p, np, i, exp, perm1, perm2, autlist, cmp;
 
   d := a1!.deg;
   autlist := FamilyObj(a1)!.automatonlist;
@@ -408,9 +408,10 @@ function(a1, a2)
     perm2 := ();
     for i in [1..Length(p[1])] do perm1 := perm1 * autlist[p[1][i]][d+1]; od;
     for i in [1..Length(p[2])] do perm2 := perm2 * autlist[p[2][i]][d+1]; od;
-    if perm1 < perm2 then
+    cmp := AG_TrCmp(perm1, perm2, d);
+    if cmp < 0 then
       return true;
-    elif perm1 > perm2 then
+    elif cmp > 0 then
       return false;
     fi;
     for i in [1..d] do

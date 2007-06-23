@@ -442,13 +442,24 @@ end);
 InstallMethod(\<, [IsTreeHomomorphism and IsTreeHomomorphismRep,
                    IsTreeHomomorphism and IsTreeHomomorphismRep],
 function(a1, a2)
-  local i;
-  if a1!.perm < a2!.perm then return true;
-  elif a1!.perm > a2!.perm then return false; fi;
+  local i, cmp;
+
+  cmp := AG_TrCmp(a1!.perm, a2!.perm, a1.!deg);
+
+  if cmp < 0 then
+    return true;
+  elif cmp > 0 then
+    return false;
+  fi;
+
   for i in [1..a1!.deg] do
-    if a1!.states[i] < a2!.states[i] then return true;
-    elif a1!.states[i] > a2!.states[i] then return false; fi;
+    if a1!.states[i] < a2!.states[i] then
+      return true;
+    elif a1!.states[i] > a2!.states[i] then
+      return false;
+    fi;
   od;
+
   return false;
 end);
 

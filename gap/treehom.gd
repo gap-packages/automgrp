@@ -112,4 +112,7 @@ DeclareOperation("Decompose", [IsTreeHomomorphism]);
 DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 
 
+DeclareGlobalFunction("AG_TreeHomomorphismCmp");
+
+
 #E

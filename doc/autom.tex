@@ -6,8 +6,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Definition}
 
-\>Automaton( <table>[, <names>[, <alphabet>]] ) O
-\>Automaton( <string> ) O
+\>MealyAutomaton( <table>[, <names>[, <alphabet>]] ) O
+\>MealyAutomaton( <string> ) O
 
 Creates a Mealy automaton defined by the <table> or <string>. Format of the <table> is
 the following: it is a list of states, where each state is a list of
@@ -16,20 +16,20 @@ permutation or transformation which represent output function at this
 state.  Format of string <string> is the same as in `AutomGroup' (see~"AutomGroup").
 
 \beginexample
-A:=Automaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
+A:=MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
 <automaton>
 gap> Print(A);
 a = (a, b)(1,2), b = (c, a), c = (c, c)(1,2)
-gap> B:=Automaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
+gap> B:=MealyAutomaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
 <automaton>
 gap> Print(B);
 a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
-D:=Automaton("a=(a,b)(1,2),b=(b,a)");
+D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
 <automaton>
 \endexample
 
 
-\>IsAutomaton( <A> ) C
+\>IsMealyAutomaton( <A> ) C
 
 A category of non-initial finite Mealy automata with the same input and
 output alphabet.
@@ -49,7 +49,7 @@ Returns the number of letters in the alphabet automaton <A> acts on.
 
 \>`AutomatonList( <A> )'{AutomatonList![automaton]}@{`AutomatonList'!`[automaton]'} A
 
-Returns a list of <A> acceptible by `Automaton' (see "Automaton")
+Returns a list of <A> acceptible by `MealyAutomaton' (see "MealyAutomaton")
 
 
 
@@ -62,7 +62,7 @@ Returns a list of <A> acceptible by `Automaton' (see "Automaton")
 
 Computes whether or not automaton <A> is equivalent to the trivial automaton.
 \beginexample
-gap> A:=Automaton("a=(c,c),b=(a,b),c=(b,a)");
+gap> A:=MealyAutomaton("a=(c,c),b=(a,b),c=(b,a)");
 <automaton>
 gap> IsTrivial(A);
 true
@@ -78,7 +78,7 @@ Is `true' if <A> is invertible and `false' otherwise.
 
 Returns an automaton obtained from automaton <A> by minimization.
 \beginexample
-gap> B:=Automaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
+gap> B:=MealyAutomaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
 <automaton>
 gap> C:=MinimizationOfAutomaton(B);
 <automaton>
@@ -94,7 +94,7 @@ automaton obtained from automaton <A> by minimization,
 `track_s' is how new states are expressed in terms of the old ones, and
 `track_l' is how old states are expressed in terms of the new ones.
 \beginexample
-gap> B:=Automaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
+gap> B:=MealyAutomaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
 <automaton>
 gap> B_min:=MinimizationOfAutomatonTrack(B);
 [ <automaton>, [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
@@ -110,11 +110,11 @@ Determines whether an automaton <A> has polynomial growth in terms of Sidki~\cit
 See also `IsBounded' ("IsBounded" and
 `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
 \beginexample
-gap> B:=Automaton("a=(b,1)(1,2),b=(a,1)");
+gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 <automaton>
 gap> IsOfPolynomialGrowth(B);
 true
-gap> D:=Automaton("a=(a,b)(1,2),b=(b,a)");
+gap> D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
 <automaton>
 gap> IsOfPolynomialGrowth(D);
 false
@@ -128,11 +128,11 @@ Determines whether an automaton <A> is bounded in terms of Sidki~\cite{sidki:cir
 See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 and `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
 \beginexample
-gap> B:=Automaton("a=(b,1)(1,2),b=(a,1)");
+gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 <automaton>
 gap> IsBounded(B);
 true
-gap> C:=Automaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+gap> C:=MealyAutomaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
 <automaton>
 gap> IsBounded(C);
 false
@@ -149,11 +149,11 @@ If the growth of automaton is exponential returns `fail'.
 See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 and `IsBounded' ("IsBounded").
 \beginexample
-gap> B:=Automaton("a=(b,1)(1,2),b=(a,1)");
+gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 <automaton>
 gap> PolynomialDegreeOfGrowthOfAutomaton(B);
 0
-gap> C:=Automaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+gap> C:=MealyAutomaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
 <automaton>
 gap> PolynomialDegreeOfGrowthOfAutomaton(C);
 2
@@ -164,7 +164,7 @@ gap> PolynomialDegreeOfGrowthOfAutomaton(C);
 
 Returns an automaton dual to <A>.
 \beginexample
-gap> A:=Automaton("a=(b,a)(1,2),b=(b,a)");
+gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(b,a)");
 <automaton>
 gap> D:=DualAutomaton(A);
 <automaton>
@@ -177,7 +177,7 @@ d1 = (d2, d1)[ 2, 2 ], d2 = (d1, d2)[ 1, 1 ]
 
 Returns an automaton inverse to <A> if <A> is invertible.
 \beginexample
-gap> A:=Automaton("a=(b,a)(1,2),b=(b,a)");
+gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(b,a)");
 <automaton>
 gap> B:=InverseAutomaton(A);
 <automaton>
@@ -192,7 +192,7 @@ Computes whether or not automaton <A> is bireversible, i.e. <A>, dual to <A> and
 dual to the inverse of <A> are invertible. The example below shows that the
 Bellaterra automaton is bireversible.
 \beginexample
-gap> Bellaterra:=Automaton("a=(c,c)(1,2),b=(a,b),c=(b,a)");
+gap> Bellaterra:=MealyAutomaton("a=(c,c)(1,2),b=(a,b),c=(b,a)");
 <automaton>
 gap> IsBireversible(Bellaterra);
 true
@@ -203,9 +203,9 @@ true
 
 Coonstructs a disjoint union of automata <A> and <B>
 \beginexample
-gap> A:=Automaton("a=(a,b)(1,2),b=(a,b)");
+gap> A:=MealyAutomaton("a=(a,b)(1,2),b=(a,b)");
 <automaton>
-gap> B:=Automaton("c=(d,c),d=(c,e)(1,2),e=(e,d)");
+gap> B:=MealyAutomaton("c=(d,c),d=(c,e)(1,2),e=(e,d)");
 <automaton>
 gap> Print(DisjointUnion(A,B));
 a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)(1,2), a5 = (a5, a4)
@@ -227,18 +227,42 @@ a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)
 (1,2), a4 = (a2, a4), a5 = (a1, a6)(1,2), a6 = (a3, a5)
 \endexample
 
-\>IsEquivAutomata( <A>, <B> ) O
+\>SubautomatonWithStates( <A>, <states> ) O
+
+Returns the minilal subautomaton of automaton <A> containing states <states>.
+\beginexample
+gap> A:=MealyAutomaton("a=(e,d)(1,2),b=(c,c), c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
+<automaton>
+gap> Print(SubautomatonWithStates(A,[1,4]));
+a = (e, d)(1,2), d = (a, e)(1,2), e = (e, d)
+\endexample
+
+
+\>AutomatonNucleus( <A> ) O
+
+Returns the nucleus of automaton <A>, i.e. the minimal subautomaton
+comtaining all cycles in <A>.
+\beginexample
+gap> A:=MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
+<automaton>
+gap> Print(AutomatonNucleus(A));
+b = (d, d), d = (d, b)(1,2)
+\endexample
+
+
+\>AreEquivalentAutomata( <A>, <B> ) O
 
 Returns `true' if for every state `s' of automaton <A> there is a state of automaton <B>
 equivalent to `s' and vice versa.
 \beginexample
-gap> A:=Automaton("a=(b,a)(1,2),b=(a,c)(),c=(b,c)(1,2)");
+gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(a,c)(),c=(b,c)(1,2)");
 <automaton>
-gap> B:=Automaton("b=(a,c)(),c=(b,c)(1,2),a=(b,a)(1,2),d=(b,c)(1,2)");
+gap> B:=MealyAutomaton("b=(a,c)(),c=(b,c)(1,2),a=(b,a)(1,2),d=(b,c)(1,2)");
 <automaton>
 gap> IsEquivAutomata(A,B);
 true
 \endexample
+
 
 
 

@@ -50,12 +50,12 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{ProjStab}
 \Declaration{FindGroupRelations}
 \Declaration{FindSemigroupRelations}
-\Declaration{FindGroupElement}
-\Declaration{FindGroupElements}
+\Declaration{FindElement}
+\Declaration{FindElements}
 \Declaration{FindElementOfInfiniteOrder}
 \Declaration{FindElementsOfInfiniteOrder}
-\Declaration{GroupGrowth}
-\Declaration{GroupElements}
+\Declaration{Growth}
+\Declaration{ListOfElements}
 \Declaration{FindNucleus}
 \Declaration{LevelOfFaithfulAction}
 \Declaration{IsomorphismPermGroup}

@@ -1284,7 +1284,9 @@ end);
 # end);
 
 
-InstallGlobalFunction(GroupGrowth,function(G,n)
+InstallMethod(Growth, "for [IsAutomGroup, IsCyclotomic]", true,
+              [IsAutomGroup, IsCyclotomic],
+function(G,max_len)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
 
 # produce a symmetric generating set
@@ -1306,7 +1308,7 @@ InstallGlobalFunction(GroupGrowth,function(G,n)
   GrList:=[1,Length(gens)+1];
   len:=1;
 
-  while len<n and GrList[len]<>GrList[len+1] do
+  while len<max_len and GrList[len]<>GrList[len+1] do
     for i in [GrList[len]+1..GrList[len+1]] do
       oldgr:=Length(ElList);
       for gen in gens do
@@ -1330,8 +1332,23 @@ InstallGlobalFunction(GroupGrowth,function(G,n)
   return GrList;
 end);
 
-InstallGlobalFunction(GroupElements,function(G,n)
-  return FindGroupElements(G,ReturnTrue,true,n);
+
+InstallMethod(Growth, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsCyclotomic],
+function(G,max_len)
+  local iter,g,i,l;
+  iter:=Iterator(G,max_len);
+  for g in iter do od;
+  l:=List(iter!.levels, Length);
+  for i in [2..Length(l)] do l[i]:=l[i]+l[i-1]; od;
+  return l;
+end);
+
+
+InstallMethod(ListOfElements, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsCyclotomic],
+function(G,max_len)
+  return FindElements(G,ReturnTrue,true,max_len);
 end);
 
 
@@ -2916,7 +2933,9 @@ end);
 
 
 
-InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
+InstallMethod(FindElement,"for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]",true,
+              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic],
+function(G,func,val,n)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k;
 
   if func(One(G))=val then return One(G); fi;
@@ -2972,7 +2991,9 @@ InstallGlobalFunction(FindGroupElement,function(G,func,val,n)
 end);
 
 
-InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
+InstallMethod(FindElements,"for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]",true,
+              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic],
+function(G,func,val,n)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,viewed,oldgr,New,k,cur_els;
 
 # produce a symmetric generating set
@@ -3031,24 +3052,56 @@ InstallGlobalFunction(FindGroupElements,function(G,func,val,n)
 end);
 
 
-InstallGlobalFunction(FindElementOfInfiniteOrder,function(G,n,depth)
+InstallMethod(FindElement,"for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]",true,
+              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic],
+function(G,func,val,max_len)
+  local iter,g;
+  iter:=Iterator(G,max_len);
+  while not IsDoneIterator(iter) do
+    g:=NextIterator(iter);
+    if func(g)=val then return g; fi;
+  od;
+  return fail;
+end);
+
+
+InstallMethod(FindElements,"for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]",true,
+              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic],
+function(G,func,val,max_len)
+  local iter,g,l;
+  iter:=Iterator(G,max_len);
+  l:=[];
+  while not IsDoneIterator(iter) do
+    g:=NextIterator(iter);
+    if func(g)=val then Add(l,g); fi;
+  od;
+  return l;
+end);
+
+
+
+InstallMethod(FindElementOfInfiniteOrder,"for [IsAutomGroup, IsCyclotomic, IsCyclotomic]",true,
+              [IsAutomGroup, IsCyclotomic, IsCyclotomic],
+function(G,n,depth)
   local CheckOrder, res;
 
   if HasIsFinite(G) and IsFinite(G) then return fail; fi;
 
   CheckOrder:=function(g) return OrderUsingSections(g,depth); end;
-  res:=FindGroupElement(G,CheckOrder,infinity,n);
+  res:=FindElement(G,CheckOrder,infinity,n);
   if res<>fail then SetIsFinite(G,false); fi;
   return res;
 end);
 
-InstallGlobalFunction(FindElementsOfInfiniteOrder,function(G,n,depth)
-  local CheckOrder, res;
 
+InstallMethod(FindElementsOfInfiniteOrder,"for [IsAutomGroup, IsCyclotomic, IsCyclotomic]",true,
+              [IsAutomGroup, IsCyclotomic, IsCyclotomic],
+function(G,n,depth)
+  local CheckOrder, res;
   if HasIsFinite(G) and IsFinite(G) then return []; fi;
 
   CheckOrder:=function(g) return OrderUsingSections(g,depth); end;
-  res:=FindGroupElements(G,CheckOrder,infinity,n);
+  res:=FindElements(G,CheckOrder,infinity,n);
   if res<>[] then SetIsFinite(G,false); fi;
   return res;
 end);
@@ -3074,7 +3127,7 @@ InstallGlobalFunction(IsNoncontracting, function(arg)
 
   if HasIsContracting(G) then return not IsContracting(G); fi;
 
-  res:=FindGroupElement(G,IsNoncontrElement,true,n);
+  res:=FindElement(G,IsNoncontrElement,true,n);
   if res<>fail then
     SetIsFinite(G,false);
     SetIsContracting(G,false);

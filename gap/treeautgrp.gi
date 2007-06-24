@@ -654,8 +654,8 @@ function(g, G)
   G := ReducedForm(G);
   g := ReducedForm(g);
 
-  if FindGroupElement(G, function(el) return el=g; end ,true, 8)<>fail then
-    Info(InfoAutomGrp, 3, "g in G: FindGroupElement returned true");
+  if FindElement(G, function(el) return el=g; end ,true, 8)<>fail then
+    Info(InfoAutomGrp, 3, "g in G: FindElement returned true");
     return true;
   fi;
 

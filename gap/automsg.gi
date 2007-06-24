@@ -264,16 +264,35 @@ end);
 
 ###############################################################################
 ##
+#M  IsTrivial(G)
+##
+InstallMethod(IsTrivial, "for [IsAutomSemigroup]", [IsAutomSemigroup],
+function (G)
+  local g;
+  for g in GeneratorsOfSemigroup(G) do
+    if not IsOne(g) then return false; fi;
+  od;
+  return true;
+end);
+
+
+
+###############################################################################
+##
 #M  Size(G)
 ##
 InstallMethod(Size, "Size(IsAutomSemigroup)", [IsAutomSemigroup],
 function (G)
-  local f;
+  local g;
   if IsTrivial(G) then
     Info(InfoAutomGrp, 3, "Size(G): 1, G is trivial");
     return 1;
   fi;
-  TryNextMethod();
+
+  for g in Iterator(G) do od;
+  
+  return Size(G);
+#  TryNextMethod();
 end);
 
 

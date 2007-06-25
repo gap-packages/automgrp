@@ -153,3 +153,4 @@ It was proved there that they are not isomorphic. The automata generating them a
 $$a=(b,1)(1,2),\quad b=(c,1),\quad c=(a,1);$$
 $$a=(b,1)(1,2),\quad b=(1,c),\quad c=(a,1)\.$$
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

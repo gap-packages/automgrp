@@ -35,12 +35,12 @@ F 2.3. FindGroupRelations
 F 2.3. FindGroupRelations
 F 2.3. FindSemigroupRelations
 F 2.3. FindSemigroupRelations
-F 2.3. FindGroupElement
-F 2.3. FindGroupElements
+F 2.3. FindElement
+F 2.3. FindElements
 F 2.3. FindElementOfInfiniteOrder
 F 2.3. FindElementsOfInfiniteOrder
-F 2.3. GroupGrowth
-F 2.3. GroupElements
+F 2.3. Growth
+F 2.3. ListOfElements
 F 2.3. FindNucleus
 F 2.3. LevelOfFaithfulAction
 F 2.3. LevelOfFaithfulAction
@@ -90,6 +90,7 @@ F 3.3. action!of tree homomorphism on letter
 F 3.3. action!of tree homomorphism on vertex
 F 3.3. State
 F 3.3. States
+F 3.3. Decompose
 F 3.3. in
 F 3.3. OrbitOfVertex
 F 3.3. PrintOrbitOfVertex
@@ -100,6 +101,7 @@ F 3.4. AutomPortraitBoundary
 F 3.4. AutomPortraitDepth
 C autom.tex 4. Noninitial Automata
 S 4.1. Definition
+F 4.1. MealyAutomaton
 F 4.1. MealyAutomaton
 F 4.1. MealyAutomaton
 F 4.1. IsMealyAutomaton
@@ -126,3 +128,22 @@ C misc.tex 5. Miscellaneous
 S 5.1. Trees
 F 5.1. NumberOfVertex
 F 5.1. VertexNumber
+S 5.2. Some predefined groups
+F 5.2. GrigorchukGroup
+F 5.2. Basilica
+F 5.2. LampLighter
+F 5.2. AddingMachine
+F 5.2. InfiniteDihedral
+F 5.2. AleshinGroup
+F 5.2. Bellaterra
+F 5.2. SushchanskyGroup
+F 5.2. Hanoi3
+F 5.2. Hanoi4
+F 5.2. GuptaSidki3Group
+F 5.2. GuptaFabrikowskiGroup
+F 5.2. BartholdiGrigorchukGroup
+F 5.2. ErschlerGrigorchukGroup
+F 5.2. WilsonBartholdiGroup
+F 5.2. IMG_z2plusI
+F 5.2. Airplane
+F 5.2. Rabbit

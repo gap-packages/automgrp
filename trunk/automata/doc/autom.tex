@@ -8,12 +8,16 @@
 
 \>MealyAutomaton( <table>[, <names>[, <alphabet>]] ) O
 \>MealyAutomaton( <string> ) O
+\>MealyAutomaton( <autom> ) O
 
-Creates a Mealy automaton defined by the <table> or <string>. Format of the <table> is
+Creates a Mealy automaton defined by the <table>, <string> or <autom>. Format of the <table> is
 the following: it is a list of states, where each state is a list of
 positive integers which represent transition function at given state and a
 permutation or transformation which represent output function at this
 state.  Format of string <string> is the same as in `AutomGroup' (see~"AutomGroup").
+The third form of this operation takes a tree homomorphism <autom> as its argument.
+It returns noninitial automaton constructed from sections of <autom>, whose first state 
+corresponds to <autom> itself.
 
 \beginexample
 A:=MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
@@ -24,8 +28,15 @@ gap> B:=MealyAutomaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","
 <automaton>
 gap> Print(B);
 a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
-D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
+gap> D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
 <automaton>
+
+gap> M:=MealyAutomaton(a*b*a*c);
+<automaton>
+gap> Print(M);
+a1 = (a2, a8), a2 = (a3, a5)(1,2), a3 = (a4, a4)
+(1,2), a4 = (a4, a4), a5 = (a4, a6), a6 = (a3, a7), a7 = (a3, a5), a8 = (a6, a4)
+(1,2)
 \endexample
 
 
@@ -141,7 +152,7 @@ false
 
 \>`PolynomialDegreeOfGrowthOfAutomaton( <A> )'{PolynomialDegreeOfGrowthOfAutomaton![automaton]}@{`PolynomialDegreeOfGrowthOfAutomaton'!`[automaton]'} A
 
-For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:acyclic}
+For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:circuit}
 determines its degree of
 polynomial growth. This degree is 0 if and only if automaton is bounded.
 If the growth of automaton is exponential returns `fail'.

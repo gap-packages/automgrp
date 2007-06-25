@@ -137,6 +137,27 @@ function(string)
 end);
 
 
+InstallMethod(MealyAutomaton, [IsTreeHomomorphism],
+function(a)
+  local states, MealyAutomatonLocal, aut_list;
+
+  MealyAutomatonLocal:=function(g)
+    local cur_state;
+    if g in states then return Position(states,g); fi;
+    Add(states,g);
+    cur_state:=Length(states);
+    aut_list[cur_state]:=List([1..g!.deg],x->MealyAutomatonLocal(State(g,x)));
+    Add(aut_list[cur_state], g!.perm);
+    return cur_state;
+  end;
+
+  states:=[];
+  aut_list:=[];
+  MealyAutomatonLocal(a);
+  return MealyAutomaton(aut_list);
+end);
+
+
 InstallMethod(ViewObj, [IsMealyAutomaton],
 function(a)
   Print("<automaton>");

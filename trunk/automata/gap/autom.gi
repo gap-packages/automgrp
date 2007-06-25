@@ -211,6 +211,18 @@ end);
 
 ###############################################################################
 ##
+#M  String(<a>)
+##
+InstallMethod(String, "method for IsAutom",
+              [IsAutom],
+function (a)
+  if IsOne(a!.word) then return AG_Globals.identity_symbol;
+  else return String(a!.word); fi;
+end);
+
+
+###############################################################################
+##
 #M  Perm(<a>)
 ##
 InstallOtherMethod(Perm, "method for IsAutom", [IsAutom],

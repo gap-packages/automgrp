@@ -50,7 +50,7 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{ProjStab}
 \Declaration{FindGroupRelations}
 \Declaration{FindSemigroupRelations}
-\Declaration{Iterator}
+\Declaration{Iterator}[treehomsg.gi]
 \Declaration{FindElement}
 \Declaration{FindElements}
 \Declaration{FindElementOfInfiniteOrder}

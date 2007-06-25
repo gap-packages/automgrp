@@ -1227,6 +1227,7 @@ InstallGlobalFunction(AutomPortraitDepth,function(w)
 end);
 
 
+
 ################################################################################
 ##
 #F WritePortraitToFile. . . . . . . . . . .Writes portrait in a file in the form

@@ -47,7 +47,7 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
 ##  gap> D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
 ##  <automaton>
-##  
+##
 ##  gap> M:=MealyAutomaton(a*b*a*c);
 ##  <automaton>
 ##  gap> Print(M);
@@ -240,7 +240,7 @@ DeclareProperty("IsBounded", IsMealyAutomaton);
 ##
 #A  PolynomialDegreeOfGrowthOfAutomaton ( <A> )
 ##
-##  For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:acyclic}
+##  For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:circuit}
 ##  determines its degree of
 ##  polynomial growth. This degree is 0 if and only if automaton is bounded.
 ##  If the growth of automaton is exponential returns `fail'.

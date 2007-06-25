@@ -29,7 +29,7 @@ g_files =						\
     ../gap/treeautgrp.gd      ../gap/treeautgrp.gi	\
     ../gap/tree.gd	      ../gap/tree.gi		\
     ../gap/treehom.gd	      ../gap/treehom.gi		\
-    ../gap/treehomsg.gd	      ../gap/treehomsg.gi			\
+    ../gap/treehomsg.gd	      ../gap/treehomsg.gi	\
     ../gap/treehom.gd	      ../gap/treehom.gi		\
     ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
     ../gap/utils.gd	      ../gap/utils.gi		\

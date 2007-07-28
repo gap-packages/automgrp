@@ -128,7 +128,7 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##
 ##  Below we provide an example which shows that both methods can be of use.
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(b,b)(1,2),b=(c,a),c=(a,a)");;
+##  gap> G:=AutomatonGroup("a=(b,b)(1,2),b=(c,a),c=(a,a)");;
 ##  gap> IsContracting(G);
 ##  true
 ##  gap> Length(GroupNucleus(G));
@@ -243,7 +243,7 @@ DeclareGlobalFunction("WordActionOnVertex");
 ##  strings containing characters $1,\ldots,d$, where $d$
 ##  is the degree of the tree.
 ##  \beginexample
-##  gap> g:=AutomGroup("t=(1,t)(1,2)");;
+##  gap> g:=AutomatonGroup("t=(1,t)(1,2)");;
 ##  gap> OrbitOfVertex([1,1,1],t);
 ##  [ [ 1, 1, 1 ], [ 2, 1, 1 ], [ 1, 2, 1 ], [ 2, 2, 1 ], [ 1, 1, 2 ], [ 2, 1, 2 ],
 ##  [ 1, 2, 2 ], [ 2, 2, 2 ] ]
@@ -267,10 +267,8 @@ DeclareOperation("OrbitOfVertex",[IsList, IsTreeHomomorphism, IsCyclotomic]);
 ##  are used to represent `1' and `2'.
 ##  If <n> is specified only first <n> elements of the orbit are printed.
 ##  Vertices are defined either as lists with entries from $\{1,\ldots,d\}$, or as
-##  strings.
+##  strings. See also `OrbitOfVertex' ("OrbitOfVertex").
 ##  \beginexample
-##  gap> g:=AutomGroup("a=(b,a)(1,2),b=(b,a)");
-##  < a, b >
 ##  gap> PrintOrbitOfVertex("2222222222222222222222222222222",a*b^-2,6);
 ##  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ##
@@ -278,8 +276,8 @@ DeclareOperation("OrbitOfVertex",[IsList, IsTreeHomomorphism, IsCyclotomic]);
 ##   xx  xx  xx  xx  xx  xx  xx  xx
 ##  xxx xxx xxx xxx xxx xxx xxx xxx
 ##     xxxx    xxxx    xxxx    xxxx
-##  gap> h:=AutomGroup("a=(b,1,1)(1,2,3),b=(a,b,a)(1,2)");;
-##  gap> PrintOrbitOfVertex([1,2,1],b^2);
+##  gap> H:=AutomatonGroup("t=(s,1,1)(1,2,3),s=(t,s,t)(1,2)");;
+##  gap> PrintOrbitOfVertex([1,2,1],s^2);
 ##  121
 ##  132
 ##  123
@@ -562,7 +560,7 @@ DeclareGlobalFunction("InversePerm");
 ##  For $g$ in the nucleus of $G$ the portrait is just $[g]$. For any other
 ##  element $g=(g_1,g_2,\ldots,g_d)\sigma$ the portrait of $g$ is
 ##  $[\sigma, `AutomPortrait'(g_1),\ldots, `AutomPortrait'(g_d)]$, where $d$ is
-##  the degree of the tree. This structure describes a tree whose inner vertices
+##  the degree of the tree. This structure describes a finite tree whose inner vertices
 ##  are labelled by permutations from $S_d$ and the leaves are labelled by
 ##  the elements of the nucleus. The contraction in $G$ guarantees that the
 ##  portrait of any element is finite.
@@ -574,26 +572,23 @@ DeclareGlobalFunction("InversePerm");
 ##  of all leaves of the portrait. This boundary can be described by an ordered set of
 ##  pairs $[level_i, g_i]$, $i=1,\ldots,r$ representing the leaves of the tree ordered from left
 ##  to right (where $level_i$ and $g_i$ are the level and the label of the $i$-th leaf
-##  correspondingly). `AutomPortraitBoundary'(<a>) computes this boundary. It returns a list
-##  consisting of 2 components. The first one is just the degree of the tree, and the
-##  second one is a list of pairs described above.
+##  correspondingly, $r$ is the number of leaves). `AutomPortraitBoundary'(<a>) computes
+##  this boundary.
 ##
 ##  `AutomPortraitDepth'( <a> ) returns the depth of the portrait, i.e. the minimal
 ##  level such that all sections of <a> at this level belong to the nucleus of $G$.
 ##
 ##  \beginexample
-##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
-##  < a, b >
-##  gap> AutomPortrait(a^3*b^-2*a);
-##  [ (), [ (), [ (), [ b ], [ b ] ], [ 1 ] ],
-##    [ (), [ (), [ b ], [ a^-1*b ] ], [ b^-1 ] ] ]
-##  gap> AutomPortrait(a^3*b^-2*a^3);
-##  [ (), [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ 1 ] ], [ b ] ], [ 1 ] ],
-##    [ (), [ (1,2), [ (), [ (), [ b ], [ b ] ], [ 1 ] ], [ a^-1*b ] ], [ b^-1 ] ] ]
-##  gap> AutomPortraitBoundary(a^3*b^-2*a^3);
-##  [ 2, [ [ 5, b ], [ 5, b ], [ 4, 1 ], [ 3, b ], [ 2, 1 ], [ 5, b ], [ 5, b ],
-##        [ 4, 1 ], [ 3, a^-1*b ], [ 2, b^-1 ] ] ]
-##  gap> AutomPortraitDepth(a^3*b^-2*a^3);
+##  gap> AutomPortrait(u^3*v^-2*u);
+##  [ (), [ (), [ (), [ v ], [ v ] ], [ 1 ] ],
+##    [ (), [ (), [ v ], [ u^-1*v ] ], [ v^-1 ] ] ]
+##  gap> AutomPortrait(u^3*v^-2*u^3);
+##  [ (), [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ v ] ], [ 1 ] ],
+##    [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ u^-1*v ] ], [ v^-1 ] ] ]
+##  gap> AutomPortraitBoundary(u^3*v^-2*u^3);
+##  [ [ 5, v ], [ 5, v ], [ 4, 1 ], [ 3, v ], [ 2, 1 ], [ 5, v ], [ 5, v ], [ 4, 1 ],
+##    [ 3, u^-1*v ], [ 2, v^-1 ] ]
+##  gap> AutomPortraitDepth(u^3*v^-2*u^3);
 ##  5
 ##  \endexample
 ##
@@ -636,7 +631,7 @@ DeclareGlobalFunction("AutomPortraitDepth");
 ##  #I  Length not greater than 6: 108
 ##  #I  Length not greater than 7: 176
 ##  [ 1, 5, 11, 23, 40, 68, 108, 176 ]
-##  gap> H:=AutomSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
+##  gap> H:=AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
 ##  < a, b >
 ##  gap> Growth(H,6);
 ##  [ 2, 6, 14, 30, 62, 126 ]
@@ -678,10 +673,11 @@ DeclareOperation("AG_FiniteGroupId",[IsAutomGroup,IsCyclotomic]);
 ##
 ##  Computes the matrix of Markov operator related to group <G> on the <lev>-th level
 ##  of a tree. If the group <G> is generated by $g_1,g_2,\ldots,g_n$ then the Markov operator
-##  is defined as $(PermOnLevelAsMatrix(g_1)+\cdots+PermOnLevelAsMatrix(g_d)+
-##  PermOnLevelAsMatrix(g_1^{-1})+\cdots+PermOnLevelAsMatrix(g_d^{-1}))/(2*d)$.
+##  is defined as $(`PermOnLevelAsMatrix'(g_1)+\cdots+`PermOnLevelAsMatrix'(g_d)+
+##  `PermOnLevelAsMatrix'(g_1^{-1})+\cdots+`PermOnLevelAsMatrix'(g_d^{-1}))/(2*d)$. See also
+##  `PermOnLevelAsMatrix' ("PermOnLevelAsMatrix").
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(a,b)(1,2),b=(a,b)");
+##  gap> G:=AutomatonGroup("a=(a,b)(1,2),b=(a,b)");
 ##  < a, b >
 ##  gap> MarkovOperator(G,3);
 ##  [ [ 0, 0, 1/4, 1/4, 0, 1/4, 0, 1/4 ], [ 0, 0, 1/4, 1/4, 1/4, 0, 1/4, 0 ],
@@ -811,12 +807,10 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  the section not in that ray.
 ##  For bounded automata will always produce a result.
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> G:=AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> OrderUsingSections(a*b*a*c*b);
 ##  16
-##  gap> H:=AutomGroup("u=(v,1)(1,2),v=(u,1)");
-##  < u, v >
 ##  gap> OrderUsingSections(u^23*v^-2*u^3*v^15,10);
 ##  #I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
 ##  #I  (v^13*u^15)^4 has congutate of v^13*u^15 as a section at vertex [ 1, 1 ]
@@ -852,8 +846,9 @@ DeclareGlobalFunction("SUSPICIOUS_FOR_NONCONTRACTION");
 ##  The second function enumerates elements of the group (semigroup, monoid) of length at most <max_len>
 ##  and returns the list of elements $g$, for which <func>($g$)=<val>.
 ##
-##  These functions are based on `Iterator' operation (see "Iterator").
-##  The following examlpe illustrates how one can find an element of order 16 in
+##  These functions are based on `Iterator' operation (see "Iterator"), so can be applied in
+##  more general settings whenever \GAP knows how to solve word problem in the group.
+##  The following examlpe illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
 ##  gap> FindElement(GrigorchukGroup,Order,16,5);
@@ -877,7 +872,7 @@ DeclareOperation("FindElements", [IsTreeHomomorphismSemigroup, IsFunction, IsObj
 ##
 ##  The first function enumerates elements of the group <G> up to length <max_len>
 ##  until it finds an element $g$ of infinite order, such that
-##  `OrderUsingSections'($g$,<depth>) is `infinity' (see "OrderUsingSections").
+##  `OrderUsingSections'($g$,<depth>) (see "OrderUsingSections") is `infinity'.
 ##  In other words all sections of every element up to depth <depth> are
 ##  investigated. In case if the element belongs to the group generated by bounded
 ##  automaton (see "IsGeneratedByBoundedAutomaton") one can set <depth> to be `infinity'.
@@ -885,7 +880,7 @@ DeclareOperation("FindElements", [IsTreeHomomorphismSemigroup, IsFunction, IsObj
 ##  The second function returns the list of all such elements up to length <max_len>.
 ##
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(b,1)");
+##  gap> G:=AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(b,1)");
 ##  < a, b, c >
 ##  gap> FindElementOfInfiniteOrder(G,5,10);
 ##  a*b*c
@@ -907,7 +902,7 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##  section at this vertex. See also `IsContracting'~("IsContracting").
 ##
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(b,a)(1,2),b=(c,b)(),c=(c,a)");
+##  gap> G:=AutomatonGroup("a=(b,a)(1,2),b=(c,b)(),c=(c,a)");
 ##  < a, b, c >
 ##  gap> IsNoncontracting(G,10,10);
 ##  true
@@ -940,11 +935,9 @@ InstallTrueMethod(IsAmenable, IsFinite);
 ##  See also `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton" and
 ##  `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
 ##  \beginexample
-##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
-##  < a, b >
-##  gap> IsGeneratedByAutomatonOfPolynomialGrowth(B);
+##  gap> IsGeneratedByAutomatonOfPolynomialGrowth(Basilica);
 ##  true
-##  gap> D:=AutomGroup("a=(a,b)(1,2),b=(b,a)");
+##  gap> D:=AutomatonGroup("a=(a,b)(1,2),b=(b,a)");
 ##  < a, b >
 ##  gap> IsGeneratedByAutomatonOfPolynomialGrowth(D);
 ##  false
@@ -963,11 +956,9 @@ DeclareProperty("IsGeneratedByAutomatonOfPolynomialGrowth", IsAutomatonGroup);
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
 ##  \beginexample
-##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
-##  < a, b >
-##  gap> IsGeneratedByBoundedAutomaton(B);
+##  gap> IsGeneratedByBoundedAutomaton(Basilica);
 ##  true
-##  gap> C:=AutomGroup("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+##  gap> C:=AutomatonGroup("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
 ##  < a, b >
 ##  gap> IsGeneratedByBoundedAutomaton(C);
 ##  false
@@ -978,26 +969,24 @@ DeclareProperty("IsGeneratedByBoundedAutomaton", IsAutomatonGroup);
 
 ################################################################################
 ##
-#A  PolynomialDegreeOfGrowthOfAutomaton (<G>)
+#A  PolynomialDegreeOfGrowthOfUnderlyingAutomaton (<G>)
 ##
 ##  For a group <G> generated by all states of finite automaton (see "IsAutomatonGroup")
 ##  of polynomial growth in terms of Sidki~\cite{sidki:circuit} determines the degree of
-##  polynomial growth of this automaton. This degree is 0 if and only if automaton is bounded.
+##  polynomial growth of this automaton. This degree is 0 if and only if the automaton is bounded.
 ##  If the growth of automaton is exponential returns `fail'.
 ##
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
 ##  and `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton").
 ##  \beginexample
-##  gap> B:=AutomGroup("a=(b,1)(1,2),b=(a,1)");
-##  < a, b >
-##  gap> PolynomialDegreeOfGrowthOfAutomaton(B);
+##  gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(Basilica);
 ##  0
-##  gap> C:=AutomGroup("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+##  gap> C:=AutomatonGroup("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
 ##  < a, b >
-##  gap> PolynomialDegreeOfGrowthOfAutomaton(C);
+##  gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(C);
 ##  2
 ##  \endexample
 ##
-DeclareAttribute("PolynomialDegreeOfGrowthOfAutomaton", IsAutomatonGroup);
+DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGroup);
 
 #E

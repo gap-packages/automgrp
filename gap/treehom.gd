@@ -52,7 +52,7 @@ DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 #O  TransformationOnLevel( <a>, <lev> )
 #O  TransformationOnFirstLevel( <a> )
 ##
-##  `TransformationOnLevel' returns transformation induced by tree homomorphism
+##  The first function returns transformation induced by tree homomorphism
 ##  <a> on the level <lev>. See also `PermOnLevel'~("PermOnLevel").
 ##
 ##  If the transformation is invertible then it returns a permutation, and
@@ -67,31 +67,31 @@ DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
 
 ###############################################################################
 ##
-#O  State( <a>, <v> )
+#O  Section( <a>, <v> )
 ##
-##  Returns the section of given automorphism at the given vertex.
-##  Vertex <v> can be a list representing vertex; or a positive integer
-##  representing a vertex at the first level of the tree.
+##  Returns the section of automorphism (homomorphism) <a> at vertex <v>.
+##  Vertex <v> can be a list representing vertex, or a positive integer
+##  representing a vertex of the first level of the tree.
 ##  \beginexample
-##  gap> State(a*b*a^2,[1,2,2,1,2,1]);
+##  gap> Section(a*b*a^2,[1,2,2,1,2,1]);
 ##  a^2*b^2
 ##  \endexample
 ##
-DeclareOperation("State", [IsTreeHomomorphism, IsList]);
-DeclareOperation("State", [IsTreeHomomorphism, IsPosInt]);
+DeclareOperation("Section", [IsTreeHomomorphism, IsList]);
+DeclareOperation("Section", [IsTreeHomomorphism, IsPosInt]);
 
 ###############################################################################
 ##
-#O  States( <a> [, <lev>] )
+#O  Sections( <a> [, <lev>] )
 ##
-##  Returns the list of states of <a> at the <lev>-th level. If <lev> is ommited
+##  Returns the list of sections of <a> at the <lev>-th level. If <lev> is ommited
 ##  it is assumed to be 1.
 ##  \beginexample
-##  gap> States(a*b*a^2);
+##  gap> Sections(a*b*a^2);
 ##  [ a*b^2*a, b*a^2*b ]
 ##  \endexample
 ##
-DeclareOperation("States", [IsTreeHomomorphism]);
+DeclareOperation("Sections", [IsTreeHomomorphism]);
 
 ###############################################################################
 ##
@@ -99,7 +99,7 @@ DeclareOperation("States", [IsTreeHomomorphism]);
 ##
 ##  Returns a decomposition of tree homomorphism <a> on the <k>-th level of the tree, i.e. the
 ##  representation of the form $$a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma$$
-##  where $a_i$ are the states of <a> at the <k>-th level, and $\sigma$ is the
+##  where $a_i$ are the sections of <a> at the <k>-th level, and $\sigma$ is the
 ##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
 ##  \beginexample
 ##  gap> Decompose(a*b^2);

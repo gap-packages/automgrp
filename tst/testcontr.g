@@ -19,9 +19,9 @@ UnitTest("Contracting groups", function()
   ];
 
   for l in ContractingGroups do
-    AssertTrue(IsContracting(AutomGroup(l)));
+    AssertTrue(IsContracting(AutomatonGroup(l)));
   od;
   for l in NoncontractingGroups do
-    AssertFalse(IsContracting(AutomGroup(l)));
+    AssertFalse(IsContracting(AutomatonGroup(l)));
   od;
 end);

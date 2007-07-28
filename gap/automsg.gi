@@ -10,22 +10,22 @@
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<list>)
+#M  AutomatonSemigroup(<list>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsList)", [IsList],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsList)", [IsList],
 function (list)
-  return AutomSemigroup(list, false);
+  return AutomatonSemigroup(list, false);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<list>, <bind_vars>)
+#M  AutomatonSemigroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsBool)", [IsList, IsBool],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsList, IsBool)", [IsList, IsBool],
 function (list, bind_vars)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("in AutomSemigroup(IsList):\n",
+    Error("in AutomatonSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -36,12 +36,12 @@ end);
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<list>, <names>)
+#M  AutomatonSemigroup(<list>, <names>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList)", [IsList, IsList],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsList, IsList)", [IsList, IsList],
 function (list, names)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("error in AutomSemigroup(IsList, IsList):\n",
+    Error("error in AutomatonSemigroup(IsList, IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -52,13 +52,13 @@ end);
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<list>, <names>, <bind_vars>)
+#M  AutomatonSemigroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsList, IsList, IsBool)",
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsList, IsList, IsBool)",
               [IsList, IsList, IsBool],
 function (list, names, bind_vars)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("error in AutomSemigroup(IsList):\n",
+    Error("error in AutomatonSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -69,34 +69,34 @@ end);
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<string>)
-#M  AutomSemigroup(<string>, <bind_vars>)
+#M  AutomatonSemigroup(<string>)
+#M  AutomatonSemigroup(<string>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsString)", [IsString],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsString)", [IsString],
 function(string)
-    return AutomSemigroup(string, AG_Globals.bind_vars_autom_family);
+    return AutomatonSemigroup(string, AG_Globals.bind_vars_autom_family);
 end);
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsString, IsBool)", [IsString, IsBool],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
     local s;
     s := AG_ParseAutomatonString(string);
-    return AutomSemigroup(s[2], s[1], bind_vars);
+    return AutomatonSemigroup(s[2], s[1], bind_vars);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomSemigroup(<A>)
-#M  AutomSemigroup(<A>, <bind_vars>)
+#M  AutomatonSemigroup(<A>)
+#M  AutomatonSemigroup(<A>, <bind_vars>)
 ##
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsMealyAutomaton)", [IsMealyAutomaton],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
-  return AutomSemigroup(AutomatonList(A), A!.states);
+  return AutomatonSemigroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomSemigroup, "AutomSemigroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
-  return AutomSemigroup(AutomatonList(A), A!.states, bind_vars);
+  return AutomatonSemigroup(AutomatonList(A), A!.states, bind_vars);
 end);
 
 
@@ -290,7 +290,7 @@ function (G)
   fi;
 
   for g in Iterator(G) do od;
-  
+
   return Size(G);
 #  TryNextMethod();
 end);

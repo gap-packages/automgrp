@@ -226,7 +226,7 @@ function(a, k)
   for i in [2 .. k] do
     d2 := d2 * DegreeOfLevel(a, i);
   od;
-  states := States(a);
+  states := Sections(a);
   top := Perm(a);
   first_level := List(states, s -> PermOnLevel(s, k-1));
   permuted := [];
@@ -264,7 +264,7 @@ InstallOtherMethod(\^, "\^(IsList, IsTreeAutomorphism)",
 function(seq, a)
   if Length(seq) = 0 then return []; fi;
   if Length(seq) = 1 then return [seq[1]^Perm(a)]; fi;
-  return Concatenation([seq[1]^Perm(a)], seq{[2..Length(seq)]}^State(a, seq[1]));
+  return Concatenation([seq[1]^Perm(a)], seq{[2..Length(seq)]}^Section(a, seq[1]));
 end);
 
 
@@ -395,7 +395,7 @@ function(a)
     return exp;
   fi;
 
-  states := States(stab);
+  states := Sections(stab);
   stab_order := 1;
 
   for i in [1..Length(states)] do
@@ -413,14 +413,14 @@ end);
 
 ###############################################################################
 ##
-#M  State(<a>, <k>)
+#M  Section(<a>, <k>)
 ##
-InstallOtherMethod(State, [IsTreeAutomorphism, IsPosInt],
+InstallOtherMethod(Section, [IsTreeAutomorphism, IsPosInt],
 function(a, k)
-  return States(a)[k];
+  return Sections(a)[k];
 end);
 
-InstallOtherMethod(State, [IsTreeAutomorphism and IsTreeAutomorphismRep, IsPosInt],
+InstallOtherMethod(Section, [IsTreeAutomorphism and IsTreeAutomorphismRep, IsPosInt],
 function(a, k)
   return a!.states[k];
 end);
@@ -428,21 +428,21 @@ end);
 
 ###############################################################################
 ##
-#M  State(<a>, <v>)
+#M  Section(<a>, <v>)
 ##
-InstallMethod(State, [IsTreeAutomorphism, IsList],
+InstallMethod(Section, [IsTreeAutomorphism, IsList],
 function(a, v)
-  if Length(v) = 1 then return State(a, v[1]);
-  else return State(State(a, v[1]), v{[2..Length(v)]});
+  if Length(v) = 1 then return Section(a, v[1]);
+  else return Section(Section(a, v[1]), v{[2..Length(v)]});
   fi;
 end);
 
 
 ###############################################################################
 ##
-#M  States(<a>)
+#M  Sections(<a>)
 ##
-InstallMethod(States, [IsTreeAutomorphism and IsTreeAutomorphismRep],
+InstallMethod(Sections, [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a)
   return a!.states;
 end);
@@ -450,15 +450,15 @@ end);
 
 ###############################################################################
 ##
-#M  States(a, k)
+#M  Sections(a, k)
 ##
-InstallOtherMethod(States, "States(IsTreeAutomorphism, IsPosInt)",
+InstallOtherMethod(Sections, "Sections(IsTreeAutomorphism, IsPosInt)",
                    [IsTreeAutomorphism, IsPosInt],
 function(a, level)
   if level = 1 then
-    return States(a);
+    return Sections(a);
   else
-    return Concatenation(List(States(a), s -> States(s, level-1)));
+    return Concatenation(List(Sections(a), s -> Sections(s, level-1)));
   fi;
 end);
 
@@ -469,7 +469,7 @@ end);
 ##
 InstallMethod(Decompose, [IsTreeAutomorphism, IsPosInt],
 function(a, level)
-  return TreeAutomorphism(States(a, level), PermOnLevel(a, level));
+  return TreeAutomorphism(Sections(a, level), PermOnLevel(a, level));
 end);
 
 InstallOtherMethod(Decompose, [IsTreeAutomorphism, IsInt and IsZero],
@@ -512,7 +512,7 @@ function(a)
   local i;
   if not IsOne(Perm(a)) then return false; fi;
   for i in [1..TopDegreeOfTree(a)] do
-    if not IsOne(State(a, i)) then return false; fi;
+    if not IsOne(Section(a, i)) then return false; fi;
   od;
   return true;
 end);
@@ -540,7 +540,7 @@ end);
 ##
 InstallMethod(\=, [IsTreeAutomorphism, IsTreeAutomorphism],
 function(a1, a2)
-  return Perm(a1) = Perm(a2) and States(a1) = States(a2);
+  return Perm(a1) = Perm(a2) and Sections(a1) = Sections(a2);
 end);
 
 
@@ -593,8 +593,8 @@ end);
 InstallMethod(\*, [IsTreeAutomorphism, IsTreeAutomorphism],
 function(a1, a2)
   local s1, s2, p1, p2, states, perm, d, a;
-  s1 := States(a1); p1 := Perm(a1);
-  s2 := States(a2); p2 := Perm(a2);
+  s1 := Sections(a1); p1 := Perm(a1);
+  s2 := Sections(a2); p2 := Perm(a2);
   states := List([1..Length(s1)], i -> s1[i] * s2[i^p1]);
   return TreeAutomorphism(states, p1*p2);
 end);
@@ -606,7 +606,7 @@ end);
 ##
 InstallOtherMethod(\[\], [IsTreeAutomorphism, IsPosInt],
 function(a, k)
-  return State(a, k);
+  return Section(a, k);
 end);
 
 
@@ -630,7 +630,7 @@ end);
 InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism)", [IsTreeAutomorphism],
 function(a)
   local states, inv_states, perm;
-  states := States(a);
+  states := Sections(a);
   perm := Inverse(Perm(a));
   inv_states := List([1..Length(states)], i -> Inverse(states[i^perm]));
   return TreeAutomorphism(inv_states, perm);

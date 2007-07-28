@@ -56,7 +56,7 @@ DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 ##  \beginexample
 ##  gap> IsContracting(Basilica);
 ##  true
-##  gap> IsContracting(AutomGroup("a=(c,a)(1,2),b=(c,b),c=(b,a)"));
+##  gap> IsContracting(AutomatonGroup("a=(c,a)(1,2),b=(c,b),c=(b,a)"));
 ##  #I  (b*c^-1)^1 has b*a^-1 as a section at vertex [ 2 ]
 ##  #I  (b*a^-1)^2 has congutate of a^-1*b as a section at vertex [ 1 ]
 ##  false
@@ -94,7 +94,7 @@ KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, Re
 ##
 #O  StabilizerOfVertex (<G>, <v>)
 ##
-##  Returns stabilizer of the vertex <v>. <v> can be a list represnting a
+##  Returns stabilizer of the vertex <v>. Here <v> can be a list represnting a
 ##  vertex, or a positive intger representing a vertex at the first level.
 ##  \beginexample
 ##  gap> StabilizerOfVertex(Basilica,[1,2,1]);

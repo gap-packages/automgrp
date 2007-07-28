@@ -434,10 +434,10 @@ function(fam, n)
   names := fam!.names;
   if fam!.trivstate <> 0 then
     Add(states, fam!.trivstate);
-    Add(names, "e");
+    Add(names, AG_Globals!.identity_symbol);
   fi;
   dlist := AG_MinimalSubAutomatonInlist(states, list)[1];
-  return AutomGroup(AG_DiagonalActionInList(dlist, n, names)[1],
+  return AutomatonGroup(AG_DiagonalActionInList(dlist, n, names)[1],
                     AG_DiagonalActionInList(dlist, n, names)[2]);
 end);
 
@@ -464,7 +464,7 @@ function(fam, n)
   states := [1..fam!.numstates];
   if fam!.trivstate <> 0 then Add(states, fam!.trivstate); fi;
   dlist := AG_MinimalSubAutomatonInlist(states, list)[1];
-  return AutomGroup(AG_MultAlphabetInList(dlist, n));
+  return AutomatonGroup(AG_MultAlphabetInList(dlist, n));
 end);
 
 

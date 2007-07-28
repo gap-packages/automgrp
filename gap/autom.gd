@@ -12,7 +12,7 @@
 ##
 #C  IsAutom
 ##
-##  A category of objects created using `AutomGroup'~("AutomGroup"). These
+##  A category of objects created using `AutomatonGroup'~("AutomatonGroup"). These
 ##  objects are finite initial automata.
 ##
 DeclareCategory("IsAutom", IsTreeHomomorphism);
@@ -48,10 +48,10 @@ DeclareOperation("Word", [IsAutom]);
 #O  Autom(<word>, <fam>)
 ##
 ##  Given assosiative word <word> constructs a tree automorphism from the family
-##  <fam>, or to whiich automorphism <a> belonds. This function is useful when
-##  one needs to make same operations with associative words.
+##  <fam>, or to which automorphism <a> belongs. This function is useful when
+##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(a,b)(1,2), b=(a,b)");
+##  gap> G:=AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
 ##  < a, b >
 ##  gap> F:=UnderlyingFreeGroup(G);
 ##  <free group on the generators [ a, b ]>

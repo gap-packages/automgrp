@@ -445,7 +445,7 @@ InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
 function(G, gens, level)
   local a;
   if IsEmpty(gens) then
-    a := State(One(G), List([1..level], i->1));
+    a := Section(One(G), List([1..level], i->1));
     gens := [a];
   fi;
   return Group(gens);
@@ -455,7 +455,7 @@ InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
                                     IsList and IsEmpty,
                                     IsPosInt],
 function(G, gens, level)
-  return Group(State(One(G), List([1..level], i->1)));
+  return Group(Section(One(G), List([1..level], i->1)));
 end);
 
 InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsTreeAutomorphismCollection],
@@ -482,7 +482,7 @@ function(G, v)
   fi;
 
   gens := GeneratorsOfGroup(G);
-  pgens := List(gens, g -> State(g, v));
+  pgens := List(gens, g -> Section(g, v));
   pgens := $AG_SimplifyGroupGenerators(pgens);
 
   return $AG_SubgroupOnLevel(G, pgens, Length(v));

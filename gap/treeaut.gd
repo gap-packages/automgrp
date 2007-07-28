@@ -30,7 +30,7 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 ##  Constructs a tree automorphism with states <states> and acting
 ##  on the first level as permutation <perm>. The <states> must belong to the same family.
 ##  \beginexample
-##  gap> G:=AutomGroup("a=(a,b)(1,2), b=(a,b)");
+##  gap> G:=AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
 ##  < a, b >
 ##  gap> c:=TreeAutomorphism([a,b,a,b^2],(1,2)(3,4));
 ##  (a, b, a, b^2)(1,2)(3,4)
@@ -78,7 +78,7 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 ##
 #O  IsTransitiveOnLevel ( <a>, <lev> )
 ##
-##  Whether <a> acts transitively on level <lev>.
+##  Returns whether <a> acts transitively on level <lev>.
 ##
 DeclareOperation("IsTransitiveOnLevel", [IsTreeAutomorphism, IsPosInt]);
 

@@ -17,11 +17,25 @@
 ##
 ##  Checks whether the list is correct list to define automaton, i.e.:
 ##  $[[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]]$,
-##  where $n >= 2$, $m >= 1$, $a_ij$ are IsInt in $[1..m]$; and all p_i are
-##  in SymmetricalGroup(n) (semigroup of transformations of the set $\{1..n\}$)
-##  if invertible=true (false).
+##  where $n >= 2$, $m >= 1$, $a_ij$ are IsInt in $[1..m]$; and all $p_i$ are
+##  in `SymmetricGroup'($n$) (semigroup of transformations of the set $\{1..n\}$)
+##  if <invertible>=`true' (`false').
 ##
 DeclareGlobalFunction("AG_IsCorrectAutomatonList");
+
+
+###############################################################################
+##
+##  AG_IsCorrectRecurList( <list>, <invertible> )
+##
+##  Checks whether the list is correct list to define a self-similar group, i.e.:
+##  $[[a_11,...,a_1n,p_1],[a_21,...,a_2n,p_2],...,[a_m1...a_mn,p_m]]$,
+##  where $n >= 2$, $m >= 1$, $a_ij$ are `IsInt' in $[1..m]\cup [-m..-1]$ or `IsList' with
+##  entries from $[1..m]\cup [-m..-1]$; and all $p_i$ are
+##  in `SymmetricGroup'($n$) (semigroup of transformations of the set $\{1..n\}$)
+##  if <invertible>=`true' (`false').
+##
+DeclareGlobalFunction("AG_IsCorrectRecurList");
 
 
 ###############################################################################

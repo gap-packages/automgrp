@@ -172,7 +172,7 @@ InstallMethod(ViewObj, [IsTreeHomomorphism],
 function (a)
     local deg, printword, i, perm, states;
 
-    states := States(a);
+    states := Sections(a);
     deg := Length(states);
     perm := TransformationOnLevel(a, 1);
 
@@ -222,7 +222,7 @@ function(a, k)
   for i in [2 .. k] do
     d2 := d2 * DegreeOfLevel(a, i);
   od;
-  states := States(a);
+  states := Sections(a);
   top := TransformationOnFirstLevel(a);
   first_level := List(states, s -> TransformationOnLevel(s, k-1));
   permuted := [];
@@ -267,7 +267,7 @@ function(seq, a)
     return [seq[1]^TransformationOnLevel(a, 1)];
   else
     return Concatenation([seq[1]^TransformationOnLevel(a, 1)],
-                         seq{[2..Length(seq)]}^State(a, seq[1]));
+                         seq{[2..Length(seq)]}^Section(a, seq[1]));
   fi;
 end);
 
@@ -325,14 +325,14 @@ end);
 
 ###############################################################################
 ##
-#M  State(<a>, <k>)
+#M  Section(<a>, <k>)
 ##
-InstallMethod(State, [IsTreeHomomorphism, IsPosInt],
+InstallMethod(Section, [IsTreeHomomorphism, IsPosInt],
 function(a, k)
-  return States(a)[k];
+  return Sections(a)[k];
 end);
 
-InstallMethod(State, [IsTreeHomomorphism and IsTreeHomomorphismRep, IsPosInt],
+InstallMethod(Section, [IsTreeHomomorphism and IsTreeHomomorphismRep, IsPosInt],
 function(a, k)
   return a!.states[k];
 end);
@@ -340,23 +340,23 @@ end);
 
 ###############################################################################
 ##
-#M  State(<a>, <v>)
+#M  Section(<a>, <v>)
 ##
-InstallMethod(State, [IsTreeHomomorphism, IsList],
+InstallMethod(Section, [IsTreeHomomorphism, IsList],
 function(a, v)
   if Length(v) = 1 then
-    return State(a, v[1]);
+    return Section(a, v[1]);
   else
-    return State(State(a, v[1]), v{[2..Length(v)]});
+    return Section(Section(a, v[1]), v{[2..Length(v)]});
   fi;
 end);
 
 
 ###############################################################################
 ##
-#M  States(<a>)
+#M  Sections(<a>)
 ##
-InstallMethod(States, [IsTreeHomomorphism and IsTreeHomomorphismRep],
+InstallMethod(Sections, [IsTreeHomomorphism and IsTreeHomomorphismRep],
 function(a)
   return a!.states;
 end);
@@ -364,15 +364,15 @@ end);
 
 ###############################################################################
 ##
-#M  States(a, k)
+#M  Sections(a, k)
 ##
-InstallOtherMethod(States, "States(IsTreeHomomorphism, IsPosInt)",
+InstallOtherMethod(Sections, "Sections(IsTreeHomomorphism, IsPosInt)",
                    [IsTreeHomomorphism, IsPosInt],
 function(a, level)
   if level = 1 then
-    return States(a);
+    return Sections(a);
   else
-    return Concatenation(List(States(a), s -> States(s, level-1)));
+    return Concatenation(List(Sections(a), s -> Sections(s, level-1)));
   fi;
 end);
 
@@ -383,7 +383,7 @@ end);
 ##
 InstallMethod(Decompose, [IsTreeHomomorphism, IsPosInt],
 function(a, level)
-  return TreeHomomorphism(States(a, level), TransformationOnLevel(a, level));
+  return TreeHomomorphism(Sections(a, level), TransformationOnLevel(a, level));
 end);
 
 InstallOtherMethod(Decompose, [IsTreeHomomorphism, IsInt and IsZero],
@@ -414,7 +414,7 @@ function(a)
     return false;
   fi;
 
-  for s in States(a) do
+  for s in Sections(a) do
     if not IsOne(s) then
       return false;
     fi;
@@ -431,7 +431,7 @@ end);
 InstallMethod(\=, [IsTreeHomomorphism, IsTreeHomomorphism],
 function(a1, a2)
   return TransformationOnLevel(a1, 1) = TransformationOnLevel(a2, 1) and
-          States(a1) = States(a2);
+          Sections(a1) = Sections(a2);
 end);
 
 
@@ -513,7 +513,7 @@ end);
 ##
 InstallOtherMethod(\[\], [IsTreeHomomorphism, IsPosInt],
 function(a, k)
-  return State(a, k);
+  return Section(a, k);
 end);
 
 
@@ -537,7 +537,7 @@ end);
 # InstallMethod(InverseOp, "InverseOp(IsTreeHomomorphism)", [IsTreeHomomorphism],
 # function(a)
 #   local states, inv_states, perm;
-#   states := States(a);
+#   states := Sections(a);
 #   perm := Inverse(Perm(a));
 #   inv_states := List([1..Length(states)], i -> Inverse(states[i^perm]));
 #   return TreeHomomorphism(inv_states, perm);

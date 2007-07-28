@@ -27,13 +27,14 @@ DeclareCategoryCollections("IsMealyAutomaton");
 #O  MealyAutomaton( <string> )
 #O  MealyAutomaton( <autom> )
 ##
-##  Creates a Mealy automaton defined by the <table>, <string> or <autom>. Format of the <table> is
+##  Creates a Mealy automaton (see "Short math background") defined by the <table>, <string> 
+##  or <autom>. Format of the <table> is
 ##  the following: it is a list of states, where each state is a list of
 ##  positive integers which represent transition function at given state and a
 ##  permutation or transformation which represent output function at this
-##  state.  Format of string <string> is the same as in `AutomGroup' (see~"AutomGroup").
+##  state.  Format of string <string> is the same as in `AutomatonGroup' (see~"AutomatonGroup").
 ##  The third form of this operation takes a tree homomorphism <autom> as its argument.
-##  It returns noninitial automaton constructed from sections of <autom>, whose first state 
+##  It returns noninitial automaton constructed from sections of <autom>, whose first state
 ##  corresponds to <autom> itself.
 ##
 ##  \beginexample
@@ -143,17 +144,17 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##
 #F  MinimizationOfAutomatonTrack ( <A> )
 ##
-##  Returns the list `[A_new,track_s,track_l]', where `A_new' is an
+##  Returns the list `[A_new, new_via_old, old_via_new]', where `A_new' is an
 ##  automaton obtained from automaton <A> by minimization,
-##  `track_s' is how new states are expressed in terms of the old ones, and
-##  `track_l' is how old states are expressed in terms of the new ones.
+##  `new_via_old' is how new states are expressed in terms of the old ones, and
+##  `old_via_new' is how old states are expressed in terms of the new ones.
 ##  \beginexample
 ##  gap> B:=MealyAutomaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
 ##  <automaton>
 ##  gap> B_min:=MinimizationOfAutomatonTrack(B);
 ##  [ <automaton>, [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
-##  gap> Print(B_min);
-##  [ a = (1, a)(1,2), c = (a, a), 1 = (1, 1), [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
+##  gap> Print(B_min[1]);
+##  a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
 ##  \endexample
 ##
 DeclareGlobalFunction("MinimizationOfAutomatonTrack");
@@ -198,8 +199,8 @@ DeclareProperty("IsInvertible", IsMealyAutomaton);
 ##
 ##  Determines whether an automaton <A> has polynomial growth in terms of Sidki~\cite{sidki:circuit}.
 ##
-##  See also `IsBounded' ("IsBounded" and
-##  `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
+##  See also `IsBounded' ("IsBounded") and
+##  `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
 ##  \beginexample
 ##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 ##  <automaton>
@@ -221,7 +222,7 @@ DeclareProperty("IsOfPolynomialGrowth", IsMealyAutomaton);
 ##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{sidki:circuit}.
 ##
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
-##  and `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
+##  and `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
 ##  \beginexample
 ##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 ##  <automaton>
@@ -238,7 +239,7 @@ DeclareProperty("IsBounded", IsMealyAutomaton);
 
 ################################################################################
 ##
-#A  PolynomialDegreeOfGrowthOfAutomaton ( <A> )
+#A  PolynomialDegreeOfGrowth ( <A> )
 ##
 ##  For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:circuit}
 ##  determines its degree of
@@ -250,15 +251,15 @@ DeclareProperty("IsBounded", IsMealyAutomaton);
 ##  \beginexample
 ##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
 ##  <automaton>
-##  gap> PolynomialDegreeOfGrowthOfAutomaton(B);
+##  gap> PolynomialDegreeOfGrowth(B);
 ##  0
 ##  gap> C:=MealyAutomaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
 ##  <automaton>
-##  gap> PolynomialDegreeOfGrowthOfAutomaton(C);
+##  gap> PolynomialDegreeOfGrowth(C);
 ##  2
 ##  \endexample
 ##
-DeclareAttribute("PolynomialDegreeOfGrowthOfAutomaton", IsMealyAutomaton);
+DeclareAttribute("PolynomialDegreeOfGrowth", IsMealyAutomaton);
 
 
 ################################################################################
@@ -316,7 +317,7 @@ DeclareProperty("IsBireversible", IsMealyAutomaton);
 ##
 #O  IsTrivial ( <A> )
 ##
-##  Computes whether or not automaton <A> is equivalent to the trivial automaton.
+##  Computes whether automaton <A> is equivalent to the trivial automaton.
 ##  \beginexample
 ##  gap> A:=MealyAutomaton("a=(c,c),b=(a,b),c=(b,a)");
 ##  <automaton>
@@ -331,7 +332,7 @@ DeclareProperty("IsTrivial", IsMealyAutomaton);
 ##
 #O  DisjointUnion ( <A>, <B> )
 ##
-##  Coonstructs a disjoint union of automata <A> and <B>
+##  Constructs a disjoint union of automata <A> and <B>
 ##  \beginexample
 ##  gap> A:=MealyAutomaton("a=(a,b)(1,2),b=(a,b)");
 ##  <automaton>
@@ -388,7 +389,7 @@ DeclareOperation("SubautomatonWithStates", [IsMealyAutomaton, IsList]);
 #O  AutomatonNucleus( <A> )
 ##
 ##  Returns the nucleus of automaton <A>, i.e. the minimal subautomaton
-##  comtaining all cycles in <A>.
+##  containing all cycles in <A>.
 ##  \beginexample
 ##  gap> A:=MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
 ##  <automaton>

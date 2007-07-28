@@ -146,7 +146,7 @@ function(a)
     if g in states then return Position(states,g); fi;
     Add(states,g);
     cur_state:=Length(states);
-    aut_list[cur_state]:=List([1..g!.deg],x->MealyAutomatonLocal(State(g,x)));
+    aut_list[cur_state]:=List([1..g!.deg],x->MealyAutomatonLocal(Section(g,x)));
     Add(aut_list[cur_state], g!.perm);
     return cur_state;
   end;
@@ -261,10 +261,10 @@ end);
 #              [IsMealyAutomaton],
 #function(A)
 #  local G, res;
-#  G:=AutomGroup(A);
+#  G:=AutomatonGroup(A);
 #  res:=IsGeneratedByAutomatonOfPolynomialGrowth(G);
 #  if res then
-#    SetPolynomialDegreeOfGrowthOfAutomaton(A,PolynomialDegreeOfGrowthOfAutomaton(G));
+#    SetPolynomialDegreeOfGrowth(A,PolynomialDegreeOfGrowthOfUnderlyingAutomaton(G));
 #  fi;
 #  SetIsBounded(A,IsGeneratedByBoundedAutomaton(G));
 #  return res;
@@ -419,7 +419,7 @@ function(A)
   else
     SetIsBounded(A, false);
   fi;
-  SetPolynomialDegreeOfGrowthOfAutomaton(A, lev-2);
+  SetPolynomialDegreeOfGrowth(A, lev-2);
   Info(InfoAutomGrp, 5, "Cycles = ", cycles);
   Info(InfoAutomGrp, 5, "cycle_order = ", cycle_order);
   Info(InfoAutomGrp, 5, "next_cycles = ", next_cycles);
@@ -439,7 +439,7 @@ function(A)
 end);
 
 
-InstallMethod(PolynomialDegreeOfGrowthOfAutomaton, "PolynomialDegreeOfGrowthOfAutomaton(IsMealyAutomaton)", true,
+InstallMethod(PolynomialDegreeOfGrowth, "PolynomialDegreeOfGrowth(IsMealyAutomaton)", true,
               [IsMealyAutomaton],
 function(A)
   local res;
@@ -451,7 +451,7 @@ function(A)
     return fail;
   fi;
 
-  return PolynomialDegreeOfGrowthOfAutomaton(A);
+  return PolynomialDegreeOfGrowth(A);
 end);
 
 

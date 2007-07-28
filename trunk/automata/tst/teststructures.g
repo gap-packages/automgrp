@@ -42,9 +42,9 @@ end);
 UnitTest("Groups", function()
   local l;
   for l in $ST_Groups do
-    AssertTrue(IsAutomGroup(AutomGroup(l[1])));
+    AssertTrue(IsAutomGroup(AutomatonGroup(l[1])));
     if l[2] then
-      AssertTrue(IsContracting(AutomGroup(l[1])));
+      AssertTrue(IsContracting(AutomatonGroup(l[1])));
     fi;
   od;
 end);
@@ -52,7 +52,7 @@ end);
 UnitTest("Semigroups", function()
   local l, g, a;
   for l in $ST_Semigroups do
-    g := AutomSemigroup(l[1]);
+    g := AutomatonSemigroup(l[1]);
     AssertTrue(IsAutomSemigroup(g));
     if l in $ST_Groups then
       AssertTrue(ForAll(GeneratorsOfSemigroup(g), IsInvertibleAutom));
@@ -84,9 +84,9 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
   local group, fam, w, a, b, c, count;
 
   if isgroup then
-    group := AutomGroup(table, false);
+    group := AutomatonGroup(table, false);
   else
-    group := AutomSemigroup(table, false);
+    group := AutomatonSemigroup(table, false);
   fi;
 
   fam := UnderlyingAutomFamily(group);
@@ -169,7 +169,7 @@ end);
 UnitTest("Expand", function()
   local l, group, a, b, count;
   for l in $ST_Semigroups do
-    group := AutomSemigroup(l[1]);
+    group := AutomatonSemigroup(l[1]);
 
     for count in [1..10] do
       a := Random(group);

@@ -5,18 +5,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Creation of groups and semigroups}
 
-\Declaration{AutomGroup}
+\Declaration{AutomatonGroup}
 \Declaration{AutomGroupNoBindGlobal}
+
+\Declaration{IsTreeAutomorphismGroup}
+\Declaration{IsAutomGroup}
+\Declaration{IsAutomatonGroup}
+
 
 In the examples below we will consider the elements of Basilica group and 
 Grigorchuk group. First we define them as
 \beginexample
-gap> Basilica:=AutomGroup("u=(v,1)(1,2),v=(u,1)");
+gap> Basilica:=AutomatonGroup("u=(v,1)(1,2),v=(u,1)");
 < u, v >
-gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+gap> GrigorchukGroup:=AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 \endexample
 
+Note also that these groups are predefined in a global variable `AG_Groups' (see "Some predefined groups").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Basic properties of groups and semigroups}
@@ -32,9 +38,9 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{IsNoncontracting}
 \Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
 \Declaration{IsGeneratedByBoundedAutomaton}
-\Declaration{PolynomialDegreeOfGrowthOfAutomaton}
+\Declaration{PolynomialDegreeOfGrowthOfUnderlyingAutomaton}
 \Declaration{UnderlyingAutomaton}
-\Declaration{AutomatonList}
+\Declaration{AutomatonList}[treehomsg]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,13 +75,13 @@ gap> GrigorchukGroup:=AutomGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 \Declaration{MultAutomAlphabet}
 
 \Declaration{UnderlyingAutomFamily}
-\Declaration{UnderlyingFreeGroup}
-\Declaration{UnderlyingFreeSubgroup}
-\Declaration{UnderlyingFreeGenerators}
-\Declaration{IndexInFreeGroup}
-\Declaration{ApplyNielsen}
-\Declaration{MihailovaSystem}
-\Declaration{TrivialSubgroup}
+%\Declaration{UnderlyingFreeGroup}
+%\Declaration{UnderlyingFreeSubgroup}
+%\Declaration{UnderlyingFreeGenerators}
+%\Declaration{IndexInFreeGroup}
+%\Declaration{ApplyNielsen}
+%\Declaration{MihailovaSystem}  % --  first needs to be checked
+%\Declaration{TrivialSubgroup}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

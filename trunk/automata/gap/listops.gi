@@ -68,6 +68,97 @@ end);
 
 ###############################################################################
 ##
+##  AG_IsCorrectRecurList( <list>, <invertible> )
+##
+InstallGlobalFunction(AG_IsCorrectRecurList,
+function(list, invertible)
+  local len, deg, i, j, k, sym, semi, inv_states;
+
+  if not IsDenseList(list) then
+    return false;
+  fi;
+
+  len := Length(list);
+  if len = 0 then
+    return false;
+  fi;
+
+  for i in [1..len] do
+    if not IsDenseList(list[i]) then
+      return false;
+    fi;
+    if Length(list[i]) <> Length(list[1]) then
+      return false;
+    fi;
+  od;
+
+  deg := Length(list[1]) - 1;
+  if deg < 2 then
+    return false;
+  fi;
+
+  sym := SymmetricGroup(deg);
+  semi := FullTransformationSemigroup(deg);
+
+  for i in [1..len] do
+    for j in [1..deg] do
+      if IsInt(list[i][j]) then
+        if list[i][j] > len or list[i][j] < -len or list[i][j] = 0 then
+          return false;
+        fi;
+      elif IsList(list[i][j]) then
+        if not IsDenseList(list[i][j]) then
+          return false;
+        fi;
+        for k in list[i][j] do
+          if (not IsInt(k)) or k > len or k < -len or k = 0 then
+            return false;
+          fi;
+        od;
+      else
+        return false;
+      fi;
+    od;
+
+    if not list[i][deg + 1] in sym then
+      if not list[i][deg + 1] in semi then
+        return false;
+      fi;
+      if invertible and not AG_IsInvertibleTransformation(list[i][deg + 1]) then
+        return false;
+      fi;
+    fi;
+  od;
+
+
+#  check if there is x^-1 in the list, while x is not invertible
+  inv_states:=[];
+  for i in [1..len] do
+    if AG_IsInvertibleStateInList(i,list) then Add(inv_states,i); fi;
+  od;
+
+  for i in [1..len] do
+    for j in [1..deg] do
+      if IsInt(list[i][j]) then
+        if list[i][j]<0 and not -list[i][j] in inv_states then
+          return false;
+        fi;
+      else
+        for k in list[i][j] do
+          if k<0 and not -k in inv_states then
+            return false;
+          fi;
+        od;
+      fi;
+    od;
+  od;
+
+  return true;
+end);
+
+
+###############################################################################
+##
 ##  AG_ConnectedStatesInList(state, list)
 ##
 ##  Returns list of states which are reachable from given state,
@@ -75,7 +166,7 @@ end);
 ##
 InstallGlobalFunction(AG_ConnectedStatesInList,
 function(state, list)
-  local i, s, d, to_check, checked;
+  local i, j, s, d, to_check, checked;
 
   d := Length(list[1]) - 1;
 
@@ -85,9 +176,16 @@ function(state, list)
   while Length(to_check) <> 0 do
     for s in to_check do
       for i in [1..d] do
-        if (not list[s][i] in checked) and (not list[s][i] in to_check)
-        then
-          to_check := Union(to_check, [list[s][i]]);
+        if IsList(list[s][i]) then
+          for j in AsSet(List(list[s][i],AbsInt)) do
+            if (not j in checked) and (not j in to_check) then
+              to_check := Union(to_check, [j]);
+            fi;
+          od;
+        else
+          if (not AbsInt(list[s][i]) in checked) and (not AbsInt(list[s][i]) in to_check) then
+            to_check := Union(to_check, [AbsInt(list[s][i])]);
+          fi;
         fi;
       od;
       checked := Union(checked, [s]);

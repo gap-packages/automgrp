@@ -1218,7 +1218,7 @@ InstallGlobalFunction(AutomPortrait,function(w)
 end);
 
 InstallGlobalFunction(AutomPortraitBoundary,function(w)
-  return AG_AutomPortraitMain(w){[1..2]};
+  return AG_AutomPortraitMain(w)[2];
 end);
 
 InstallGlobalFunction(AutomPortraitDepth,function(w)
@@ -1337,12 +1337,10 @@ end);
 InstallMethod(Growth, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
               [IsTreeHomomorphismSemigroup, IsCyclotomic],
 function(G,max_len)
-  local iter,g,i,l;
+  local iter,g,i;
   iter:=Iterator(G,max_len);
   for g in iter do od;
-  l:=List(iter!.levels, Length);
-  for i in [2..Length(l)] do l[i]:=l[i]+l[i-1]; od;
-  return l;
+  return List(iter!.levels,x->x[Length(x)]);
 end);
 
 
@@ -2862,9 +2860,9 @@ function(a, max_depth)
     for orb in Orbs do
       Add(degs,Length(orb));
       Add(vertex,orb[1]);
-#      res:=OrderUsingSections_LOCAL(Autom(CyclicallyReducedWord(State(g^Length(orb),orb[1])!.word),FamilyObj(g)));
+#      res:=OrderUsingSections_LOCAL(Autom(CyclicallyReducedWord(Section(g^Length(orb),orb[1])!.word),FamilyObj(g)));
 #      Print(g^Length(orb),"\n");
-      st:=State(g^Length(orb),orb[1]);
+      st:=Section(g^Length(orb),orb[1]);
       reduced_word:=AssocWordByLetterRep(FamilyObj(st!.word),CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word," at ",vertex,"\n");
       res:=OrderUsingSections_LOCAL(Autom(reduced_word,FamilyObj(g)));
@@ -2918,7 +2916,7 @@ InstallGlobalFunction(SUSPICIOUS_FOR_NONCONTRACTION, function(a)
 
     for i in [1..FamilyObj(a)!.deg] do
       Add(vertex,i);
-      res:=SUSPICIOUS_FOR_NONCONTRACTION_LOCAL(State(g,i));
+      res:=SUSPICIOUS_FOR_NONCONTRACTION_LOCAL(Section(g,i));
       if res then return true; fi;
       Unbind(vertex[Length(vertex)]);
     od;
@@ -3263,7 +3261,7 @@ function(G)
   else
     SetIsGeneratedByBoundedAutomaton(G,false);
   fi;
-  SetPolynomialDegreeOfGrowthOfAutomaton(G,lev-2);
+  SetPolynomialDegreeOfGrowthOfUnderlyingAutomaton(G,lev-2);
   Info(InfoAutomGrp,5,"Cycles = ", cycles);
   Info(InfoAutomGrp,5,"cycle_order = ", cycle_order);
   Info(InfoAutomGrp,5,"next_cycles = ", next_cycles);
@@ -3282,7 +3280,7 @@ end);
 
 
 
-InstallMethod(PolynomialDegreeOfGrowthOfAutomaton,"PolynomialDegreeOfGrowthOfAutomaton(IsAutomatonGroup)",true,
+InstallMethod(PolynomialDegreeOfGrowthOfUnderlyingAutomaton,"PolynomialDegreeOfGrowthOfUnderlyingAutomaton(IsAutomatonGroup)",true,
               [IsAutomatonGroup],
 function(G)
   local res;
@@ -3291,7 +3289,7 @@ function(G)
     Info(InfoAutomGrp,"Error: the automaton generating <G> has exponenetial growth");
     return fail;
   fi;
-  return PolynomialDegreeOfGrowthOfAutomaton(G);
+  return PolynomialDegreeOfGrowthOfUnderlyingAutomaton(G);
 end);
 
 

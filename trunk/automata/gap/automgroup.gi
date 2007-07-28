@@ -10,22 +10,22 @@
 
 ###############################################################################
 ##
-#M  AutomGroup(<list>)
+#M  AutomatonGroup(<list>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsList)", [IsList],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsList)", [IsList],
 function(list)
-  return AutomGroup(list, false);
+  return AutomatonGroup(list, false);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomGroup(<list>, <bind_vars>)
+#M  AutomatonGroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsList, IsBool)", [IsList, IsBool],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsList, IsBool)", [IsList, IsBool],
 function(list, bind_vars)
   if not AG_IsCorrectAutomatonList(list, true) then
-    Error("in AutomGroup(IsList, IsBool):\n",
+    Error("in AutomatonGroup(IsList, IsBool):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -35,23 +35,23 @@ end);
 
 ###############################################################################
 ##
-#M  AutomGroup(<list>, <names>)
+#M  AutomatonGroup(<list>, <names>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsList, IsList)", [IsList, IsList],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsList, IsList)", [IsList, IsList],
 function(list, names)
-  return AutomGroup(list, names, AG_Globals.bind_vars_autom_family);
+  return AutomatonGroup(list, names, AG_Globals.bind_vars_autom_family);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomGroup(<list>, <names>, <bind_vars>)
+#M  AutomatonGroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(AutomGroup,
-              "AutomGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
+InstallMethod(AutomatonGroup,
+              "AutomatonGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
 function(list, names, bind_vars)
   if not AG_IsCorrectAutomatonList(list, true) then
-    Error("error in AutomGroup(IsList, IsList, IsBool):\n",
+    Error("error in AutomatonGroup(IsList, IsList, IsBool):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -61,41 +61,41 @@ end);
 
 ###############################################################################
 ##
-#M  AutomGroup(<string>)
-#M  AutomGroup(<string>, <bind_vars>)
+#M  AutomatonGroup(<string>)
+#M  AutomatonGroup(<string>, <bind_vars>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsString)", [IsString],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsString)", [IsString],
 function(string)
-  return AutomGroup(string, AG_Globals.bind_vars_autom_family);
+  return AutomatonGroup(string, AG_Globals.bind_vars_autom_family);
 end);
 
-InstallMethod(AutomGroup, "AutomGroup(IsString, IsBool)", [IsString, IsBool],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
   local s;
   s := AG_ParseAutomatonString(string);
-  return AutomGroup(s[2], s[1], bind_vars);
+  return AutomatonGroup(s[2], s[1], bind_vars);
 end);
 
 
 ###############################################################################
 ##
-#M  AutomGroup(<A>)
-#M  AutomGroup(<A>, <bind_vars>)
+#M  AutomatonGroup(<A>)
+#M  AutomatonGroup(<A>, <bind_vars>)
 ##
-InstallMethod(AutomGroup, "AutomGroup(IsMealyAutomaton)", [IsMealyAutomaton],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
   fi;
-  return AutomGroup(AutomatonList(A), A!.states);
+  return AutomatonGroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomGroup, "AutomGroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
+InstallMethod(AutomatonGroup, "AutomatonGroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
   fi;
-  return AutomGroup(AutomatonList(A), A!.states, bind_vars);
+  return AutomatonGroup(AutomatonList(A), A!.states, bind_vars);
 end);
 
 
@@ -361,28 +361,6 @@ function (G)
 end);
 
 
-###############################################################################
-##
-#A  LevelOfFaithfulAction (<G>)
-#A  LevelOfFaithfulAction (<G>, <max_lev>)
-##
-##  For a given finite self-similar group <G> determines the smallest level of
-##  the tree, where <G> acts faithfully, i.e. the stabilizer of this level in <G>
-##  is trivial. The idea here is that for self-similar group all nontrivial level
-##  stabilizers are different. If <max_lev> is given it finds only first <max_lev>
-##  quotients by stabilizers and if all of them have different size returns 'fail'.
-##  If <G> is infinite and <max_lev> is not specified will loop forever.
-##
-##  See also "IsomorphismPermGroup".
-##  \beginexample
-##  gap> H:=AutomGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");
-##  < a, b, c >
-##  gap> LevelOfFaithfulAction(H);
-##  3
-##  gap> LevelOfFaithfulAction(AddingMachine,10);
-##  fail
-##  \endexample
-##
 InstallOtherMethod(LevelOfFaithfulAction, "method for IsAutomGroup and IsSelfSimilar",
               [IsAutomGroup and IsSelfSimilar,IsCyclotomic],
 function(G,max_lev)
@@ -424,18 +402,18 @@ end);
 ##  there is a level of the tree (see "LevelOfFaithfulAction"), where <G> acts faithfully.
 ##  The corresponding representation is returned in this case. If <max_lev> is given
 ##  it finds only first <max_lev> quotients by stabilizers and if all of them have
-##  different size returns 'fail'.
+##  different size returns `fail'.
 ##  If <G> is infinite and <max_lev> is not specified will loop forever.
+##  
+##  For example, consider a subgroup $\langle a,b\rangle$ of Grigorchuk group.
 ##  \beginexample
-##  gap> G:=GrigorchukGroup;
-##  < a, b, c, d >
 ##  gap> f:=IsomorphismPermGroup(Group(a,b));
 ##  [ a, b ] -> [ (1,2)(3,5)(4,6)(7,9)(8,10)(11,13)(12,14)(15,17)(16,18)(19,21)(20,
 ##      22)(23,25)(24,26)(27,29)(28,30)(31,32), (1,3)(2,4)(5,7)(6,8)(9,11)(10,12)(13,
 ##      15)(14,16)(17,19)(18,20)(21,23)(22,24)(25,27)(26,28)(29,31)(30,32) ]
 ##  gap> Size(Image(f));
 ##  32
-##  gap> H:=AutomGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");
+##  gap> H:=AutomatonGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");
 ##  < a, b, c >
 ##  gap> f1:=IsomorphismPermGroup(H);
 ##  [ a, b, c ] -> [ (1,8)(2,7)(3,6)(4,5), (1,4)(2,3)(5,8)(6,7), (1,6,3,8)(2,5,4,7) ]
@@ -806,7 +784,7 @@ function(G)
   res := true;
   for g in GeneratorsOfGroup(G) do
     for i in [1..UnderlyingAutomFamily(G)!.deg] do
-      res := State(g, i) in G;
+      res := Section(g, i) in G;
       if res = fail then
         TryNextMethod();
       elif not res then

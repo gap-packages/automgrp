@@ -80,7 +80,7 @@ InstallSubsetMaintenance(DegreeOfTree, IsCollection, IsCollection);
 ##
 #O  FixesVertex (<obj>, <v>)
 ##
-##  Whether <obj> fixes vertex <v>. Vertex <v> may be given as a list, or as
+##  Returns whether <obj> fixes vertex <v>. Vertex <v> may be given as a list, or as
 ##  a positive integer, in which case it denotes <v>-th vertex at the first
 ##  level.
 ##
@@ -90,7 +90,7 @@ DeclareOperation("FixesVertex", [IsActingOnTree, IsObject]);
 ##
 #O  FixesLevel (<obj>, <lev>)
 ##
-##  Whether <obj> fixes level <lev>, i.e. fixes every vertex at the level
+##  Returns whether <obj> fixes level <lev>, i.e. fixes every vertex at the level
 ##  <lev>.
 ##
 DeclareOperation("FixesLevel", [IsActingOnTree, IsPosInt]);
@@ -99,8 +99,8 @@ DeclareOperation("FixesLevel", [IsActingOnTree, IsPosInt]);
 ##
 #A  FirstMovedLevel (<obj>)
 ##
-##  First level on which <obj> acts non-trivially if such a level exists
-##  (i.e. if <obj> is not trivial), or `infinity'.
+##  Returns the first level on which <obj> acts non-trivially if such a level exists
+##  (i.e. if <obj> is not trivial), or `infinity' otherwise.
 ##
 DeclareAttribute("FirstMovedLevel", IsActingOnTree);
 

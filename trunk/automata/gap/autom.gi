@@ -490,9 +490,9 @@ end);
 
 ###############################################################################
 ##
-#M  States(a)
+#M  Sections(a)
 ##
-InstallMethod(States, "States(IsAutom)", [IsAutom],
+InstallMethod(Sections, "Sections(IsAutom)", [IsAutom],
 function(a)
   return List(a!.states, s -> Autom(s, a));
 end);
@@ -500,12 +500,12 @@ end);
 
 ###############################################################################
 ##
-#M  State(a, k)
+#M  Section(a, k)
 ##
-InstallOtherMethod(State, "State(IsAutom, IsPosInt)", [IsAutom, IsPosInt],
+InstallOtherMethod(Section, "Section(IsAutom, IsPosInt)", [IsAutom, IsPosInt],
 function(a, k)
   if k > a!.deg then
-    Error("in State(IsAutom, IsPosInt): invalid vertex ", k);
+    Error("in Section(IsAutom, IsPosInt): invalid vertex ", k);
   fi;
   return Autom(a!.states[k], a);
 end);
@@ -513,20 +513,20 @@ end);
 
 ###############################################################################
 ##
-#M  State(a, seq)
+#M  Section(a, seq)
 ##
 ## TODO
-InstallMethod(State, "State(IsAutom, IsList)", [IsAutom, IsList],
+InstallMethod(Section, "Section(IsAutom, IsList)", [IsAutom, IsList],
 function(a, v)
   if Length(v) = 0 then
     return a;
   fi;
 
   if Length(v) = 1 then
-    return State(a, v[1]);
+    return Section(a, v[1]);
   fi;
 
-  return State(State(a, v[1]), v{[2..Length(v)]});
+  return Section(Section(a, v[1]), v{[2..Length(v)]});
 end);
 
 
@@ -718,12 +718,12 @@ end);
 #     word := states[pos];
 #     aut := FGAutom(word, FamilyObj(a));
 #     for i in [1..deg] do
-#       if not aut!.States[i] in states then
-#         Add(states, aut!.States[i]);
+#       if not aut!.Sections[i] in states then
+#         Add(states, aut!.Sections[i]);
 #       fi;
 #     od;
 #
-#     Add(list_comp, Concatenation(List(aut!.States, w -> Position(states, w)), [aut!.Perm]));
+#     Add(list_comp, Concatenation(List(aut!.Sections, w -> Position(states, w)), [aut!.Perm]));
 #   od;
 #
 #   return rec(  list   := list_comp,

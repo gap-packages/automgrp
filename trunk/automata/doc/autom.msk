@@ -20,7 +20,7 @@
 \Declaration{MinimizationOfAutomatonTrack}
 \Declaration{IsOfPolynomialGrowth}
 \Declaration{IsBounded}
-\Declaration{PolynomialDegreeOfGrowthOfAutomaton}[automaton]
+\Declaration{PolynomialDegreeOfGrowth}
 \Declaration{DualAutomaton}
 \Declaration{InverseAutomaton}
 \Declaration{IsBireversible}

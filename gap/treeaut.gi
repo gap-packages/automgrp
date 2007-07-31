@@ -81,7 +81,7 @@ end);
 ##
 #M  TreeAutomorphism(<states_list>, <perm>)
 ##
-InstallMethod(TreeAutomorphism, [IsList, IsPerm],
+InstallMethod(TreeAutomorphism, "for [IsList, IsPerm]", [IsList, IsPerm],
 function(states, perm)
   local autom, nstates, s;
 
@@ -103,7 +103,7 @@ function(states, perm)
 
 
   nstates := List(states, function(x)
-                            if IsOne(x) then
+                            if IsInt(x) and IsOne(x) then
                               return One(autom);
                             else
                               return x;

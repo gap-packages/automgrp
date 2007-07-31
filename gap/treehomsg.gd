@@ -29,21 +29,5 @@ DeclareFilter("CanEasilyTestSelfSimilarity");
 InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 
 
-# XXX
-
-###############################################################################
-##
-#A  AutomatonList(<G>)
-##
-##  Returns an `AutomatonList' of `UnderlyingAutomaton'(<G>) (see "UnderlyingAutomaton").
-##  \beginexample
-##  gap> AutomatonList(Basilica);
-##  [ [ 2, 5, (1,2) ], [ 1, 5, () ], [ 5, 4, (1,2) ], [ 3, 5, () ], [ 5, 5, () ] ]
-##  \endexample
-##
-DeclareAttribute("AutomatonList", IsTreeHomomorphismSemigroup and IsActingOnRegularTree, "mutable");
-
-DeclareAttribute("GeneratingAutomatonList", IsTreeHomomorphismSemigroup and IsActingOnRegularTree, "mutable");
-
 
 #E

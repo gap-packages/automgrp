@@ -62,6 +62,19 @@ DeclareGlobalFunction("AG_ConnectedStatesInList");
 ##
 DeclareGlobalFunction("AG_IsTrivialStateInList");
 
+
+###############################################################################
+##
+##  AG_IsObviouslyTrivialStateInList( <state>, <list>)
+##
+##  Checks whether given state is obviously trivial.
+##  Works for lists generating self-similar groups.
+##  Returns `true' if <state>=(*,...,*)(), where
+##  * could be either +-<state> or [+-<state>].
+##
+DeclareGlobalFunction("AG_IsObviouslyTrivialStateInList");
+
+
 ###############################################################################
 ##
 ##  AG_IsInvertibleStateInList( <state>, <list>)

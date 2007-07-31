@@ -35,6 +35,12 @@ ReadPkg("automgrp", "gap/utilsfrgrp.gd");
 ReadPkg("automgrp", "gap/scilab.gd");
 ReadPkg("automgrp", "gap/rws.gd");
 ReadPkg("automgrp", "gap/selfs.gd");
+ReadPkg("automgrp", "gap/selfsim.gd");
+ReadPkg("automgrp", "gap/selfsimfam.gd");
+ReadPkg("automgrp", "gap/selfsimsg.gd");
+ReadPkg("automgrp", "gap/selfsimgroup.gd");
+
+
 
 
 if IsBoundGlobal("AG_saved_DeclareOperation") then

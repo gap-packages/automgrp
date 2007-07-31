@@ -33,8 +33,14 @@ ReadPkg("automgrp", "gap/utilsfrgrp.gi");
 ReadPkg("automgrp", "gap/scilab.gi");
 ReadPkg("automgrp", "gap/rws.gi");
 ReadPkg("automgrp", "gap/selfs.gi");
+ReadPkg("automgrp", "gap/selfsim.gi");
+ReadPkg("automgrp", "gap/selfsimfam.gi");
+ReadPkg("automgrp", "gap/selfsimsg.gi");
+ReadPkg("automgrp", "gap/selfsimgroup.gi");
 ReadPkg("automgrp", "gap/data.g");
 ReadPkg("automgrp", "gap/groups.g");
+
+
 
 if IsBoundGlobal("AG_saved_InstallMethod") then
   InstallMethod := AG_saved_InstallMethod;

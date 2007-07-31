@@ -213,6 +213,35 @@ function(state, list)
                 s -> IsOne(list[s][deg+1]));
 end);
 
+
+###############################################################################
+##
+##  AG_IsObviouslyTrivialStateInList( <state>, <list>)
+##
+##  Checks whether given state is obviously trivial.
+##  Works for lists generating self-similar groups.
+##  Returns `true' if <state>=(*,...,*)(), where
+##  * could be either +-<state> or [+-<state>], or [].
+##
+InstallGlobalFunction(AG_IsObviouslyTrivialStateInList,
+function(state, list)
+  local deg, check;
+
+  check := function(s)
+    if IsInt(s) then return state=AbsInt(s);
+                else return s=[] or state=AbsInt(s[1]);
+    fi;
+  end;
+
+
+  deg := Length(list[1]) - 1;
+  if not IsOne(list[state][deg+1]) then return false; fi;
+  # IsOne works for Transformation's
+  return ForAll(list[state]{[1..deg]}, check);
+end);
+
+
+
 ###############################################################################
 ##
 ##  AG_IsInvertibleStateInList( <state>, <list> )

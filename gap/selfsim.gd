@@ -72,6 +72,13 @@ DeclareOperation("SelfSim", [IsAssocWord, IsSelfSimFamily]);
 DeclareOperation("StatesWords", [IsSelfSim]);
 
 
+###############################################################################
+##
+#A  IsFiniteState(<a>)
+##
+DeclareOperation("IsFiniteState", [IsSelfSim]);
+
+
 DeclareGlobalFunction("$AG_CreateSelfSim");
 
 

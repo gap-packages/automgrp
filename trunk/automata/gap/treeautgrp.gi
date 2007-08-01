@@ -458,7 +458,8 @@ function(G, gens, level)
   return Group(Section(One(G), List([1..level], i->1)));
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsTreeAutomorphismCollection],
+InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsTreeAutomorphismCollection]",
+                              [IsList and IsTreeAutomorphismCollection],
 function(gens)
   if IsEmpty(gens) then
     return [];

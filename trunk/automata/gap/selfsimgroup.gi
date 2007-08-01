@@ -161,7 +161,8 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsSelfSimCollection],
+InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]", 
+                          [IsList and IsInvertibleSelfSimCollection],
 function(gens)
   local words, fam;
 

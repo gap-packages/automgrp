@@ -732,4 +732,38 @@ function(a,lev)
 end);
 
 
+#########################################################################
+##
+#M  IsFiniteState( <a> )
+##
+InstallMethod(IsFiniteState, "for [IsSelfSim]", [IsSelfSim],
+function(a)
+  local st,state_words, find_all_sections;
+
+  find_all_sections:=function(s)
+    local i;
+    if not s in state_words then
+      Add(state_words,s);
+      for i in [1..s!.deg] do find_all_sections(Section(s,i)); od;
+    fi;
+  end;
+
+  state_words:=[];
+  find_all_sections(a);
+  SetAllSections(a,state_words);
+  return true;
+end);
+
+
+#########################################################################
+##
+#M  AllSections( <a> )
+##
+InstallMethod(AllSections, "for [IsSelfSim]", [IsSelfSim],
+function(a)
+  if IsFiniteState(a) then return AllSections(a); fi;
+end);
+
+
+
 #E

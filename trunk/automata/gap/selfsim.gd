@@ -74,9 +74,16 @@ DeclareOperation("StatesWords", [IsSelfSim]);
 
 ###############################################################################
 ##
-#A  IsFiniteState(<a>)
+#P  IsFiniteState(<a>)
 ##
-DeclareOperation("IsFiniteState", [IsSelfSim]);
+DeclareProperty("IsFiniteState", IsSelfSim);
+
+
+###############################################################################
+##
+#A  AllSections(<a>)
+##
+DeclareAttribute("AllSections", IsSelfSim);
 
 
 DeclareGlobalFunction("$AG_CreateSelfSim");

@@ -80,7 +80,7 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 %\Declaration{UnderlyingFreeGenerators}
 %\Declaration{IndexInFreeGroup}
 %\Declaration{ApplyNielsen}
-%\Declaration{MihailovaSystem}  % --  first needs to be checked
+%\Declaration{MihailovaSystem} 
 %\Declaration{TrivialSubgroup}
 
 

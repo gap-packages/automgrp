@@ -79,7 +79,7 @@ end);
 InstallMethod(SelfSimilarSemigroup, "SelfSimilarSemigroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
     local s;
-    s := AG_ParseAutomatonString(string);
+    s := AG_ParseAutomatonStringFR(string);
     return SelfSimilarSemigroup(s[2], s[1], bind_vars);
 end);
 

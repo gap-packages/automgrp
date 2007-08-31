@@ -17,10 +17,13 @@ DeclareGlobalFunction("AG_TopDegreeInSphericalIndex");
 DeclareGlobalFunction("AG_DegreeOfLevelInSphericalIndex");
 
 DeclareGlobalFunction("AG_TreeLevelTuples");
-DeclareGlobalFunction("AG_ParseAutomatonString");
 
 DeclareGlobalVariable("AG_AbelImageX");
 DeclareGlobalVariable("AG_AbelImageSpherTrans");
+
+# implemented in parser.g
+DeclareGlobalFunction("AG_ParseAutomatonString");
+DeclareGlobalFunction("AG_ParseAutomatonStringFR");
 
 
 #############################################################################

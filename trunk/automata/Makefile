@@ -22,6 +22,7 @@ gap_files =			\
     gap/globals.g		\
     gap/listops.gd		\
     gap/listops.gi		\
+    gap/parser.g		\
     gap/rws.gd			\
     gap/rws.gi			\
     gap/scilab.gd		\

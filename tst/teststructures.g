@@ -166,16 +166,16 @@ UnitTest("Rewriting systems", function()
 end);
 
 
-UnitTest("Expand", function()
+UnitTest("Decompose", function()
   local l, group, a, b, count;
   for l in $ST_Semigroups do
     group := AutomatonSemigroup(l[1]);
 
     for count in [1..10] do
       a := Random(group);
-      AssertEqual(Expand(a), Expand(a));
-      a := Expand(a) * Expand(a);
-      AssertEqual(Expand(a), Expand(a));
+      AssertEqual(Decompose(a), Decompose(a));
+      a := Decompose(a) * Decompose(a);
+      AssertEqual(Decompose(a), Decompose(a));
     od;
   od;
 end);

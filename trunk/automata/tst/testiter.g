@@ -18,7 +18,7 @@ UnitTest("Iterator", function()
 
   for G in groups do
     elms := [];
-    for g in AG_MonoidIterator(G, infinity) do
+    for g in AG_SemigroupIterator(G, infinity) do
       Add(elms, g);
     od;
     AssertEqual(Length(elms), Size(G));
@@ -27,7 +27,7 @@ UnitTest("Iterator", function()
 
   for G in inf_groups do
     elms := [];
-    for g in AG_MonoidIterator(G[1], G[2]) do
+    for g in AG_SemigroupIterator(G[1], G[2]) do
       Add(elms, g);
     od;
     AssertEqual(Length(elms), G[3]);

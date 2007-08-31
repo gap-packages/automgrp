@@ -522,7 +522,7 @@ end);
 
 ###############################################################################
 ##
-#M  <g> in <G>)
+#M  <g> in <G>
 ##
 InstallMethod(\in, "\in(IsSelfSim, IsSelfSimGroup)",
               [IsSelfSim, IsSelfSimGroup],

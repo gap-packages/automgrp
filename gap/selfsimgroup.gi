@@ -72,7 +72,7 @@ end);
 InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsString, IsBool)", [IsString, IsBool],
 function(string, bind_vars)
   local s;
-  s := AG_ParseAutomatonString(string);
+  s := AG_ParseAutomatonStringFR(string);
   return SelfSimilarGroup(s[2], s[1], bind_vars);
 end);
 
@@ -161,7 +161,7 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]", 
+InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]",
                           [IsList and IsInvertibleSelfSimCollection],
 function(gens)
   local words, fam;

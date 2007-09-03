@@ -709,5 +709,41 @@ function(G)
 end);
 
 
+###############################################################################
+##
+#M  IsFiniteState(<G>)
+##
+InstallMethod(IsFiniteState, "IsFiniteState(IsSelfSimGroup)",
+              [IsSelfSimGroup],
+function(G)
+  local states, MealyAutomatonLocal, aut_list, gens, images, H, g;
+
+  MealyAutomatonLocal:=function(g)
+    local cur_state;
+    if g in states then return Position(states,g); fi;
+    Add(states,g);
+    cur_state:=Length(states);
+    aut_list[cur_state]:=List([1..g!.deg],x->MealyAutomatonLocal(Section(g,x)));
+    Add(aut_list[cur_state], g!.perm);
+    return cur_state;
+  end;
+
+  states:=[];
+  aut_list:=[];
+  gens:=GeneratorsOfGroup(G);
+  images:=[];
+
+  for g in gens do
+    Add(images, MealyAutomatonLocal(g));
+  od;
+
+  H:=AutomatonGroup(aut_list);
+  SetUnderlyingAutomGroup(G, H);
+  images:=UnderlyingAutomFamily(H)!.oldstates{images};
+  SetMonomorphismToAutomatonGroup(G,GroupHomomorphismByImagesNC(G,H,gens,GeneratorsOfGroup(H){images}));
+  return true;
+end);
+
+
 
 #E

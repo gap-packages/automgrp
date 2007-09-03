@@ -482,6 +482,76 @@ end);
 
 ###############################################################################
 ##
+#M  IsOne(<a>)
+##
+InstallMethod(IsOne, "IsOne(IsSelfSim)",
+              [IsSelfSim],
+function(a)
+  local st,state_words, IsOneLocal;
+
+  IsOneLocal:=function(s)
+    local i, triv;
+    if not IsOne(Perm(s)) then return false; fi;
+    if s!.word in state_words then  return true; fi;
+
+    Add(state_words,s!.word);
+    triv:=true;
+    i:=1;
+    while triv and i<=s!.deg do
+      triv:=IsOneLocal(Section(s,i));
+      i:=i+1;
+    od;
+    return triv;
+  end;
+
+  state_words:=[];
+
+  return IsOneLocal(a);
+end);
+
+
+
+###############################################################################
+##
+#M  a1 = a2
+##
+##
+InstallMethod(\=, "\=(IsSelfSim, IsSelfSim)", IsIdenticalObj, [IsSelfSim, IsSelfSim],
+function(a1, a2)
+  local areequalstates, d, checked_pairs;
+  d := a1!.deg;
+
+  areequalstates := function(a,b)
+    local j;
+
+    if a!.word = b!.word then
+      return true;
+    fi;
+
+    if [a!.word,b!.word] in checked_pairs then
+      return true;
+    else
+      if a!.perm <> b!.perm then
+        return false;
+      fi;
+      AddSet(checked_pairs, [a!.word, b!.word]);
+      for j in [1..d] do
+        if not areequalstates(Section(a,j),Section(b,j)) then
+          return false;
+        fi;
+      od;
+      return true;
+    fi;
+  end;
+
+  checked_pairs:=[];
+  return areequalstates(a1,a2);
+end);
+
+
+
+###############################################################################
+##
 #M  AbelImage(<a>)
 ##
 InstallMethod(AbelImage, "AbelImage(IsSelfSim)",
@@ -590,15 +660,15 @@ function(a)
 
   find_all_sections:=function(s)
     local i;
-    if not s in state_words then
-      Add(state_words,s);
+    if not s!.word in state_words then
+      Add(state_words,s!.word);
       for i in [1..s!.deg] do find_all_sections(Section(s,i)); od;
     fi;
   end;
 
   state_words:=[];
   find_all_sections(a);
-  SetAllSections(a,state_words);
+  SetAllSections(a,List(state_words,x->SelfSim(x,FamilyObj(a))));
   return true;
 end);
 

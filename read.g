@@ -17,6 +17,7 @@ if false then
 fi;
 
 ReadPkg("automgrp", "gap/globals.g");
+ReadPkg("automgrp", "gap/parser.g");
 ReadPkg("automgrp", "gap/automaton.gi");
 ReadPkg("automgrp", "gap/tree.gi");
 ReadPkg("automgrp", "gap/treehom.gi");
@@ -37,7 +38,6 @@ ReadPkg("automgrp", "gap/selfsim.gi");
 ReadPkg("automgrp", "gap/selfsimfam.gi");
 ReadPkg("automgrp", "gap/selfsimsg.gi");
 ReadPkg("automgrp", "gap/selfsimgroup.gi");
-ReadPkg("automgrp", "gap/parser.g");
 ReadPkg("automgrp", "gap/data.g");
 ReadPkg("automgrp", "gap/groups.g");
 

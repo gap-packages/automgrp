@@ -160,7 +160,24 @@ InstallTrueMethod(IsGroupOfSelfSimFamily, IsSelfSimilarGroup);
 ##
 DeclareAttribute("MihailovaSystem", IsSelfSimGroup, "mutable");
 
+#############################################################################
+##
+#P  IsFiniteState (<G>)
+##
+DeclareProperty("IsFiniteState", IsSelfSimGroup);
 
+#############################################################################
+##
+#A  UnderlyingAutomGroup(<G>)
+##
+DeclareAttribute("UnderlyingAutomGroup", IsSelfSimGroup, "mutable");
+
+
+#############################################################################
+##
+#A  MonomorphismToAutomatonGroup(<G>)
+##
+DeclareAttribute("MonomorphismToAutomatonGroup", IsSelfSimGroup, "mutable");
 
 
 #E

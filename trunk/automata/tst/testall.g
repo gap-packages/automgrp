@@ -33,6 +33,7 @@ for name in [
   "testcontr.g",
   "testiter.g",
   "testmisc.g",
+  "testselfsim.g",
 ]
 do
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), name));

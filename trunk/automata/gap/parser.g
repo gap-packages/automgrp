@@ -157,6 +157,7 @@ $AG_parse_word := function(word, names)
     od;
     tok := fail;
     power := fail;
+    in_power := false;
   end;
 
   for i in [1..len] do

@@ -277,27 +277,22 @@ end);
 ##
 InstallMethod(\<, "\<(IsSelfSim, IsSelfSim)", IsIdenticalObj, [IsSelfSim, IsSelfSim],
 function(a1, a2)
-  local d, checked, pos, aw1, aw2, p, np, i, exp, perm1, perm2, autlist, cmp;
+  local d, checked, checked_words, p, pos, np, np_words, i, exp, exp_words, perm1, perm2, cmp;
 
   d := a1!.deg;
-  autlist := FamilyObj(a1)!.recurlist;
-  exp := [LetterRepAssocWord(a1!.word), LetterRepAssocWord(a2!.word)];
-  for i in [1..Length(exp[1])] do
-    if exp[1][i] < 0 then exp[1][i] := -exp[1][i] + FamilyObj(a1)!.numstates; fi;
-  od;
-  for i in [1..Length(exp[2])] do
-    if exp[2][i] < 0 then exp[2][i] := -exp[2][i] + FamilyObj(a2)!.numstates; fi;
-  od;
+  exp := [a1, a2];
+  exp_words := [a1!.word, a2!.word];
+
+
   checked := [exp];
+  checked_words := [exp_words];
   pos := 0;
 
   while Length(checked) <> pos do
     pos := pos + 1;
     p := checked[pos];
-    perm1 := ();
-    perm2 := ();
-    for i in [1..Length(p[1])] do perm1 := perm1 * autlist[p[1][i]][d+1]; od;
-    for i in [1..Length(p[2])] do perm2 := perm2 * autlist[p[2][i]][d+1]; od;
+    perm1 := p[1]!.perm;
+    perm2 := p[2]!.perm;
     cmp := AG_TrCmp(perm1, perm2, d);
     if cmp < 0 then
       return true;
@@ -305,10 +300,11 @@ function(a1, a2)
       return false;
     fi;
     for i in [1..d] do
-      np := [AG_WordStateInList(p[1], i, autlist, false, 0),
-             AG_WordStateInList(p[2], i, autlist, false, 0)];
-      if not np in checked then
+      np := [Section(p[1],i), Section(p[2],i)];
+      np_words := List(np, x->x!.word);
+      if not np_words in checked_words then
         Add(checked, np);
+        Add(checked_words, np_words);
       fi;
     od;
   od;

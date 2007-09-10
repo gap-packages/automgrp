@@ -277,15 +277,12 @@ end);
 ##
 InstallMethod(\<, "\<(IsSelfSim, IsSelfSim)", IsIdenticalObj, [IsSelfSim, IsSelfSim],
 function(a1, a2)
-  local d, checked, checked_words, p, pos, np, np_words, i, exp, exp_words, perm1, perm2, cmp;
+  local d, checked, checked_words, p, pos, np, np_words, i, perm1, perm2, cmp;
 
   d := a1!.deg;
-  exp := [a1, a2];
-  exp_words := [a1!.word, a2!.word];
 
-
-  checked := [exp];
-  checked_words := [exp_words];
+  checked := [[a1, a2]];
+  checked_words := [[a1!.word, a2!.word]];
   pos := 0;
 
   while Length(checked) <> pos do
@@ -480,10 +477,15 @@ end);
 ##
 #M  IsOne(<a>)
 ##
-InstallMethod(IsOne, "IsOne(IsSelfSim)",
+InstallMethod(IsOne, "for [IsSelfSim]",
               [IsSelfSim],
 function(a)
-  local st,state_words, IsOneLocal;
+  local st,state_words, IsOneLocal, G;
+
+  G:=GroupOfSelfSimFamily(FamilyObj(a));
+  if HasIsContracting(G) and IsContracting(G) then
+    return IsOne(Image(MonomorphismToAutomatonGroup(G),a));
+  fi;
 
   IsOneLocal:=function(s)
     local i, triv;
@@ -512,7 +514,7 @@ end);
 #M  a1 = a2
 ##
 ##
-InstallMethod(\=, "\=(IsSelfSim, IsSelfSim)", IsIdenticalObj, [IsSelfSim, IsSelfSim],
+InstallMethod(\=, "for [IsSelfSim, IsSelfSim]", IsIdenticalObj, [IsSelfSim, IsSelfSim],
 function(a1, a2)
   local areequalstates, d, checked_pairs;
   d := a1!.deg;
@@ -546,11 +548,129 @@ end);
 
 
 
+InstallMethod(OrderUsingSections, "[IsSelfSim,IsCyclotomic]", true,
+              [IsSelfSim, IsCyclotomic],
+function(a, max_depth)
+  local OrderUsingSections_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
+
+  CyclicallyReduce:=function(w)
+    local i,j,wtmp,reduced;
+
+    for i in [1..Length(w)] do
+      if -w[i] in gens_ord2 then w[i]:=-w[i]; fi;
+    od;
+
+    repeat
+      reduced:=true;
+      j:=1;
+      while reduced  and j<Length(w) do
+        if w[j]=-w[j+1] or (w[j]=w[j+1] and w[j] in gens_ord2) then
+          reduced:=false;
+          wtmp:=ShallowCopy(w{[1..j-1]});
+          Append(wtmp,w{[j+2..Length(w)]});
+          w:=wtmp;
+        fi;
+        j:=j+1;
+      od;
+    until reduced;
+
+    repeat
+      if Length(w)<2 then return w; fi;
+      reduced:=true;
+      if w[1]=-w[Length(w)] or (w[1]=w[Length(w)] and w[1] in gens_ord2) then
+        w:=w{[2..Length(w)-1]};
+        reduced:=false;
+      fi;
+    until reduced;
+
+    return w;
+  end;
+
+  AreConjugateUsingSmallRels:=function(g,h)
+    local i, g_list, h_list,long_cycle,l;
+    g_list:=CyclicallyReduce(LetterRepAssocWord(g));
+    h_list:=CyclicallyReduce(LetterRepAssocWord(h));
+    if Length(g_list)<>Length(h_list) then return false; fi;
+    l:=[2..Length(g_list)];
+    Add(l,1);
+    long_cycle:=PermList(l);
+    for i in [0..Length(g_list)-1] do
+      if h_list=Permuted(g_list,long_cycle^i) then return true; fi;
+    od;
+    return false;
+  end;
+
+  OrderUsingSections_LOCAL:=function(g)
+    local i,el,orb,Orbs,res,st,reduced_word,loc_order;
+    if IsOne(g) then return 1; fi;
+    for i in [1..Length(cur_list)] do
+      el:=cur_list[i];
+      if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
+        if Product(degs{[i..Length(degs)]})>1 then
+          if i>1 then Info(InfoAutomGrp,3,"(",a!.word,")^",Product(degs{[1..i-1]})," has ", el!.word, " as a section at vertex ",vertex{[1..i-1]}); fi;
+          Info(InfoAutomGrp,3,"(",el!.word,")^",Product(degs{[i..Length(degs)]})," has congutate of ",g!.word, " as a section at vertex ",vertex{[i..Length(degs)]});
+          SetIsFinite(GroupOfSelfSimFamily(FamilyObj(a)),false);
+          return infinity;
+        else
+#          Info(InfoAutomGrp,3,"The group <G> might not be contracting, ",g," has itself as a section.");
+          return 1;
+        fi;
+      fi;
+    od;
+    if Length(cur_list)>=max_depth then return fail; fi;
+    Add(cur_list,g);
+    Orbs:=OrbitsPerms([g!.perm],[1..g!.deg]);
+    loc_order:=1;
+
+    for orb in Orbs do
+      Add(degs,Length(orb));
+      Add(vertex,orb[1]);
+      st:=Section(g^Length(orb),orb[1]);
+      reduced_word:=AssocWordByLetterRep(FamilyObj(st!.word),CyclicallyReduce(LetterRepAssocWord(st!.word)));
+#      Print(st!.word," at ",vertex,"\n");
+      res:=OrderUsingSections_LOCAL(SelfSim(reduced_word,FamilyObj(g)));
+      if res=infinity or res=fail then return res; fi;
+      loc_order:=Lcm(loc_order,res*Length(orb));
+      Remove(degs);
+      Remove(vertex);
+    od;
+    Remove(cur_list);
+    return loc_order;
+  end;
+
+  F:=FamilyObj(a)!.freegroup;
+  if IsObviouslyFiniteState(FamilyObj(a)) then
+    gens_ord2:=GeneratorsOfOrderTwo(FamilyObj(a));
+  else
+    gens_ord2:=[];
+  fi;
+  cur_list:=[];
+# degs traces at what positions we raise to what power
+  degs:=[]; vertex:=[];
+  res:=OrderUsingSections_LOCAL(a);
+  if res=infinity then
+    SetIsFinite(GroupOfSelfSimFamily(FamilyObj(a)),false);
+    SetOrder(a,infinity);
+  fi;
+  return res;
+end);
+
+
+
+InstallMethod(OrderUsingSections, "for [IsSelfSim]", true,
+              [IsSelfSim],
+function(a)
+  return OrderUsingSections(a,infinity);
+end);
+
+
+
+
 ###############################################################################
 ##
 #M  AbelImage(<a>)
 ##
-InstallMethod(AbelImage, "AbelImage(IsSelfSim)",
+InstallMethod(AbelImage, "for [IsSelfSim]",
               [IsSelfSim],
 function(a)
   local abels, w, i;
@@ -567,20 +687,20 @@ function(a)
 end);
 
 
-InstallMethod(SphericalIndex, "SphericalIndex(IsSelfSim)", [IsSelfSim],
+InstallMethod(SphericalIndex, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   # XXX check uses of SphericalIndex everywhere
   return rec(start := [], period := [a!.deg]);
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(DegreeOfTree, "DegreeOfTree(IsSelfSim)", [IsSelfSim],
+InstallMethod(DegreeOfTree, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   return a!.deg;
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(TopDegreeOfTree, "TopDegreeOfTree(IsSelfSim)", [IsSelfSim],
+InstallMethod(TopDegreeOfTree, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   return a!.deg;
 end);
@@ -591,14 +711,14 @@ end);
 #M  CanEasilyTestSphericalTransitivity(<a>)
 ##
 InstallTrueMethod(CanEasilyTestSphericalTransitivity,
-                  IsActingOnBinaryTree and IsSelfSim);
+                  IsActingOnBinaryTree and IsSelfSim and IsFiniteState);
 
 
 ###############################################################################
 ##
 #M  IsSphericallyTransitive(<a>)
 ##
-InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsSelfSim)",
+InstallMethod(IsSphericallyTransitive, "for [IsInvertibleSelfSim]",
               [IsInvertibleSelfSim],
 function(a)
   local w, i, ab, abs;
@@ -617,16 +737,18 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallOtherMethod(Order, "Order(IsInvertibleSelfSim)", true,
+InstallOtherMethod(Order, "for [IsInvertibleSelfSim]", true,
                    [IsInvertibleSelfSim],
 function(a)
   local ord_loc;
-  if IsGeneratedByBoundedAutomaton(GroupOfSelfSimFamily(FamilyObj(a))) then
-    return OrderUsingSections(a,infinity);
+  if HasIsFiniteState(GroupOfSelfSimFamily(FamilyObj(a))) and IsFiniteState(GroupOfSelfSimFamily(FamilyObj(a))) then
+    if IsGeneratedByBoundedAutomaton(UnderlyingAutomGroup(GroupOfSelfSimFamily(FamilyObj(a)))) then
+      return OrderUsingSections(a,infinity);
+    fi;
   fi;
-  if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
-    return infinity;
-  fi;
+#  if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
+#    return infinity;
+#  fi;
   ord_loc := OrderUsingSections(a,10);
   if ord_loc <> fail then
     return ord_loc;
@@ -639,7 +761,7 @@ end);
 ##
 #M  IsTransitiveOnLevel( <a>, <lev> )
 ##
-InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsInvertibleSelfSim,IsPosInt)",
+InstallMethod(IsTransitiveOnLevel, "for [IsInvertibleSelfSim,IsPosInt]",
               [IsInvertibleSelfSim, IsPosInt],
 function(a,lev)
   return Length(OrbitPerms([PermOnLevel(a, lev)], 1)) = a!.deg^lev;

@@ -535,8 +535,8 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##      , <automaton> ]
 ##  \endexample
 ##
-DeclareOperation("FindNucleus",[IsAutomatonGroup]);
-DeclareOperation("FindNucleus",[IsAutomatonGroup, IsCyclotomic]);
+DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar]);
+DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar, IsCyclotomic]);
 
 
 ################################################################################

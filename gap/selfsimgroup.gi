@@ -651,6 +651,7 @@ end);
 ##
 #M  IsSelfSimilarGroup(<G>)
 ##
+##  Returns `true' if generators of <G> coincide with generators of the family
 InstallImmediateMethod(IsSelfSimilarGroup, IsSelfSimGroup, 0,
 function(G)
   local fam;
@@ -713,37 +714,216 @@ end);
 ##
 #M  IsFiniteState(<G>)
 ##
-InstallMethod(IsFiniteState, "IsFiniteState(IsSelfSimGroup)",
+InstallMethod(IsFiniteState, "for [IsSelfSimGroup]",
               [IsSelfSimGroup],
 function(G)
-  local states, MealyAutomatonLocal, aut_list, gens, images, H, g;
+  local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function,\
+        inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom,\
+        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp;
 
   MealyAutomatonLocal:=function(g)
     local cur_state;
-    if g in states then return Position(states,g); fi;
-    Add(states,g);
-    cur_state:=Length(states);
-    aut_list[cur_state]:=List([1..g!.deg],x->MealyAutomatonLocal(Section(g,x)));
+    if g!.word in states then return Position(states, g!.word); fi;
+    Add(states,g!.word);
+    cur_state := Length(states);
+    aut_list[cur_state] := List([1..g!.deg], x -> MealyAutomatonLocal(Section(g, x)));
     Add(aut_list[cur_state], g!.perm);
     return cur_state;
   end;
 
-  states:=[];
-  aut_list:=[];
-  gens:=GeneratorsOfGroup(G);
-  images:=[];
+  states := [];
+  aut_list := [];
+  gens := GeneratorsOfGroup(G);
+  images := [];
 
   for g in gens do
     Add(images, MealyAutomatonLocal(g));
   od;
 
-  H:=AutomatonGroup(aut_list);
+
+  H := AutomatonGroup(aut_list);
   SetUnderlyingAutomGroup(G, H);
-  images:=UnderlyingAutomFamily(H)!.oldstates{images};
-  SetMonomorphismToAutomatonGroup(G,GroupHomomorphismByImagesNC(G,H,gens,GeneratorsOfGroup(H){images}));
+
+  images := UnderlyingAutomFamily(H)!.oldstates{images};
+
+# preimages of generators of G in UnderlyingFreeGroup(G)
+  gens_in_freegrp := List(GeneratorsOfGroup(G), Word);
+
+# preimages of generators of a subgroup of H isomorphic to G in UnderlyingFreeGroup(H)
+  images_in_freegrp := List(GeneratorsOfGroup(H){images}, Word);
+
+# preimages of generators of H in UnderlyingFreeGroup(G)
+  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
+
+
+  free_groups_hom:=
+     GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H),
+                                  gens_in_freegrp, images_in_freegrp );
+
+#  inv_free_groups_hom:=
+#     GroupHomomorphismByImagesNC( Group(images_in_freegrp), Group(gens_in_freegrp),
+#                                  images_in_freegrp, gens_in_freegrp );
+
+
+  inv_free_groups_hom:=
+     GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G),
+                                  UnderlyingFreeGenerators(H), preimages_in_freegrp );
+
+
+  if IsSelfSimilarGroup(G) then
+
+    hom_function:=function(a)
+      return Autom(Image(free_groups_hom,a!.word),UnderlyingAutomFamily(H));
+    end;
+
+    inv_hom_function:= function(b)
+      return SelfSim(Image(inv_free_groups_hom,b!.word),UnderlyingSelfSimFamily(G));
+    end;
+
+    hom := GroupHomomorphismByFunction(G,Group(GeneratorsOfGroup(H){images}),hom_function, inv_hom_function);
+
+    SetMonomorphismToAutomatonGroup(G, hom);
+  fi;
+
   return true;
 end);
 
+###############################################################################
+##
+#M  UnderlyingAutomGroup( <G> )
+##
+InstallMethod(UnderlyingAutomGroup, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
+function(G)
+  if IsFiniteState(G) then return UnderlyingAutomGroup(G); fi;
+end);
 
+###############################################################################
+##
+#M  MonomorphismToAutomatonGroup( <G> )
+##
+InstallMethod(MonomorphismToAutomatonGroup, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
+function(G)
+  if IsFiniteState(G) then return MonomorphismToAutomatonGroup(G); fi;
+end);
+
+
+
+###############################################################################
+##
+#M  IsContracting( <G> )
+##
+InstallMethod(IsContracting, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
+function(G)
+  local res;
+  if not IsFiniteState(G) then
+#   every contracting self-similar group is finite-state
+    return false;
+  fi;
+
+  res:=IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomGroup(G))));
+
+  SetUseContraction(G,true);
+
+  return res;
+end);
+
+
+
+###############################################################################
+##
+#M  GroupNucleus( <G> )
+##
+InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
+function(G)
+  local H;
+  if not IsFiniteState(G) then
+#   every contracting self-similar group is finite-state
+    Error("Group <G> is not finite-state");
+  fi;
+
+  if not IsContracting(G) then
+    Error("Group <G> is not contracting");
+  fi;
+
+  H:=GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomGroup(G)));
+
+  return List( GroupNucleus(H),x->PreImagesRepresentative(MonomorphismToAutomatonGroup(G), x));
+end);
+
+
+###############################################################################
+##
+#M  UseContraction( <G> )
+##
+InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
+function(G)
+  if HasGroupNucleus(G) then
+    return true;
+  else return false;
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  UseContraction( <G> )
+##
+InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
+function(G)
+  if HasGroupNucleus(G) then
+    return true;
+  else return false;
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  FindNucleus( <G> )
+##
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup, IsCyclotomic]",
+              [IsSelfSimilarGroup, IsCyclotomic],
+function(G, max_nucl)
+  local H, nuclH, nuclG;
+  if not IsFiniteState(G) then
+#   every contracting self-similar group is finite-state
+    Error("Group <G> is not finite-state");
+  fi;
+
+  if not IsContracting(G) then
+    Error("Group <G> is not contracting");
+  fi;
+
+  H:=GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomGroup( G )));
+
+  nuclH:=FindNucleus(H, max_nucl);
+
+  if nuclH=fail then return fail; fi;
+
+  nuclG:=[];
+  Add(nuclG, List( GeneratingSetWithNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
+  Add(nuclG, List( GroupNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
+  Add(nuclG, GeneratingSetWithNucleusAutom(H));
+
+  SetGroupNucleus(G, nuclG[1]);
+  SetGeneratingSetWithNucleusAutom(G, nuclG[2]);
+  SetGeneratingSetWithNucleusAutom(G, nuclG[3]);
+  SetContractingLevel(G, ContractingLevel(H));
+
+  return nuclG;
+end);
+
+
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true,
+              [IsSelfSimilarGroup],
+function(G)
+  return FindNucleus(G,infinity);
+end);
 
 #E

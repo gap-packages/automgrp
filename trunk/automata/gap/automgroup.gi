@@ -421,7 +421,7 @@ end);
 ##  16
 ##  \endexample
 ##
-InstallOtherMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomatonGroup,IsCyclotomic)",
+InstallOtherMethod(IsomorphismPermGroup, "for [IsAutomGroup and IsSelfSimilar,IsCyclotomic]",
                    [IsAutomGroup and IsSelfSimilar, IsCyclotomic],
 function (G, n)
   local H, lev;

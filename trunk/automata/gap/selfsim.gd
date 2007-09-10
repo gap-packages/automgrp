@@ -86,6 +86,14 @@ DeclareProperty("IsFiniteState", IsSelfSim);
 DeclareAttribute("AllSections", IsSelfSim);
 
 
+################################################################################
+##
+#O  OrderUsingSections ( <a>[, <max_depth>] )
+##
+DeclareOperation("OrderUsingSections",[IsSelfSim]);
+DeclareOperation("OrderUsingSections",[IsSelfSim, IsCyclotomic]);
+
+
 DeclareGlobalFunction("$AG_CreateSelfSim");
 
 

@@ -411,5 +411,36 @@ function(fam)
 end);
 
 
+###############################################################################
+##
+#M  IsObviouslyFiniteState( <G> )
+##
+##  returns `true' if there are no words longer than 1 in the wreath recursion
+InstallMethod(IsObviouslyFiniteState, "for [IsSelfSimFamily]",
+              [IsSelfSimFamily],
+function(fam)
+  local list, g, i;
+  list := fam!.recurlist;
+  for g in list do
+    for i in [1..fam!.deg] do
+      if Length(g[i]) > 1 then return false; fi;
+    od;
+  od;
+  IsFiniteState(GroupOfSelfSimFamily(fam));
+  return true;
+end);
+
+
+#############################################################################
+##
+#M  GeneratorsOfOrderTwo(<fam>)
+##
+InstallOtherMethod(GeneratorsOfOrderTwo, "GeneratorsOfOrderTwo(IsObject)", [IsSelfSimFamily],
+function(fam)
+  if not fam!.isgroup then
+    Error("not all generators of the family are invertible");
+  fi;
+  return Filtered(GeneratorsOfGroup(GroupOfSelfSimFamily(fam)), g -> IsOne(g^2));
+end);
 
 #E

@@ -43,11 +43,25 @@ DeclareAttribute("SemigroupOfSelfSimFamily", IsSelfSimFamily);
 
 #############################################################################
 ##
-#A  UnderlyingFreeMonoid(<G>)
-#A  UnderlyingFreeGroup(<G>)
+#A  UnderlyingFreeMonoid(<fam>)
+#A  UnderlyingFreeGroup(<fam>)
 ##
 DeclareAttribute("UnderlyingFreeMonoid", IsSelfSimFamily);
 DeclareAttribute("UnderlyingFreeGroup", IsSelfSimFamily);
+
+
+#############################################################################
+##
+#P  IsObviouslyFiniteState(<G>)
+##
+DeclareProperty("IsObviouslyFiniteState", IsSelfSimFamily);
+
+
+#############################################################################
+##
+#A  GeneratorsOfOrderTwo(<fam>)
+##
+DeclareAttribute("GeneratorsOfOrderTwo", IsSelfSimFamily);
 
 
 #E

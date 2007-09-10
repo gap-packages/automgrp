@@ -2868,10 +2868,10 @@ function(a, max_depth)
       res:=OrderUsingSections_LOCAL(Autom(reduced_word,FamilyObj(g)));
       if res=infinity or res=fail then return res; fi;
       loc_order:=Lcm(loc_order,res*Length(orb));
-      Unbind(degs[Length(degs)]);
-      Unbind(vertex[Length(vertex)]);
+      Remove(degs);
+      Remove(vertex);
     od;
-    Unbind(cur_list[Length(cur_list)]);
+    Remove(cur_list);
     return loc_order;
   end;
 

@@ -115,16 +115,17 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 
 ################################################################################
 ##
-#A  UseContraction (<G>)
+#O  UseContraction (<G>)
+#O  DoNotUseContraction (<G>)
 ##
-##  For a contracting automaton group <G> determines whether to use the algorithm
+##  For a contracting automaton group <G> these two operations determine whether to 
+##  use the algorithm
 ##  of polynomial complexity solving the word problem in the group. By default
 ##  it is set to <true> as soon as the nucleus of the group was computed. Sometimes
 ##  when the nucleus is very big, the standard algorithm of exponential complexity
 ##  is faster for short words, but this heavily depends on the group. Therefore
 ##  the decision on which algorithm to use is left to the user. To use the
-##  exponential algorithm one can change the value of `UseContraction'(<G>) by
-##  `SetUseContraction'(<G>, <false>).
+##  exponential algorithm one can use the second operation `DoNotUseContraction'(<G>).
 ##
 ##  Below we provide an example which shows that both methods can be of use.
 ##  \beginexample
@@ -137,7 +138,8 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  2
 ##  2
 ##  2
-##  gap> SetUseContraction(G,true);
+##  gap> UseContraction(G);
+##  true
 ##  gap> H:=Group(a*b,b*c);;
 ##  gap> St2:=StabilizerOfLevel(H,2);time;
 ##  < b*c*b*c, b^-1*a^-1*b*c*b^-1*a^-1*c^-1*b^-1, a*b*a*b*a*b*a*b, a*b^2*c*a*b*c^-1*b^
@@ -147,7 +149,8 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  gap> IsAbelian(St2);time;
 ##  true
 ##  11977
-##  gap> SetUseContraction(G,false);
+##  gap> DoNotUseContraction(G);
+##  true
 ##  gap> H:=Group(a*b,b*c);
 ##  gap> St2:=StabilizerOfLevel(H,2);;time;
 ##  240
@@ -164,8 +167,8 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  with contraction. Here it was enough to consider the first level stabilizer, but the difference
 ##  in performance of two methods is better seen for the second level stabilizer.
 ##
-DeclareAttribute( "UseContraction", IsTreeAutomorphismGroup, "mutable");
-
+DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
+DeclareOperation( "DoNotUseContraction", [IsTreeAutomorphismGroup]);
 
 
 ################################################################################

@@ -288,7 +288,7 @@ end);
 
 InstallGlobalFunction(CHOOSE_AUTOMATON_LIST,
 function(G)
-  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+  if HasIsContracting(G) and IsContracting(G) and UnderlyingAutomFamily(G)!.use_contraction then
     return _ContractingTable(G);
   else
     return MINIMIZED_AUTOMATON_LIST(G)[1];
@@ -870,14 +870,32 @@ InstallGlobalFunction(AG_AddInversesListTrack,function(H)
 end);
 
 
-InstallMethod(UseContraction, "UseContraction(IsTreeAutomorphismGroup)", true,
-              [IsTreeAutomorphismGroup],
+InstallMethod(UseContraction, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
 function(G)
-  if HasGroupNucleus(G) then
-    return true;
-  else return false;
+  local H;
+  H := GroupOfAutomFamily(UnderlyingAutomFamily(G));
+
+  if not HasIsContracting(H) then
+    Info(InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
+    return fail;
+  elif not IsContracting(H) then
+    Info(InfoAutomGrp, 0, "The group of family is not contracting");
+    return fail;
   fi;
+
+  UnderlyingAutomFamily(G)!.use_contraction := true;
+  return true;
 end);
+
+
+InstallMethod(DoNotUseContraction, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
+function(G)
+  UnderlyingAutomFamily(G)!.use_contraction := false;
+  return true;
+end);
+
 
 
 InstallMethod(INFO_FLAG, "INFO_FLAG(IsTreeAutomorphismGroup)", true,
@@ -1062,7 +1080,7 @@ function(H,max_nucl)
   SetAG_GeneratingSetWithNucleusAutom(H, G);
   SetGeneratingSetWithNucleusAutom(H, MealyAutomaton(G));
   SetContractingLevel(H, maxlev);
-  SetUseContraction(H, true);
+  UseContraction(H);
   SetInfoLevel(InfoAutomGrp,info);
 
   return [nucl_final,cur_nucl,GeneratingSetWithNucleusAutom(H)];

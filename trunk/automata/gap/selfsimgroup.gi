@@ -719,7 +719,7 @@ InstallMethod(IsFiniteState, "for [IsSelfSimGroup]",
 function(G)
   local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function,\
         inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom,\
-        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp;
+        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar;
 
   MealyAutomatonLocal:=function(g)
     local cur_state;
@@ -756,21 +756,15 @@ function(G)
   preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
 
 
-  free_groups_hom:=
-     GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H),
-                                  gens_in_freegrp, images_in_freegrp );
-
-#  inv_free_groups_hom:=
-#     GroupHomomorphismByImagesNC( Group(images_in_freegrp), Group(gens_in_freegrp),
-#                                  images_in_freegrp, gens_in_freegrp );
-
-
-  inv_free_groups_hom:=
-     GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G),
-                                  UnderlyingFreeGenerators(H), preimages_in_freegrp );
-
 
   if IsSelfSimilarGroup(G) then
+    free_groups_hom:=
+       GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H),
+                                    gens_in_freegrp, images_in_freegrp );
+
+    inv_free_groups_hom:=
+       GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G),
+                                    UnderlyingFreeGenerators(H), preimages_in_freegrp );
 
     hom_function:=function(a)
       return Autom(Image(free_groups_hom,a!.word),UnderlyingAutomFamily(H));
@@ -783,7 +777,35 @@ function(G)
     hom := GroupHomomorphismByFunction(G,Group(GeneratorsOfGroup(H){images}),hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
+  else
+    F:=FreeGroup(Length(GeneratorsOfGroup(G)));
+    #SetCoveringFreeGroup(G, F);
+
+#        pi
+#    F ------> G ----> UnderlyingFreeGroup(H)
+#      -------------->
+#            pi_bar
+
+    pi:=GroupHomomorphismByImages(F,                     Group(gens_in_freegrp),
+                                  GeneratorsOfGroup(F),  gens_in_freegrp);
+
+    pi_bar:=GroupHomomorphismByImages(F,                     UnderlyingFreeGroup(H),
+                                      GeneratorsOfGroup(F),  images_in_freegrp);
+
+    hom_function:=function(g)
+      return Autom(Image(pi_bar,PreImagesRepresentative(pi,g!.word)),UnderlyingAutomFamily(H));
+    end;
+
+
+    inv_hom_function:= function(b)
+      return SelfSim(Image(pi,PreImagesRepresentative(pi_bar,b!.word)),UnderlyingSelfSimFamily(G));
+    end;
+
+    hom := GroupHomomorphismByFunction(G,Group(GeneratorsOfGroup(H){images}), hom_function, inv_hom_function);
+
+    SetMonomorphismToAutomatonGroup(G, hom);
   fi;
+
 
   return true;
 end);
@@ -825,7 +847,8 @@ function(G)
 
   res:=IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomGroup(G))));
 
-  SetUseContraction(G,true);
+  UnderlyingSelfSimFamily(G)!.use_contraction := true;
+  UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := true;
 
   return res;
 end);
@@ -855,32 +878,46 @@ function(G)
 end);
 
 
-###############################################################################
-##
-#M  UseContraction( <G> )
-##
-InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
-              [IsSelfSimilarGroup],
-function(G)
-  if HasGroupNucleus(G) then
-    return true;
-  else return false;
-  fi;
-end);
-
 
 ###############################################################################
 ##
 #M  UseContraction( <G> )
 ##
-InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
-              [IsSelfSimilarGroup],
+InstallMethod(UseContraction, "for [IsSelfSimGroup]", true,
+              [IsSelfSimGroup],
 function(G)
-  if HasGroupNucleus(G) then
-    return true;
-  else return false;
+  if not IsContracting(G) then
+    Info(InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
+    return fail;
+  elif not IsContracting(G) then
+    Info(InfoAutomGrp, 0, "The group of family is not contracting");
+    return fail;
   fi;
+
+  UnderlyingSelfSimFamily(G)!.use_contraction := true;
+  UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := true;
+
+  return true;
 end);
+
+
+
+###############################################################################
+##
+#M  DoNotUseContraction( <G> )
+##
+InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true,
+              [IsSelfSimGroup],
+function(G)
+  UnderlyingAutomFamily(G)!.use_contraction := false;
+
+  if HasUnderlyingAutomGroup(G) then
+    UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := false;
+  fi;
+  return true;
+end);
+
+
 
 
 ###############################################################################

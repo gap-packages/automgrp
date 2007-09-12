@@ -284,7 +284,7 @@ function(a)
   if IsOne(a!.word) then return true; fi;
 
   G:=GroupOfAutomFamily(FamilyObj(a));
-  if G <>fail and HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
+  if G <>fail and HasIsContracting(G) and IsContracting(G) and FamilyObj(a)!.use_contraction = true  then
     return IsOneContr(a);
   fi;
 

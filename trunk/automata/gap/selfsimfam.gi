@@ -360,7 +360,7 @@ function(fam)
 
   if fam!.trivstate <> 0 then
     if fam!.numstates = 0 then
-      g := Group(One(fam!.recurgens[fam!.trivstate]));
+      g := SemigroupByGenerators([One(fam!.recurgens[fam!.trivstate])]);
     else
       g := MonoidByGenerators(fam!.recurgens{[1..fam!.numstates]});
     fi;

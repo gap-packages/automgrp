@@ -291,8 +291,7 @@ end);
 #M  IsSelfSimilarSemigroup(<G>)
 ##
 ##  Returns `true' if generators of <G> coincide with generators of the family
-InstallImmediateMethod(IsSelfSimilarSemigroup, IsSelfSimSemigroup, 0,
-#InstallMethod(IsSelfSimilarSemigroup, [IsSelfSimSemigroup],
+InstallMethod(IsSelfSimilarSemigroup, [IsSelfSimSemigroup],
 function(G)
   local fam;
   fam := UnderlyingSelfSimFamily(G);
@@ -311,7 +310,8 @@ InstallMethod(IsFiniteState, "for [IsSelfSimSemigroup]",
 function(G)
   local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function,\
         inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom,\
-        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar;
+        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar,\
+        preimage_in_freegrp;
 
   MealyAutomatonLocal:=function(g)
     local cur_state;
@@ -342,11 +342,24 @@ function(G)
   gens_in_freegrp := List(GeneratorsOfSemigroup(G), Word);
 
 # preimages of generators of a subgroup of H isomorphic to G in UnderlyingFreeGroup(H)
-  images_in_freegrp := List(GeneratorsOfSemigroup(H){images}, Word);
+  images_in_freegrp := List(UnderlyingAutomFamily(H)!.automgens{images}, Word);
+
+
+  preimage_in_freegrp:=function(x)
+    local w;
+    if IsOne(x!.word) then
+      return states[ Position( UnderlyingAutomFamily(H)!.oldstates, UnderlyingAutomFamily(H)!.trivstate)];
+    fi;
+    w:=LetterRepAssocWord(x!.word)[1];
+    if w>0 then
+      return states[ Position( UnderlyingAutomFamily(H)!.oldstates, w)];
+    else
+      return states[ Position( UnderlyingAutomFamily(H)!.oldstates, -w+UnderlyingAutomFamily(H)!.numstates)];
+    fi;
+  end;
 
 # preimages of generators of H in UnderlyingFreeGroup(G)
-  preimages_in_freegrp := List([1..Length(GeneratorsOfSemigroup(G))],
-                                x -> states[ Position( UnderlyingAutomFamily(H)!.oldstates, x)]);
+  preimages_in_freegrp := List(GeneratorsOfSemigroup(H), x -> preimage_in_freegrp(x));
 
 
 
@@ -367,7 +380,7 @@ function(G)
       return SelfSim(Image(inv_free_groups_hom,b!.word),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := MappingByFunction(G,Group(GeneratorsOfSemigroup(H){images}),hom_function, inv_hom_function);
+    hom := MappingByFunction(G,SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}),hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonSemigroup(G, hom);
   else
@@ -394,7 +407,7 @@ function(G)
       return SelfSim(Image(pi,PreImagesRepresentative(pi_bar,b!.word)),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := MappingByFunction(G,Group(GeneratorsOfSemigroup(H){images}), hom_function, inv_hom_function);
+    hom := MappingByFunction(G,SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonSemigroup(G, hom);
   fi;
@@ -402,5 +415,28 @@ function(G)
 
   return true;
 end);
+
+
+###############################################################################
+##
+#M  UnderlyingAutomSemigroup(<G>)
+##
+InstallMethod(UnderlyingAutomSemigroup, "for [IsSelfSimSemigroup]",
+              [IsSelfSimSemigroup],
+function(G)
+  if IsFiniteState(G) then return UnderlyingAutomSemigroup(G); fi;
+end);
+
+
+###############################################################################
+##
+#M  MonomorphismToAutomatonSemigroup(<G>)
+##
+InstallMethod(MonomorphismToAutomatonSemigroup, "for [IsSelfSimSemigroup]",
+              [IsSelfSimSemigroup],
+function(G)
+  if IsFiniteState(G) then return MonomorphismToAutomatonSemigroup(G); fi;
+end);
+
 
 #E

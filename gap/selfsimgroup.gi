@@ -719,7 +719,8 @@ InstallMethod(IsFiniteState, "for [IsSelfSimGroup]",
 function(G)
   local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function,\
         inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom,\
-        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar;
+        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar,\
+        preimage_in_freegrp;
 
   MealyAutomatonLocal:=function(g)
     local cur_state;
@@ -750,11 +751,22 @@ function(G)
   gens_in_freegrp := List(GeneratorsOfGroup(G), Word);
 
 # preimages of generators of a subgroup of H isomorphic to G in UnderlyingFreeGroup(H)
-  images_in_freegrp := List(GeneratorsOfGroup(H){images}, Word);
+  images_in_freegrp := List(UnderlyingAutomFamily(H)!.automgens{images}, Word);
+
+
+  preimage_in_freegrp:=function(x)
+    local w;
+    w:=LetterRepAssocWord(x!.word)[1];
+    if w>0 then
+      return states[ Position( UnderlyingAutomFamily(H)!.oldstates, w)];
+    else
+      return states[ Position( UnderlyingAutomFamily(H)!.oldstates, -w+UnderlyingAutomFamily(H)!.numstates)];
+    fi;
+  end;
 
 # preimages of generators of H in UnderlyingFreeGroup(G)
-  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
-
+#  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
+  preimages_in_freegrp := List(GeneratorsOfGroup(H), x -> preimage_in_freegrp(x));
 
 
   if IsSelfSimilarGroup(G) then
@@ -774,12 +786,11 @@ function(G)
       return SelfSim(Image(inv_free_groups_hom,b!.word),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,Group(GeneratorsOfGroup(H){images}),hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G,Group(UnderlyingAutomFamily(H)!.automgens{images}),hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   else
     F:=FreeGroup(Length(GeneratorsOfGroup(G)));
-    #SetCoveringFreeGroup(G, F);
 
 #        pi
 #    F ------> G ----> UnderlyingFreeGroup(H)
@@ -801,7 +812,7 @@ function(G)
       return SelfSim(Image(pi,PreImagesRepresentative(pi_bar,b!.word)),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,Group(GeneratorsOfGroup(H){images}), hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G,SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   fi;

@@ -3,9 +3,15 @@ S 1.1. Short math background
 S 1.2. Quick example
 C groups.tex 2. Properties and operations with groups and semigroups
 S 2.1. Creation of groups and semigroups
-F 2.1. AutomGroup
-F 2.1. AutomGroup
-F 2.1. AutomGroup
+F 2.1. AutomatonGroup
+F 2.1. AutomatonGroup
+F 2.1. AutomatonGroup
+F 2.1. AutomatonSemigroup
+F 2.1. AutomatonSemigroup
+F 2.1. AutomatonSemigroup
+F 2.1. IsTreeAutomorphismGroup
+F 2.1. IsAutomGroup
+F 2.1. IsAutomatonGroup
 S 2.2. Basic properties of groups and semigroups
 F 2.2. DegreeOfTree
 F 2.2. IsFractal
@@ -18,9 +24,8 @@ F 2.2. IsContracting
 F 2.2. IsNoncontracting
 F 2.2. IsGeneratedByAutomatonOfPolynomialGrowth
 F 2.2. IsGeneratedByBoundedAutomaton
-F 2.2. PolynomialDegreeOfGrowthOfAutomaton
+F 2.2. PolynomialDegreeOfGrowthOfUnderlyingAutomaton
 F 2.2. UnderlyingAutomaton
-F 2.2. AutomatonList
 S 2.3. Operations with groups and semigroups
 F 2.3. PermGroupOnLevel
 F 2.3. StabilizerOfLevel
@@ -57,22 +62,21 @@ F 2.3. UnderlyingFreeMonoid
 F 2.3. UnderlyingFreeGroup
 F 2.3. IndexInFreeGroup
 F 2.3. MihailovaSystem
-S 2.4. Contracting groups
-F 2.4. GroupNucleus
-F 2.4. GeneratingSetWithNucleus
-F 2.4. GeneratingSetWithNucleusAutom
-F 2.4. ContractingLevel
-F 2.4. ContractingTable
-F 2.4. UseContraction
+S 2.4. Self-similar groups and semigroups defined by wreath recursion
+S 2.5. Contracting groups
+F 2.5. GroupNucleus
+F 2.5. GeneratingSetWithNucleus
+F 2.5. GeneratingSetWithNucleusAutom
+F 2.5. ContractingLevel
+F 2.5. ContractingTable
+F 2.5. UseContraction
+F 2.5. DoNotUseContraction
 C elements.tex 3. Properties and operations with group and semigroup elements
 S 3.1. Creation of tree automorphisms and homomorphisms
 F 3.1. TreeAutomorphism
-F 3.1. Autom
-F 3.1. Autom
+F 3.1. Representative
+F 3.1. Representative
 F 3.1. AutomFamily
-F 3.1. IsTreeAutomorphismGroup
-F 3.1. IsAutomGroup
-F 3.1. IsAutomatonGroup
 S 3.2. Properties and attributes of tree automorphisms and homomorphisms
 F 3.2. IsSphericallyTransitive![treeaut]
 F 3.2. IsTransitiveOnLevel
@@ -83,22 +87,25 @@ F 3.2. OrderUsingSections
 F 3.2. Perm
 F 3.2. PermOnLevel
 F 3.2. PermOnLevelAsMatrix
+F 3.2. TransformationOnLevel
+F 3.2. TransformationOnFirstLevel
 F 3.2. Word
 S 3.3. Operations with tree automorphisms and homomorphisms
 F 3.3. product!for tree homomorphisms
 F 3.3. action!of tree homomorphism on letter
 F 3.3. action!of tree homomorphism on vertex
-F 3.3. State
-F 3.3. States
+F 3.3. Section
+F 3.3. Sections
 F 3.3. Decompose
 F 3.3. in
 F 3.3. OrbitOfVertex
 F 3.3. PrintOrbitOfVertex
 F 3.3. PermActionOnLevel
-S 3.4. Elements of contracting groups
-F 3.4. AutomPortrait
-F 3.4. AutomPortraitBoundary
-F 3.4. AutomPortraitDepth
+S 3.4. Elements of groups and semigroups defined by wreath recursion
+S 3.5. Elements of contracting groups
+F 3.5. AutomPortrait
+F 3.5. AutomPortraitBoundary
+F 3.5. AutomPortraitDepth
 C autom.tex 4. Noninitial Automata
 S 4.1. Definition
 F 4.1. MealyAutomaton
@@ -115,7 +122,7 @@ F 4.2. MinimizationOfAutomaton
 F 4.2. MinimizationOfAutomatonTrack
 F 4.2. IsOfPolynomialGrowth
 F 4.2. IsBounded
-F 4.2. PolynomialDegreeOfGrowthOfAutomaton![automaton]
+F 4.2. PolynomialDegreeOfGrowth
 F 4.2. DualAutomaton
 F 4.2. InverseAutomaton
 F 4.2. IsBireversible
@@ -131,7 +138,7 @@ F 5.1. VertexNumber
 S 5.2. Some predefined groups
 F 5.2. GrigorchukGroup
 F 5.2. Basilica
-F 5.2. LampLighter
+F 5.2. Lamplighter
 F 5.2. AddingMachine
 F 5.2. InfiniteDihedral
 F 5.2. AleshinGroup
@@ -143,7 +150,8 @@ F 5.2. GuptaSidki3Group
 F 5.2. GuptaFabrikowskiGroup
 F 5.2. BartholdiGrigorchukGroup
 F 5.2. ErschlerGrigorchukGroup
-F 5.2. WilsonBartholdiGroup
+F 5.2. BartholdiNonunifExponGroup
 F 5.2. IMG_z2plusI
 F 5.2. Airplane
 F 5.2. Rabbit
+F 5.2. TwoStateSemigroupOfIntermediateGrowth

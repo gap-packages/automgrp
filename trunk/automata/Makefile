@@ -29,6 +29,14 @@ gap_files =			\
     gap/scilab.gi		\
     gap/selfs.gd		\
     gap/selfs.gi		\
+    gap/selfsim.gd		\
+    gap/selfsim.gi		\
+    gap/selfsimfam.gd		\
+    gap/selfsimfam.gi		\
+    gap/selfsimgroup.gd		\
+    gap/selfsimgroup.gi		\
+    gap/selfsimsg.gd		\
+    gap/selfsimsg.gi		\
     gap/tree.gd			\
     gap/tree.gi			\
     gap/treeaut.gd		\

@@ -87,6 +87,22 @@ end);
 
 ###############################################################################
 ##
+#M  SelfSimilarSemigroup(<A>)
+#M  SelfSimilarSemigroup(<A>, <bind_vars>)
+##
+InstallMethod(SelfSimilarSemigroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+function(A)
+  return SelfSimilarSemigroup(AutomatonList(A), A!.states);
+end);
+
+InstallMethod(SelfSimilarSemigroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
+function(A, bind_vars)
+  return SelfSimilarSemigroup(AutomatonList(A), A!.states, bind_vars);
+end);
+
+
+###############################################################################
+##
 #M  UnderlyingSelfSimFamily(<G>)
 ##
 InstallMethod(UnderlyingSelfSimFamily, "for [IsSelfSimSemigroup]",
@@ -334,9 +350,11 @@ function(G)
 
 
   H := AutomatonSemigroup(aut_list);
-  SetUnderlyingAutomSemigroup(G, H);
 
   images := UnderlyingAutomFamily(H)!.oldstates{images};
+
+  SetIsomorphicAutomSemigroup(G, SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}));
+  SetUnderlyingAutomatonSemigroup(G, H);
 
 # preimages of generators of G in UnderlyingFreeGroup(G)
   gens_in_freegrp := List(GeneratorsOfSemigroup(G), Word);
@@ -419,12 +437,24 @@ end);
 
 ###############################################################################
 ##
-#M  UnderlyingAutomSemigroup(<G>)
+#M  IsomorphicAutomSemigroup(<G>)
 ##
-InstallMethod(UnderlyingAutomSemigroup, "for [IsSelfSimSemigroup]",
+InstallMethod(IsomorphicAutomSemigroup, "for [IsSelfSimSemigroup]",
               [IsSelfSimSemigroup],
 function(G)
-  if IsFiniteState(G) then return UnderlyingAutomSemigroup(G); fi;
+  if IsFiniteState(G) then return UnderlyingAutomatonSemigroup(G); fi;
+end);
+
+
+
+###############################################################################
+##
+#M  UnderlyingAutomatonSemigroup(<G>)
+##
+InstallMethod(UnderlyingAutomatonSemigroup, "for [IsSelfSimSemigroup]",
+              [IsSelfSimSemigroup],
+function(G)
+  if IsFiniteState(G) then return UnderlyingAutomatonSemigroup(G); fi;
 end);
 
 

@@ -47,8 +47,8 @@ DeclareOperation("Word", [IsAutom]);
 #O  Autom(<word>, <a>)
 #O  Autom(<word>, <fam>)
 ##
-##  Given assosiative word <word> constructs a tree automorphism from the family
-##  <fam>, or to which automorphism <a> belongs. This function is useful when
+##  Given assosiative word <word> constructs a tree homomorphism from the family
+##  <fam>, or to which homomorphism <a> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
 ##  gap> G:=AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
@@ -57,8 +57,8 @@ DeclareOperation("Word", [IsAutom]);
 ##  <free group on the generators [ a, b ]>
 ##  gap> c:=Autom(F.1*F.2^2,a);
 ##  a*b^2
-##  gap> IsAutom(c);
-##  true
+##  gap> Decompose(c);
+##  (a*b^2, b*a^2)(1,2)
 ##  \endexample
 ##
 DeclareOperation("Autom", [IsAssocWord, IsAutom]);

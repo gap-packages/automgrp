@@ -5,7 +5,7 @@
 \Section{Creation of tree automorphisms and homomorphisms}
 
 \Declaration{TreeAutomorphism}
-\Declaration{Autom}
+\Declaration{Representative}
 %\Declaration{AutomFamily}
 
 
@@ -58,8 +58,6 @@ infinity
 \Declaration{PermOnLevel}
 \Declaration{PermOnLevelAsMatrix}
 \Declaration{TransformationOnLevel}
-
-
 \Declaration{Word}
 
 
@@ -108,6 +106,18 @@ false
 \Declaration{OrbitOfVertex}
 \Declaration{PrintOrbitOfVertex}
 \Declaration{PermActionOnLevel}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Elements of groups and semigroups defined by wreath recursion}
+
+\Declaration{IsFiniteState}[selfsim.gd]
+\Declaration{AllSections}
+
+See also operation `MealyAutomaton' ("MealyAutomaton"), which allows to construct 
+a Mealy automaton whose states are the sections of given tree homomorphism and which
+encodes its action on the tree.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

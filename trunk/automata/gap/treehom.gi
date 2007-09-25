@@ -366,7 +366,7 @@ end);
 ##
 #M  Sections(a, k)
 ##
-InstallOtherMethod(Sections, "Sections(IsTreeHomomorphism, IsPosInt)",
+InstallOtherMethod(Sections, "for [IsTreeHomomorphism, IsPosInt]",
                    [IsTreeHomomorphism, IsPosInt],
 function(a, level)
   if level = 1 then
@@ -381,7 +381,8 @@ end);
 ##
 #M  Decompose(<a>, <k>)
 ##
-InstallMethod(Decompose, [IsTreeHomomorphism, IsPosInt],
+InstallMethod(Decompose, "for [IsTreeHomomorphism, IsPosInt]",
+              [IsTreeHomomorphism, IsPosInt],
 function(a, level)
   return TreeHomomorphism(Sections(a, level), TransformationOnLevel(a, level));
 end);
@@ -396,7 +397,8 @@ end);
 ##
 #M  Decompose(<a>)
 ##
-InstallMethod(Decompose, [IsTreeHomomorphism],
+InstallMethod(Decompose, "for [IsTreeHomomorphism]",
+              [IsTreeHomomorphism],
 function(a)
   return Decompose(a, 1);
 end);
@@ -406,7 +408,8 @@ end);
 ##
 #M  IsOne(<a>)
 ##
-InstallMethod(IsOne, [IsTreeHomomorphism],
+InstallMethod(IsOne, "for [IsTreeHomomorphism]",
+              [IsTreeHomomorphism],
 function(a)
   local s;
 
@@ -428,7 +431,8 @@ end);
 ##
 #M  \=(<a1>, <a2>)
 ##
-InstallMethod(\=, [IsTreeHomomorphism, IsTreeHomomorphism],
+InstallMethod(\=, "for [IsTreeHomomorphism, IsTreeHomomorphism]",
+              [IsTreeHomomorphism, IsTreeHomomorphism],
 function(a1, a2)
   return TransformationOnLevel(a1, 1) = TransformationOnLevel(a2, 1) and
           Sections(a1) = Sections(a2);
@@ -514,6 +518,36 @@ end);
 InstallOtherMethod(\[\], [IsTreeHomomorphism, IsPosInt],
 function(a, k)
   return Section(a, k);
+end);
+
+
+###############################################################################
+##
+#M  Representative( <word>, <fam> )
+##
+InstallMethod(Representative, "for [IsAssocWord, IsTreeHomomorphismFamily]",
+              [IsAssocWord, IsTreeHomomorphismFamily],
+function( word, fam )
+  if IsAutomFamily( fam ) then return Autom( word, fam );
+  elif IsSelfSimFamily( fam ) then return SelfSim( word, fam );
+  else Error("the family <fam> must be either IsAutomFamily or IsSelfSimFamily");
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  Representative( <word>, <a> )
+##
+InstallMethod(Representative, "for [IsAssocWord, IsTreeHomomorphism]",
+              [IsAssocWord, IsTreeHomomorphism],
+function( word, a )
+  local fam;
+  fam := FamilyObj(a);
+  if IsAutomFamily( fam ) then return Autom( word, fam );
+  elif IsSelfSimFamily( fam ) then return SelfSim( word, fam );
+  else Error("the homomorphism <a> must be either from IsAutomFamily or from IsSelfSimFamily");
+  fi;
 end);
 
 

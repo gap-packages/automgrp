@@ -112,6 +112,39 @@ DeclareOperation("Decompose", [IsTreeHomomorphism]);
 DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 
 
+
+###############################################################################
+##
+#O  Representative( <word>, <fam> )
+#O  Representative( <word>, <a> )
+##
+##  Given assosiative word <word> constructs a tree homomorphism from the family
+##  <fam>, or to which homomorphism <a> belongs. This function is useful when
+##  one needs to make some operations with associative words. See also `Word' ("Word").
+##  \beginexample
+##  gap> G := AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
+##  < a, b >
+##  gap> F := UnderlyingFreeGroup(G);
+##  <free group on the generators [ a, b ]>
+##  gap> c := Representative( F.1*F.2^2, a);
+##  a*b^2
+##  gap> Decompose(c);
+##  (a*b^2, b*a^2)(1,2)
+##  gap> H := SelfSimilarGroup("x=(x*y,x)(1,2), y=(x^-1,y)");
+##  < x, y >
+##  gap> F := UnderlyingFreeGroup(H);
+##  <free group on the generators [ x, y ]>
+##  gap> c := SelfSim( F.1^-1*F.2, x);
+##  x^-1*y
+##  gap> Decompose(c);
+##  (x^-1*y, y^-1*x^-2)(1,2)
+##  \endexample
+##
+DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphism]);
+DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
+
+
+
 DeclareGlobalFunction("AG_TreeHomomorphismCmp");
 
 

@@ -742,7 +742,7 @@ InstallOtherMethod(Order, "for [IsInvertibleSelfSim]", true,
 function(a)
   local ord_loc;
   if HasIsFiniteState(GroupOfSelfSimFamily(FamilyObj(a))) and IsFiniteState(GroupOfSelfSimFamily(FamilyObj(a))) then
-    if IsGeneratedByBoundedAutomaton(UnderlyingAutomGroup(GroupOfSelfSimFamily(FamilyObj(a)))) then
+    if IsGeneratedByBoundedAutomaton(UnderlyingAutomatonGroup(GroupOfSelfSimFamily(FamilyObj(a)))) then
       return OrderUsingSections(a,infinity);
     fi;
   fi;

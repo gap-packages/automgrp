@@ -25,6 +25,10 @@ g_files =						\
     ../gap/rws.gd	      ../gap/rws.gi		\
     ../gap/scilab.gd	      ../gap/scilab.gi		\
     ../gap/selfs.gd	      ../gap/selfs.gi		\
+    ../gap/selfsim.gd	      ../gap/selfsim.gi		\
+    ../gap/selfsimfam.gd      ../gap/selfsimfam.gi	\
+    ../gap/selfsimgroup.gd    ../gap/selfsimgroup.gi	\
+    ../gap/selfsimsg.gd	      ../gap/selfsimsg.gi	\
     ../gap/treeaut.gd	      ../gap/treeaut.gi		\
     ../gap/treeautgrp.gd      ../gap/treeautgrp.gi	\
     ../gap/tree.gd	      ../gap/tree.gi		\

@@ -41,7 +41,7 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  where $d \geq 2$ is the size of the alphabet the group acts on, $a_i$ are `IsInt' in
 ##  $\{1,\ldots,n\}$ and
 ##  represent the sections of corresponding state at all vertices of the first level of the tree;
-##  and all $p$ is in `SymmetricalGroup(<d>)' describes the action of the corresponding state on the
+##  and all $p$ are in `SymmetricGroup(<d>)' describes the action of the corresponding state on the
 ##  alphabet.
 ##
 ##  Optional <names> must be a list of names of generators of the group, corresponding to the
@@ -64,13 +64,17 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  < a, b >
 ##  \endexample
 ##
-##  These operations accept also optional boolean argument <bind_vars>, which tells
-##  whether to asign generators of the group to \GAP variables.
+##  In the second form of this operation the definition of the first group
+##  looks like
+##  \beginexample
+##  gap> AutomatonGroup([ [ 1, 2, ()], [ 1, 2, (1,2) ] ], [ "a", "b" ]);
+##  < a, b >
+##  \endexample
+##  The <bind_vars> argument works as follows
 ##  \beginexample
 ##  gap> AutomatonGroup("t = (1, t)(1,2)", false);;
 ##  gap> t;
 ##  Variable: 't' must have a value
-##
 ##  gap> AutomatonGroup("t = (1, t)(1,2)", true);;
 ##  gap> t;
 ##  t

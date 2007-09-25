@@ -6,7 +6,10 @@
 \Section{Creation of groups and semigroups}
 
 \Declaration{AutomatonGroup}
-\Declaration{AutomGroupNoBindGlobal}
+\Declaration{AutomatonSemigroup}
+
+\Declaration{SelfSimilarGroup}
+\Declaration{SelfSimilarSemigroup}
 
 \Declaration{IsTreeAutomorphismGroup}
 \Declaration{IsAutomGroup}
@@ -85,6 +88,21 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Self-similar groups and semigroups defined by wreath recursion}
+
+\Declaration{IsFiniteState}[selfsimsg.gd]
+\Declaration{IsomorphicAutomGroup}
+\Declaration{IsomorphicAutomSemigroup}
+
+\Declaration{UnderlyingAutomatonGroup}
+\Declaration{UnderlyingAutomatonSemigroup}
+
+\Declaration{MonomorphismToAutomatonGroup}
+\Declaration{MonomorphismToAutomatonSemigroup}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Contracting groups}
 
 \Declaration{GroupNucleus}
@@ -93,6 +111,8 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{ContractingLevel}
 \Declaration{ContractingTable}
 \Declaration{UseContraction}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

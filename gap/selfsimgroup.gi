@@ -77,6 +77,28 @@ function(string, bind_vars)
 end);
 
 
+###############################################################################
+##
+#M  SelfSimilarGroup(<A>)
+#M  SelfSimilarGroup(<A>, <bind_vars>)
+##
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+function(A)
+  if not IsInvertible(A) then
+    Error("Automaton <A> is not invertible");
+  fi;
+  return SelfSimilarGroup(AutomatonList(A), A!.states);
+end);
+
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
+function(A, bind_vars)
+  if not IsInvertible(A) then
+    Error("Automaton <A> is not invertible");
+  fi;
+  return SelfSimilarGroup(AutomatonList(A), A!.states, bind_vars);
+end);
+
+
 
 ###############################################################################
 ##
@@ -743,9 +765,11 @@ function(G)
 
 
   H := AutomatonGroup(aut_list);
-  SetUnderlyingAutomGroup(G, H);
 
   images := UnderlyingAutomFamily(H)!.oldstates{images};
+
+  SetIsomorphicAutomGroup(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}));
+  SetUnderlyingAutomatonGroup(G, H);
 
 # preimages of generators of G in UnderlyingFreeGroup(G)
   gens_in_freegrp := List(GeneratorsOfGroup(G), Word);
@@ -786,7 +810,7 @@ function(G)
       return SelfSim(Image(inv_free_groups_hom,b!.word),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,Group(UnderlyingAutomFamily(H)!.automgens{images}),hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G,GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}),hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   else
@@ -812,7 +836,7 @@ function(G)
       return SelfSim(Image(pi,PreImagesRepresentative(pi_bar,b!.word)),UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G,GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   fi;
@@ -821,14 +845,26 @@ function(G)
   return true;
 end);
 
+
 ###############################################################################
 ##
-#M  UnderlyingAutomGroup( <G> )
+#M  IsomorphicAutomGroup( <G> )
 ##
-InstallMethod(UnderlyingAutomGroup, "for [IsSelfSimGroup]",
+InstallMethod(IsomorphicAutomGroup, "for [IsSelfSimGroup]",
               [IsSelfSimGroup],
 function(G)
-  if IsFiniteState(G) then return UnderlyingAutomGroup(G); fi;
+  if IsFiniteState(G) then return IsomorphicAutomGroup(G); fi;
+end);
+
+
+###############################################################################
+##
+#M  UnderlyingAutomatonGroup( <G> )
+##
+InstallMethod(UnderlyingAutomatonGroup, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
+function(G)
+  if IsFiniteState(G) then return UnderlyingAutomatonGroup(G); fi;
 end);
 
 ###############################################################################
@@ -856,10 +892,10 @@ function(G)
     return false;
   fi;
 
-  res:=IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomGroup(G))));
+  res:=IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomatonGroup(G))));
 
   UnderlyingSelfSimFamily(G)!.use_contraction := true;
-  UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := true;
+  UnderlyingAutomFamily(UnderlyingAutomatonGroup(G))!.use_contraction := true;
 
   return res;
 end);
@@ -883,9 +919,9 @@ function(G)
     Error("Group <G> is not contracting");
   fi;
 
-  H:=GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomGroup(G)));
+  H := GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup(G)));
 
-  return List( GroupNucleus(H),x->PreImagesRepresentative(MonomorphismToAutomatonGroup(G), x));
+  return List( GroupNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup(G), x));
 end);
 
 
@@ -898,15 +934,15 @@ InstallMethod(UseContraction, "for [IsSelfSimGroup]", true,
               [IsSelfSimGroup],
 function(G)
   if not IsContracting(G) then
-    Info(InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
+    Info( InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
     return fail;
   elif not IsContracting(G) then
-    Info(InfoAutomGrp, 0, "The group of family is not contracting");
+    Info( InfoAutomGrp, 0, "The group of family is not contracting");
     return fail;
   fi;
 
   UnderlyingSelfSimFamily(G)!.use_contraction := true;
-  UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := true;
+  UnderlyingAutomFamily( UnderlyingAutomatonGroup(G))!.use_contraction := true;
 
   return true;
 end);
@@ -922,8 +958,8 @@ InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true,
 function(G)
   UnderlyingAutomFamily(G)!.use_contraction := false;
 
-  if HasUnderlyingAutomGroup(G) then
-    UnderlyingAutomFamily(UnderlyingAutomGroup(G))!.use_contraction := false;
+  if HasUnderlyingAutomatonGroup(G) then
+    UnderlyingAutomFamily( UnderlyingAutomatonGroup(G))!.use_contraction := false;
   fi;
   return true;
 end);
@@ -944,11 +980,15 @@ function(G, max_nucl)
     Error("Group <G> is not finite-state");
   fi;
 
-  if not IsContracting(G) then
+  if HasIsContracting(G) and not IsContracting(G) then
     Error("Group <G> is not contracting");
   fi;
 
-  H:=GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomGroup( G )));
+  H:=GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup( G )));
+
+  if HasIsContracting(H) and not IsContracting(H) then
+    Error("Group <G> is not contracting");
+  fi;
 
   nuclH:=FindNucleus(H, max_nucl);
 

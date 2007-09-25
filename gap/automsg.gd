@@ -36,16 +36,16 @@ DeclareSynonym("IsAutomSemigroup", IsSemigroup and IsAutomCollection);
 ##
 ##  The <list> is a list consisting of $n$ entries corresponding to $n$ states of automaton.
 ##  Each entry is of the form $[a_1,...,a_d,p]$,
-##  where $d \geq 2$ is the size of the alphabet the group acts on, $a_i$ are `IsInt' in 
+##  where $d \geq 2$ is the size of the alphabet the group acts on, $a_i$ are `IsInt' in
 ##  $\{1,\ldots,n\}$ and
 ##  represent the sections of corresponding state at all vertices of the first level of the tree;
-##  and each $p$ is a transformation of the alphabet describing the action of the corresponding 
+##  and each $p$ is a transformation of the alphabet describing the action of the corresponding
 ##  state on the alphabet.
 ##
 ##  Optional <names> and <bind_vars> have the same meaning as in `AutomatonGroup' (see "AutomatonGroup").
 ##
 ##  \beginexample
-##  gap> AutomatonSemigroup("a = (a, b), b = (a, b)(1,2)");
+##  gap> AutomatonSemigroup("a = (a, b)[2,2], b = (a, b)(1,2)");
 ##  < a, b >
 ##  gap> AutomatonSemigroup("a=(b, a, 1)[1,1,3], b=(1, a, b)(1,2,3)");
 ##  < a, b >
@@ -53,6 +53,12 @@ DeclareSynonym("IsAutomSemigroup", IsSemigroup and IsAutomCollection);
 ##  <automaton>
 ##  gap> G:=AutomatonSemigroup(A);
 ##  < f0, f1 >
+##  \endexample
+##  In the second form of this operation the definition of the second semigroup
+##  looks like
+##  \beginexample
+##  gap> AutomatonSemigroup([ [1,2,Transformation([2,2])], [ 1,2,(1,2)] ], ["a","b"]);
+##  < a, b >
 ##  \endexample
 ##
 DeclareOperation("AutomatonSemigroup", [IsList]);

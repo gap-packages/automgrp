@@ -76,12 +76,39 @@ DeclareOperation("StatesWords", [IsSelfSim]);
 ##
 #P  IsFiniteState(<a>)
 ##
+##  Returns `true' if <a> has finitely many different sections at the vertices 
+##  of the tree. It will never stop if the free reduction of words is not sufficient 
+##  to establish the finite-state property or if <a> is not finite-state (has 
+##  infinitely many different sections).
+##
+##  See also `AllSections' ("AllSections") for the list of all sections and
+##  `MealyAutomaton' ("MealyAutomaton"), which allows to construct
+##  a Mealy automaton whose states are the sections of <a> and which
+##  encodes its action on the tree.
+##  \beginexample
+##  gap> gap> D:=SelfSimilarGroup("x=(1,y)(1,2),y=(z^-1,1)(1,2),z=(1,x*y)");
+##  < x, y, z >
+##  gap> IsFiniteState(x*y^-1);
+##  true
+##  \endexample
+##
 DeclareProperty("IsFiniteState", IsSelfSim);
 
 
 ###############################################################################
 ##
 #A  AllSections(<a>)
+##
+##  Returns the list of all sections of <a> if there are finitely many of them and
+##  that can be established using free reduction of words in sections. Otherwise 
+##  will never stop.
+##  \beginexample
+##  gap> D:=SelfSimilarGroup("x=(1,y)(1,2),y=(z^-1,1)(1,2),z=(1,x*y)");
+##  < x, y, z >
+##  gap> AllSections(x*y^-1);
+##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,
+##    y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, x*y*z, y, z^-1, y^-1*x^-1, z*y^-1 ]
+##  \beginexample
 ##
 DeclareAttribute("AllSections", IsSelfSim);
 

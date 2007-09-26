@@ -1,6 +1,7 @@
 C intro.tex 1. Introduction
-S 1.1. Short math background
-S 1.2. Quick example
+S 1.1. Installation instructions
+S 1.2. Short math background
+S 1.3. Quick example
 C groups.tex 2. Properties and operations with groups and semigroups
 S 2.1. Creation of groups and semigroups
 F 2.1. AutomatonGroup
@@ -101,7 +102,12 @@ F 3.3. OrbitOfVertex
 F 3.3. PrintOrbitOfVertex
 F 3.3. PermActionOnLevel
 S 3.4. Elements of groups and semigroups defined by wreath recursion
+F 3.4. IsFiniteState![selfsim]
 F 3.4. AllSections
+S 3.5. Elements of contracting groups
+F 3.5. AutomPortrait
+F 3.5. AutomPortraitBoundary
+F 3.5. AutomPortraitDepth
 C autom.tex 4. Noninitial Automata
 S 4.1. Definition
 F 4.1. MealyAutomaton

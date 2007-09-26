@@ -13,8 +13,8 @@ $3$-state automata over 2-letter alphabet
 
 \beginlist
 \item{Under Unix}
-\itemitem{1.} Install `FGA' package first (if is not installed yet).
-\itemitem{2.} Unpack the archive file in the `pkg' hierarchy
+\itemitem{1. Install `FGA' package first (if is not installed yet).}
+\itemitem{2. Unpack the archive file in the `pkg' hierarchy}
 
 
 \item{Under Windows}
@@ -23,20 +23,22 @@ Group Algorithms) package available at
 \URL{http://www.gap-system.org/Packages/fga.html}. 
 To install `AutomGrp' (as \GAP4 package) perform the following steps 
 
-\itemitem{1.} Install `FGA' package first (if is not installed yet).
+\itemitem{1. Install `FGA' package first (if is not installed yet).}
 
-\itemitem{2.} Unpack the archive file (zip) in the `pkg' hierarchy 
-of your version of GAP 4 (typically it is `c:\gap4r4\pkg').
+\itemitem{2. Unpack the archive file (zip) in the `pkg' hierarchy
+of your version of GAP 4 (typically it is `c:\\gap4r4\\pkg').}
 
-\itemitem{3.} Restart \GAP
+\itemitem{3. Restart \GAP}
+\endlist
 
-\itemitem{4.} To test whether the installation was successful issue the command
+To test whether the installation was successful issue the command
 \beginexample
 gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
-\beginexample
+\endexample
 in the \GAP command line.
 
-\endlist
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Short math background}

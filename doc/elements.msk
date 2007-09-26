@@ -111,13 +111,12 @@ false
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Elements of groups and semigroups defined by wreath recursion}
 
-\Declaration{IsFiniteState}[selfsim.gd]
+\Declaration{IsFiniteState}[selfsim]
 \Declaration{AllSections}
 
 See also operation `MealyAutomaton' ("MealyAutomaton"), which allows to construct 
 a Mealy automaton whose states are the sections of given tree homomorphism and which
 encodes its action on the tree.
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

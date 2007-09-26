@@ -44,14 +44,14 @@ DeclareOperation("Word", [IsSelfSim]);
 
 ###############################################################################
 ##
-#O  SelfSim(<word>, <a>)
-#O  SelfSim(<word>, <fam>)
+#O  SelfSim( <word>, <a> )
+#O  SelfSim( <word>, <fam> )
 ##
-##  Given assosiative word <word> constructs a tree automorphism from the family
-##  <fam>, or to which automorphism <a> belongs. This function is useful when
+##  Given assosiative word <word> constructs a tree homomorphism from the family
+##  <fam>, or to which homomorphism <a> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
-##  gap> G:=AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
+##  gap> G:=SelfSimilarGroup("a=(a*b,b)(1,2), b=(a^-1,b)");
 ##  < a, b >
 ##  gap> F:=UnderlyingFreeGroup(G);
 ##  <free group on the generators [ a, b ]>
@@ -67,18 +67,18 @@ DeclareOperation("SelfSim", [IsAssocWord, IsSelfSimFamily]);
 
 ###############################################################################
 ##
-#O  StatesWords(<a>)
+#O  StatesWords( <a> )
 ##
 DeclareOperation("StatesWords", [IsSelfSim]);
 
 
 ###############################################################################
 ##
-#P  IsFiniteState(<a>)
+#P  IsFiniteState( <a> )
 ##
-##  Returns `true' if <a> has finitely many different sections at the vertices 
-##  of the tree. It will never stop if the free reduction of words is not sufficient 
-##  to establish the finite-state property or if <a> is not finite-state (has 
+##  Returns `true' if <a> has finitely many different sections at the vertices
+##  of the tree. It will never stop if the free reduction of words is not sufficient
+##  to establish the finite-state property or if <a> is not finite-state (has
 ##  infinitely many different sections).
 ##
 ##  See also `AllSections' ("AllSections") for the list of all sections and
@@ -97,10 +97,10 @@ DeclareProperty("IsFiniteState", IsSelfSim);
 
 ###############################################################################
 ##
-#A  AllSections(<a>)
+#A  AllSections( <a> )
 ##
 ##  Returns the list of all sections of <a> if there are finitely many of them and
-##  that can be established using free reduction of words in sections. Otherwise 
+##  that can be established using free reduction of words in sections. Otherwise
 ##  will never stop.
 ##  \beginexample
 ##  gap> D:=SelfSimilarGroup("x=(1,y)(1,2),y=(z^-1,1)(1,2),z=(1,x*y)");
@@ -108,7 +108,7 @@ DeclareProperty("IsFiniteState", IsSelfSim);
 ##  gap> AllSections(x*y^-1);
 ##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,
 ##    y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, x*y*z, y, z^-1, y^-1*x^-1, z*y^-1 ]
-##  \beginexample
+##  \endexample
 ##
 DeclareAttribute("AllSections", IsSelfSim);
 

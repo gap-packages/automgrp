@@ -9,6 +9,36 @@ $3$-state automata over 2-letter alphabet
 (see~\cite{bondarenko-gkmnss:clas32,bondarenko-gkmnss:clas32II}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Installation instructions}
+
+\begin{itemize}
+\item[Under Unix]
+
+\item[Under Windows]
+
+`AutomGrp' package requires \GAP version at least 4.4.6 and `FGA' (Free 
+Group Algorithms) package available at 
+\URL{http://www.gap-system.org/Packages/fga.html}. 
+To install `AutomGrp' (as \GAP4 package) perform the following steps 
+
+\begin{enumerate} 
+\item Install `FGA' package first (if is not installed yet).
+
+\item Unpack the archive file (zip) in the `pkg' hierarchy 
+of your version of GAP 4 (typically it is `c:\gap4r4\pkg').
+
+\item Restart \GAP
+
+\item To test whether the installation was successful issue the command
+\beginexample
+gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
+\beginexample
+in the \GAP command line.
+\end{enumerate}
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Short math background}
 
 This package deals mostly with groups acting on rooted trees. In

@@ -77,11 +77,6 @@ function(string, bind_vars)
 end);
 
 
-###############################################################################
-##
-#M  AutomatonGroup(<A>)
-#M  AutomatonGroup(<A>, <bind_vars>)
-##
 InstallMethod(AutomatonGroup, "AutomatonGroup(IsMealyAutomaton)", [IsMealyAutomaton],
 function(A)
   if not IsInvertible(A) then

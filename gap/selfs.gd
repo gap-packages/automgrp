@@ -936,7 +936,7 @@ InstallTrueMethod(IsAmenable, IsFinite);
 ##  determines whether this automaton has polynomial growth in terms of Sidki~\cite{sidki:circuit}.
 ##
 ##  See also `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton" and
-##  `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
+##  `PolynomialDegreeOfGrowthOfUnderlyingAutomaton' ("PolynomialDegreeOfGrowthOfUnderlyingAutomaton").
 ##  \beginexample
 ##  gap> IsGeneratedByAutomatonOfPolynomialGrowth(Basilica);
 ##  true
@@ -957,7 +957,7 @@ DeclareProperty("IsGeneratedByAutomatonOfPolynomialGrowth", IsAutomatonGroup);
 ##  determines whether this automaton is bounded in terms of Sidki~\cite{sidki:circuit}.
 ##
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
-##  and `PolynomialDegreeOfGrowthOfAutomaton' ("PolynomialDegreeOfGrowthOfAutomaton").
+##  and `PolynomialDegreeOfGrowthOfUnderlyingAutomaton' ("PolynomialDegreeOfGrowthOfUnderlyingAutomaton").
 ##  \beginexample
 ##  gap> IsGeneratedByBoundedAutomaton(Basilica);
 ##  true

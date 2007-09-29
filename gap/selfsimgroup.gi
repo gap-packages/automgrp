@@ -330,7 +330,7 @@ end);
 
 
 InstallOtherMethod(LevelOfFaithfulAction, "method for IsSelfSimGroup and IsSelfSimilar",
-              [IsSelfSimGroup and IsSelfSimilar,IsCyclotomic],
+              [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic],
 function(G,max_lev)
   local s,s_next,lev;
   if HasIsFinite(G) and not IsFinite(G) then return fail; fi;
@@ -1000,7 +1000,7 @@ function(G, max_nucl)
   Add(nuclG, GeneratingSetWithNucleusAutom(H));
 
   SetGroupNucleus(G, nuclG[1]);
-  SetGeneratingSetWithNucleusAutom(G, nuclG[2]);
+  SetGeneratingSetWithNucleus(G, nuclG[2]);
   SetGeneratingSetWithNucleusAutom(G, nuclG[3]);
   SetContractingLevel(G, ContractingLevel(H));
 
@@ -1012,6 +1012,20 @@ InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true,
               [IsSelfSimilarGroup],
 function(G)
   return FindNucleus(G,infinity);
+end);
+
+
+InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true,
+              [IsSelfSimilarGroup],
+function(G)
+  if IsContracting(G) then return GeneratingSetWithNucleus(G); fi;
+end);
+
+
+InstallMethod(GeneratingSetWithNucleusAutom, "for [IsSelfSimilarGroup]", true,
+              [IsSelfSimilarGroup],
+function(G)
+  if IsContracting(G) then return GeneratingSetWithNucleusAutom(G); fi;
 end);
 
 #E

@@ -101,9 +101,10 @@ DeclareProperty("IsFiniteState", IsSelfSim);
 ##
 ##  Returns the list of all sections of <a> if there are finitely many of them and
 ##  that can be established using free reduction of words in sections. Otherwise
-##  will never stop.
+##  will never stop. Note, that it does not check whether all elements of the list 
+##  are actually different elements of a group (semigroup).
 ##  \beginexample
-##  gap> D:=SelfSimilarGroup("x=(1,y)(1,2),y=(z^-1,1)(1,2),z=(1,x*y)");
+##  gap> D := SelfSimilarGroup("x=(1,y)(1,2),y=(z^-1,1)(1,2),z=(1,x*y)");
 ##  < x, y, z >
 ##  gap> AllSections(x*y^-1);
 ##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,

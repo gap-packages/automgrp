@@ -119,8 +119,6 @@ DeclareAttribute("UnderlyingFreeGroup", IsAutomSemigroup);
 ##  \beginexample
 ##  gap> GS:=AutomatonSemigroup("x=(x,y)[1,1],y=(y,y)(1,2)");
 ##  < x, y >
-##  gap> UnderlyingAutomaton(GS);
-##  <automaton>
 ##  gap> A:=UnderlyingAutomaton(GS);
 ##  <automaton>
 ##  gap> Print(A);
@@ -150,7 +148,6 @@ DeclareAttribute("UnderlyingAutomaton", IsAutomSemigroup);
 ##  \endexample
 ##
 DeclareAttribute("AutomatonList", IsAutomSemigroup, "mutable");
-
 DeclareAttribute("GeneratingAutomatonList", IsAutomSemigroup, "mutable");
 
 

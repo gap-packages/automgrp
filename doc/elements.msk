@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Chapter{Properties and operations with group and semigroup elements}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Creation of tree automorphisms and homomorphisms}
 
@@ -19,6 +20,7 @@ gap> Basilica:=AutomatonGroup("u=(v,1)(1,2),v=(u,1)");
 \endexample
 
 Note also that these groups are predefined in a global variable `AG_Groups' (see "Some predefined groups").
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and attributes of tree automorphisms and homomorphisms}

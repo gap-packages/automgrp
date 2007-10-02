@@ -99,19 +99,6 @@ DeclareProperty("IsGroupOfAutomFamily", IsAutomGroup);
 InstallTrueMethod(IsSelfSimilar, IsGroupOfAutomFamily);
 
 
-#############################################################################
-##
-#P  IsFractalByWords(<G>)
-##
-##  Computes the generators of stabilizers of vertices of the first level
-##  and their projections on these vertices. Returns `true' if  the preimages of these
-##  projections in the free group under canonical epimorphism generate the whole free
-##  group for each stabilizer, and the <G> acts transitively on the first level.
-##  This is sufficient but not necessary condition for <G> to be fractal. See also
-##  `IsFractal' ("IsFractal").
-DeclareProperty("IsFractalByWords", IsAutomGroup);
-InstallTrueMethod(IsFractal, IsFractalByWords);
-
 
 #############################################################################
 ##
@@ -125,31 +112,6 @@ DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
 #A  IndexInFreeGroup(<G>)
 ##
 DeclareAttribute("IndexInFreeGroup", IsAutomGroup, "mutable");
-
-
-###############################################################################
-##
-#A  LevelOfFaithfulAction (<G>)
-#A  LevelOfFaithfulAction (<G>, <max_lev>)
-##
-##  For a given finite self-similar group <G> determines the smallest level of
-##  the tree, where <G> acts faithfully, i.e. the stabilizer of this level in <G>
-##  is trivial. The idea here is that for self-similar group all nontrivial level
-##  stabilizers are different. If <max_lev> is given it finds only first <max_lev>
-##  quotients by stabilizers and if all of them have different size returns `fail'.
-##  If <G> is infinite and <max_lev> is not specified will loop forever.
-##
-##  See also `IsomorphismPermGroup' ("IsomorphismPermGroup").
-##  \beginexample
-##  gap> H:=AutomatonGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");
-##  < a, b, c >
-##  gap> LevelOfFaithfulAction(H);
-##  3
-##  gap> LevelOfFaithfulAction(AddingMachine,10);
-##  fail
-##  \endexample
-##
-DeclareAttribute("LevelOfFaithfulAction", IsAutomGroup and IsSelfSimilar);
 
 
 #############################################################################

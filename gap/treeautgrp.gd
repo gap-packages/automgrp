@@ -10,7 +10,7 @@
 
 ###############################################################################
 ##
-#C  IsTreeAutomorphismGroup
+#C  IsTreeAutomorphismGroup( <G> )
 ##
 ##  The category of groups of tree automorphisms.
 ##

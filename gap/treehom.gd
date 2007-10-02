@@ -56,7 +56,7 @@ DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 ##  <a> on the level <lev>. See also `PermOnLevel'~("PermOnLevel").
 ##
 ##  If the transformation is invertible then it returns a permutation, and
-##  `Transformation'~("ref:Transformation") otherwise.
+##  `Transformation' otherwise.
 ##
 ##  `TransformationOnFirstLevel'(<a>) is equivalent to
 ##  `TransformationOnLevel'(<a>, `1').

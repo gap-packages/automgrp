@@ -240,11 +240,11 @@ DeclareAttribute("UnderlyingAutomatonSemigroup", IsSelfSimSemigroup, "mutable");
 #A  MonomorphismToAutomatonSemigroup(<G>)
 ##
 ##  In case <G> is finite-state returns a monomorphism from <G> into `UnderlyingAutomatonSemigroup'(<G>)
-##  (see "UnderlyingAutomatonSeimgroup"). If <G> is created by `SelfSimilarSeimgroup'
-##  (see "SelfSimilarSeimgroup"),
-##  then one can use `MonomorphismToAutomatonSeimgroup'(<G>) to
-##  get preimages of elements of `UnderlyingAutomatonSeimgroup'(<G>) in <G>. See the example for
-##  `IsomorphicAutomSeimgroup' ("IsomorphicAutomSeimgroup").
+##  (see "UnderlyingAutomatonSemigroup"). If <G> is created by `SelfSimilarSemigroup'
+##  (see "SelfSimilarSemigroup"),
+##  then one can use `MonomorphismToAutomatonSemigroup'(<G>) to
+##  get preimages of elements of `UnderlyingAutomatonSemigroup'(<G>) in <G>. See the example for
+##  `IsomorphicAutomSemigroup' ("IsomorphicAutomSemigroup").
 ##
 DeclareAttribute("MonomorphismToAutomatonSemigroup", IsSelfSimSemigroup, "mutable");
 

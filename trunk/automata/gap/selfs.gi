@@ -2433,7 +2433,7 @@ function(subs_words,names)
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsAutomSeimgroup, IsCyclotomic, IsCyclotomic]", true,
+InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic, IsCyclotomic]", true,
               [IsAutomSemigroup, IsCyclotomic, IsCyclotomic],
 function(G,max_len,num_of_rels)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,oldgr,New,k, has_one, rels,rel;
@@ -2545,7 +2545,7 @@ end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsSeimgroup, IsCyclotomic, IsCyclotomic]", true,
+InstallMethod(FindSemigroupRelations, "for [IsSemigroup, IsCyclotomic, IsCyclotomic]", true,
               [IsSemigroup, IsCyclotomic, IsCyclotomic],
 function(G,max_len,num_of_rels)
   local ElList,GrList,i,j,orig_gens,gen,gens,new_gen,g,len,oldgr,New,k, has_one, rels,rel,F,relsF,ElListF,genf,f;

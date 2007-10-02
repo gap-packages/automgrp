@@ -29,5 +29,32 @@ DeclareFilter("CanEasilyTestSelfSimilarity");
 InstallTrueMethod(CanEasilyTestSelfSimilarity, HasIsSelfSimilar);
 
 
+#############################################################################
+##
+#P  IsSphericallyTransitive (<G>)
+##
+##  Returns whether the group <G> is spherically transitive (see~"Short math background").
+##  \beginexample
+##  gap> IsSphericallyTransitive(GrigorchukGroup);
+##  true
+##  \endexample
+##
+DeclareProperty("IsSphericallyTransitive", IsTreeHomomorphismSemigroup);
+
+
+#############################################################################
+##
+#O  IsTransitiveOnLevel (<G>, <lev>)
+##
+##  Returns whether the group (semigroup) <G> acts transitively on level <lev>.
+##  \beginexample
+##  gap> IsTransitiveOnLevel(Group([a,b]),3);
+##  true
+##  gap> IsTransitiveOnLevel(Group([a,b]),4);
+##  false
+##  \endexample
+##
+DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphismSemigroup, IsPosInt]);
+
 
 #E

@@ -144,8 +144,44 @@ DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphism]);
 DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 
 
+###############################################################################
+##
+#O  Word( <a> )
+##
+##  Returns <a> as an associative word (an element of underlying free group) in
+##  generators of the self-similar group (semigroup) to which <a> belongs.
+##  \beginexample
+##  gap> w:=Word(a*b^2*a^-1);
+##  a*b^2*a^-1
+##  gap> Length(w);
+##  4
+##  \endexample
+##
+DeclareOperation("Word", [IsTreeHomomorphism]);
+
 
 DeclareGlobalFunction("AG_TreeHomomorphismCmp");
+
+
+#############################################################################
+##
+#P  IsSphericallyTransitive ( <a> )
+##
+##  Returns whether the action of <a> is spherically transitive (see "Short math background").
+##
+DeclareProperty("IsSphericallyTransitive", IsTreeHomomorphism);
+# XXX CanEasilyTestSphericalTransitivity isn't really used except for
+# automorphisms of binary tree
+DeclareFilter("CanEasilyTestSphericalTransitivity");
+InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
+
+#############################################################################
+##
+#O  IsTransitiveOnLevel ( <a>, <lev> )
+##
+##  Returns whether <a> acts transitively on level <lev> of the tree.
+##
+DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphism, IsPosInt]);
 
 
 #E

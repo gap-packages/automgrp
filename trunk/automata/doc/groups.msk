@@ -14,6 +14,8 @@
 \Declaration{IsTreeAutomorphismGroup}
 \Declaration{IsAutomGroup}
 \Declaration{IsAutomatonGroup}
+\Declaration{IsSelfSimGroup}
+\Declaration{IsSelfSimilarGroup}
 
 
 In the examples below we will consider the elements of Basilica group and 
@@ -34,8 +36,8 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{DegreeOfTree}
 \Declaration{IsFractal}
 \Declaration{IsFractalByWords}
-\Declaration{IsSphericallyTransitive}[treeautgrp]
-\Declaration{IsTransitiveOnLevel}[treeautgrp]
+\Declaration{IsSphericallyTransitive}[treehomsg]
+\Declaration{IsTransitiveOnLevel}[treehomsg]
 \Declaration{IsAutomatonGroup}
 \Declaration{IsSelfSimilar}
 \Declaration{IsContracting}
@@ -44,7 +46,8 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfUnderlyingAutomaton}
 \Declaration{UnderlyingAutomaton}
-\Declaration{AutomatonList}
+\Declaration{AutomatonList}[automsg]
+\Declaration{RecurList}[automsg]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

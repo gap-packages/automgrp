@@ -25,22 +25,6 @@ DeclareCategory("IsInvertibleAutom", IsAutom and IsTreeAutomorphism);
 DeclareCategoryCollections("IsInvertibleAutom");
 
 
-###############################################################################
-##
-#O  Word( <a> )
-##
-##  Returns <a> as an associative word (an element of underlying free group) in
-##  generators of the self-similar group
-##  to which <a> belongs.
-##  \beginexample
-##  gap> w:=Word(a*b^2*a^-1);
-##  a*b^2*a^-1
-##  gap> Length(w);
-##  4
-##  \endexample
-##
-DeclareOperation("Word", [IsAutom]);
-
 
 ###############################################################################
 ##

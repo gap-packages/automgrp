@@ -97,19 +97,19 @@ gap> l;
 
 \Declaration{UnderlyingAutomFamily}
 
-%\Declaration{UnderlyingFreeGroup}
-%\Declaration{UnderlyingFreeSubgroup}
-%\Declaration{UnderlyingFreeGenerators}
-%\Declaration{IndexInFreeGroup}
-%\Declaration{ApplyNielsen}
-%\Declaration{MihailovaSystem} 
-%\Declaration{TrivialSubgroup}
+%Declaration{UnderlyingFreeGroup}
+%Declaration{UnderlyingFreeSubgroup}
+%Declaration{UnderlyingFreeGenerators}
+%Declaration{IndexInFreeGroup}
+%Declaration{ApplyNielsen}
+%Declaration{MihailovaSystem} 
+%Declaration{TrivialSubgroup}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Self-similar groups and semigroups defined by wreath recursion}
 
-\Declaration{IsFiniteState}[selfsimsg.gd]
+\Declaration{IsFiniteState}[selfsimsg]
 \Declaration{IsomorphicAutomGroup}
 \Declaration{IsomorphicAutomSemigroup}
 

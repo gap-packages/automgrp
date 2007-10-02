@@ -1,6 +1,5 @@
 msk_files =		\
     groups.msk	\
-    automlist.msk	\
     autom.msk		\
     misc.msk		\
     intro.msk		\

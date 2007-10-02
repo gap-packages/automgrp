@@ -199,32 +199,8 @@ DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
 
-#############################################################################
-##
-#P  IsSphericallyTransitive (<G>)
-##
-##  Returns whether the group <G> is spherically transitive (see~"Short math background").
-##  \beginexample
-##  gap> IsSphericallyTransitive(GrigorchukGroup);
-##  true
-##  \endexample
-##
-DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphismGroup);
 
 
-#############################################################################
-##
-#O  IsTransitiveOnLevel (<G>, <lev>)
-##
-##  Returns whether the group <G> acts transitively on level <lev>.
-##  \beginexample
-##  gap> IsTransitiveOnLevel(Group([a,b]),3);
-##  true
-##  gap> IsTransitiveOnLevel(Group([a,b]),4);
-##  false
-##  \endexample
-##
-DeclareOperation("IsTransitiveOnLevel", [IsTreeAutomorphismGroup, IsPosInt]);
 
 
 #E

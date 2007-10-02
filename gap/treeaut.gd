@@ -62,25 +62,7 @@ DeclareOperation("Perm", [IsTreeAutomorphism, IsPosInt]);
 ##
 KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
 
-#############################################################################
-##
-#P  IsSphericallyTransitive ( <a> )
-##
-##  Returns whether the action of <a> is spherically transitive (see "Short math background").
-##
-DeclareProperty("IsSphericallyTransitive", IsTreeAutomorphism);
-# XXX CanEasilyTestSphericalTransitivity isn't really used except for
-# automorphisms of binary tree
-DeclareFilter("CanEasilyTestSphericalTransitivity");
-InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 
-#############################################################################
-##
-#O  IsTransitiveOnLevel ( <a>, <lev> )
-##
-##  Returns whether <a> acts transitively on level <lev>.
-##
-DeclareOperation("IsTransitiveOnLevel", [IsTreeAutomorphism, IsPosInt]);
 
 
 #E

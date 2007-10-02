@@ -109,10 +109,14 @@ DeclareAttribute("UnderlyingFreeGroup", IsSelfSimSemigroup);
 ##
 #A  RecurList(<G>)
 ##
-##  Returns an `AutomatonList' of `UnderlyingAutomaton'(<G>) (see "UnderlyingAutomaton").
+##  Returns an internal representation of the wreath recursion of the 
+##  self-similar group (semigroup) containing <G>.
 ##  \beginexample
-##  gap> AutomatonList(Basilica);
-##  [ [ 2, 5, (1,2) ], [ 1, 5, () ], [ 5, 4, (1,2) ], [ 3, 5, () ], [ 5, 5, () ] ]
+##  gap> R := SelfSimilarGroup("a=(a^-1*b,b^-1*a)(1,2), b=(a^-1,b^-1)");
+##  < a, b >
+##  gap> RecurList(R);
+##  [ [ [ -1, 2 ], [ -2, 1 ], (1,2) ], [ [ -1 ], [ -2 ], () ],
+##    [ [ -1, 2 ], [ -2, 1 ], (1,2) ], [ [ 1 ], [ 2 ], () ] ]
 ##  \endexample
 ##
 DeclareAttribute("RecurList", IsSelfSimSemigroup, "mutable");

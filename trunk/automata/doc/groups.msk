@@ -44,7 +44,7 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfUnderlyingAutomaton}
 \Declaration{UnderlyingAutomaton}
-\Declaration{AutomatonList}[treehomsg]
+\Declaration{AutomatonList}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,12 +80,8 @@ gap> l;
   a*c*a*d*a ]
 \endexample
 
-
-\Declaration{Iterator}[treehomsg]
 \Declaration{FindElement}
-\Declaration{FindElements}
 \Declaration{FindElementOfInfiniteOrder}
-\Declaration{FindElementsOfInfiniteOrder}
 \Declaration{Growth}
 \Declaration{ListOfElements}
 \Declaration{FindNucleus}
@@ -100,6 +96,7 @@ gap> l;
 \Declaration{MultAutomAlphabet}
 
 \Declaration{UnderlyingAutomFamily}
+
 %\Declaration{UnderlyingFreeGroup}
 %\Declaration{UnderlyingFreeSubgroup}
 %\Declaration{UnderlyingFreeGenerators}

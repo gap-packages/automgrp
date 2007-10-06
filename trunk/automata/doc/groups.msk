@@ -45,6 +45,7 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfUnderlyingAutomaton}
+\Declaration{IsAmenable}
 \Declaration{UnderlyingAutomaton}
 \Declaration{AutomatonList}[automsg]
 \Declaration{RecurList}[automsg]

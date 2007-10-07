@@ -219,7 +219,7 @@ DeclareProperty("IsOfPolynomialGrowth", IsMealyAutomaton);
 ##
 #P  IsBounded ( <A> )
 ##
-##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{sidki:circuit}.
+##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
@@ -241,7 +241,7 @@ DeclareProperty("IsBounded", IsMealyAutomaton);
 ##
 #A  PolynomialDegreeOfGrowth ( <A> )
 ##
-##  For an automaton <A> of polynomial growth in terms of Sidki~\cite{sidki:circuit}
+##  For an automaton <A> of polynomial growth in terms of Sidki~\cite{Sid00}
 ##  determines its degree of
 ##  polynomial growth. This degree is 0 if and only if automaton is bounded.
 ##  If the growth of automaton is exponential returns `fail'.

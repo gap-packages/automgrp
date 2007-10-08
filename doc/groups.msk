@@ -48,7 +48,7 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{IsAmenable}
 \Declaration{UnderlyingAutomaton}
 \Declaration{AutomatonList}[automsg]
-\Declaration{RecurList}[automsg]
+\Declaration{RecurList}[selfsimsg]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

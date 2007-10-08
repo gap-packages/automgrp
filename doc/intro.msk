@@ -151,16 +151,17 @@ Group Algorithms) package available at
 
 To install `AutomGrp' (as \GAP4\ package) perform the following steps 
 
+Under Unix
 \beginlist
-\item{Under Unix}
-\itemitem{1. Install `FGA' package first (if is not installed yet).}
-\itemitem{2. Unpack the archive file in the `pkg' hierarchy}
+\item{1.}    Install `FGA' package first (if is not installed yet).
+\item{2.}    Unpack the archive file in the `pkg' hierarchy.
+\endlist
 
-
-\item{Under Windows}
-\itemitem{1. Install `FGA' package first (if is not installed yet).}
-\itemitem{2. Unpack the archive file (zip) in the `pkg' hierarchy of your version of GAP 4 (typically it is `c:\\gap4r4\\pkg').}
-\itemitem{3. Restart \GAP}
+Under Windows
+\beginlist
+\item{1.}    Install `FGA' package first (if is not installed yet).
+\item{2.}    Unpack the archive file (zip) in the `pkg' hierarchy of your version of \GAP\ (typically it is `c:\\gap4r4\\pkg').
+\item{3.}    Restart \GAP.
 \endlist
 
 To test whether the installation was successful issue the command

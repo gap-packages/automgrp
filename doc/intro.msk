@@ -147,7 +147,7 @@ automata.
 
 `AutomGrp' package requires \GAP\ version at least 4.4.6 and `FGA' (Free 
 Group Algorithms) package available at 
-\URL{http://www.gap-system.org/Packages/fga.html}. 
+\URL{http://www.gap-system.org/Packages/fga.html}
 
 To install `AutomGrp' (as \GAP4\ package) perform the following steps 
 
@@ -168,6 +168,19 @@ To test whether the installation was successful issue the command
 gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
 \endexample
 in the \GAP\ command line.
+
+\beginlist
+\item{(a)}
+    first entry
+\item{(b)}
+    second entry
+\itemitem{--}
+    a sub-item of the second entry
+\itemitem{--}
+    another sub-item of the second entry
+\item{(c)}
+    third entry
+\endlist
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

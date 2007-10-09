@@ -336,6 +336,7 @@ function(fam)
   SetDegreeOfTree(g, fam!.deg);
   SetTopDegreeOfTree(g, fam!.deg);
   SetIsActingOnBinaryTree(g, fam!.deg = 2);
+  SetIsAutomatonGroup(g, true);
 
   return g;
 end);
@@ -368,6 +369,7 @@ function(fam)
   SetDegreeOfTree(g, fam!.deg);
   SetTopDegreeOfTree(g, fam!.deg);
   SetIsActingOnBinaryTree(g, fam!.deg = 2);
+  SetIsAutomatonSemigroup(g, true);
 
   return g;
 end);

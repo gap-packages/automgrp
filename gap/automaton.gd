@@ -197,7 +197,7 @@ DeclareProperty("IsInvertible", IsMealyAutomaton);
 ##
 #P  IsOfPolynomialGrowth ( <A> )
 ##
-##  Determines whether an automaton <A> has polynomial growth in terms of Sidki~\cite{sidki:circuit}.
+##  Determines whether an automaton <A> has polynomial growth in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also `IsBounded' ("IsBounded") and
 ##  `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").

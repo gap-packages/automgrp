@@ -102,6 +102,28 @@ end);
 
 ###############################################################################
 ##
+#M  IsSelfSimilar(<G>)
+##
+InstallMethod(IsSelfSimilar, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
+function(G)
+  local g, i, res;
+  res := true;
+  for g in GeneratorsOfSemigroup(G) do
+    for i in [1..UnderlyingAutomFamily(G)!.deg] do
+      res := Section(g, i) in G;
+      if res = fail then
+        TryNextMethod();
+      elif not res then
+        return false;
+      fi;
+    od;
+  od;
+  return true;
+end);
+
+###############################################################################
+##
 #M  UnderlyingAutomFamily(<G>)
 ##
 InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomSemigroup)",
@@ -368,38 +390,38 @@ end);
 # end);
 
 
-# ###############################################################################
-# ##
-# #M  <g> in <G>)
-# ##
-# InstallMethod(\in, "\in(IsAutom, IsAutomGroup)",
-#               [IsAutom, IsAutomGroup],
-# function(g, G)
-#   local fam, fgens, w;
-#
-#   if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
-#     return true;
-#   fi;
-#
-#   fgens := List(GeneratorsOfGroup(G), g -> Word(g));
-#   w := Word(g);
-#
-#   fam := UnderlyingAutomFamily(G);
-#
-#   if fam!.rws <> fail then
-#     fgens := AsSet(ReducedForm(fam!.rws, fgens));
-#     w := ReducedForm(fam!.rws, w);
-#   fi;
-#
-#   if w in GroupWithGenerators(fgens) then
-#     Info(InfoAutomGrp, 3, "g in G: true");
-#     Info(InfoAutomGrp, 3, "  by elements of free group");
-#     Info(InfoAutomGrp, 3, "  g = ", g, "; G = ", G);
-#     return true;
-#   fi;
-#
-#   TryNextMethod();
-# end);
+###############################################################################
+##
+#M  <g> in <G>
+##
+InstallMethod(\in, "\in(IsAutom, IsAutomGroup)",
+              [IsAutom, IsAutomSemigroup],
+function(g, G)
+  local fam, fgens, w;
+
+  if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
+    return true;
+  fi;
+
+  fgens := List(GeneratorsOfSemigroup(G), g -> Word(g));
+  w := Word(g);
+
+  fam := UnderlyingAutomFamily(G);
+
+  if fam!.rws <> fail then
+    fgens := AsSet(ReducedForm(fam!.rws, fgens));
+    w := ReducedForm(fam!.rws, w);
+  fi;
+
+  if w in SemigroupByGenerators(fgens) then
+    Info(InfoAutomGrp, 3, "g in G: true");
+    Info(InfoAutomGrp, 3, "  by elements of free group");
+    Info(InfoAutomGrp, 3, "  g = ", g, "; G = ", G);
+    return true;
+  fi;
+
+  TryNextMethod();
+end);
 
 
 ###############################################################################
@@ -533,7 +555,7 @@ end);
 ##
 #M  UnderlyingAutomaton(<G>)
 ##
-InstallMethod(UnderlyingAutomaton, "UnderlyingAutomFamily(IsAutomGroup)",
+InstallMethod(UnderlyingAutomaton, "for [IsAutomSemigroup]",
               [IsAutomSemigroup],
 function(G)
   local fam,numstates,automatonlist,d,i,j;
@@ -557,5 +579,17 @@ function(G)
   fi;
   return MealyAutomaton(automatonlist{[1..numstates]});
 end);
+
+
+###############################################################################
+##
+#M  IsAutomatonSemigroup(<G>)
+##
+InstallMethod(IsAutomatonSemigroup, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
+function(G)
+  if not HasIsAutomatonSemigroup(G) then return false; fi;
+end);
+
 
 #E

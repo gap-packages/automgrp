@@ -103,6 +103,29 @@ end);
 
 ###############################################################################
 ##
+#M  IsSelfSimilar(<G>)
+##
+InstallMethod(IsSelfSimilar, "for [IsSelfSimSemigroup]",
+              [IsSelfSimSemigroup],
+function(G)
+  local g, i, res;
+  res := true;
+  for g in GeneratorsOfSemigroup(G) do
+    for i in [1..UnderlyingSelfSimFamily(G)!.deg] do
+      res := Section(g, i) in G;
+      if res = fail then
+        TryNextMethod();
+      elif not res then
+        return false;
+      fi;
+    od;
+  od;
+  return true;
+end);
+
+
+###############################################################################
+##
 #M  UnderlyingSelfSimFamily(<G>)
 ##
 InstallMethod(UnderlyingSelfSimFamily, "for [IsSelfSimSemigroup]",
@@ -216,6 +239,39 @@ function (G)
 end);
 
 
+
+###############################################################################
+##
+#M  <g> in <G>
+##
+InstallMethod(\in, "for [IsSelfSim, IsSelfSimSemigroup]",
+              [IsSelfSim, IsSelfSimSemigroup],
+function(g, G)
+  local fam, fgens, w;
+
+  if HasIsGroupOfSelfSimFamily(G) and IsGroupOfSelfSimFamily(G) then
+    return true;
+  fi;
+
+  fgens := List(GeneratorsOfSemigroup(G), g -> Word(g));
+  w := Word(g);
+
+  fam := UnderlyingSelfSimFamily(G);
+
+  if fam!.rws <> fail then
+    fgens := AsSet(ReducedForm(fam!.rws, fgens));
+    w := ReducedForm(fam!.rws, w);
+  fi;
+
+  if w in SemigroupByGenerators(fgens) then
+    Info(InfoAutomGrp, 3, "g in G: true");
+    Info(InfoAutomGrp, 3, "  by elements of free group");
+    Info(InfoAutomGrp, 3, "  g = ", g, "; G = ", G);
+    return true;
+  fi;
+
+  TryNextMethod();
+end);
 
 
 ###############################################################################

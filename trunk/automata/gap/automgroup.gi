@@ -12,7 +12,7 @@
 ##
 #M  AutomatonGroup(<list>)
 ##
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsList)", [IsList],
+InstallMethod(AutomatonGroup, "for [IsList]", [IsList],
 function(list)
   return AutomatonGroup(list, false);
 end);
@@ -22,7 +22,7 @@ end);
 ##
 #M  AutomatonGroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsList, IsBool)", [IsList, IsBool],
+InstallMethod(AutomatonGroup, "for [IsList, IsBool]", [IsList, IsBool],
 function(list, bind_vars)
   if not AG_IsCorrectAutomatonList(list, true) then
     Error("in AutomatonGroup(IsList, IsBool):\n",
@@ -37,7 +37,7 @@ end);
 ##
 #M  AutomatonGroup(<list>, <names>)
 ##
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsList, IsList)", [IsList, IsList],
+InstallMethod(AutomatonGroup, "for [IsList, IsList]", [IsList, IsList],
 function(list, names)
   return AutomatonGroup(list, names, AG_Globals.bind_vars_autom_family);
 end);
@@ -48,7 +48,7 @@ end);
 #M  AutomatonGroup(<list>, <names>, <bind_vars>)
 ##
 InstallMethod(AutomatonGroup,
-              "AutomatonGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
+              "for [IsList, IsList, IsBool]", [IsList, IsList, IsBool],
 function(list, names, bind_vars)
   if not AG_IsCorrectAutomatonList(list, true) then
     Error("error in AutomatonGroup(IsList, IsList, IsBool):\n",
@@ -64,12 +64,12 @@ end);
 #M  AutomatonGroup(<string>)
 #M  AutomatonGroup(<string>, <bind_vars>)
 ##
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsString)", [IsString],
+InstallMethod(AutomatonGroup, "for [IsString]", [IsString],
 function(string)
   return AutomatonGroup(string, AG_Globals.bind_vars_autom_family);
 end);
 
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsString, IsBool)", [IsString, IsBool],
+InstallMethod(AutomatonGroup, "for [IsString, IsBool]", [IsString, IsBool],
 function(string, bind_vars)
   local s;
   s := AG_ParseAutomatonString(string);
@@ -77,7 +77,7 @@ function(string, bind_vars)
 end);
 
 
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsMealyAutomaton)", [IsMealyAutomaton],
+InstallMethod(AutomatonGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
 function(A)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -85,7 +85,7 @@ function(A)
   return AutomatonGroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomatonGroup, "AutomatonGroup(IsMealyAutomaton, IsBool)", [IsMealyAutomaton, IsBool],
+InstallMethod(AutomatonGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -98,7 +98,7 @@ end);
 ##
 #M  GroupOfAutomFamily(<G>)
 ##
-InstallOtherMethod(GroupOfAutomFamily, "GroupOfAutomFamily(IsAutomGroup)",
+InstallOtherMethod(GroupOfAutomFamily, "for [IsAutomGroup]",
                    [IsAutomGroup],
 function(G)
   return GroupOfAutomFamily(UnderlyingAutomFamily(G));
@@ -109,7 +109,7 @@ end);
 ##
 #M  IsGroupOfAutomFamily(<G>)
 ##
-InstallMethod(IsGroupOfAutomFamily, "IsGroupOfAutomFamily(IsAutomGroup)",
+InstallMethod(IsGroupOfAutomFamily, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   return G = GroupOfAutomFamily(G);
@@ -121,7 +121,7 @@ end);
 #M  UseSubsetRelation(<G>)
 ##
 InstallMethod(UseSubsetRelation,
-              "UseSubsetRelation(IsAutomGroup, IsAutomGroup)",
+              "for [IsAutomGroup, IsAutomGroup]",
               [IsAutomGroup, IsAutomGroup],
 function(super, sub)
   ## the full group is self similar, so if <super> is smaller than the full
@@ -201,7 +201,7 @@ end);
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "PrintObj(IsAutomGroup)",
+InstallMethod(PrintObj, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local i, gens, printone;
@@ -228,7 +228,7 @@ end);
 ##
 #M  ViewObj(<G>)
 ##
-InstallMethod(ViewObj, "ViewObj(IsAutomGroup)",
+InstallMethod(ViewObj, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local i, gens;
@@ -256,7 +256,7 @@ end);
 ##
 ## TODO XXX it's broken, test it
 ##
-InstallMethod(MihailovaSystem, "MihailovaSystem(IsAutomGroup)", [IsAutomGroup],
+InstallMethod(MihailovaSystem, "for [IsAutomGroup]", [IsAutomGroup],
 function (G)
   local gens, mih, mih_gens, i;
 
@@ -289,7 +289,7 @@ end);
 ##
 #M  IsFractalByWords(G)
 ##
-InstallMethod(IsFractalByWords, "IsFractalByWords(IsAutomGroup)",
+InstallMethod(IsFractalByWords, "for [IsAutomGroup]",
               [IsAutomGroup],
 function (G)
   local freegens, stab, i, sym, f;
@@ -317,7 +317,7 @@ end);
 ##
 #M  Size(G)
 ##
-InstallMethod(Size, "Size(IsAutomGroup)", [IsAutomGroup],
+InstallMethod(Size, "for [IsAutomGroup]", [IsAutomGroup],
 function (G)
   local f;
   if IsTrivial(G) then
@@ -356,7 +356,7 @@ function (G)
 end);
 
 
-InstallOtherMethod(LevelOfFaithfulAction, "method for IsAutomGroup and IsSelfSimilar",
+InstallOtherMethod(LevelOfFaithfulAction, "for [IsAutomGroup and IsSelfSimilar]",
               [IsAutomGroup and IsSelfSimilar,IsCyclotomic],
 function(G,max_lev)
   local s,s_next,lev;
@@ -378,7 +378,7 @@ function(G,max_lev)
 end);
 
 
-InstallMethod(LevelOfFaithfulAction, "method for IsAutomGroup and IsSelfSimilar",
+InstallMethod(LevelOfFaithfulAction, "for [IsAutomGroup and IsSelfSimilar]",
               [IsAutomGroup and IsSelfSimilar],
 function(G)
   return LevelOfFaithfulAction(G,infinity);
@@ -397,16 +397,9 @@ function (G, n)
   return fail;
 end);
 
-## XXX need general method
-InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsTreeAutomorphismGroup)",
-              [IsTreeAutomorphismGroup],
-function(G)
-  local H;
-  H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
-  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
-end);
 
-InstallMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsAutomGroup)",
+
+InstallMethod(IsomorphismPermGroup, "for [IsAutomGroup]",
               [IsAutomGroup],
 function (G)
   local H;
@@ -446,7 +439,7 @@ end);
 ##
 #M  IsSphericallyTransitive(G)
 ##
-InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsAutomGroup)",
+InstallMethod(IsSphericallyTransitive, "for [IsAutomGroup]",
               [IsAutomGroup],
 function (G)
   local x, rat_gens, abel_hom;
@@ -491,7 +484,7 @@ end);
 #M  DiagonalAction(<G>, <n>)
 ##
 InstallOtherMethod( DiagonalAction,
-                    "DiagonalAction(IsAutomGroup and IsGroupOfAutomFamily, IsPosInt)",
+                    "for [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt]",
                     [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt],
 function(G, n)
   return DiagonalAction(UnderlyingAutomFamily(G), n);
@@ -503,7 +496,7 @@ end);
 #M  MultAutomAlphabet(<G>, <n>)
 ##
 InstallOtherMethod( MultAutomAlphabet,
-                    "MultAutomAlphabet(IsAutomGroup and IsGroupOfAutomFamily, IsPosInt)",
+                    "for [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt]",
                     [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt],
 function(G, n)
   return MultAutomAlphabet(UnderlyingAutomFamily(G), n);
@@ -514,7 +507,7 @@ end);
 ##
 #M  \= (<G>, <H>)
 ##
-InstallMethod(\=, "\=(IsAutomGroup, IsAutomGroup)",
+InstallMethod(\=, "for [IsAutomGroup, IsAutomGroup]",
               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 function(G, H)
   local fgens1, fgens2, fam;
@@ -552,7 +545,7 @@ end);
 ##
 #M  IsSubset (<G>, <H>)
 ##
-InstallMethod(IsSubset, "IsSubset(IsAutomGroup, IsAutomGroup)",
+InstallMethod(IsSubset, "for [IsAutomGroup, IsAutomGroup]",
               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 function(G, H)
   local h, fam, fgens1, fgens2;
@@ -584,9 +577,9 @@ end);
 
 ###############################################################################
 ##
-#M  <g> in <G>)
+#M  <g> in <G>
 ##
-InstallMethod(\in, "\in(IsAutom, IsAutomGroup)",
+InstallMethod(\in, "for [IsAutom, IsAutomGroup]",
               [IsAutom, IsAutomGroup],
 function(g, G)
   local fam, fgens, w;
@@ -620,7 +613,7 @@ end);
 ##
 #M  Random(<G>)
 ##
-InstallMethod(Random, "Random(IsAutomGroup)",
+InstallMethod(Random, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   # XXX! only for whole group
@@ -636,7 +629,7 @@ end);
 ##
 #M  UnderlyingFreeSubgroup(<G>)
 ##
-InstallMethod(UnderlyingFreeSubgroup, "UnderlyingFreeSubgroup(IsAutomGroup)",
+InstallMethod(UnderlyingFreeSubgroup, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local f;
@@ -655,7 +648,7 @@ end);
 ##
 #M  IndexInFreeGroup(<G>)
 ##
-InstallMethod(IndexInFreeGroup, "IndexInFreeGroup(IsAutomGroup)",
+InstallMethod(IndexInFreeGroup, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
@@ -666,7 +659,7 @@ end);
 ##
 #M  UnderlyingFreeGenerators(<G>)
 ##
-InstallMethod(UnderlyingFreeGenerators, "UnderlyingFreeGenerators(IsAutomGroup)",
+InstallMethod(UnderlyingFreeGenerators, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   return List(GeneratorsOfGroup(G), g -> Word(g));
@@ -677,7 +670,7 @@ end);
 ##
 ##  AG_ApplyNielsen(<G>)
 ##
-InstallMethod(AG_ApplyNielsen, "AG_ApplyNielsen(IsAutomGroup)",
+InstallMethod(AG_ApplyNielsen, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local fgens;
@@ -702,7 +695,7 @@ end);
 ##
 #M  TrivialSubmagmaWithOne(<G>)
 ##
-InstallMethod(TrivialSubmagmaWithOne, "for IsAutomGroup",
+InstallMethod(TrivialSubmagmaWithOne, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   return Subgroup(G, [One(G)]);
@@ -726,7 +719,7 @@ end);
 ##
 #M  AutomatonList(<G>)
 ##
-InstallMethod(AutomatonList, "for IsAutomGroup",
+InstallMethod(AutomatonList, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   if IsAutomatonGroup(G) then
@@ -741,7 +734,7 @@ end);
 ##
 #M  IsSelfSimilar(<G>)
 ##
-InstallMethod(IsSelfSimilar, "for IsAutomGroup",
+InstallMethod(IsSelfSimilar, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local g, i, res;
@@ -764,7 +757,7 @@ end);
 ##
 #M  UnderlyingAutomFamily(<G>)
 ##
-InstallMethod(UnderlyingAutomFamily, "UnderlyingAutomFamily(IsAutomGroup)",
+InstallMethod(UnderlyingAutomFamily, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   return FamilyObj(GeneratorsOfGroup(G)[1]);
@@ -775,7 +768,7 @@ end);
 ##
 #M  UnderlyingAutomaton(<G>)
 ##
-InstallMethod(UnderlyingAutomaton, "UnderlyingAutomFamily(IsAutomGroup)",
+InstallMethod(UnderlyingAutomaton, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local fam;

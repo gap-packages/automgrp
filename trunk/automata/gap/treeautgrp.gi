@@ -675,4 +675,13 @@ function(g, G)
 end);
 
 
+InstallMethod(IsomorphismPermGroup, "for [IsTreeAutomorphismGroup]",
+              [IsTreeAutomorphismGroup],
+function(G)
+  local H;
+  H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
+  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+end);
+
+
 #E

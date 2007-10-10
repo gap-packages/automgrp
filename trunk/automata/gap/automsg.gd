@@ -156,7 +156,7 @@ DeclareAttribute("GeneratingAutomatonList", IsAutomSemigroup, "mutable");
 #P  IsAutomatonSemigroup (<G>)
 ##
 ##  is `true' if <G> is created using the command `AutomatonSemigroup' ("AutomatonSemigroup")
-##  or if generators of <G> coincide with generators of corresponding family, and `false' otherwise.
+##  and `false' otherwise.
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
 DeclareProperty("IsAutomatonSemigroup", IsAutomSemigroup);
 

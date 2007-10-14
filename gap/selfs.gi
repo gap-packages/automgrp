@@ -3137,7 +3137,7 @@ InstallGlobalFunction(IsNoncontracting, function(arg)
 
   G := arg[1];
   n := infinity;
-  depth := infinity;
+  depth := 10;
   if Length(arg) > 1 then n := arg[2]; fi;
   if Length(arg) > 2 then depth := arg[3]; fi;
   if Length(arg) > 3 then Error("invalid arguments for IsNoncontracting"); fi;

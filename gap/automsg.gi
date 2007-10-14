@@ -431,23 +431,29 @@ end);
 InstallMethod(Random, "Random(IsAutomSemigroup)",
               [IsAutomSemigroup],
 function(G)
-  local w, monoid;
+  local w, monoid, F, gens, pi;
 
-  # XXX! only for whole group
-  monoid := UnderlyingFreeMonoid(G);
+  if IsAutomatonSemigroup(G) then
+    monoid := UnderlyingFreeMonoid(G);
 
-  if IsTrivial(monoid) then
-    w := One(monoid);
+    if IsTrivial(monoid) then
+      w := One(monoid);
+    else
+      while true do
+        w := Random(monoid);
+        if not IsOne(w) then
+          break;
+        fi;
+      od;
+    fi;
+    return Autom(w, UnderlyingAutomFamily(G));
   else
-    while true do
-      w := Random(monoid);
-      if not IsOne(w) then
-        break;
-      fi;
-    od;
+    gens:=GeneratorsOfSemigroup(G);
+    F:=FreeGroup(Length(gens));
+    pi:=GroupHomomorphismByImagesNC(F,                      UnderlyingFreeGroup(G),
+                                    GeneratorsOfGroup(F),   List(gens,Word)        );
+    return Autom( Random( SemigroupByGenerators( GeneratorsOfGroup(F)))^pi, UnderlyingAutomFamily(G));
   fi;
-
-  return Autom(w, UnderlyingAutomFamily(G));
 end);
 
 

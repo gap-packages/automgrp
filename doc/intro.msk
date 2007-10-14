@@ -170,19 +170,6 @@ gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
 \endexample
 in the \GAP\ command line.
 
-\beginlist
-\item{(a)}
-    first entry
-\item{(b)}
-    second entry
-\itemitem{--}
-    a sub-item of the second entry
-\itemitem{--}
-    another sub-item of the second entry
-\item{(c)}
-    third entry
-\endlist
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Quick example}
@@ -240,9 +227,9 @@ gap> GroupNucleus(B);
 [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
 gap> D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
 < x, y, z >
-gap> IsContracting( D );                                             
+gap> IsContracting( WRG );                                             
 true
-gap> GroupNucleus(D);
+gap> GroupNucleus( WRG );
 [ 1, y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1,
   z*y^-1*x*y*z, x*y*z ]
 \endexample

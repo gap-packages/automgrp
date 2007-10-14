@@ -102,21 +102,21 @@ InstallTrueMethod(IsSelfSimilar, IsGroupOfAutomFamily);
 
 #############################################################################
 ##
-#A  UnderlyingFreeSubgroup(<G>)
+#A  UnderlyingFreeSubgroup( <G> )
 ##
 DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
 
 
 #############################################################################
 ##
-#A  IndexInFreeGroup(<G>)
+#A  IndexInFreeGroup( <G> )
 ##
 DeclareAttribute("IndexInFreeGroup", IsAutomGroup, "mutable");
 
 
 #############################################################################
 ##
-#P  IsAutomatonGroup (<G>)
+#P  IsAutomatonGroup( <G> )
 ##
 ##  is `true' if <G> is created using the command `AutomatonGroup' ("AutomatonGroup")
 ##  or if generators of <G> coincide with generators of corresponding family, and `false' otherwise.
@@ -127,7 +127,7 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 
 #############################################################################
 ##
-#A  MihailovaSystem(<G>)
+#A  MihailovaSystem( <G> )
 ##
 DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
 

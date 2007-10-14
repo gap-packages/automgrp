@@ -38,7 +38,6 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 \Declaration{IsFractalByWords}
 \Declaration{IsSphericallyTransitive}[treehomsg]
 \Declaration{IsTransitiveOnLevel}[treehomsg]
-\Declaration{IsAutomatonGroup}
 \Declaration{IsSelfSimilar}
 \Declaration{IsContracting}
 \Declaration{IsNoncontracting}

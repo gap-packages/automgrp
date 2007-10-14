@@ -591,11 +591,17 @@ end);
 InstallMethod(Random, "Random(IsSelfSimGroup)",
               [IsSelfSimGroup],
 function(G)
-  # XXX! only for whole group
+  local F, gens, pi;
+
   if IsTrivial(G) then
     return One(G);
-  else
+  elif IsSelfSimilarGroup(G) then
     return SelfSim(Random(UnderlyingFreeGroup(G)), UnderlyingSelfSimFamily(G));
+  else
+    gens := GeneratorsOfGroup(G);
+    F:=FreeGroup(Length(gens));
+    pi:=GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
+    return Random(F)^pi;
   fi;
 end);
 
@@ -796,7 +802,7 @@ function(G)
     fi;
   end;
 
-# preimages of generators of H in UnderlyingFreeGroup(G)
+#  preimages of generators of H in UnderlyingFreeGroup(G)
 #  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
   preimages_in_freegrp := List(GeneratorsOfGroup(H), x -> preimage_in_freegrp(x));
 

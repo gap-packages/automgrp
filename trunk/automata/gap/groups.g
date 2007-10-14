@@ -38,10 +38,11 @@ BindGlobal("AG_Groups", rec(
             [1,1,1,1,1,1,1,(1,5)(3,7)],[1,1,1,1,1,1,1,(2,3)(6,7)],[1,1,1,1,1,1,1,(4,6)(5,7)],\
             [5,2,1,1,1,1,1,()],[6,3,1,1,1,1,1,()],[7,4,1,1,1,1,1,()]],\
             ["1","x","y","z","x1","y1","z1"], false),
-  IMG_z2plusI:=AutomatonGroup([[1,1,()],[1,1,(1,2)],[2,4,()],[3,1,()]],["1","a","b","c"], false),
-  Airplane:=AutomatonGroup([[1,1,()],[1,3,(1,2)],[1,4,()],[2,1,()]],["1","a","b","c"], false),
-  Rabbit:=AutomatonGroup([[1,1,()],[3,1,(1,2)],[1,4,()],[2,1,()]],["1","a","b","c"], false),
-  TwoStateSemigroupOfIntermediateGrowth:=AutomatonSemigroup([[1,1,(1,2)],[2,1,Transformation([2,2])]],["f0","f1"], false),\
+  IMG_z2plusI := AutomatonGroup([[1,1,()],[1,1,(1,2)],[2,4,()],[3,1,()]],["1","a","b","c"], false),
+  Airplane := AutomatonGroup([[1,1,()],[1,3,(1,2)],[1,4,()],[2,1,()]],["1","a","b","c"], false),
+  Rabbit := AutomatonGroup([[1,1,()],[3,1,(1,2)],[1,4,()],[2,1,()]],["1","a","b","c"], false),
+  TwoStateSemigroupOfIntermediateGrowth := AutomatonSemigroup([[1,1,(1,2)],[2,1,Transformation([2,2])]],["f0","f1"], false),\
+  UniversalD_omega := AutomatonGroup("a=(1,2)(3,4),b=(a,c,a,c),c=(b,1,1,b)", false),\
 ));
 
 

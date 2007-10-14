@@ -616,11 +616,17 @@ end);
 InstallMethod(Random, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
-  # XXX! only for whole group
+  local F, gens, pi;
+
   if IsTrivial(G) then
     return One(G);
-  else
+  elif IsAutomatonGroup(G) then
     return Autom(Random(UnderlyingFreeGroup(G)), UnderlyingAutomFamily(G));
+  else
+    gens := GeneratorsOfGroup(G);
+    F:=FreeGroup(Length(gens));
+    pi:=GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
+    return Random(F)^pi;
   fi;
 end);
 

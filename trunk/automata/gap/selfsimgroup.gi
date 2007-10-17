@@ -324,7 +324,7 @@ function (G)
   fi;
 
   Info(InfoAutomGrp, 1, "You can try to use IsomorphismPermGroup(<G>) or\n",
-                        "   FindElementOfInfiniteOrder(<G>,<length>,<depth>) with bigger bounds");
+                        "   FindElementOfInfiniteOrder( <G>, <length>, <depth> ) with bigger bounds");
   TryNextMethod();
 end);
 

@@ -128,6 +128,7 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  exponential algorithm one can use the second operation `DoNotUseContraction'(<G>).
 ##
 ##  Below we provide an example which shows that both methods can be of use.
+##  %notest
 ##  \beginexample
 ##  gap> G := AutomatonGroup("a=(b,b)(1,2),b=(c,a),c=(a,a)");;
 ##  gap> IsContracting(G);
@@ -187,13 +188,6 @@ DeclareAttribute( "MINIMIZED_AUTOMATON_LIST", IsTreeAutomorphismGroup, "mutable"
 ##  Converts elements of AutomGroup into lists.
 ##
 DeclareGlobalFunction("CONVERT_ASSOCW_TO_LIST");
-
-
-###############################################################################
-##
-#A  INFO_FLAG( <G> )
-##
-DeclareAttribute( "INFO_FLAG", IsTreeAutomorphismGroup, "mutable" );
 
 
 ################################################################################
@@ -518,7 +512,7 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 
 ################################################################################
 ##
-#O  FindNucleus( <G>[, <max_nucl>] )
+#O  FindNucleus( <G>[, <max_nucl>, <print_info>] )
 ##
 ##  Given a self-similar group <G> it tries to find its nucleus. If the group
 ##  is not contracting it will loop forever. When it finds the nucleus it returns
@@ -528,6 +522,9 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 ##  If <max_nucl> is given stops after finding <max_nucl> elements that need to be in
 ##  the nucleus and returns `fail' if the nucleus was not found.
+##
+##  An optional argument <print_info> is a boolean telling whether to print results of 
+##  intermediate computations. The default value is `true'.
 ##
 ##  Use `IsNoncontracting'~(see "IsNoncontracting") to try to show that <G> is
 ##  noncontracting.
@@ -540,6 +537,8 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar]);
 DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar, IsCyclotomic]);
+DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar, IsBool]);
+DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar, IsCyclotomic, IsBool]);
 
 
 ################################################################################
@@ -809,16 +808,22 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  in some infinite ray, while specifying finite <max_depth> may produce a result by looking at
 ##  the section not in that ray.
 ##  For bounded automata will always produce a result.
+##
+##  If `InfoLevel' of `InfoAutomGrp' is greater than
+##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)')
+##  and an element has infinite order, then the proof of this fact is printed.
+##
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> G := AutomatonGroup("a=(1,1)(1,2), b=(a,c), c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> OrderUsingSections(a*b*a*c*b);
+##  gap> OrderUsingSections( a*b*a*c*b );
 ##  16
-##  gap> OrderUsingSections(u^23*v^-2*u^3*v^15,10);
+##  gap> SetInfoLevel( InfoAutomGrp, 3);
+##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
 ##  #I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
 ##  #I  (v^13*u^15)^4 has congutate of v^13*u^15 as a section at vertex [ 1, 1 ]
 ##  infinity
-##  gap> OrderUsingSections(u^23*v^-2*u^3*v^15,2);
+##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
 ##  fail
 ##  \endexample
 DeclareOperation("OrderUsingSections",[IsAutom]);
@@ -829,12 +834,12 @@ DeclareOperation("OrderUsingSections",[IsAutom,IsCyclotomic]);
 
 ################################################################################
 ##
-#F  SUSPICIOUS_FOR_NONCONTRACTION( <a> )
+#F  AG_SuspiciousForNoncontraction( <a>[, <print_info>] )
 ##
 ##  Returns `true' if there is a vertex <v>, such that $a(v) = v$, $a|_v=a$ or
 ##  $a|_v=a^-1$.
 ##
-DeclareGlobalFunction("SUSPICIOUS_FOR_NONCONTRACTION");
+DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 
 
 ################################################################################
@@ -906,10 +911,23 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##
 ##  If <max_len> and <depth> are omitted they are assumed to be `infinity' and 10 respectively.
 ##
+##  If `InfoLevel' of `InfoAutomGrp' is greater than
+##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)'), then the proof 
+##  is printed.
+##
 ##  \beginexample
 ##  gap> G := AutomatonGroup("a=(b,a)(1,2),b=(c,b)(),c=(c,a)");
 ##  < a, b, c >
-##  gap> IsNoncontracting(G,10,10);
+##  gap> IsNoncontracting(G);
+##  true
+##  gap> H:=AutomatonGroup("a=(c,b)(1,2),b=(b,a),c=(a,a)");
+##  < a, b, c >
+##  gap> SetInfoLevel(InfoAutomGrp, 3);
+##  gap> IsNoncontracting(H);
+##  #I  Length not greater than 2: 37
+##  #I  Length not greater than 3: 187
+##  #I  (a^2*c^-1*b^-1)^2 has congutate of a^2*c^-1*b^-1 as a section at vertex [ 1, 1 ]
+##  #I  a^2*c^-1*b^-1 has b*c*a^-2 as a section at vertex [ 2 ]
 ##  true
 ##  \endexample
 ##

@@ -33,7 +33,7 @@ BindGlobal("AG_Globals", rec(
 #V  InfoAutomGrp
 ##
 DeclareInfoClass("InfoAutomGrp");
-SetInfoLevel(InfoAutomGrp, 5);
+SetInfoLevel(InfoAutomGrp, 0);
 
 
 #E

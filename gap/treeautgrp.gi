@@ -622,7 +622,7 @@ end);
 
 ###############################################################################
 ##
-#M  <g> in <G>)
+#M  <g> in <G>
 ##
 InstallMethod(\in, "\in(IsTreeAutomorphism, IsTreeAutomorphismGroup)",
               [IsTreeAutomorphism, IsTreeAutomorphismGroup],

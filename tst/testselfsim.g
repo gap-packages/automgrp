@@ -1,6 +1,6 @@
 UnitTest("SelfSim", function()
   local l, FSSelfSimilarGroupsDefs, FSSelfSimilarGroups,\
-  FSSelfSimilarSemigroupsDefs, FSSelfSimilarSemigroups, G, T;
+  FSSelfSimilarSemigroupsDefs, FSSelfSimilarSemigroups, G, T,hom,count,w;
 
 # add groups ONLY at the end of the list to keep numeration
   FSSelfSimilarGroupsDefs := [

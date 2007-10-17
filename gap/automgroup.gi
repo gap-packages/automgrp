@@ -362,13 +362,13 @@ function(G,max_lev)
   local s,s_next,lev;
   if HasIsFinite(G) and not IsFinite(G) then return fail; fi;
   if HasLevelOfFaithfulAction(G) then return LevelOfFaithfulAction(G); fi;
-  lev:=0; s:=1; s_next:=Size(PermGroupOnLevel(G,1));
+  lev := 0; s := 1; s_next := Size(PermGroupOnLevel(G,1));
   while s<s_next and lev<max_lev do
-    lev:=lev+1;
-    s:=s_next;
-    s_next:=Size(PermGroupOnLevel(G,lev+1));
+    lev := lev+1;
+    s := s_next;
+    s_next := Size(PermGroupOnLevel(G,lev+1));
   od;
-  if s=s_next then
+  if s = s_next then
     SetSize(G,s);
     SetLevelOfFaithfulAction(G,lev);
     return lev;
@@ -463,12 +463,12 @@ function (G)
   fi;
 
   if DegreeOfTree(G) = 2 and TestSelfSimilarity(G) and IsSelfSimilar(G) then
-    if HasIsFinite(G) and IsFinite(G)=false then
+    if HasIsFinite(G) and IsFinite(G) = false then
       Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomGrp, 3, "  <G> is infinite self-similar acting on binary tree");
       return true;
     fi;
-    if PermGroupOnLevel(G,2)=Group((1,4,2,3)) then
+    if PermGroupOnLevel(G,2) = Group((1,4,2,3)) then
       Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomGrp, 3, "  any element which acts transitively on the first level acts spherically transitively");
       return true;
@@ -624,8 +624,8 @@ function(G)
     return Autom(Random(UnderlyingFreeGroup(G)), UnderlyingAutomFamily(G));
   else
     gens := GeneratorsOfGroup(G);
-    F:=FreeGroup(Length(gens));
-    pi:=GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
+    F := FreeGroup(Length(gens));
+    pi := GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
     return Random(F)^pi;
   fi;
 end);
@@ -778,7 +778,7 @@ InstallMethod(UnderlyingAutomaton, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local fam;
-  fam:=UnderlyingAutomFamily(G);
+  fam := UnderlyingAutomFamily(G);
   return MealyAutomaton(AG_AddInversesList(fam!.automatonlist){[1..fam!.numstates+1]});
 end);
 

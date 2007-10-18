@@ -174,11 +174,11 @@ DeclareOperation( "DoNotUseContraction", [IsTreeAutomorphismGroup]);
 
 ################################################################################
 ##
-#A  MINIMIZED_AUTOMATON_LIST( <G> )
+#A  AG_MinimizedAutomatonList( <G> )
 ##
 ##  Returns a minimized automaton, which contains generators of group <G> and their inverses
 ##
-DeclareAttribute( "MINIMIZED_AUTOMATON_LIST", IsTreeAutomorphismGroup, "mutable" );
+DeclareAttribute( "AG_MinimizedAutomatonList", IsTreeAutomorphismGroup, "mutable" );
 
 
 ################################################################################

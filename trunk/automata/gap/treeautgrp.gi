@@ -19,9 +19,9 @@ function(G, S)
   local g_gens, s_gens, g_deg, s_deg, orbs, o, gens;
   s_deg := Maximum(MovedPointsPerms(S));
   g_deg := DegreeOfTree(G);
-  gens := List(GeneratorsOfGroup(S), s -> [List([1..s_deg], i->One(G)), s]);
+  gens := List(GeneratorsOfGroup(S), s -> [List([1..s_deg], i -> One(G)), s]);
   Append(gens, List(GeneratorsOfGroup(G), g ->
-                [Concatenation([g], List([2..s_deg], i->One(g))), ()]));
+                [Concatenation([g], List([2..s_deg], i -> One(g))), ()]));
   Apply(gens, g -> TreeAutomorphism(g[1], g[2]));
   return GroupWithGenerators(gens);
 end);
@@ -31,7 +31,7 @@ end);
 ##
 #M  UseSubsetRelation(<super>, <sub>)
 ##
-InstallMethod(UseSubsetRelation, "method for two IsTreeAutomorphismGroup's",
+InstallMethod(UseSubsetRelation, "for [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup],
 function(super, sub)
   if HasIsSphericallyTransitive(super) then
@@ -50,17 +50,17 @@ end);
 ##
 #M  SphericalIndex(<G>)
 ##
-InstallMethod(SphericalIndex, "method for IsTreeAutomorphismGroup",
+InstallMethod(SphericalIndex, "for [IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup],
 function(G)
   return SphericalIndex(GeneratorsOfGroup(G)[1]);
 end);
-InstallMethod(TopDegreeOfTree, "method for IsTreeAutomorphismGroup",
+InstallMethod(TopDegreeOfTree, "for [IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup],
 function(G)
   return TopDegreeOfTree(GeneratorsOfGroup(G)[1]);
 end);
-InstallMethod(DegreeOfTree, "method for IsTreeAutomorphismGroup",
+InstallMethod(DegreeOfTree, "for [IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup],
 function(G)
   return DegreeOfTree(GeneratorsOfGroup(G)[1]);
@@ -88,7 +88,7 @@ function(G)
   TryNextMethod();
 end);
 
-InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsTreeAutomorphismGroup)",
+InstallMethod(IsSphericallyTransitive, "for [IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup],
 function (G)
   local i, k, stab;
@@ -167,7 +167,7 @@ function(G)
   TryNextMethod();
 end);
 
-InstallMethod(IsFractal, "IsFractal(IsTreeAutomorphismGroup)", [IsTreeAutomorphismGroup],
+InstallMethod(IsFractal, "for [IsTreeAutomorphismGroup]", [IsTreeAutomorphismGroup],
 function(G)
   local i;
 
@@ -223,7 +223,7 @@ end);
 ##
 #M  PermGroupOnLevelOp (<G>, <k>)
 ##
-InstallMethod(PermGroupOnLevelOp, "method for IsTreeAutomorphismGroup and IsPosInt",
+InstallMethod(PermGroupOnLevelOp, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   local pgens, pgroup;
@@ -251,7 +251,7 @@ end);
 #M  StabilizerOfFirstLevel(G)
 ##
 InstallMethod(StabilizerOfFirstLevel,
-              "StabilizerOfFirstLevel(IsTreeAutomorphismGroup)",
+              "for [IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup],
 function (G)
   return StabilizerOfLevel(G, 1);
@@ -263,7 +263,7 @@ end);
 #M  StabilizerOfLevelOp(G, k)
 ##
 InstallMethod(StabilizerOfLevelOp,
-              "StabilizerOfLevelOp(IsTreeAutomorphismGroup, IsPosInt)",
+              "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function (G, k)
   local perms, S, F, hom, chooser, s, f, gens;
@@ -281,7 +281,7 @@ function (G, k)
   F := FreeGroup(Length(perms));
   hom := GroupHomomorphismByImagesNC(F, S, GeneratorsOfGroup(F), perms);
   gens := FreeGeneratorsOfGroup(Kernel(hom));
-  gens := List(gens, w ->
+  gens := List(gens, w  -> 
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
@@ -297,7 +297,7 @@ end);
 #M  StabilizerOfVertex(G, k)
 ##
 InstallMethod(StabilizerOfVertex,
-              "StabilizerOfVertex(IsTreeAutomorphismGroup, IsPosInt)",
+              "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function (G, k)
   local X, S, F, hom, s, f, gens, i, action;
@@ -328,7 +328,7 @@ function (G, k)
       return k^Image(hom, w);
   end;
   gens := FreeGeneratorsOfGroup(Stabilizer(F, k, action));
-  gens := List(gens, w ->
+  gens := List(gens, w  -> 
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
@@ -344,7 +344,7 @@ end);
 #M  StabilizerOfVertex(G, seq)
 ##
 InstallMethod(StabilizerOfVertex,
-              "StabilizerOfVertex(IsTreeAutomorphismGroup, IsList)",
+              "for [IsTreeAutomorphismGroup, IsList]",
               [IsTreeAutomorphismGroup, IsList],
 function (G, seq)
   local X, S, F, hom, s, f, gens, stab, action, i, v;
@@ -376,7 +376,7 @@ function (G, seq)
       return k^Image(hom, w);
   end;
   gens := FreeGeneratorsOfGroup(Stabilizer(F, v, action));
-  gens := List(gens, w ->
+  gens := List(gens, w  -> 
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
@@ -391,7 +391,7 @@ end);
 ##
 #M  FixesLevel(<G>, <k>)
 ##
-InstallMethod(FixesLevel, "method for IsTreeAutomorphismGroup and IsPosInt",
+InstallMethod(FixesLevel, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   if IsTrivial(PermGroupOnLevel(G, k)) then
@@ -410,7 +410,7 @@ end);
 ##
 #M  FixesVertex(<G>, <v>)
 ##
-InstallMethod(FixesVertex, "method for IsTreeAutomorphismGroup and IsPosInt",
+InstallMethod(FixesVertex, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsObject],
 function(G, v)
   local gens, g;
@@ -430,7 +430,7 @@ end);
 ##
 #M  ProjectionOp (<G>, <k>)
 ##
-InstallMethod(ProjectionOp, "ProjectionOp(IsTreeAutomorphismGroup, IsPosInt)",
+InstallMethod(ProjectionOp, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   return Projection(G, [k]);
@@ -445,7 +445,7 @@ InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
 function(G, gens, level)
   local a;
   if IsEmpty(gens) then
-    a := Section(One(G), List([1..level], i->1));
+    a := Section(One(G), List([1..level], i -> 1));
     gens := [a];
   fi;
   return Group(gens);
@@ -455,7 +455,7 @@ InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
                                     IsList and IsEmpty,
                                     IsPosInt],
 function(G, gens, level)
-  return Group(Section(One(G), List([1..level], i->1)));
+  return Group(Section(One(G), List([1..level], i -> 1)));
 end);
 
 InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsTreeAutomorphismCollection]",
@@ -473,7 +473,7 @@ end);
 ##
 #M  ProjectionNC(<G>, <v>)
 ##
-InstallMethod(ProjectionNC, "Projection(IsTreeAutomorphismGroup, IsList)",
+InstallMethod(ProjectionNC, "for [IsTreeAutomorphismGroup, IsList]",
               [IsTreeAutomorphismGroup, IsList],
 function(G, v)
   local gens, pgens, a;
@@ -493,7 +493,7 @@ end);
 ##
 #M  Projection (<G>, <v>)
 ##
-InstallOtherMethod(Projection, "Projection(IsTreeAutomorphismGroup, IsList)",
+InstallOtherMethod(Projection, "for [IsTreeAutomorphismGroup, IsList]",
                    [IsTreeAutomorphismGroup, IsList],
 function(G, v)
   if not FixesVertex(G, v) then
@@ -507,7 +507,7 @@ end);
 ##
 #M  ProjStab(<G>, <v>)
 ##
-InstallMethod(ProjStab, "ProjStab(IsTreeAutomorphismGroup, IsObject)",
+InstallMethod(ProjStab, "for [IsTreeAutomorphismGroup, IsObject]",
               [IsTreeAutomorphismGroup, IsObject],
 function(G, v)
   if HasIsFractal(G) and IsFractal(G) then
@@ -525,7 +525,7 @@ end);
 ##
 #M  \= (<G>, <H>)
 ##
-InstallMethod(\=, "\=(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup)",
+InstallMethod(\=, "for [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup],
 function(G, H)
   if HasIsFinite(G) and HasIsFinite(H) and
@@ -566,7 +566,7 @@ end);
 ##
 #M  IsSubset (<G>, <H>)
 ##
-InstallMethod(IsSubset, "IsSubgroup(IsTreeAutomorphismGroup, IsTreeAutomorphismGroup)",
+InstallMethod(IsSubset, "for [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup]",
               [IsTreeAutomorphismGroup, IsTreeAutomorphismGroup],
 function(G, H)
   local h, gens;
@@ -624,7 +624,7 @@ end);
 ##
 #M  <g> in <G>
 ##
-InstallMethod(\in, "\in(IsTreeAutomorphism, IsTreeAutomorphismGroup)",
+InstallMethod(\in, "for [IsTreeAutomorphism, IsTreeAutomorphismGroup]",
               [IsTreeAutomorphism, IsTreeAutomorphismGroup],
 function(g, G)
   local i;

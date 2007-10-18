@@ -115,12 +115,12 @@ DeclareAttribute("SizeOfAlphabet", IsMealyAutomaton);
 
 ################################################################################
 ##
-#A  MINIMIZED_AUTOMATON_LIST ( <A> )
+#A  AG_MinimizedAutomatonList ( <A> )
 ##
 ##  Returns a minimized automaton, which contains the states of <A>, their inverses
 ##  and the trivial state
 ##
-DeclareAttribute( "MINIMIZED_AUTOMATON_LIST", IsMealyAutomaton, "mutable" );
+DeclareAttribute( "AG_MinimizedAutomatonList", IsMealyAutomaton, "mutable" );
 
 
 ################################################################################

@@ -12,7 +12,7 @@
 ##
 #M  TopDegreeOfTree (<obj>)
 ##
-InstallMethod(TopDegreeOfTree, "method for IsActingOnTree", [IsActingOnTree],
+InstallMethod(TopDegreeOfTree, "for [IsActingOnTree]", [IsActingOnTree],
 function(obj)
   local si;
   si := SphericalIndex(obj);
@@ -28,7 +28,7 @@ end);
 ##
 #M  DegreeOfLevel (<obj>)
 ##
-InstallMethod(DegreeOfLevel, "DegreeOfLevel(IsActingOnTree, IsPosInt)",
+InstallMethod(DegreeOfLevel, "for [IsActingOnTree, IsPosInt]",
               [IsActingOnTree, IsPosInt],
 function(obj, k)
   return AG_DegreeOfLevelInSphericalIndex(SphericalIndex(obj), k);
@@ -39,7 +39,7 @@ end);
 ##
 #M  IsActingOnRegularTree(<obj>)
 ##
-InstallMethod(IsActingOnRegularTree, "method for IsActingOnTree",
+InstallMethod(IsActingOnRegularTree, "for [IsActingOnTree]",
               [IsActingOnTree],
 function(obj)
   local si;
@@ -52,7 +52,7 @@ end);
 ##
 #M  DegreeOfTree(<obj>)
 ##
-InstallMethod(DegreeOfTree, "method for IsActingOnTree",
+InstallMethod(DegreeOfTree, "for [IsActingOnTree]",
               [IsActingOnTree],
 function(obj)
   if not IsActingOnRegularTree(obj) then Error(); fi;
@@ -64,7 +64,7 @@ end);
 ##
 #M  IsActingOnBinaryTree(<obj>)
 ##
-InstallMethod(IsActingOnBinaryTree, "method for IsActingOnTree",
+InstallMethod(IsActingOnBinaryTree, "for [IsActingOnTree]",
               [IsActingOnTree],
 function(obj)
   return IsActingOnRegularTree(obj) and DegreeOfTree(obj) = 2;
@@ -77,7 +77,7 @@ end);
 ##
 ##  The most stupid method - just for case.
 ##
-InstallMethod(FixesLevel, "method for IsActingOnTree and IsPosInt",
+InstallMethod(FixesLevel, "for [IsActingOnTree, IsPosInt]",
               [IsActingOnTree, IsPosInt],
 function(obj, k)
   local lev, v;

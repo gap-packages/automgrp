@@ -153,14 +153,15 @@ end);
 ##
 #M  PrintObj(<a>)
 ##
-InstallMethod(PrintObj, [IsTreeAutomorphism and IsTreeAutomorphismRep],
+InstallMethod(PrintObj, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]", 
+                             [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function (a)
     local deg, printword, i;
 
     deg := AG_TopDegreeInSphericalIndex(FamilyObj(a)!.spher_index);
     Print("(");
     for i in [1..deg] do
-      if (IsAutom(a!.states[i])) then
+      if IsAutom(a!.states[i]) then
         View(a!.states[i]);
       else
         Print(a!.states[i]);
@@ -186,7 +187,7 @@ end);
 ##
 #M  Perm(<a>)
 ##
-InstallOtherMethod(Perm, "method for IsTreeAutomorphism and IsTreeAutomorphismRep",
+InstallOtherMethod(Perm, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]",
               [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a)
   return a!.perm;
@@ -197,7 +198,7 @@ end);
 ##
 #M  Perm (<a>, <k>)
 ##
-InstallMethod(Perm, "method for IsTreeAutomorphism and IsPosInt",
+InstallMethod(Perm, "for [IsTreeAutomorphism, IsPosInt]",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
   return PermOnLevel(a, k);
@@ -208,7 +209,7 @@ end);
 ##
 #M  PermOnLevel (<a>, <k>)
 ##
-InstallMethod(PermOnLevelOp, "method for IsTreeAutomorphism and IsPosInt",
+InstallMethod(PermOnLevelOp, "for [IsTreeAutomorphism, IsPosInt]",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
   local states, top, first_level, i, j, d1, d2, permuted, p;
@@ -248,7 +249,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "\^(IsPosInt, IsTreeAutomorphism)",
+InstallOtherMethod(\^, "for [IsPosInt, IsTreeAutomorphism]",
                    [IsPosInt, IsTreeAutomorphism],
 function(k, a)
     return k ^ Perm(a);
@@ -259,7 +260,7 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "\^(IsList, IsTreeAutomorphism)",
+InstallOtherMethod(\^, "for [IsList, IsTreeAutomorphism]",
                    [IsList, IsTreeAutomorphism],
 function(seq, a)
   if Length(seq) = 0 then return []; fi;
@@ -272,7 +273,7 @@ end);
 ##
 #M  FixesLevel(<a>, <k>)
 ##
-InstallMethod(FixesLevel, "method for IsTreeAutomorphism and IsPosInt",
+InstallMethod(FixesLevel, "for [IsTreeAutomorphism, IsPosInt]",
               [IsTreeAutomorphism, IsPosInt],
 function(a, k)
   if HasIsSphericallyTransitive(a) then
@@ -295,7 +296,7 @@ end);
 ##
 #M  FixesVertex(<a>, <v>)
 ##
-InstallOtherMethod(FixesVertex,  "method for IsTreeAutomorphism and IsObject",
+InstallOtherMethod(FixesVertex,  "for [IsTreeAutomorphism, IsObject]",
                    [IsTreeAutomorphism, IsObject],
 function(a, v)
   if HasIsSphericallyTransitive(a) then
@@ -324,7 +325,7 @@ end);
 #M  IsSphericallyTransitive (<a>)
 ##
 InstallMethod(IsSphericallyTransitive,
-              "method for IsTreeAutomorphism acting on binary tree",
+              "for [IsTreeAutomorphism and IsActingOnBinaryTree]",
               [IsTreeAutomorphism and IsActingOnBinaryTree],
 function(a)
   local ab;
@@ -337,7 +338,7 @@ end);
 RedispatchOnCondition(IsSphericallyTransitive, true, [IsTreeAutomorphism],
                       [IsTreeAutomorphism and IsActingOnBinaryTree], 0);
 
-InstallMethod(IsSphericallyTransitive, "method for IsTreeAutomorphism",
+InstallMethod(IsSphericallyTransitive, "for [IsTreeAutomorphism]",
               [IsTreeAutomorphism],
 function(a)
   if not IsTransitive(Group(PermOnLevel(a, 1)), [1..Degree(a)]) then
@@ -350,7 +351,7 @@ function(a)
 end);
 
 InstallMethod(IsSphericallyTransitive,
-              "IsSphericallyTransitive(IsTreeAutomorphism and HasOrder)",
+              "for [IsTreeAutomorphism and HasOrder]",
               [IsTreeAutomorphism and HasOrder],
 function(a)
   if Order(a) < infinity then
@@ -378,7 +379,7 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallMethod(Order, "Order(IsTreeAutomorphism)", [IsTreeAutomorphism],
+InstallMethod(Order, "for [IsTreeAutomorphism]", [IsTreeAutomorphism],
 function(a)
   local i, perm, stab, stab_order, ord, exp, states;
 
@@ -452,7 +453,7 @@ end);
 ##
 #M  Sections(a, k)
 ##
-InstallOtherMethod(Sections, "Sections(IsTreeAutomorphism, IsPosInt)",
+InstallOtherMethod(Sections, "for [IsTreeAutomorphism, IsPosInt]",
                    [IsTreeAutomorphism, IsPosInt],
 function(a, level)
   if level = 1 then
@@ -467,7 +468,8 @@ end);
 ##
 #M  Decompose(<a>, <k>)
 ##
-InstallMethod(Decompose, [IsTreeAutomorphism, IsPosInt],
+InstallMethod(Decompose, "for [IsTreeAutomorphism, IsPosInt]",
+              [IsTreeAutomorphism, IsPosInt],
 function(a, level)
   return TreeAutomorphism(Sections(a, level), PermOnLevel(a, level));
 end);
@@ -482,7 +484,7 @@ end);
 ##
 #M  Decompose(<a>)
 ##
-InstallOtherMethod(Decompose, [IsTreeAutomorphism],
+InstallOtherMethod(Decompose, "for [IsTreeAutomorphism]", [IsTreeAutomorphism],
 function(a)
   return Decompose(a, 1);
 end);
@@ -492,7 +494,8 @@ end);
 ##
 #M  IsOne(<a>)
 ##
-InstallOtherMethod(IsOne, [IsTreeAutomorphism and IsTreeAutomorphismRep],
+InstallOtherMethod(IsOne, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]",
+                   [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a)
   local i;
   if a!.perm <> () then return false; fi;
@@ -614,7 +617,7 @@ end);
 ##
 #M  InverseOp(<a>)
 ##
-InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism and IsTreeAutomorphismRep)",
+InstallMethod(InverseOp, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]",
               [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function(a)
   local inv;
@@ -627,7 +630,7 @@ function(a)
   return inv;
 end);
 
-InstallMethod(InverseOp, "InverseOp(IsTreeAutomorphism)", [IsTreeAutomorphism],
+InstallMethod(InverseOp, "for [IsTreeAutomorphism]", [IsTreeAutomorphism],
 function(a)
   local states, inv_states, perm;
   states := Sections(a);

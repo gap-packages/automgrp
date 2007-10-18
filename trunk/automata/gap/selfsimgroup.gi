@@ -12,7 +12,7 @@
 ##
 #M  SelfSimilarGroup(<list>)
 ##
-InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsList)", [IsList],
+InstallMethod(SelfSimilarGroup, "for [IsList]", [IsList],
 function(list)
   return SelfSimilarGroup(list, false);
 end);
@@ -22,10 +22,10 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsList, IsBool)", [IsList, IsBool],
+InstallMethod(SelfSimilarGroup, "for [IsList, IsBool]", [IsList, IsBool], 
 function(list, bind_vars)
   if not AG_IsCorrectRecurList(list, true) then
-    Error("in SelfSimilarGroup(IsList, IsBool):\n",
+    Error("in SelfSimilarGroup(IsList, IsBool):\n", 
           "  given list is not a correct list representing self-similar group\n");
   fi;
 
@@ -37,7 +37,7 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <names>)
 ##
-InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsList, IsList)", [IsList, IsList],
+InstallMethod(SelfSimilarGroup, "for [IsList, IsList]", [IsList, IsList], 
 function(list, names)
   return SelfSimilarGroup(list, names, AG_Globals.bind_vars_autom_family);
 end);
@@ -47,11 +47,11 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup,
-              "SelfSimilarGroup(IsList, IsList, IsBool)", [IsList, IsList, IsBool],
+InstallMethod(SelfSimilarGroup, 
+              "for [IsList, IsList, IsBool]", [IsList, IsList, IsBool], 
 function(list, names, bind_vars)
   if not AG_IsCorrectRecurList(list, true) then
-    Error("error in SelfSimilarGroup(IsList, IsList, IsBool):\n",
+    Error("error in SelfSimilarGroup(IsList, IsList, IsBool):\n", 
           "  given list is not a correct list representing self-similar group\n");
   fi;
 
@@ -64,12 +64,12 @@ end);
 #M  SelfSimilarGroup(<string>)
 #M  SelfSimilarGroup(<string>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsString)", [IsString],
+InstallMethod(SelfSimilarGroup, "for [IsString]", [IsString], 
 function(string)
   return SelfSimilarGroup(string, AG_Globals.bind_vars_autom_family);
 end);
 
-InstallMethod(SelfSimilarGroup, "SelfSimilarGroup(IsString, IsBool)", [IsString, IsBool],
+InstallMethod(SelfSimilarGroup, "for [IsString, IsBool]", [IsString, IsBool], 
 function(string, bind_vars)
   local s;
   s := AG_ParseAutomatonStringFR(string);
@@ -82,7 +82,7 @@ end);
 #M  SelfSimilarGroup(<A>)
 #M  SelfSimilarGroup(<A>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton], 
 function(A)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -90,7 +90,7 @@ function(A)
   return SelfSimilarGroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool], 
 function(A, bind_vars)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -104,8 +104,8 @@ end);
 ##
 #M  GroupOfSelfSimFamily(<G>)
 ##
-InstallOtherMethod(GroupOfSelfSimFamily, "GroupOfSelfSimFamily(IsSelfSimGroup)",
-                   [IsSelfSimGroup],
+InstallOtherMethod(GroupOfSelfSimFamily, "for [IsSelfSimGroup]", 
+                   [IsSelfSimGroup], 
 function(G)
   return GroupOfSelfSimFamily(UnderlyingSelfSimFamily(G));
 end);
@@ -115,8 +115,8 @@ end);
 ##
 #M  IsGroupOfSelfSimFamily(<G>)
 ##
-InstallMethod(IsGroupOfSelfSimFamily, "IsGroupOfSelfSimFamily(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(IsGroupOfSelfSimFamily, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   return G = GroupOfSelfSimFamily(G);
 end);
@@ -127,8 +127,8 @@ end);
 #M  UseSubsetRelation(<G>)
 ##
 InstallMethod(UseSubsetRelation,
-              "UseSubsetRelation(IsSelfSimGroup, IsSelfSimGroup)",
-              [IsSelfSimGroup, IsSelfSimGroup],
+              "for [IsSelfSimGroup, IsSelfSimGroup]", 
+              [IsSelfSimGroup, IsSelfSimGroup], 
 function(super, sub)
   ## the full group is self similar, so if <super> is smaller than the full
   ##  group then sub is smaller either
@@ -145,8 +145,8 @@ end);
 #M  $AG_SubgroupOnLevel(<G>, <gens>, <level>)
 ##
 InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup,
-                                    IsList and IsTreeAutomorphismCollection,
-                                    IsPosInt],
+                                    IsList and IsTreeAutomorphismCollection, 
+                                    IsPosInt], 
 function(G, gens, level)
   local overgroup;
 
@@ -163,14 +163,14 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup, IsList and IsEmpty, IsPosInt],
+InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup, IsList and IsEmpty, IsPosInt], 
 function(G, gens, level)
   return TrivialSubgroup(G);
 end);
 
 InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                    IsList and IsSelfSimCollection,
-                                    IsPosInt],
+                                    IsList and IsSelfSimCollection, 
+                                    IsPosInt], 
 function(G, gens, level)
   local overgroup;
 
@@ -183,8 +183,8 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]",
-                          [IsList and IsInvertibleSelfSimCollection],
+InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]", 
+                          [IsList and IsInvertibleSelfSimCollection], 
 function(gens)
   local words, fam;
 
@@ -208,8 +208,8 @@ end);
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "PrintObj(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(PrintObj, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   local i, gens, printone;
 
@@ -235,8 +235,8 @@ end);
 ##
 #M  ViewObj(<G>)
 ##
-InstallMethod(ViewObj, "ViewObj(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(ViewObj, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   local i, gens;
   gens := List(GeneratorsOfGroup(G), g -> Word(g));
@@ -262,8 +262,8 @@ end);
 ##
 #M  IsFractalByWords(G)
 ##
-InstallMethod(IsFractalByWords, "IsFractalByWords(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(IsFractalByWords, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function (G)
   local freegens, stab, i, sym, f;
 
@@ -290,7 +290,7 @@ end);
 ##
 #M  Size(G)
 ##
-InstallMethod(Size, "Size(IsSelfSimGroup)", [IsSelfSimGroup],
+InstallMethod(Size, "for [IsSelfSimGroup]", [IsSelfSimGroup],
 function (G)
   local f;
   if IsTrivial(G) then
@@ -313,11 +313,11 @@ function (G)
     return infinity;
   fi;
 
-  if IsSelfSimilarGroup(G) and LevelOfFaithfulAction(G,8)<>fail then
+  if IsSelfSimilarGroup(G) and LevelOfFaithfulAction(G, 8)<>fail then
     return Size(G);
   fi;
 
-  f := FindElementOfInfiniteOrder(G,10,10);
+  f := FindElementOfInfiniteOrder(G, 10, 10);
 
   if HasSize(G) or f <> fail then
     return Size(G);
@@ -329,21 +329,21 @@ function (G)
 end);
 
 
-InstallOtherMethod(LevelOfFaithfulAction, "method for IsSelfSimGroup and IsSelfSimilar",
+InstallOtherMethod(LevelOfFaithfulAction, "for [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic]",
               [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic],
-function(G,max_lev)
-  local s,s_next,lev;
+function(G, max_lev)
+  local s, s_next, lev;
   if HasIsFinite(G) and not IsFinite(G) then return fail; fi;
   if HasLevelOfFaithfulAction(G) then return LevelOfFaithfulAction(G); fi;
-  lev:=0; s:=1; s_next:=Size(PermGroupOnLevel(G,1));
+  lev := 0; s := 1; s_next := Size(PermGroupOnLevel(G, 1));
   while s<s_next and lev<max_lev do
-    lev:=lev+1;
-    s:=s_next;
-    s_next:=Size(PermGroupOnLevel(G,lev+1));
+    lev := lev+1;
+    s := s_next;
+    s_next := Size(PermGroupOnLevel(G, lev+1));
   od;
   if s=s_next then
-    SetSize(G,s);
-    SetLevelOfFaithfulAction(G,lev);
+    SetSize(G, s);
+    SetLevelOfFaithfulAction(G, lev);
     return lev;
   else
     return fail;
@@ -351,10 +351,10 @@ function(G,max_lev)
 end);
 
 
-InstallMethod(LevelOfFaithfulAction, "method for IsSelfSimGroup and IsSelfSimilar",
+InstallMethod(LevelOfFaithfulAction, "for [IsSelfSimGroup and IsSelfSimilar]",
               [IsSelfSimGroup and IsSelfSimilar],
 function(G)
-  return LevelOfFaithfulAction(G,infinity);
+  return LevelOfFaithfulAction(G, infinity);
 end);
 
 
@@ -374,29 +374,29 @@ end);
 ##  different size returns `fail'.
 ##  If <G> is infinite and <max_lev> is not specified will loop forever.
 ##
-##  For example, consider a subgroup $\langle a,b\rangle$ of Grigorchuk group.
+##  For example, consider a subgroup $\langle a, b\rangle$ of Grigorchuk group.
 ##  \beginexample
-##  gap> f:=IsomorphismPermGroup(Group(a,b));
-##  [ a, b ] -> [ (1,2)(3,5)(4,6)(7,9)(8,10)(11,13)(12,14)(15,17)(16,18)(19,21)(20,
-##      22)(23,25)(24,26)(27,29)(28,30)(31,32), (1,3)(2,4)(5,7)(6,8)(9,11)(10,12)(13,
-##      15)(14,16)(17,19)(18,20)(21,23)(22,24)(25,27)(26,28)(29,31)(30,32) ]
+##  gap> f := IsomorphismPermGroup(Group(a, b));
+##  [ a, b ] -> [ (1, 2)(3, 5)(4, 6)(7, 9)(8, 10)(11, 13)(12, 14)(15, 17)(16, 18)(19, 21)(20, 
+##      22)(23, 25)(24, 26)(27, 29)(28, 30)(31, 32), (1, 3)(2, 4)(5, 7)(6, 8)(9, 11)(10, 12)(13,
+##      15)(14, 16)(17, 19)(18, 20)(21, 23)(22, 24)(25, 27)(26, 28)(29, 31)(30, 32) ]
 ##  gap> Size(Image(f));
 ##  32
-##  gap> H:=SelfSimilarGroup("a=(a,a)(1,2),b=(a,a),c=(b,a)(1,2)");
+##  gap> H := SelfSimilarGroup("a=(a, a)(1, 2), b=(a, a), c=(b, a)(1, 2)");
 ##  < a, b, c >
-##  gap> f1:=IsomorphismPermGroup(H);
-##  [ a, b, c ] -> [ (1,8)(2,7)(3,6)(4,5), (1,4)(2,3)(5,8)(6,7), (1,6,3,8)(2,5,4,7) ]
+##  gap> f1 := IsomorphismPermGroup(H);
+##  [ a, b, c ] -> [ (1, 8)(2, 7)(3, 6)(4, 5), (1, 4)(2, 3)(5, 8)(6, 7), (1, 6, 3, 8)(2, 5, 4, 7) ]
 ##  gap> Size(Image(f1));
 ##  16
 ##  \endexample
 ##
-InstallOtherMethod(IsomorphismPermGroup, "IsomorphismPermGroup(IsSelfSimilarGroup,IsCyclotomic)",
-                   [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic],
+InstallOtherMethod(IsomorphismPermGroup, "for [IsSelfSimilarGroup, IsCyclotomic]", 
+                   [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic], 
 function (G, n)
   local H, lev;
   lev := LevelOfFaithfulAction(G, n);
   if lev <> fail then
-    H := PermGroupOnLevel(G,LevelOfFaithfulAction(G));
+    H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
     return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
   fi;
   return fail;
@@ -407,8 +407,8 @@ end);
 ##
 #M  IsSphericallyTransitive(G)
 ##
-InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(IsSphericallyTransitive, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function (G)
   local x, rat_gens, abel_hom;
 
@@ -436,7 +436,7 @@ function (G)
       Info(InfoAutomGrp, 3, "  <G> is infinite self-similar acting on binary tree");
       return true;
     fi;
-    if PermGroupOnLevel(G,2)=Group((1,4,2,3)) then
+    if PermGroupOnLevel(G, 2)=Group((1, 4, 2, 3)) then
       Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomGrp, 3, "  any element which acts transitively on the first level acts spherically transitively");
       return true;
@@ -451,9 +451,9 @@ end);
 ##
 #M  DiagonalAction(<G>, <n>)
 ##
-InstallOtherMethod( DiagonalAction,
-                    "DiagonalAction(IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt)",
-                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt],
+InstallOtherMethod( DiagonalAction, 
+                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]", 
+                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt], 
 function(G, n)
   return DiagonalAction(UnderlyingSelfSimFamily(G), n);
 end);
@@ -463,9 +463,9 @@ end);
 ##
 #M  MultAutomAlphabet(<G>, <n>)
 ##
-InstallOtherMethod( MultAutomAlphabet,
-                    "MultAutomAlphabet(IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt)",
-                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt],
+InstallOtherMethod( MultAutomAlphabet, 
+                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]", 
+                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt], 
 function(G, n)
   return MultAutomAlphabet(UnderlyingSelfSimFamily(G), n);
 end);
@@ -475,7 +475,7 @@ end);
 ##
 #M  \= (<G>, <H>)
 ##
-InstallMethod(\=, "\=(IsSelfSimGroup, IsSelfSimGroup)",
+InstallMethod(\=, "for [IsSelfSimGroup, IsSelfSimGroup]", 
               IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup],
 function(G, H)
   local fgens1, fgens2, fam;
@@ -513,8 +513,8 @@ end);
 ##
 #M  IsSubset (<G>, <H>)
 ##
-InstallMethod(IsSubset, "IsSubset(IsSelfSimGroup, IsSelfSimGroup)",
-              IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup],
+InstallMethod(IsSubset, "for [IsSelfSimGroup, IsSelfSimGroup]", 
+              IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup], 
 function(G, H)
   local h, fam, fgens1, fgens2;
 
@@ -547,8 +547,8 @@ end);
 ##
 #M  <g> in <G>
 ##
-InstallMethod(\in, "\in(IsSelfSim, IsSelfSimGroup)",
-              [IsSelfSim, IsSelfSimGroup],
+InstallMethod(\in, "for [IsSelfSim, IsSelfSimGroup]", 
+              [IsSelfSim, IsSelfSimGroup], 
 function(g, G)
   local fam, fgens, w;
 
@@ -588,8 +588,8 @@ end);
 ##  v*u^-3
 ##  \endexample
 ##
-InstallMethod(Random, "Random(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(Random, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup], 
 function(G)
   local F, gens, pi;
 
@@ -599,8 +599,8 @@ function(G)
     return SelfSim(Random(UnderlyingFreeGroup(G)), UnderlyingSelfSimFamily(G));
   else
     gens := GeneratorsOfGroup(G);
-    F:=FreeGroup(Length(gens));
-    pi:=GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
+    F := FreeGroup(Length(gens));
+    pi := GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
     return Random(F)^pi;
   fi;
 end);
@@ -610,8 +610,8 @@ end);
 ##
 #M  UnderlyingFreeSubgroup(<G>)
 ##
-InstallMethod(UnderlyingFreeSubgroup, "UnderlyingFreeSubgroup(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(UnderlyingFreeSubgroup, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   local f;
   if HasIsGroupOfSelfSimFamily(G) and IsGroupOfSelfSimFamily(G) then
@@ -629,8 +629,8 @@ end);
 ##
 #M  IndexInFreeGroup(<G>)
 ##
-InstallMethod(IndexInFreeGroup, "IndexInFreeGroup(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(IndexInFreeGroup, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
 end);
@@ -640,8 +640,8 @@ end);
 ##
 #M  UnderlyingFreeGenerators(<G>)
 ##
-InstallMethod(UnderlyingFreeGenerators, "UnderlyingFreeGenerators(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(UnderlyingFreeGenerators, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   return List(GeneratorsOfGroup(G), g -> Word(g));
 end);
@@ -651,8 +651,8 @@ end);
 ##
 ##  AG_ApplyNielsen(<G>)
 ##
-InstallMethod(AG_ApplyNielsen, "AG_ApplyNielsen(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(AG_ApplyNielsen, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup], 
 function(G)
   local fgens;
 
@@ -676,8 +676,8 @@ end);
 ##
 #M  TrivialSubmagmaWithOne(<G>)
 ##
-InstallMethod(TrivialSubmagmaWithOne, "for IsSelfSimGroup",
-              [IsSelfSimGroup],
+InstallMethod(TrivialSubmagmaWithOne, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   return Subgroup(G, [One(G)]);
 end);
@@ -688,7 +688,7 @@ end);
 #M  IsSelfSimilarGroup(<G>)
 ##
 ##  Returns `true' if generators of <G> coincide with generators of the family
-InstallImmediateMethod(IsSelfSimilarGroup, IsSelfSimGroup, 0,
+InstallImmediateMethod(IsSelfSimilarGroup, IsSelfSimGroup, 0, 
 function(G)
   local fam;
   fam := UnderlyingSelfSimFamily(G);
@@ -701,8 +701,8 @@ end);
 ##
 #M  RecurList(<G>)
 ##
-InstallMethod(RecurList, "for IsSelfSimGroup",
-              [IsSelfSimGroup],
+InstallMethod(RecurList, "for [IsSelfSimGroup]", 
+              [IsSelfSimGroup], 
 function(G)
   if IsSelfSimilarGroup(G) then
     return RecurList(GroupOfSelfSimFamily(UnderlyingSelfSimFamily(G)));
@@ -716,8 +716,8 @@ end);
 ##
 #M  IsSelfSimilar(<G>)
 ##
-InstallMethod(IsSelfSimilar, "for IsSelfSimGroup",
-              [IsSelfSimGroup],
+InstallMethod(IsSelfSimilar, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup], 
 function(G)
   local g, i, res;
   res := true;
@@ -739,8 +739,8 @@ end);
 ##
 #M  UnderlyingSelfSimFamily(<G>)
 ##
-InstallMethod(UnderlyingSelfSimFamily, "UnderlyingSelfSimFamily(IsSelfSimGroup)",
-              [IsSelfSimGroup],
+InstallMethod(UnderlyingSelfSimFamily, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup], 
 function(G)
   return FamilyObj(GeneratorsOfGroup(G)[1]);
 end);
@@ -751,17 +751,17 @@ end);
 #M  IsFiniteState(<G>)
 ##
 InstallMethod(IsFiniteState, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup],
+              [IsSelfSimGroup], 
 function(G)
-  local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function,\
-        inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom,\
-        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar,\
+  local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function, \
+        inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom, \
+        gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar, \
         preimage_in_freegrp;
 
-  MealyAutomatonLocal:=function(g)
+  MealyAutomatonLocal := function(g)
     local cur_state;
     if g!.word in states then return Position(states, g!.word); fi;
-    Add(states,g!.word);
+    Add(states, g!.word);
     cur_state := Length(states);
     aut_list[cur_state] := List([1..g!.deg], x -> MealyAutomatonLocal(Section(g, x)));
     Add(aut_list[cur_state], g!.perm);
@@ -792,10 +792,10 @@ function(G)
   images_in_freegrp := List(UnderlyingAutomFamily(H)!.automgens{images}, Word);
 
 
-  preimage_in_freegrp:=function(x)
+  preimage_in_freegrp := function(x)
     local w;
-    w:=LetterRepAssocWord(x!.word)[1];
-    if w>0 then
+    w := LetterRepAssocWord(x!.word)[1];
+    if w > 0 then
       return states[ Position( UnderlyingAutomFamily(H)!.oldstates, w)];
     else
       return states[ Position( UnderlyingAutomFamily(H)!.oldstates, -w+UnderlyingAutomFamily(H)!.numstates)];
@@ -803,54 +803,54 @@ function(G)
   end;
 
 #  preimages of generators of H in UnderlyingFreeGroup(G)
-#  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates,x)]);
+#  preimages_in_freegrp := List([1..Length(GeneratorsOfGroup(H))], x->states[Position(UnderlyingAutomFamily(H)!.oldstates, x)]);
   preimages_in_freegrp := List(GeneratorsOfGroup(H), x -> preimage_in_freegrp(x));
 
 
   if IsSelfSimilarGroup(G) then
-    free_groups_hom:=
-       GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H),
+    free_groups_hom := 
+       GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H), 
                                     gens_in_freegrp, images_in_freegrp );
 
-    inv_free_groups_hom:=
-       GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G),
+    inv_free_groups_hom := 
+       GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G), 
                                     UnderlyingFreeGenerators(H), preimages_in_freegrp );
 
-    hom_function:=function(a)
-      return Autom(Image(free_groups_hom,a!.word),UnderlyingAutomFamily(H));
+    hom_function := function(a)
+      return Autom(Image(free_groups_hom, a!.word), UnderlyingAutomFamily(H));
     end;
 
-    inv_hom_function:= function(b)
-      return SelfSim(Image(inv_free_groups_hom,b!.word),UnderlyingSelfSimFamily(G));
+    inv_hom_function :=  function(b)
+      return SelfSim(Image(inv_free_groups_hom, b!.word), UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}),hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   else
-    F:=FreeGroup(Length(GeneratorsOfGroup(G)));
+    F := FreeGroup(Length(GeneratorsOfGroup(G)));
 
 #        pi
 #    F ------> G ----> UnderlyingFreeGroup(H)
 #      -------------->
 #            pi_bar
 
-    pi:=GroupHomomorphismByImages(F,                     Group(gens_in_freegrp),
-                                  GeneratorsOfGroup(F),  gens_in_freegrp);
+    pi := GroupHomomorphismByImages(F,                     Group(gens_in_freegrp),
+                                    GeneratorsOfGroup(F),  gens_in_freegrp);
 
-    pi_bar:=GroupHomomorphismByImages(F,                     UnderlyingFreeGroup(H),
-                                      GeneratorsOfGroup(F),  images_in_freegrp);
+    pi_bar := GroupHomomorphismByImages(F,                     UnderlyingFreeGroup(H),
+                                        GeneratorsOfGroup(F),  images_in_freegrp);
 
-    hom_function:=function(g)
-      return Autom(Image(pi_bar,PreImagesRepresentative(pi,g!.word)),UnderlyingAutomFamily(H));
+    hom_function := function(g)
+      return Autom(Image(pi_bar, PreImagesRepresentative(pi, g!.word)), UnderlyingAutomFamily(H));
     end;
 
 
-    inv_hom_function:= function(b)
-      return SelfSim(Image(pi,PreImagesRepresentative(pi_bar,b!.word)),UnderlyingSelfSimFamily(G));
+    inv_hom_function :=  function(b)
+      return SelfSim(Image(pi, PreImagesRepresentative(pi_bar, b!.word)), UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G,GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    hom := GroupHomomorphismByFunction(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   fi;
@@ -906,7 +906,7 @@ function(G)
     return false;
   fi;
 
-  res:=IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomatonGroup(G))));
+  res := IsContracting(GroupOfAutomFamily(UnderlyingAutomFamily(UnderlyingAutomatonGroup(G))));
 
   UnderlyingSelfSimFamily(G)!.use_contraction := true;
   UnderlyingAutomFamily(UnderlyingAutomatonGroup(G))!.use_contraction := true;
@@ -920,8 +920,8 @@ end);
 ##
 #M  GroupNucleus( <G> )
 ##
-InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
-              [IsSelfSimilarGroup],
+InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]", 
+              [IsSelfSimilarGroup], 
 function(G)
   local H;
   if not IsFiniteState(G) then
@@ -935,7 +935,7 @@ function(G)
 
   H := GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup(G)));
 
-  return List( GroupNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup(G), x));
+  return List( GroupNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup(G), x));
 end);
 
 
@@ -944,8 +944,8 @@ end);
 ##
 #M  UseContraction( <G> )
 ##
-InstallMethod(UseContraction, "for [IsSelfSimGroup]", true,
-              [IsSelfSimGroup],
+InstallMethod(UseContraction, "for [IsSelfSimGroup]", true, 
+              [IsSelfSimGroup], 
 function(G)
   if not IsContracting(G) then
     Info( InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
@@ -967,8 +967,8 @@ end);
 ##
 #M  DoNotUseContraction( <G> )
 ##
-InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true,
-              [IsSelfSimGroup],
+InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true, 
+              [IsSelfSimGroup], 
 function(G)
   UnderlyingAutomFamily(G)!.use_contraction := false;
 
@@ -985,8 +985,8 @@ end);
 ##
 #M  FindNucleus( <G> )
 ##
-InstallMethod(FindNucleus, "for [IsSelfSimilarGroup, IsCyclotomic]",
-              [IsSelfSimilarGroup, IsCyclotomic],
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup, IsCyclotomic]", 
+              [IsSelfSimilarGroup, IsCyclotomic], 
 function(G, max_nucl)
   local H, nuclH, nuclG;
   if not IsFiniteState(G) then
@@ -998,19 +998,19 @@ function(G, max_nucl)
     Error("Group <G> is not contracting");
   fi;
 
-  H:=GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup( G )));
+  H := GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup( G )));
 
   if HasIsContracting(H) and not IsContracting(H) then
     Error("Group <G> is not contracting");
   fi;
 
-  nuclH:=FindNucleus(H, max_nucl);
+  nuclH := FindNucleus(H, max_nucl);
 
   if nuclH=fail then return fail; fi;
 
-  nuclG:=[];
-  Add(nuclG, List( GeneratingSetWithNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
-  Add(nuclG, List( GroupNucleus(H),x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
+  nuclG := [];
+  Add(nuclG, List( GeneratingSetWithNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
+  Add(nuclG, List( GroupNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
   Add(nuclG, GeneratingSetWithNucleusAutom(H));
 
   SetGroupNucleus(G, nuclG[1]);
@@ -1022,15 +1022,15 @@ function(G, max_nucl)
 end);
 
 
-InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true,
-              [IsSelfSimilarGroup],
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true, 
+              [IsSelfSimilarGroup], 
 function(G)
-  return FindNucleus(G,infinity);
+  return FindNucleus(G, infinity);
 end);
 
 
-InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true,
-              [IsSelfSimilarGroup],
+InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true, 
+              [IsSelfSimilarGroup], 
 function(G)
   if IsContracting(G) then return GeneratingSetWithNucleus(G); fi;
 end);

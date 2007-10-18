@@ -21,12 +21,12 @@
 ##    word = w;
 ##    states = [w_1, ..., w_d].
 ##
-DeclareRepresentation("IsAutomRep",
-                      IsComponentObjectRep and IsAttributeStoringRep,
+DeclareRepresentation("IsAutomRep", 
+                      IsComponentObjectRep and IsAttributeStoringRep, 
                       ["word", "states", "perm", "deg"]);
 
 
-InstallGlobalFunction($AG_CreateAutom,
+InstallGlobalFunction($AG_CreateAutom, 
 function(family, word, states, perm, invertible)
   local a, cat;
 
@@ -42,10 +42,10 @@ function(family, word, states, perm, invertible)
     cat := IsAutom and IsAutomRep;
   fi;
 
-  a := Objectify(NewType(family, cat),
-                 rec(word := word,
-                     states := states,
-                     perm := perm,
+  a := Objectify(NewType(family, cat), 
+                 rec(word := word, 
+                     states := states, 
+                     perm := perm, 
                      deg := family!.deg));
 
   SetIsActingOnBinaryTree(a, a!.deg = 2);
@@ -57,7 +57,7 @@ end);
 ##
 #M  Autom(<word>, <fam>)
 ##
-InstallMethod(Autom, "method for IsAssocWord and IsAutomFamily",
+InstallMethod(Autom, "for [IsAssocWord, IsAutomFamily]",
               [IsAssocWord, IsAutomFamily],
 function(w, fam)
   local exp, wstates, curstate, newstate, curletter, newletter,
@@ -90,7 +90,7 @@ function(w, fam)
 
   for i in [1..fam!.deg] do
     wstates[i] := [];
-    perm:=();
+    perm := ();
 
     for j in [1..Length(exp)] do
       newstate := fam!.automatonlist[exp[j]][i^perm];
@@ -134,15 +134,15 @@ end);
 ##
 #M  Autom(<word>, <a>)
 ##
-InstallMethod(Autom, "method for IsAssocWord and IsAutom", [IsAssocWord, IsAutom],
+InstallMethod(Autom, "for [IsAssocWord, IsAutom]", [IsAssocWord, IsAutom],
 function(w, a)
   return Autom(w, FamilyObj(a));
 end);
 
 
-InstallMethod(MappedWord, [IsAssocWord,
-                           IsList and IsAssocWordCollection,
-                           IsList and IsAutomCollection],
+InstallMethod(MappedWord, [IsAssocWord, 
+                           IsList and IsAssocWordCollection, 
+                           IsList and IsAutomCollection], 
 function(w, fgens, agens)
   local img;
   img := MappedWord(w, fgens, List(agens, a -> a!.word));
@@ -154,8 +154,8 @@ end);
 ##
 #M  Autom(<word>, <list>)
 ##
-InstallOtherMethod(Autom, "method for IsAssocWord and IsList",
-                   [IsAssocWord, IsList],
+InstallOtherMethod(Autom, "for [IsAssocWord, IsList]", 
+                   [IsAssocWord, IsList], 
 function(w, list)
   local fam;
   fam := AutomFamily(list);
@@ -170,8 +170,8 @@ end);
 ##
 #M  PrintObj(<a>)
 ##
-InstallMethod(PrintObj, "method for IsAutom",
-              [IsAutom],
+InstallMethod(PrintObj, "for [IsAutom]", 
+              [IsAutom], 
 function (a)
   local deg, printword, i;
 
@@ -201,8 +201,8 @@ end);
 ##
 #M  ViewObj(<a>)
 ##
-InstallMethod(ViewObj, "method for IsAutom",
-              [IsAutom],
+InstallMethod(ViewObj, "for [IsAutom]", 
+              [IsAutom], 
 function (a)
   if IsOne(a!.word) then Print(AG_Globals.identity_symbol);
   else Print(a!.word); fi;
@@ -213,8 +213,8 @@ end);
 ##
 #M  String(<a>)
 ##
-InstallMethod(String, "method for IsAutom",
-              [IsAutom],
+InstallMethod(String, "for [IsAutom]",
+              [IsAutom], 
 function (a)
   if IsOne(a!.word) then return AG_Globals.identity_symbol;
   else return String(a!.word); fi;
@@ -225,7 +225,7 @@ end);
 ##
 #M  Perm(<a>)
 ##
-InstallOtherMethod(Perm, "method for IsAutom", [IsAutom],
+InstallOtherMethod(Perm, "for [IsAutom]", [IsAutom], 
 function(a)
     return a!.perm;
 end);
@@ -235,7 +235,7 @@ end);
 ##
 #M  Word(<a>)
 ##
-InstallMethod(Word, "method for IsAutom", [IsAutom],
+InstallMethod(Word, "for [IsAutom]", [IsAutom],
 function(a)
     return a!.word;
 end);
@@ -245,7 +245,7 @@ end);
 ##
 #M  <a1> * <a2>
 ##
-InstallMethod(\*, "\*(IsAutom, IsAutom)", [IsAutom, IsAutom],
+InstallMethod(\*, "for [IsAutom, IsAutom]", [IsAutom, IsAutom], 
 function(a1, a2)
     local a, i, fam, word, states;
 
@@ -268,7 +268,7 @@ function(a1, a2)
       od;
     fi;
 
-    return $AG_CreateAutom(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
+    return $AG_CreateAutom(FamilyObj(a1), word, states, a1!.perm * a2!.perm, 
                            IsInvertibleAutom(a1) and IsInvertibleAutom(a2));
 end);
 
@@ -277,13 +277,13 @@ end);
 ##
 #M  IsOne(a)
 ##
-InstallOtherMethod(IsOne, "IsOne(IsAutom)", [IsAutom],
+InstallOtherMethod(IsOne, "for [IsAutom]", [IsAutom], 
 function(a)
   local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp, G, trivstate;
 
   if IsOne(a!.word) then return true; fi;
 
-  G:=GroupOfAutomFamily(FamilyObj(a));
+  G := GroupOfAutomFamily(FamilyObj(a));
   if G <>fail and HasIsContracting(G) and IsContracting(G) and FamilyObj(a)!.use_contraction = true  then
     return IsOneContr(a);
   fi;
@@ -294,7 +294,7 @@ function(a)
   checked := [];
 
   istrivstate := function(v)
-    local i,j,perm;
+    local i, j, perm;
 
     if IsEmpty(v) then
       return true;
@@ -332,11 +332,11 @@ end);
 #M  a1 = a2
 ##
 ## TODO
-InstallMethod(\=, "\=(IsAutom, IsAutom)", IsIdenticalObj, [IsAutom, IsAutom],
+InstallMethod(\=, "for [IsAutom, IsAutom]", IsIdenticalObj, [IsAutom, IsAutom], 
 function(a1, a2)
   local areequalstates, exp, i, d, checked, autlist, G, trivstate;
 
-  G:=GroupOfAutomFamily(FamilyObj(a1));
+  G := GroupOfAutomFamily(FamilyObj(a1));
   if G <> fail and HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
     return IsOneContr(a1*a2^-1);
   fi;
@@ -372,7 +372,7 @@ function(a1, a2)
 
       AddSet(checked, p);
       for j in [1..d] do
-        if not areequalstates([AG_WordStateInList(p[1], j, autlist, true, trivstate),
+        if not areequalstates([AG_WordStateInList(p[1], j, autlist, true, trivstate), 
                                AG_WordStateInList(p[2], j, autlist, true, trivstate)])
         then
           return false;
@@ -397,7 +397,7 @@ end);
 ##
 #M  a1 < a2
 ##
-InstallMethod(\<, "\<(IsAutom, IsAutom)", IsIdenticalObj, [IsAutom, IsAutom],
+InstallMethod(\<, "for [IsAutom, IsAutom]", IsIdenticalObj, [IsAutom, IsAutom], 
 function(a1, a2)
   local d, checked, pos, aw1, aw2, p, np, i, exp, perm1, perm2, autlist, cmp;
 
@@ -427,7 +427,7 @@ function(a1, a2)
       return false;
     fi;
     for i in [1..d] do
-      np := [AG_WordStateInList(p[1], i, autlist, false, 0),
+      np := [AG_WordStateInList(p[1], i, autlist, false, 0), 
              AG_WordStateInList(p[2], i, autlist, false, 0)];
       if not np in checked then
         Add(checked, np);
@@ -443,7 +443,7 @@ end);
 ##
 #M  InverseOp(<a>)
 ##
-InstallMethod(InverseOp, "InverseOp(IsInvertibleAutom)", [IsInvertibleAutom],
+InstallMethod(InverseOp, "for [IsInvertibleAutom]", [IsInvertibleAutom], 
 function(a)
   local i, inv, fam, word, states;
 
@@ -472,7 +472,7 @@ end);
 ##
 #M  OneOp(<a>)
 ##
-InstallMethod(OneOp, "OneOp(IsAutom)", [IsAutom],
+InstallMethod(OneOp, "for [IsAutom]", [IsAutom], 
 function(a)
     return One(FamilyObj(a));
 end);
@@ -482,7 +482,7 @@ end);
 ##
 #M  StatesWords(<a>)
 ##
-InstallMethod(StatesWords, "StatesWords(IsAutom)", [IsAutom],
+InstallMethod(StatesWords, "for [IsAutom]", [IsAutom], 
 function(a)
   return a!.states;
 end);
@@ -492,7 +492,7 @@ end);
 ##
 #M  Sections(a)
 ##
-InstallMethod(Sections, "Sections(IsAutom)", [IsAutom],
+InstallMethod(Sections, "for [IsAutom]", [IsAutom], 
 function(a)
   return List(a!.states, s -> Autom(s, a));
 end);
@@ -502,7 +502,7 @@ end);
 ##
 #M  Section(a, k)
 ##
-InstallOtherMethod(Section, "Section(IsAutom, IsPosInt)", [IsAutom, IsPosInt],
+InstallOtherMethod(Section, "for [IsAutom, IsPosInt]", [IsAutom, IsPosInt], 
 function(a, k)
   if k > a!.deg then
     Error("in Section(IsAutom, IsPosInt): invalid vertex ", k);
@@ -516,7 +516,7 @@ end);
 #M  Section(a, seq)
 ##
 ## TODO
-InstallMethod(Section, "Section(IsAutom, IsList)", [IsAutom, IsList],
+InstallMethod(Section, "for [IsAutom, IsList]", [IsAutom, IsList], 
 function(a, v)
   if Length(v) = 0 then
     return a;
@@ -534,7 +534,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "\^(IsPosInt, IsAutom)", [IsPosInt, IsAutom],
+InstallOtherMethod(\^, "for [IsPosInt, IsAutom]", [IsPosInt, IsAutom], 
 function(k, a)
     return k ^ Perm(a);
 end);
@@ -544,14 +544,14 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "\^(IsList, IsAutom)", [IsList, IsAutom],
+InstallOtherMethod(\^, "for [IsList, IsAutom]", [IsList, IsAutom], 
 function(seq, a)
     local i, deg, img, cur;
 
     deg := DegreeOfTree(a);
     for i in seq do
       if not IsInt(i) or i < 1 or i > deg then
-        Print("\^(IsList, IsFGAutom): ",
+        Print("\^(IsList, IsAutom): ", 
               i, "is out of range 1..", deg, "\n");
         return seq;
       fi;
@@ -569,7 +569,7 @@ function(seq, a)
     img := [];
     for i in [1..Length(seq)] do
         img[i] := seq[i]^cur[2];
-        cur := AG_WordStateAndPermInList(cur[1], seq[i],
+        cur := AG_WordStateAndPermInList(cur[1], seq[i], 
                                          FamilyObj(a)!.automatonlist);
     od;
 
@@ -582,8 +582,8 @@ end);
 #M  PermOnLevelOp(a, k)
 ##
 ## TODO
-InstallMethod(PermOnLevelOp, "PermOnLevelOp(IsAutom, IsPosInt)",
-              [IsInvertibleAutom, IsPosInt],
+InstallMethod(PermOnLevelOp, "for [IsIsInvertibleAutom, IsPosInt]", 
+              [IsInvertibleAutom, IsPosInt], 
 function(a, k)
   local dom, perm;
 
@@ -608,8 +608,8 @@ end);
 ##
 #M  IsActingOnBinaryTree(<a>)
 ##
-InstallMethod(IsActingOnBinaryTree, "IsActingOnBinaryTree(IsAutom)",
-              [IsAutom],
+InstallMethod(IsActingOnBinaryTree, "for [IsAutom]", 
+              [IsAutom], 
 function(a)
     return a!.deg = 2;
 end);
@@ -619,7 +619,7 @@ end);
 # ##
 # #M  Decompose(a)
 # ##
-# InstallMethod(Decompose, [IsFGAutom],
+# InstallMethod(Decompose, [IsFGAutom], 
 # function(a)
 #   local deg, listrep, list, names, i, j, pf;
 #
@@ -658,7 +658,7 @@ end);
 # ##
 # #M  DecomposeRen(a)
 # ##
-# InstallMethod(DecomposeRen, [IsFGAutom],
+# InstallMethod(DecomposeRen, [IsFGAutom], 
 # function(a)
 #   local letters, deg, listrep, list, states, names, i, j, pf;
 #
@@ -704,7 +704,7 @@ end);
 # ##
 # #M  ListRep(a)
 # ##
-# InstallMethod(ListRep, [IsFGAutom],
+# InstallMethod(ListRep, [IsFGAutom], 
 # function(a)
 #   local deg, pos, states, list_comp, word, aut, i;
 #
@@ -726,7 +726,7 @@ end);
 #     Add(list_comp, Concatenation(List(aut!.Sections, w -> Position(states, w)), [aut!.Perm]));
 #   od;
 #
-#   return rec(  list   := list_comp,
+#   return rec(  list   := list_comp, 
 #               names := states  );
 # end);
 #
@@ -735,7 +735,7 @@ end);
 # ##
 # #M  StabilizesPath(a, path)
 # ##
-# InstallMethod(StabilizesPath, [IsFGAutom, IsList],
+# InstallMethod(StabilizesPath, [IsFGAutom, IsList], 
 # function(a, path)
 #   local len, checked_words, cur_state, cur_pos;
 #
@@ -771,8 +771,8 @@ end);
 ##
 #M  AbelImage(<a>)
 ##
-InstallMethod(AbelImage, "AbelImage(IsAutom)",
-              [IsAutom],
+InstallMethod(AbelImage, "for [IsAutom]", 
+              [IsAutom], 
 function(a)
   local abels, w, i;
   w := LetterRepAssocWord(Word(a));
@@ -788,20 +788,20 @@ function(a)
 end);
 
 
-InstallMethod(SphericalIndex, "SphericalIndex(IsAutom)", [IsAutom],
+InstallMethod(SphericalIndex, "for [IsAutom]", [IsAutom], 
 function(a)
   # XXX check uses of SphericalIndex everywhere
   return rec(start := [], period := [a!.deg]);
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(DegreeOfTree, "DegreeOfTree(IsAutom)", [IsAutom],
+InstallMethod(DegreeOfTree, "for [IsAutom]", [IsAutom], 
 function(a)
   return a!.deg;
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(TopDegreeOfTree, "TopDegreeOfTree(IsAutom)", [IsAutom],
+InstallMethod(TopDegreeOfTree, "for [IsAutom]", [IsAutom], 
 function(a)
   return a!.deg;
 end);
@@ -811,7 +811,7 @@ end);
 ##
 #M  CanEasilyTestSphericalTransitivity(<a>)
 ##
-InstallTrueMethod(CanEasilyTestSphericalTransitivity,
+InstallTrueMethod(CanEasilyTestSphericalTransitivity, 
                   IsActingOnBinaryTree and IsAutom);
 
 
@@ -819,8 +819,8 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity,
 ##
 #M  IsSphericallyTransitive(<a>)
 ##
-InstallMethod(IsSphericallyTransitive, "IsSphericallyTransitive(IsAutom)",
-              [IsInvertibleAutom],
+InstallMethod(IsSphericallyTransitive, "for [IsAutom]", 
+              [IsInvertibleAutom], 
 function(a)
   local w, i, ab, abs;
 
@@ -838,17 +838,17 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallOtherMethod(Order, "Order(IsInvertibleAutom)", true,
-                   [IsInvertibleAutom],
+InstallOtherMethod(Order, "for [IsInvertibleAutom]", true, 
+                   [IsInvertibleAutom], 
 function(a)
   local ord_loc;
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
-    return OrderUsingSections(a,infinity);
+    return OrderUsingSections(a, infinity);
   fi;
   if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
     return infinity;
   fi;
-  ord_loc := OrderUsingSections(a,10);
+  ord_loc := OrderUsingSections(a, 10);
   if ord_loc <> fail then
     return ord_loc;
   fi;
@@ -860,9 +860,9 @@ end);
 ##
 #M  IsTransitiveOnLevel( <a>, <lev> )
 ##
-InstallMethod(IsTransitiveOnLevel, "IsTransitiveOnLevel(IsInvertibleAutom,IsPosInt)",
-              [IsInvertibleAutom, IsPosInt],
-function(a,lev)
+InstallMethod(IsTransitiveOnLevel, "for [IsInvertibleAutom, IsPosInt]",
+              [IsInvertibleAutom, IsPosInt], 
+function(a, lev)
   return Length(OrbitPerms([PermOnLevel(a, lev)], 1)) = a!.deg^lev;
 end);
 

@@ -705,7 +705,7 @@ end);
 #M  AG_ReducedByNielsen(<words_list>)
 ##
 InstallMethod(AG_ReducedByNielsen,
-              "AG_ReducedByNielsen(IsList and IsAssocWordCollection)",
+              "for [IsList and IsAssocWordCollection]",
               [IsList and IsAssocWordCollection],
 function(words)
   if AG_Globals.use_inv_order_in_apply_nielsen then
@@ -721,7 +721,7 @@ end);
 #M  AG_ReducedByNielsen(<autom_list>)
 ##
 InstallMethod(AG_ReducedByNielsen,
-              "AG_ReducedByNielsen(IsList and IsAutomCollection)",
+              "for [IsList and IsAutomCollection]",
               [IsList and IsAutomCollection],
 function(automs)
   local words;

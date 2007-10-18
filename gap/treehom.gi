@@ -206,7 +206,7 @@ end);
 ##
 #M  TransformationOnLevel (<a>, <k>)
 ##
-InstallMethod(TransformationOnLevelOp, "method for IsTreeHomomorphism and IsPosInt",
+InstallMethod(TransformationOnLevelOp, "for [IsTreeHomomorphism, IsPosInt]",
               [IsTreeHomomorphism, IsPosInt],
 function(a, k)
   local states, top, first_level, i, j, d1, d2, permuted, p;
@@ -250,7 +250,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "\^(IsPosInt, IsTreeHomomorphism)", [IsPosInt, IsTreeHomomorphism],
+InstallOtherMethod(\^, "for [IsPosInt, IsTreeHomomorphism]", [IsPosInt, IsTreeHomomorphism],
 function(k, a)
     return k ^ TransformationOnLevel(a, 1);
 end);
@@ -259,7 +259,7 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "\^(IsList, IsTreeHomomorphism)", [IsList, IsTreeHomomorphism],
+InstallOtherMethod(\^, "for [IsList, IsTreeHomomorphism]", [IsList, IsTreeHomomorphism],
 function(seq, a)
   if Length(seq) = 0 then
     return [];
@@ -276,7 +276,7 @@ end);
 # ##
 # #M  FixesLevel(<a>, <k>)
 # ##
-# InstallMethod(FixesLevel, "method for IsTreeHomomorphism and IsPosInt",
+# InstallMethod(FixesLevel, "for [IsTreeHomomorphism, IsPosInt]",
 #               [IsTreeHomomorphism, IsPosInt],
 # function(a, k)
 #   if HasIsSphericallyTransitive(a) then
@@ -299,7 +299,7 @@ end);
 # ##
 # #M  FixesVertex(<a>, <v>)
 # ##
-# InstallOtherMethod(FixesVertex,  "method for IsTreeHomomorphism and IsObject",
+# InstallOtherMethod(FixesVertex,  "for [IsTreeHomomorphism, IsObject]",
 #                    [IsTreeHomomorphism, IsObject],
 # function(a, v)
 #   if HasIsSphericallyTransitive(a) then
@@ -555,7 +555,7 @@ end);
 # ##
 # #M  InverseOp(<a>)
 # ##
-# InstallMethod(InverseOp, "InverseOp(IsTreeHomomorphism and IsTreeHomomorphismRep)",
+# InstallMethod(InverseOp, "for [IsTreeHomomorphism and IsTreeHomomorphismRep]",
 #               [IsTreeHomomorphism and IsTreeHomomorphismRep],
 # function(a)
 #   local inv;
@@ -568,7 +568,7 @@ end);
 #   return inv;
 # end);
 #
-# InstallMethod(InverseOp, "InverseOp(IsTreeHomomorphism)", [IsTreeHomomorphism],
+# InstallMethod(InverseOp, "for [IsTreeHomomorphism]", [IsTreeHomomorphism],
 # function(a)
 #   local states, inv_states, perm;
 #   states := Sections(a);

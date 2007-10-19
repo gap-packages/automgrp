@@ -34,6 +34,7 @@ for name in [
   "testiter.g",
   "testmisc.g",
   "testselfsim.g",
+  "testmanual.g",
 ]
 do
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), name));

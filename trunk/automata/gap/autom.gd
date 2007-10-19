@@ -35,14 +35,14 @@ DeclareCategoryCollections("IsInvertibleAutom");
 ##  <fam>, or to which homomorphism <a> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
-##  gap> G:=AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
-##  < a, b >
-##  gap> F:=UnderlyingFreeGroup(G);
-##  <free group on the generators [ a, b ]>
-##  gap> c:=Autom(F.1*F.2^2,a);
-##  a*b^2
-##  gap> Decompose(c);
-##  (a*b^2, b*a^2)(1,2)
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> F := UnderlyingFreeGroup(L);
+##  <free group on the generators [ p, q ]>
+##  gap> r := Autom(F.1*F.2^2, p);
+##  p*q^2
+##  gap> Decompose(r);
+##  (p*q^2, q*p^2)(1,2)
 ##  \endexample
 ##
 DeclareOperation("Autom", [IsAssocWord, IsAutom]);

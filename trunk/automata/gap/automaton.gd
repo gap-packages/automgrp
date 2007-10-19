@@ -27,7 +27,7 @@ DeclareCategoryCollections("IsMealyAutomaton");
 #O  MealyAutomaton( <string> )
 #O  MealyAutomaton( <autom> )
 ##
-##  Creates a Mealy automaton (see "Short math background") defined by the <table>, <string> 
+##  Creates a Mealy automaton (see "Short math background") defined by the <table>, <string>
 ##  or <autom>. Format of the <table> is
 ##  the following: it is a list of states, where each state is a list of
 ##  positive integers which represent transition function at given state and a
@@ -38,23 +38,23 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  corresponds to <autom> itself.
 ##
 ##  \beginexample
-##  A:=MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
+##  gap> A := MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]], ["a","b","c"]);
 ##  <automaton>
-##  gap> Print(A);
+##  gap> Print(A, "\n");
 ##  a = (a, b)(1,2), b = (c, a), c = (c, c)(1,2)
 ##  gap> B:=MealyAutomaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
 ##  <automaton>
-##  gap> Print(B);
+##  gap> Print(B, "\n");
 ##  a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
-##  gap> D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
+##  gap> D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
 ##  <automaton>
-##
-##  gap> M:=MealyAutomaton(a*b*a*c);
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> M := MealyAutomaton(u*v*u^-3);
 ##  <automaton>
-##  gap> Print(M);
-##  a1 = (a2, a8), a2 = (a3, a5)(1,2), a3 = (a4, a4)
-##  (1,2), a4 = (a4, a4), a5 = (a4, a6), a6 = (a3, a7), a7 = (a3, a5), a8 = (a6, a4)
-##  (1,2)
+##  gap> Print(M, "\n");
+##  a1 = (a2, a5), a2 = (a3, a4), a3 = (a4, a2)(1,2), a4 = (a4, a4), a5 = (a6, a3)
+##  (1,2), a6 = (a7, a4), a7 = (a6, a4)(1,2)
 ##  \endexample
 ##
 DeclareOperation("MealyAutomaton", [IsList]);
@@ -129,9 +129,9 @@ DeclareAttribute( "AG_MinimizedAutomatonList", IsMealyAutomaton, "mutable" );
 ##
 ##  Returns an automaton obtained from automaton <A> by minimization.
 ##  \beginexample
-##  gap> B:=MealyAutomaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
+##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>
-##  gap> C:=MinimizationOfAutomaton(B);
+##  gap> C := MinimizationOfAutomaton(B);
 ##  <automaton>
 ##  gap> Print(C);
 ##  a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
@@ -149,9 +149,9 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##  `new_via_old' is how new states are expressed in terms of the old ones, and
 ##  `old_via_new' is how old states are expressed in terms of the new ones.
 ##  \beginexample
-##  gap> B:=MealyAutomaton("a=(1,a)(1,2),b=(1,a)(1,2),c=(a,b),d=(a,b)");
+##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>
-##  gap> B_min:=MinimizationOfAutomatonTrack(B);
+##  gap> B_min := MinimizationOfAutomatonTrack(B);
 ##  [ <automaton>, [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
 ##  gap> Print(B_min[1]);
 ##  a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
@@ -202,11 +202,11 @@ DeclareProperty("IsInvertible", IsMealyAutomaton);
 ##  See also `IsBounded' ("IsBounded") and
 ##  `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
 ##  \beginexample
-##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
 ##  <automaton>
 ##  gap> IsOfPolynomialGrowth(B);
 ##  true
-##  gap> D:=MealyAutomaton("a=(a,b)(1,2),b=(b,a)");
+##  gap> D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
 ##  <automaton>
 ##  gap> IsOfPolynomialGrowth(D);
 ##  false
@@ -224,11 +224,11 @@ DeclareProperty("IsOfPolynomialGrowth", IsMealyAutomaton);
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
 ##  \beginexample
-##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
 ##  <automaton>
 ##  gap> IsBounded(B);
 ##  true
-##  gap> C:=MealyAutomaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+##  gap> C := MealyAutomaton("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
 ##  <automaton>
 ##  gap> IsBounded(C);
 ##  false
@@ -249,11 +249,11 @@ DeclareProperty("IsBounded", IsMealyAutomaton);
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 ##  and `IsBounded' ("IsBounded").
 ##  \beginexample
-##  gap> B:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
 ##  <automaton>
 ##  gap> PolynomialDegreeOfGrowth(B);
 ##  0
-##  gap> C:=MealyAutomaton("a=(a,b)(1,2),b=(b,c),c=(c,1)(1,2)");
+##  gap> C := MealyAutomaton("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
 ##  <automaton>
 ##  gap> PolynomialDegreeOfGrowth(C);
 ##  2
@@ -268,9 +268,9 @@ DeclareAttribute("PolynomialDegreeOfGrowth", IsMealyAutomaton);
 ##
 ##  Returns an automaton dual to <A>.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(b,a)");
+##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
 ##  <automaton>
-##  gap> D:=DualAutomaton(A);
+##  gap> D := DualAutomaton(A);
 ##  <automaton>
 ##  gap> Print(D);
 ##  d1 = (d2, d1)[ 2, 2 ], d2 = (d1, d2)[ 1, 1 ]
@@ -285,9 +285,9 @@ DeclareOperation("DualAutomaton", [IsMealyAutomaton]);
 ##
 ##  Returns an automaton inverse to <A> if <A> is invertible.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(b,a)");
+##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
 ##  <automaton>
-##  gap> B:=InverseAutomaton(A);
+##  gap> B := InverseAutomaton(A);
 ##  <automaton>
 ##  gap> Print(B);
 ##  a1 = (a1, a2)(1,2), a2 = (a2, a1)
@@ -304,7 +304,7 @@ DeclareOperation("InverseAutomaton", [IsMealyAutomaton]);
 ##  dual to the inverse of <A> are invertible. The example below shows that the
 ##  Bellaterra automaton is bireversible.
 ##  \beginexample
-##  gap> Bellaterra:=MealyAutomaton("a=(c,c)(1,2),b=(a,b),c=(b,a)");
+##  gap> Bellaterra := MealyAutomaton("a=(c,c)(1,2), b=(a,b), c=(b,a)");
 ##  <automaton>
 ##  gap> IsBireversible(Bellaterra);
 ##  true
@@ -319,7 +319,7 @@ DeclareProperty("IsBireversible", IsMealyAutomaton);
 ##
 ##  Computes whether automaton <A> is equivalent to the trivial automaton.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(c,c),b=(a,b),c=(b,a)");
+##  gap> A := MealyAutomaton("a=(c,c), b=(a,b), c=(b,a)");
 ##  <automaton>
 ##  gap> IsTrivial(A);
 ##  true
@@ -334,12 +334,11 @@ DeclareProperty("IsTrivial", IsMealyAutomaton);
 ##
 ##  Constructs a disjoint union of automata <A> and <B>
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(a,b)(1,2),b=(a,b)");
+##  gap> A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");
 ##  <automaton>
-##  gap> B:=MealyAutomaton("c=(d,c),d=(c,e)(1,2),e=(e,d)");
+##  gap> B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
 ##  <automaton>
-##  gap> Print(DisjointUnion(A,B));
-##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)(1,2), a5 = (a5, a4)
+##  gap> Print(DisjointUnion(A, B));
 ##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)
 ##  (1,2), a5 = (a5, a4)
 ##  \endexample
@@ -355,11 +354,11 @@ DeclareOperation("DisjointUnion", [IsMealyAutomaton, IsMealyAutomaton]);
 ##  Returns `true' if for every state `s' of automaton <A> there is a state of automaton <B>
 ##  equivalent to `s' and vice versa.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(b,a)(1,2),b=(a,c)(),c=(b,c)(1,2)");
+##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(a,c), c=(b,c)(1,2)");
 ##  <automaton>
-##  gap> B:=MealyAutomaton("b=(a,c)(),c=(b,c)(1,2),a=(b,a)(1,2),d=(b,c)(1,2)");
+##  gap> B := MealyAutomaton("b=(a,c), c=(b,c)(1,2), a=(b,a)(1,2), d=(b,c)(1,2)");
 ##  <automaton>
-##  gap> IsEquivAutomata(A,B);
+##  gap> AreEquivalentAutomata(A, B);
 ##  true
 ##  \endexample
 ##
@@ -373,9 +372,9 @@ DeclareOperation("AreEquivalentAutomata", [IsMealyAutomaton, IsMealyAutomaton]);
 ##
 ##  Returns the minilal subautomaton of automaton <A> containing states <states>.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(e,d)(1,2),b=(c,c), c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
+##  gap> A := MealyAutomaton("a=(e,d)(1,2),b=(c,c),c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
 ##  <automaton>
-##  gap> Print(SubautomatonWithStates(A,[1,4]));
+##  gap> Print(SubautomatonWithStates(A, [1, 4]));
 ##  a = (e, d)(1,2), d = (a, e)(1,2), e = (e, d)
 ##  \endexample
 ##
@@ -391,7 +390,7 @@ DeclareOperation("SubautomatonWithStates", [IsMealyAutomaton, IsList]);
 ##  Returns the nucleus of automaton <A>, i.e. the minimal subautomaton
 ##  containing all cycles in <A>.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
+##  gap> A := MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
 ##  <automaton>
 ##  gap> Print(AutomatonNucleus(A));
 ##  b = (d, d), d = (d, b)(1,2)

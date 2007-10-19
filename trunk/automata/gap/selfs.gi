@@ -111,13 +111,15 @@ function(ver, g, n)
 end);
 
 
-InstallMethod(OrbitOfVertex, "for [IsString, IsTreeHomomorphism]", [IsString, IsTreeHomomorphism],
+InstallMethod(OrbitOfVertex, "for [IsString, IsTreeHomomorphism]",
+              [IsString, IsTreeHomomorphism],
 function(ver, g)
   return OrbitOfVertex(ver, g, infinity);
 end);
 
 
-InstallMethod(PrintOrbitOfVertex, "for [IsList, IsTreeHomomorphism, IsCyclotomic]", [IsString, IsTreeHomomorphism, IsCyclotomic],
+InstallMethod(PrintOrbitOfVertex, "for [IsList, IsTreeHomomorphism, IsCyclotomic]",
+             [IsList, IsTreeHomomorphism, IsCyclotomic],
 function(ver, w, n)
   local orb, i, j;
   orb := OrbitOfVertex(ver, w, n);
@@ -222,7 +224,7 @@ InstallGlobalFunction(IsOneWordContr, function(word, G)
 end);
 
 
-InstallGlobalFunction(IS_ONE_LIST, function(w, G)
+InstallGlobalFunction(AG_IsOneList, function(w, G)
   if IsList(G[1][1]) then return IsOneWordContr(w, G);
                      else return IsOneWordSelfSim(w, G);
   fi;
@@ -267,18 +269,18 @@ function(a)
 
   a_list := List(a_list_orig, i -> track_l[i]);
 
-  return IsOneWordContr(a_list, _ContractingTable(GroupOfAutomFamily(FamilyObj(a))));
+  return IsOneWordContr(a_list, AG_ContractingTable(GroupOfAutomFamily(FamilyObj(a))));
 end);
 
 
 ###############################################################################
 ##
-#M  IS_ONE_LIST(w, G)      (IsList, IsAutomGroup)
+#M  AG_IsOneList(w, G)      (IsList, IsAutomGroup)
 ##
-#InstallGlobalFunction(IS_ONE_LIST, 
+#InstallGlobalFunction(AG_IsOneList, 
 #function(w, G)
 #  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
-#    return IsOneWordContr(w, _ContractingTable(G));
+#    return IsOneWordContr(w, AG_ContractingTable(G));
 #  else
 #    return IsOneWordSelfSim(w, AG_MinimizedAutomatonList(G)[1]);
 #  fi;
@@ -286,43 +288,43 @@ end);
 
 
 
-InstallGlobalFunction(CHOOSE_AUTOMATON_LIST, 
+InstallGlobalFunction(AG_ChooseAutomatonList, 
 function(G)
   if HasIsContracting(G) and IsContracting(G) and UnderlyingAutomFamily(G)!.use_contraction then
-    return _ContractingTable(G);
+    return AG_ContractingTable(G);
   else
     return AG_MinimizedAutomatonList(G)[1];
   fi;
 end);
 
 
-InstallMethod(ORDER_OF_ELEMENT, "for [IsList, IsList, IsCyclotomic]", true,
+InstallMethod(AG_OrderOfElement, "for [IsList, IsList, IsCyclotomic]", true,
               [IsList, IsList, IsCyclotomic],
 function(v, G, size)
   local w, k;
   v := ReduceWord(v);
   w := StructuralCopy(v); k := 1;
   if Length(G[1]) = 3 then
-    while (not IS_ONE_LIST(w, G)) and k < size do
+    while (not AG_IsOneList(w, G)) and k < size do
       Append(w, w);
 #     Print(w, ";");
       k := 2*k;
     od;
   else
-    while (not IS_ONE_LIST(w, G)) and k < size do
+    while (not AG_IsOneList(w, G)) and k < size do
       Append(w, v);
 #     Print(w, ";");
       k := k+1;
     od;
   fi;
-  if IS_ONE_LIST(w, G) then return k; else return fail; fi;
+  if AG_IsOneList(w, G) then return k; else return fail; fi;
 end);
 
 
-InstallMethod(ORDER_OF_ELEMENT, "for [IsList, IsList, IsPosInt]", 
+InstallMethod(AG_OrderOfElement, "for [IsList, IsList, IsPosInt]",
               [IsList, IsList], 
 function(v, G)
-  return ORDER_OF_ELEMENT(v, G, infinity);
+  return AG_OrderOfElement(v, G, infinity);
 end);
 
 
@@ -629,7 +631,7 @@ function(H)
 ################ ContractingLevel itself #################################
 
   if not HasIsContracting(H) then
-    Info(InfoWarning, 1, "If  < H >  is not contracting, the algorithm will never stop");
+    Info(InfoAutomGrp, 1, "If  < H >  is not contracting, the algorithm will never stop");
   fi;
   return ContractingLevelLocal(AG_GeneratingSetWithNucleusAutom(H));
 end);
@@ -637,10 +639,10 @@ end);
 
 
 
-InstallMethod(_ContractingTable, "for [IsAutomGroup]", [IsAutomGroup],
+InstallMethod(AG_ContractingTable, "for [IsAutomGroup]", [IsAutomGroup],
 function(H)
-  local _ContractingTableLocal;
-  _ContractingTableLocal := function(G)
+  local AG_ContractingTableLocal;
+  AG_ContractingTableLocal := function(G)
     local lev, n, d, i, j, ContractingPair, Pairs, ContTable;
     ContractingPair := function(i, j)
       local l, k, t, PairAct, TmpList, g1, g2;
@@ -679,19 +681,19 @@ function(H)
     od;
     return ContTable;
   end;
-################ _ContractingTable itself #################################
+################ AG_ContractingTable itself #################################
 
   if not HasIsContracting(H) then
-    Info(InfoWarning, 1, "If  < H >  is not contracting, the algorithm will never stop");
+    Info(InfoAutomGrp, 1, "If  < H >  is not contracting, the algorithm will never stop");
   fi;
-  return _ContractingTableLocal(AG_GeneratingSetWithNucleusAutom(H));
+  return AG_ContractingTableLocal(AG_GeneratingSetWithNucleusAutom(H));
 end);
 
 
-InstallMethod(ContractingTable, "for [IsAutomGroup]", [IsAutomGroup], 
+InstallMethod(ContractingTable, "for [IsAutomGroup]", [IsAutomGroup],
 function(H)
   local T, i, j, k, deg, numstates;
-  T := StructuralCopy(_ContractingTable(H));
+  T := StructuralCopy(AG_ContractingTable(H));
   deg := Length(T[1][1])-1;
   numstates := Length(T);
   for i in [1..numstates] do
@@ -898,7 +900,7 @@ end);
 
 
 
-InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic, IsBool]", true, 
+InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic, IsBool]", true,
                                     [IsAutomatonGroup, IsCyclotomic, IsBool], 
 function(H, max_nucl, print_info)
   local G, g, Pairs, i, j, PairsToAdd, AssocWPairsToAdd, res, ContPairs, n, d, found, num, DoesPairContract, AddPairs, lev, maxlev, tmp, Nucl, IsElemInNucleus, 
@@ -995,9 +997,9 @@ function(H, max_nucl, print_info)
     n := Length(G);
 #    Print("n = ", n, "\n");
     if print_info = true then
-      Print("n = ", n, "\n");
+      Print("Trying generating set with ", n, " elements\n");
     else
-      Info(InfoAutomGrp, 3, "n = ", n);
+      Info(InfoAutomGrp, 3, "Trying generating set with ", n, " elements");
     fi;
     for i in [1..n] do
       Add(ContPairs, [1]);
@@ -1108,8 +1110,8 @@ end);
 
 
 
-InstallMethod(IsContracting, "for [IsAutomGroup]", true, 
-              [IsAutomGroup], 
+InstallMethod(IsContracting, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
 function(G)
   local res;
   if IsSelfSimilar(G) = false then
@@ -1143,9 +1145,17 @@ function(G)
 end);
 
 
+InstallMethod(GeneratingSetWithNucleusAutom, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
+function(G)
+  FindNucleus(G, false);
+  return GeneratingSetWithNucleusAutom(G);
+end);
 
-InstallMethod(AG_GeneratingSetWithNucleusAutom, "for [IsAutomGroup]", true, 
-              [IsAutomGroup], 
+
+
+InstallMethod(AG_GeneratingSetWithNucleusAutom, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
 function(G)
   FindNucleus(G, false);
   return AG_GeneratingSetWithNucleusAutom(G);
@@ -1161,7 +1171,7 @@ InstallGlobalFunction(InversePerm, function(G)
       j := 1; found := false;
       while j <= Length(G) and not found do
         #Print("[", i, ", ", j, "]\n");
-        if IS_ONE_LIST([i, j], G) then
+        if AG_IsOneList([i, j], G) then
           found := true;
           if i <> j then
             inv := inv*(i, j);
@@ -1187,7 +1197,7 @@ InstallGlobalFunction(AG_AutomPortraitMain, function(w)
     for i in [1..Length(G)] do
       tmpv := StructuralCopy(v);
       Add(tmpv, i);
-      if IS_ONE_LIST(tmpv, G) then
+      if AG_IsOneList(tmpv, G) then
         Add(bndry, [lev, nucl[i^inv]]);
         Add(plist, nucl[i^inv]);
         return;
@@ -1335,7 +1345,7 @@ function(G, max_len)
       od;
     od;
     Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
+    Print("There are ", Length(ElList), " elements of length up to ", len+1, "\n");
     len := len+1;
   od;
   if GrList[len] = GrList[len+1] then
@@ -1383,7 +1393,7 @@ function(H, size)
     for t in [1..Length(ElList)] do
       tmpv := StructuralCopy(v);
       Append(tmpv, inverse(ElList[t]));
-      if IS_ONE_LIST(tmpv, G) then return t; fi;
+      if AG_IsOneList(tmpv, G) then return t; fi;
     od;
   end;
 
@@ -1418,11 +1428,11 @@ function(H, size)
 #######################   _FiniteGroupId  itself #########################################
   gr := 1; len := 1;
 
-  G := CHOOSE_AUTOMATON_LIST(H);
+  G := AG_ChooseAutomatonList(H);
 
   inv := InversePerm(G);
   if not HasIsFinite(H) then
-    Info(InfoWarning, 2, "warning, if  < H >  is infinite the algorithm will never stop");
+    Info(InfoAutomGrp, 2, "warning, if  < H >  is infinite the algorithm will never stop");
   fi;
   GrList := [1, Length(G)];
   ElList := []; rels := [];
@@ -1441,7 +1451,7 @@ function(H, size)
           while New and k <= oldgr do
             tmpv := StructuralCopy(v);
             Append(tmpv, inverse(ElList[k]));
-            if IS_ONE_LIST(tmpv, G) then
+            if AG_IsOneList(tmpv, G) then
               New := false;
 ## show relations
               if IsNewRel(tmpv) then
@@ -1457,7 +1467,7 @@ function(H, size)
       od;
     od;
     Add(GrList, Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ", len+1, ": ", Length(ElList));
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
 
@@ -1567,7 +1577,7 @@ function(G, n)
       od;
     od;
     Add(GrList, Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ", len+1, ": ", Length(ElList));
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
 
@@ -1620,12 +1630,12 @@ InstallGlobalFunction(AG_IsOneWordSubs, function(w, subs, G)
   local i, v;
   v := [];
   for i in w do Append(v, subs[i]); od;
-  return IS_ONE_LIST(v, G);
+  return AG_IsOneList(v, G);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList and IsAutomCollection, IsList, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList, IsCyclotomic, IsCyclotomic]", true,
+              [IsList and IsAutomCollection, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words, names, max_len, num_of_rels)
   local G, gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindGroupRelationsLocal, gens_autom, i, j, subs, subs1, w_list, FindGroupRelationsSubsLocal, w_ext, w, automgens, numstates, F, cur_gen;
 
@@ -1661,7 +1671,7 @@ function(subs_words, names, max_len, num_of_rels)
       for t in [1..Length(ElList)] do
         tmpv := StructuralCopy(v);
         Append(tmpv, inverse(ElList[t]));
-        if IS_ONE_LIST(tmpv, G) then return t; fi;
+        if AG_IsOneList(tmpv, G) then return t; fi;
       od;
     end;
 
@@ -1699,7 +1709,7 @@ function(subs_words, names, max_len, num_of_rels)
     inv := InversePerm(G);
   #check if there are any identity elements in subs list
     for i in [1..Length(subs)] do
-      if IS_ONE_LIST(subs[i], G) then
+      if AG_IsOneList(subs[i], G) then
         Error(AssocW([i]), " = id, remove this element from a list and try again");
       fi;
     od;
@@ -1710,14 +1720,14 @@ function(subs_words, names, max_len, num_of_rels)
     invslist := [];
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
-        if i <> j and IS_ONE_LIST(Concatenation(subs[i], inverse(subs[j])), G) then
+        if i <> j and AG_IsOneList(Concatenation(subs[i], inverse(subs[j])), G) then
           Error(AssocW([i]), " = ", AssocW([j]), ", remove one of these elements from a list and try again");
         fi;
 
-  #      Print(IS_ONE_LIST(Append(StructuralCopy(subs[i]), subs[j]), G), "\n");
+  #      Print(AG_IsOneList(Append(StructuralCopy(subs[i]), subs[j]), G), "\n");
   #      Print(Concatenation(subs[i], subs[j]), "\n");
 
-        if IS_ONE_LIST(Concatenation(subs[i], subs[j]), G) then
+        if AG_IsOneList(Concatenation(subs[i], subs[j]), G) then
           invslist[i] := j; invslist[j] := i;
           Add(rels, [i, j]);
           Add(AssocWrels, AssocW([i, j]));
@@ -1781,7 +1791,7 @@ function(subs_words, names, max_len, num_of_rels)
       od;
       Add(GrList, Length(ElList)+1);
   #    Print("ElList[", len, "] = ", ElList, "\n");
-      Print("Length not greater than ", len+1, ": ", Length(ElList)+1, "\n");
+      Info(InfoAutomGrp,3,"There are ", Length(ElList) + 1, " elements of length up to ", len+1);
       len := len+1;
     od;
     return AssocWrels;
@@ -1829,30 +1839,30 @@ function(subs_words, names, max_len, num_of_rels)
 #  od;
 
 
-  rels := FindGroupRelationsSubsLocal(subs, CHOOSE_AUTOMATON_LIST(G));
+  rels := FindGroupRelationsSubsLocal(subs, AG_ChooseAutomatonList(G));
   if rels = fail then return fail; fi;
   Append(rels0, rels);
 #  Print(rels0);
   return rels0;
 end);
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList, IsCyclotomic]", true, 
-              [IsList and IsAutomCollection, IsList, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList, IsCyclotomic]", true,
+              [IsList and IsAutomCollection, IsList, IsCyclotomic],
 function(subs_words, names, max_len)
   return FindGroupRelations(subs_words, names, max_len, infinity);
 end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList]", 
-              [IsList and IsAutomCollection, IsList], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsList]",
+              [IsList and IsAutomCollection, IsList],
 function(subs_words, names)
   return FindGroupRelations(subs_words, names, infinity, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsAutomGroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsAutomGroup, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsAutomGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsAutomatonGroup, IsCyclotomic, IsCyclotomic],
 function(G, max_len, num_of_rels)
   local gens, Gi, H, rel, rels, rels0, k, track_s, track_l, AssocW, FindGroupRelationsLocal;
 
@@ -1890,7 +1900,7 @@ function(G, max_len, num_of_rels)
       for t in [1..Length(ElList)] do
         tmpv := StructuralCopy(v);
         Append(tmpv, inverse(ElList[t]));
-        if IS_ONE_LIST(tmpv, G) then return t; fi;
+        if AG_IsOneList(tmpv, G) then return t; fi;
       od;
     end;
 
@@ -1931,7 +1941,7 @@ function(G, max_len, num_of_rels)
     for i in [1..Length(subs)] do
       for j in [i..Length(subs)] do
 #        Print(AssocW([Gi[2][i+1], Gi[2][j+1]])!.word, "\n");
-        if IS_ONE_LIST(Concatenation(subs[i], subs[j]), G) then
+        if AG_IsOneList(Concatenation(subs[i], subs[j]), G) then
           invslist[i] := j; invslist[j] := i;
           if Length(AssocW([Gi[2][i+1], Gi[2][j+1]])!.word) > 0 then
             Add(rels, [i, j]);
@@ -1990,14 +2000,13 @@ function(G, max_len, num_of_rels)
       od;
       Add(GrList, Length(ElList)+1);
  #    Print("ElList[", len, "] = ", ElList, "\n");
-      Print("Length not greater than ", len+1, ": ", Length(ElList)+1, "\n");
+      Info(InfoAutomGrp, 3, "There are ", Length(ElList) + 1, " elements of length up to ", len + 1);
       len := len+1;
     od;
     return AssocWrels;
   end;
 
 #************************ FindGroupRelations itself ****************************************************
-  if not IsAutomatonGroup(G) then return FindGroupRelations(GeneratorsOfGroup(G), max_len, num_of_rels); fi;
 
   gens := ShallowCopy(UnderlyingAutomFamily(G)!.automgens);
 
@@ -2017,45 +2026,45 @@ function(G, max_len, num_of_rels)
 #  od;
 
 
-  rels := FindGroupRelationsLocal(List([2..Length(H)], i -> [i]), CHOOSE_AUTOMATON_LIST(G));
+  rels := FindGroupRelationsLocal(List([2..Length(H)], i -> [i]), AG_ChooseAutomatonList(G));
   Append(rels0, rels);
 #  Print(rels0);
   return rels0;
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsAutomGroup, IsCyclotomic]", true, 
-              [IsAutomGroup, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsAutomGroup, IsCyclotomic]", true,
+              [IsAutomatonGroup, IsCyclotomic],
 function(G, max_len)
   return FindGroupRelations(G, max_len, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsAutomGroup]", 
-              [IsAutomGroup], 
+InstallMethod(FindGroupRelations, "for [IsAutomGroup]",
+              [IsAutomatonGroup],
 function(G)
   return FindGroupRelations(G, infinity, infinity);
 end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList and IsAutomCollection, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsCyclotomic, IsCyclotomic]", true,
+              [IsList and IsAutomCollection, IsCyclotomic, IsCyclotomic],
 function(subs_words, max_len, num_of_rels)
   return FindGroupRelations(GroupWithGenerators(subs_words), max_len, infinity);
 end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsCyclotomic]", true, 
-              [IsList and IsAutomCollection, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection, IsCyclotomic]", true,
+              [IsList and IsAutomCollection, IsCyclotomic],
 function(subs_words, max_len)
   return FindGroupRelations(subs_words, max_len, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection]", 
-              [IsList and IsAutomCollection], 
+InstallMethod(FindGroupRelations, "for [IsList and IsAutomCollection]",
+              [IsList and IsAutomCollection],
 function(subs_words)
   return FindGroupRelations(subs_words, infinity, infinity);
 end);
@@ -2063,8 +2072,8 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsGroup, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsGroup, IsCyclotomic, IsCyclotomic],
 function(G, max_len, num_of_rels)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, rels, rel, F, relsF, ElListF, genf, f, fgens, all_relsF, rel1, new_rel, r, orig_fgens, \
         IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom, FGhom_images, FGhom, ElList_inv, inv_gens, cur_rel;
@@ -2221,7 +2230,7 @@ function(G, max_len, num_of_rels)
       od;
     od;
     Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   if GrList[len] = GrList[len+1] then
@@ -2233,15 +2242,15 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic]", true, 
-              [IsGroup, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsGroup, IsCyclotomic]", true,
+              [IsGroup, IsCyclotomic],
 function(G, max_len)
   return FindGroupRelations(G, max_len, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsGroup]", 
-              [IsGroup], 
+InstallMethod(FindGroupRelations, "for [IsGroup]",
+              [IsGroup],
 function(G)
   return FindGroupRelations(G, infinity, infinity);
 end);
@@ -2249,23 +2258,23 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList, IsCyclotomic, IsCyclotomic]", true,
+              [IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words, max_len, num_of_rels)
   return FindGroupRelations(GroupWithGenerators(subs_words), max_len, infinity);
 end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList, IsCyclotomic]", true, 
-              [IsList, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList, IsCyclotomic]", true,
+              [IsList, IsCyclotomic],
 function(subs_words, max_len)
   return FindGroupRelations(subs_words, max_len, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsList]", 
-              [IsList], 
+InstallMethod(FindGroupRelations, "for [IsList]",
+              [IsList],
 function(subs_words)
   return FindGroupRelations(subs_words, infinity, infinity);
 end);
@@ -2274,8 +2283,8 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList, IsList, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList, IsList, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList, IsList, IsCyclotomic, IsCyclotomic]", true,
+              [IsList, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words, names, max_len, num_of_rels)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, rel, F, relsF, ElListF, genf, f, fgens, all_relsF, rel1, new_rel, r, orig_fgens, \
         IsNewRel, CyclicConjugates, ngens, FFhom_images, FFhom;
@@ -2404,7 +2413,7 @@ function(subs_words, names, max_len, num_of_rels)
       od;
     od;
     Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   return relsF;
@@ -2412,129 +2421,129 @@ end);
 
 
 
-InstallMethod(FindGroupRelations, "for [IsList, IsList, IsCyclotomic]", true, 
-              [IsList, IsList, IsCyclotomic], 
+InstallMethod(FindGroupRelations, "for [IsList, IsList, IsCyclotomic]", true,
+              [IsList, IsList, IsCyclotomic],
 function(subs_words, names, max_len)
   return FindGroupRelations(subs_words, names, max_len, infinity);
 end);
 
 
-InstallMethod(FindGroupRelations, "for [IsList, IsList]", true, 
-              [IsList, IsList], 
+InstallMethod(FindGroupRelations, "for [IsList, IsList]", true,
+              [IsList, IsList],
 function(subs_words, names)
   return FindGroupRelations(subs_words, names, infinity, infinity);
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsAutomSemigroup, IsCyclotomic, IsCyclotomic], 
-function(G, max_len, num_of_rels)
-  local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, has_one, rels, rel;
-
-  orig_gens := ShallowCopy(GeneratorsOfSemigroup(G));
-
-  gens := [];
-  rels := [];
-  has_one := false;
-
-# select pairwise different generators
-  for i in [1..Length(orig_gens)] do
-    if not IsOne(orig_gens[i]) then
-      new_gen := true;
-      for j in [1..i-1] do
-        if orig_gens[i] = orig_gens[j] then
-          new_gen := false;
-          if not Word(orig_gens[i]) = Word(orig_gens[j]) then
-            Add(rels, [orig_gens[i], orig_gens[j]]);
-          fi;
-          break;
-        fi;
-      od;
-      if new_gen then Add(gens, orig_gens[i]); fi;
-    else
-      if not Word(orig_gens[i]) = Word(One(orig_gens[i])) then
-        Add(rels, [orig_gens[i], One(orig_gens[i])]);
-      fi;
-      has_one := true;
-    fi;
-  od;
-
-  if has_one then
-    ElList := [One(G)];
-    GrList := [1];
-  else
-    ElList := [];
-    GrList := [0];
-  fi;
-
-  Append(ElList, ShallowCopy(gens));
-  Add(GrList, Length(gens)+GrList[1]);
-  len := 1;
-
-  while GrList[len] <> GrList[len+1] and len < max_len and Length(rels) < num_of_rels  do
-    for i in [GrList[len]+1..GrList[len+1]] do
-      oldgr := Length(ElList);
-      for gen in gens do
-        g := ElList[i]*gen;
-        New := true;
-
-#        Print("g = ", g, "\n");
-#        Print("rels = ", rels, "\n");
-
-# If g includes a longer part of some relation it can not represent
-# neither a new element, nor be involved in a new relation
-
-        for rel in rels do
-          if PositionWord(Word(g), Word(rel[1]), 1) <> fail then New := false; fi;
-        od;
-
-#        Print("New el/rel:", New, "\n");
-        if New then
-
-          k := 0;
-          while New and k < Length(ElList) do
-            k := k+1;
-            if g = ElList[k] then
-              New := false;
-            fi;
-          od;
-#          Print("New el:", New, "\n");
-          if New then
-            Add(ElList, g);
-          else
-            if not Word(g) = Word(ElList[k]) then
-              Add(rels, [g, ElList[k]]);
-              Print( g, " = ", ElList[k], "\n");
-            fi;
-          fi;
-        fi;
-#        Print("\n\n\n");
-      od;
-    od;
-    Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
-    len := len+1;
-  od;
-  if GrList[len] = GrList[len+1] then
-    SetSize(G, GrList[len]);
-  fi;
-  return rels;
-end);
-
-
-
-InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic]", true, 
-              [IsAutomSemigroup, IsCyclotomic], 
-function(G, max_len)
-  return FindSemigroupRelations(G, max_len, infinity);
-end);
-
-
-InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
-function(G)
-  return FindSemigroupRelations(G, infinity, infinity);
-end);
+# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic, IsCyclotomic]", true,
+#               [IsAutomSemigroup, IsCyclotomic, IsCyclotomic],
+# function(G, max_len, num_of_rels)
+#   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, has_one, rels, rel;
+# 
+#   orig_gens := ShallowCopy(GeneratorsOfSemigroup(G));
+# 
+#   gens := [];
+#   rels := [];
+#   has_one := false;
+# 
+# # select pairwise different generators
+#   for i in [1..Length(orig_gens)] do
+#     if not IsOne(orig_gens[i]) then
+#       new_gen := true;
+#       for j in [1..i-1] do
+#         if orig_gens[i] = orig_gens[j] then
+#           new_gen := false;
+#           if not Word(orig_gens[i]) = Word(orig_gens[j]) then
+#             Add(rels, [orig_gens[i], orig_gens[j]]);
+#           fi;
+#           break;
+#         fi;
+#       od;
+#       if new_gen then Add(gens, orig_gens[i]); fi;
+#     else
+#       if not Word(orig_gens[i]) = Word(One(orig_gens[i])) then
+#         Add(rels, [orig_gens[i], One(orig_gens[i])]);
+#       fi;
+#       has_one := true;
+#     fi;
+#   od;
+# 
+#   if has_one then
+#     ElList := [One(G)];
+#     GrList := [1];
+#   else
+#     ElList := [];
+#     GrList := [0];
+#   fi;
+# 
+#   Append(ElList, ShallowCopy(gens));
+#   Add(GrList, Length(gens)+GrList[1]);
+#   len := 1;
+# 
+#   while GrList[len] <> GrList[len+1] and len < max_len and Length(rels) < num_of_rels  do
+#     for i in [GrList[len]+1..GrList[len+1]] do
+#       oldgr := Length(ElList);
+#       for gen in gens do
+#         g := ElList[i]*gen;
+#         New := true;
+# 
+# #        Print("g = ", g, "\n");
+# #        Print("rels = ", rels, "\n");
+# 
+# # If g includes a longer part of some relation it can not represent
+# # neither a new element, nor be involved in a new relation
+# 
+#         for rel in rels do
+#           if PositionWord(Word(g), Word(rel[1]), 1) <> fail then New := false; fi;
+#         od;
+# 
+# #        Print("New el/rel:", New, "\n");
+#         if New then
+# 
+#           k := 0;
+#           while New and k < Length(ElList) do
+#             k := k+1;
+#             if g = ElList[k] then
+#               New := false;
+#             fi;
+#           od;
+# #          Print("New el:", New, "\n");
+#           if New then
+#             Add(ElList, g);
+#           else
+#             if not Word(g) = Word(ElList[k]) then
+#               Add(rels, [g, ElList[k]]);
+#               Print( g, " = ", ElList[k], "\n");
+#             fi;
+#           fi;
+#         fi;
+# #        Print("\n\n\n");
+#       od;
+#     od;
+#     Add(GrList, Length(ElList));
+#     Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
+#     len := len+1;
+#   od;
+#   if GrList[len] = GrList[len+1] then
+#     SetSize(G, GrList[len]);
+#   fi;
+#   return rels;
+# end);
+# 
+# 
+# 
+# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic]", true, 
+#               [IsAutomSemigroup, IsCyclotomic], 
+# function(G, max_len)
+#   return FindSemigroupRelations(G, max_len, infinity);
+# end);
+# 
+# 
+# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup]", 
+#               [IsAutomSemigroup],
+# function(G)
+#   return FindSemigroupRelations(G, infinity, infinity);
+# end);
 
 
 
@@ -2629,7 +2638,7 @@ function(G, max_len, num_of_rels)
       od;
     od;
     Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   if GrList[len] = GrList[len+1] then
@@ -2639,14 +2648,14 @@ function(G, max_len, num_of_rels)
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsSemigroup, IsCyclotomic]", true, 
-              [IsSemigroup, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsSemigroup, IsCyclotomic]", true,
+              [IsSemigroup, IsCyclotomic],
 function(G, max_len)
   return FindSemigroupRelations(G, max_len, infinity);
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsSemigroup]", 
+InstallMethod(FindSemigroupRelations, "for [IsSemigroup]",
               [IsSemigroup],
 function(G)
   return FindSemigroupRelations(G, infinity, infinity);
@@ -2654,31 +2663,31 @@ end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsList, IsCyclotomic, IsCyclotomic]", true,
+              [IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words, max_len, num_of_rels)
   return FindSemigroupRelations(SemigroupByGenerators(subs_words), max_len, num_of_rels);
 end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList, IsCyclotomic]", true, 
-              [IsList, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsList, IsCyclotomic]", true,
+              [IsList, IsCyclotomic],
 function(subs_words, max_len)
   return FindSemigroupRelations(subs_words, max_len, infinity);
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList]", 
-              [IsList], 
+InstallMethod(FindSemigroupRelations, "for [IsList]",
+              [IsList],
 function(subs_words)
   return FindSemigroupRelations(subs_words, infinity, infinity);
 end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList, IsList, IsCyclotomic, IsCyclotomic]", true, 
-              [IsList, IsList, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsList, IsList, IsCyclotomic, IsCyclotomic]", true,
+              [IsList, IsList, IsCyclotomic, IsCyclotomic],
 function(subs_words, names, max_len, num_of_rels)
   local ElList, GrList, i, j, orig_gens, orig_fgens, gen, gens, fgens, new_gen, g, len, oldgr, New, k, has_one, rel, F, relsF, ElListF, genf, f;
 
@@ -2770,7 +2779,7 @@ function(subs_words, names, max_len, num_of_rels)
       od;
     od;
     Add(GrList, Length(ElList));
-    Print("Length not greater than ", len+1, ": ", Length(ElList), "\n");
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   return relsF;
@@ -2778,15 +2787,15 @@ end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList, IsList, IsCyclotomic]", true, 
-              [IsList, IsList, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsList, IsList, IsCyclotomic]", true,
+              [IsList, IsList, IsCyclotomic],
 function(subs_words, names, max_len)
   return FindSemigroupRelations(subs_words, names, max_len, infinity);
 end);
 
 
-InstallMethod(FindSemigroupRelations, "for [IsList, IsList]", true, 
-              [IsList, IsList], 
+InstallMethod(FindSemigroupRelations, "for [IsList, IsList]", true,
+              [IsList, IsList],
 function(subs_words, names)
   return FindSemigroupRelations(subs_words, names, infinity, infinity);
 end);
@@ -2794,8 +2803,8 @@ end);
 
 
 
-InstallMethod(OrderUsingSections, "for [IsAutom, IsCyclotomic]", true, 
-              [IsAutom, IsCyclotomic], 
+InstallMethod(OrderUsingSections, "for [IsAutom, IsCyclotomic]", true,
+              [IsAutom, IsCyclotomic],
 function(a, max_depth)
   local OrderUsingSections_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
 
@@ -3001,7 +3010,7 @@ function(G, func, val, n)
       od;
     od;
     Add(GrList, Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ", len+1, ": ", Length(ElList));
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   if GrList[len] = GrList[len+1] then
@@ -3062,7 +3071,7 @@ function(G, func, val, n)
       od;
     od;
     Add(GrList, Length(ElList));
-    Info(InfoAutomGrp, 3, "Length not greater than ", len+1, ": ", Length(ElList));
+    Info(InfoAutomGrp, 3, "There are ", Length(ElList), " elements of length up to ", len+1);
     len := len+1;
   od;
   if GrList[len] = GrList[len+1] then

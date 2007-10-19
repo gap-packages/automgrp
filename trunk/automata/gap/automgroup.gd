@@ -54,13 +54,13 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  when the group was created.
 ##
 ##  \beginexample
-##  gap> AutomatonGroup("a = (a, b), b = (a, b)(1,2)");
+##  gap> AutomatonGroup("a=(a,b), b=(a, b)(1,2)");
 ##  < a, b >
-##  gap> AutomatonGroup("a=(b, a, 1)(2,3), b=(1, a, b)(1,2,3)");
+##  gap> AutomatonGroup("a=(b,a,1)(2,3), b=(1,a,b)(1,2,3)");
 ##  < a, b >
-##  gap> A:=MealyAutomaton("a=(b,1)(1,2),b=(a,1)");
+##  gap> A := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
 ##  <automaton>
-##  gap> G:=AutomatonGroup(A);
+##  gap> G := AutomatonGroup(A);
 ##  < a, b >
 ##  \endexample
 ##
@@ -75,6 +75,7 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  gap> AutomatonGroup("t = (1, t)(1,2)", false);;
 ##  gap> t;
 ##  Variable: 't' must have a value
+##
 ##  gap> AutomatonGroup("t = (1, t)(1,2)", true);;
 ##  gap> t;
 ##  t

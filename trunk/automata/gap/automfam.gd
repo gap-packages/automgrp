@@ -62,7 +62,9 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 ##  This function constructs a self-similar group, which encodes this action. If
 ##  <k> is not given it is assumed to be $2$.
 ##  \beginexample
-##  gap> S:=DiagonalAction(UnderlyingAutomFamily(Basilica));
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> S := DiagonalAction(UnderlyingAutomFamily(Basilica));
 ##  < uu, uv, u1, vu, vv, v1, 1u, 1v >
 ##  gap> Decompose(uu);
 ##  (vv, v1, 1v, 1)(1,4)(2,3)

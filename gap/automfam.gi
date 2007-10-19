@@ -234,7 +234,7 @@ end);
 ##
 #M  AutomFamily(<list>)
 ##
-InstallMethod(AutomFamily, "method for IsList", [IsList],
+InstallMethod(AutomFamily, "for [IsList]", [IsList],
 function(list)
   return AutomFamily(list, false);
 end);
@@ -244,7 +244,7 @@ end);
 ##
 #M  AutomFamily(<list>, <bind_vars>)
 ##
-InstallMethod(AutomFamily, "method for IsList, IsBool", [IsList, IsBool],
+InstallMethod(AutomFamily, "for [IsList, IsBool]", [IsList, IsBool],
 function(list, bind_vars)
   if not AG_IsCorrectAutomatonList(list, false) then
     Error("in AutomFamily(IsList):\n",
@@ -277,7 +277,7 @@ end);
 ##
 #M  DualAutomFamily(<fam>)
 ##
-InstallMethod(DualAutomFamily, "method for IsAutomFamily",
+InstallMethod(DualAutomFamily, "for [IsAutomFamily]",
               [IsAutomFamily],
 function(fam)
   local list, dual;

@@ -18,8 +18,10 @@
 ##  forever. See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> GroupNucleus(Basilica);
-##  [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
+##  [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
 ##  \endexample
 ##
 DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
@@ -37,8 +39,10 @@ DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
 ##  See also `GroupNucleus' ("GroupNucleus").
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> GeneratingSetWithNucleus(Basilica);
-##  [ e, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
+##  [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
 ##  \endexample
 ##
 DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable" );
@@ -51,6 +55,8 @@ DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable"
 ##  Computes automaton of the generating set that includes nucleus of the contracting group <G>.
 ##  See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> B_autom := GeneratingSetWithNucleusAutom(Basilica);
 ##  <automaton>
 ##  gap> Print(B_autom);
@@ -60,6 +66,7 @@ DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable"
 ##
 DeclareAttribute( "GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "mutable" );
 DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "mutable" );
+# the second attribute stores the list of automaton
 
 
 ######################################################################################
@@ -76,6 +83,8 @@ DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
 ##  gap> ContractingLevel(GrigorchukGroup);
 ##  1
 ##  gap> ContractingLevel(Basilica);
@@ -102,6 +111,8 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
 ##  gap> ContractingTable(GrigorchukGroup);
 ##  [ [ (1, 1), (1, 1)(1,2), (a, c), (a, d), (1, b) ],
 ##    [ (1, 1)(1,2), (1, 1), (c, a)(1,2), (d, a)(1,2), (b, 1)(1,2) ],
@@ -111,7 +122,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##  \endexample
 ##
 DeclareAttribute( "ContractingTable", IsTreeAutomorphismGroup, "mutable" );
-DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
+DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 
 ################################################################################
 ##
@@ -127,47 +138,51 @@ DeclareAttribute( "_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  the decision on which algorithm to use is left to the user. To use the
 ##  exponential algorithm one can use the second operation `DoNotUseContraction'(<G>).
 ##
-##  Below we provide an example which shows that both methods can be of use.
-##  %notest
-##  \beginexample
-##  gap> G := AutomatonGroup("a=(b,b)(1,2),b=(c,a),c=(a,a)");;
-##  gap> IsContracting(G);
-##  true
-##  gap> Length(GroupNucleus(G));
-##  41
-##  gap> Order(a); Order(b); Order(c);
-##  2
-##  2
-##  2
-##  gap> UseContraction(G);
-##  true
-##  gap> H := Group(a*b,b*c);;
-##  gap> St2 := StabilizerOfLevel(H,2);time;
-##  < b*c*b*c, b^-1*a^-1*b*c*b^-1*a^-1*c^-1*b^-1, a*b*a*b*a*b*a*b, a*b^2*c*a*b*c^-1*b^
-##  -1, a*b^2*c*b*c*b^-1*a^-1, b*c*a*b^2*c*a*b, b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^
-##  -1, a*b*a*b^2*c*a*b*c^-1*b^-2*a^-1, a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1 >
-##  741
-##  gap> IsAbelian(St2);time;
-##  true
-##  11977
-##  gap> DoNotUseContraction(G);
-##  true
-##  gap> H := Group(a*b,b*c);
-##  gap> St2 := StabilizerOfLevel(H,2);;time;
-##  240
-##  gap> IsAbelian(St2);time;
-##  true
-##  542060
-##  \endexample
-##  Here we show that the group <G> is virtually abelian. First we check that the group
-##  is contracting. Then we see that the size of the nucleus is 41. Since all of generators have
-##  order 2, the subgroup $H = \langle ab,bc \rangle$ has index 2 in <G>. Now we compute
-##  the stabilizer of the second level in $H$ and verify, that it is abelian by 2 methods:
-##  with and without using the contraction. We see, that the time required to compute the stabilizer
-##  is approximately the same in both methods, while verification of commutativity works much faster
-##  with contraction. Here it was enough to consider the first level stabilizer, but the difference
-##  in performance of two methods is better seen for the second level stabilizer.
-##
+#  XXX   The example below is obsolete. Need new example!
+#  Below we provide an example which shows that both methods can be of use.
+#  %notest
+#  \beginexample
+#  gap> G := AutomatonGroup("a=(b,b)(1,2), b=(c,a), c=(a,a)");
+#  < a, b, c >
+#  gap> IsContracting(G);
+#  true
+#  gap> Size(GroupNucleus(G));
+#  41
+#  gap> Order(a); Order(b); Order(c);
+#  2
+#  2
+#  2
+#  gap> UseContraction(G);
+#  true
+#  gap> H := Group(a*b, b*c);
+#  < a*b, b*c >
+#  gap> St2 := StabilizerOfLevel(H, 2); time;
+#  < b*c*b*c, b^-1*a^-1*b*c*b^-1*a^-1*c^-1*b^-1, a*b*a*b*a*b*a*b, a*b^2*c*a*b*c^-1*b^
+#  -1, a*b^2*c*b*c*b^-1*a^-1, b*c*a*b^2*c*a*b, b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^
+#  -1, a*b*a*b^2*c*a*b*c^-1*b^-2*a^-1, a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1 >
+#  741
+#  gap> IsAbelian(St2); time;
+#  true
+#  11977
+#  gap> DoNotUseContraction(G);
+#  true
+#  gap> H := Group(a*b, b*c);
+#  < a*b, b*c >
+#  gap> St2 := StabilizerOfLevel(H, 2);; time;
+#  240
+#  gap> IsAbelian(St2); time;
+#  true
+#  542060
+#  \endexample
+#  Here we show that the group <G> is virtually abelian. First we check that the group
+#  is contracting. Then we see that the size of the nucleus is 41. Since all of generators have
+#  order 2, the subgroup $H = \langle ab,bc \rangle$ has index 2 in <G>. Now we compute
+#  the stabilizer of the second level in $H$ and verify, that it is abelian by 2 methods:
+#  with and without using the contraction. We see, that the time required to compute the stabilizer
+#  is approximately the same in both methods, while verification of commutativity works much faster
+#  with contraction. Here it was enough to consider the first level stabilizer, but the difference
+#  in performance of two methods is better seen for the second level stabilizer.
+#
 DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
 DeclareOperation( "DoNotUseContraction", [IsTreeAutomorphismGroup]);
 
@@ -240,14 +255,15 @@ DeclareGlobalFunction("WordActionOnVertex");
 ##  strings containing characters $1,\ldots,d$, where $d$
 ##  is the degree of the tree.
 ##  \beginexample
-##  gap> g := AutomatonGroup("t=(1,t)(1,2)");;
-##  gap> OrbitOfVertex([1,1,1],t);
-##  [ [ 1, 1, 1 ], [ 2, 1, 1 ], [ 1, 2, 1 ], [ 2, 2, 1 ], [ 1, 1, 2 ], [ 2, 1, 2 ],
-##  [ 1, 2, 2 ], [ 2, 2, 2 ] ]
-##  gap> OrbitOfVertex("111111111111",t,6);
-##  [ [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-##  [ 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-##  [ 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ] ]
+##  gap> T := AutomatonGroup("t=(1,t)(1,2)");
+##  < t >
+##  gap> OrbitOfVertex([1,1,1], t);
+##  [ [ 1, 1, 1 ], [ 2, 1, 1 ], [ 1, 2, 1 ], [ 2, 2, 1 ], [ 1, 1, 2 ],
+##    [ 2, 1, 2 ], [ 1, 2, 2 ], [ 2, 2, 2 ] ]
+##  gap> OrbitOfVertex("11111111111", t, 6);
+##  [ [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+##    [ 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+##    [ 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1 ] ]
 ##  \endexample
 ##
 DeclareOperation("OrbitOfVertex",[IsList, IsTreeHomomorphism]);
@@ -266,15 +282,18 @@ DeclareOperation("OrbitOfVertex",[IsList, IsTreeHomomorphism, IsCyclotomic]);
 ##  Vertices are defined either as lists with entries from $\{1,\ldots,d\}$, or as
 ##  strings. See also `OrbitOfVertex' ("OrbitOfVertex").
 ##  \beginexample
-##  gap> PrintOrbitOfVertex("2222222222222222222222222222222",a*b^-2,6);
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> PrintOrbitOfVertex("2222222222222222222222222222222", p*q^-2, 6);
 ##  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-##
-##  x x x x x x x x x x x x x x x x
-##   xx  xx  xx  xx  xx  xx  xx  xx
-##  xxx xxx xxx xxx xxx xxx xxx xxx
-##     xxxx    xxxx    xxxx    xxxx
-##  gap> H := AutomatonGroup("t=(s,1,1)(1,2,3),s=(t,s,t)(1,2)");;
-##  gap> PrintOrbitOfVertex([1,2,1],s^2);
+##   x x x x x x x x x x x x x x x
+##  x  xx  xx  xx  xx  xx  xx  xx
+##     x   x   x   x   x   x   x
+##  xxx    xxxx    xxxx    xxxx
+##   x     x x     x x     x x
+##  gap> H := AutomatonGroup("t=(s,1,1)(1,2,3), s=(t,s,t)(1,2)");
+##  < t, s >
+##  gap> PrintOrbitOfVertex([1,2,1], s^2);
 ##  121
 ##  132
 ##  123
@@ -307,12 +326,12 @@ DeclareGlobalFunction("IsOneWordContr");
 
 ################################################################################
 ##
-#F  IS_ONE_LIST ( <w>, <G> )
+#F  AG_IsOneList ( <w>, <G> )
 ##
 ##  Checks if the word <w> is trivial in a self-similar group <G> (chooses appropriate
 ##  algorithm).
 ##
-DeclareGlobalFunction("IS_ONE_LIST");
+DeclareGlobalFunction("AG_IsOneList");
 
 
 ###############################################################################
@@ -327,22 +346,22 @@ DeclareGlobalFunction("IsOneContr");
 
 ###############################################################################
 ##
-#F  CHOOSE_AUTOMATON_LIST( <G> )
+#F  AG_ChooseAutomatonList( <G> )
 ##
 ##  Chooses appropriate representation for <G>.
 ##
 
-DeclareGlobalFunction("CHOOSE_AUTOMATON_LIST");
+DeclareGlobalFunction("AG_ChooseAutomatonList");
 
 
 ################################################################################
 ##
-#O  ORDER_OF_ELEMENT( <a>, <G>, <max_order> )
+#O  AG_OrderOfElement( <a>, <G>, <max_order> )
 ##
 ##  Tries to find the order of an element <a>. Checks up to order size <max_order>
 ##
-DeclareOperation("ORDER_OF_ELEMENT",[IsList,IsList]);
-DeclareOperation("ORDER_OF_ELEMENT",[IsList,IsList,IsCyclotomic]);
+DeclareOperation("AG_OrderOfElement",[IsList,IsList]);
+DeclareOperation("AG_OrderOfElement",[IsList,IsList,IsCyclotomic]);
 
 
 
@@ -408,9 +427,9 @@ DeclareGlobalFunction("GeneratorActionOnLevel");
 ##  <deg> returns the permutation induced by <perm> on a smaller level
 ##  <sm_lev>.
 ##  \beginexample
-##  gap> PermActionOnLevel((1,4,2,3),2,1,2);
+##  gap> PermActionOnLevel((1,4,2,3), 2, 1, 2);
 ##  (1,2)
-##  gap> PermActionOnLevel((1,13,5,9,3,15,7,11)(2,14,6,10,4,16,8,12),4,2,2);
+##  gap> PermActionOnLevel((1,13,5,9,3,15,7,11)(2,14,6,10,4,16,8,12), 4, 2, 2);
 ##  (1,4,2,3)
 ##  \endexample
 ##
@@ -451,7 +470,9 @@ DeclareGlobalFunction("AG_GeneratorActionOnLevelAsMatrix");
 ##
 ##  Computes the action of the element <g> on the <lev>-th level as a permutational matrix.
 ##  \beginexample
-##  gap> PermOnLevelAsMatrix(a*b,2);
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> PermOnLevelAsMatrix(p*q, 2);
 ##  [ [ 0, 0, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 1, 0, 0 ], [ 1, 0, 0, 0 ] ]
 ##  \endexample
 DeclareGlobalFunction("PermOnLevelAsMatrix");
@@ -523,16 +544,21 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##  If <max_nucl> is given stops after finding <max_nucl> elements that need to be in
 ##  the nucleus and returns `fail' if the nucleus was not found.
 ##
-##  An optional argument <print_info> is a boolean telling whether to print results of 
+##  An optional argument <print_info> is a boolean telling whether to print results of
 ##  intermediate computations. The default value is `true'.
 ##
 ##  Use `IsNoncontracting'~(see "IsNoncontracting") to try to show that <G> is
 ##  noncontracting.
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> FindNucleus(Basilica);
-##  [ [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ], [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ]
-##      , <automaton> ]
+##  Trying generating set with 5 elements
+##  Elements added:[ u^-1*v, v^-1*u ]
+##  Trying generating set with 7 elements
+##  [ [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ],
+##    [ 1, u, v, u^-1, v^-1, u^-1*v, v^-1*u ], <automaton> ]
 ##  \endexample
 ##
 DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar]);
@@ -581,15 +607,18 @@ DeclareGlobalFunction("InversePerm");
 ##  level such that all sections of <a> at this level belong to the nucleus of $G$.
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup("u=(v,1)(1,2), v=(u,1)");
+##  < u, v >
 ##  gap> AutomPortrait(u^3*v^-2*u);
 ##  [ (), [ (), [ (), [ v ], [ v ] ], [ 1 ] ],
 ##    [ (), [ (), [ v ], [ u^-1*v ] ], [ v^-1 ] ] ]
 ##  gap> AutomPortrait(u^3*v^-2*u^3);
 ##  [ (), [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ v ] ], [ 1 ] ],
-##    [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ u^-1*v ] ], [ v^-1 ] ] ]
+##    [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ u^-1*v ] ], [ v^-1 ]
+##       ] ]
 ##  gap> AutomPortraitBoundary(u^3*v^-2*u^3);
-##  [ [ 5, v ], [ 5, v ], [ 4, 1 ], [ 3, v ], [ 2, 1 ], [ 5, v ], [ 5, v ], [ 4, 1 ],
-##    [ 3, u^-1*v ], [ 2, v^-1 ] ]
+##  [ [ 5, v ], [ 5, v ], [ 4, 1 ], [ 3, v ], [ 2, 1 ], [ 5, v ], [ 5, v ],
+##    [ 4, 1 ], [ 3, u^-1*v ], [ 2, v^-1 ] ]
 ##  gap> AutomPortraitDepth(u^3*v^-2*u^3);
 ##  5
 ##  \endexample
@@ -625,15 +654,17 @@ DeclareGlobalFunction("AutomPortraitDepth");
 ##  If <G> is a monoid it computes the growth function at $\{0,1,\ldots,<max_len>\}$,
 ##  and for a semigroup without identity at $\{0,1,\ldots,<max_len>\}$.
 ##  \beginexample
-##  gap> Growth(GrigorchukGroup,7);
-##  #I  Length not greater than 2: 11
-##  #I  Length not greater than 3: 23
-##  #I  Length not greater than 4: 40
-##  #I  Length not greater than 5: 68
-##  #I  Length not greater than 6: 108
-##  #I  Length not greater than 7: 176
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> Growth(GrigorchukGroup, 7);
+##  There are 11 elements of length up to 2
+##  There are 23 elements of length up to 3
+##  There are 40 elements of length up to 4
+##  There are 68 elements of length up to 5
+##  There are 108 elements of length up to 6
+##  There are 176 elements of length up to 7
 ##  [ 1, 5, 11, 23, 40, 68, 108, 176 ]
-##  gap> H := AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
+##  gap> H := AutomatonSemigroup("a=(a,b)[1,1], b=(b,a)(1,2)");
 ##  < a, b >
 ##  gap> Growth(H,6);
 ##  [ 2, 6, 14, 30, 62, 126 ]
@@ -645,12 +676,14 @@ DeclareOperation("Growth", [IsTreeHomomorphismSemigroup, IsCyclotomic]);
 ##
 #O  ListOfElements( <G>, <max_len> )
 ##
-##  Returns the list of all different elements of a group (semigroup, monoid) 
+##  Returns the list of all different elements of a group (semigroup, monoid)
 ##  <G> up to length <max_len>.
 ##  \beginexample
-##  gap> ListOfElements(GrigorchukGroup,3);
-##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b, b*a*c,
-##    b*a*d, c*a*b, c*a*c, c*a*d, d*a*b, d*a*c, d*a*d ]
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> ListOfElements(GrigorchukGroup, 3);
+##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b,
+##    b*a*c, b*a*d, c*a*b, c*a*c, c*a*d, d*a*b, d*a*c, d*a*d ]
 ##  \endexample
 ##
 DeclareOperation("ListOfElements", [IsTreeHomomorphismSemigroup, IsCyclotomic]);
@@ -679,9 +712,9 @@ DeclareOperation("AG_FiniteGroupId",[IsAutomGroup,IsCyclotomic]);
 ##  `PermOnLevelAsMatrix'(g_1^{-1})+\cdots+`PermOnLevelAsMatrix'(g_d^{-1}))/(2*d)$. See also
 ##  `PermOnLevelAsMatrix' ("PermOnLevelAsMatrix").
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(a,b)(1,2),b=(a,b)");
-##  < a, b >
-##  gap> MarkovOperator(G,3);
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> MarkovOperator(L, 3);
 ##  [ [ 0, 0, 1/4, 1/4, 0, 1/4, 0, 1/4 ], [ 0, 0, 1/4, 1/4, 1/4, 0, 1/4, 0 ],
 ##    [ 1/4, 1/4, 0, 0, 1/4, 0, 1/4, 0 ], [ 1/4, 1/4, 0, 0, 0, 1/4, 0, 1/4 ],
 ##    [ 0, 1/4, 1/4, 0, 0, 1/2, 0, 0 ], [ 1/4, 0, 0, 1/4, 1/2, 0, 0, 0 ],
@@ -714,19 +747,21 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 ##  If <max_len> or <max_num_rels> are not specified, they are assumed to be `infinity'.
 ##  This operation can be applied for any group, not only for group generated by automata.
 ##  \beginexample
-##  gap> FindGroupRelations(Basilica,5);
-##  #I  v*u*v*u^-1*v^-1*u*v^-1*u^-1
-##  #I  v*u*v^2*u^-1*v^-1*u*v^-2*u^-1
-##  #I  v^2*u*v*u^-1*v^-2*u*v^-1*u^-1
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> FindGroupRelations(Basilica, 5);
+##  v*u*v*u^-1*v^-1*u*v^-1*u^-1
+##  v*u*v^2*u^-1*v^-1*u*v^-2*u^-1
+##  v^2*u*v*u^-1*v^-2*u*v^-1*u^-1
 ##  [ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u*v^2*u^-1*v^-1*u*v^-2*u^-1,
 ##    v^2*u*v*u^-1*v^-2*u*v^-1*u^-1 ]
-##  gap> FindGroupRelations([u*v^-1,v*u],["x","y"],5);
-##  #I  y*x^2*y*x^-1*y^-2*x^-1
+##  gap> FindGroupRelations([u*v^-1, v*u], ["x", "y"], 5);
+##  y*x^2*y*x^-1*y^-2*x^-1
 ##  [ y*x^2*y*x^-1*y^-2*x^-1 ]
-##  gap> FindGroupRelations([u*v^-1,v*u],5);
-##  #I  v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2
-##  [ v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2 ]
-##  gap> FindGroupRelations([(1,2)(3,4),(1,2,3)],["x","y"]);
+##  gap> FindGroupRelations([u*v^-1, v*u], 5);
+##  u^-2*v*u^-2*v^-1*u^2*v*u^2*v^-1
+##  [ u^-2*v*u^-2*v^-1*u^2*v*u^2*v^-1 ]
+##  gap> FindGroupRelations([(1,2)(3,4), (1,2,3)], ["x", "y"]);
 ##  #I  x^2
 ##  #I  y^-3
 ##  #I  y^-1*x*y^-1*x*y^-1*x
@@ -762,25 +797,27 @@ DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic, IsCyclotomic]);
 ##  tree).
 ##  This operation can be applied for any semigroup, not only for semigroup generated by automata.
 ##  \beginexample
-##  gap> FindSemigroupRelations([u*v^-1,v*u],["x","y"],6);
-##  #I  y*x^2*y=x*y^2*x
-##  #I  y*x^3*y^2=x^2*y^3*x
-##  #I  y^2*x^3*y=x*y^3*x^2
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> FindSemigroupRelations([u*v^-1, v*u], ["x", "y"], 6);
+##  y*x^2*y=x*y^2*x
+##  y*x^3*y^2=x^2*y^3*x
+##  y^2*x^3*y=x*y^3*x^2
 ##  [ [ y*x^2*y, x*y^2*x ], [ y*x^3*y^2, x^2*y^3*x ], [ y^2*x^3*y, x*y^3*x^2 ] ]
-##  gap> FindSemigroupRelations([u*v^-1,v*u],6);
-##  #I  v*u^2*v^-1*u^2=u^2*v*u^2*v^-1
-##  #I  v*u^2*v^-1*u*v^-1*u^2*v*u=u*v^-1*u^2*v*u*v*u^2*v^-1
-##  #I  v*u*v*u^2*v^-1*u*v^-1*u^2=u^2*v*u*v*u^2*v^-1*u*v^-1
+##  gap> FindSemigroupRelations([u*v^-1, v*u],6);
+##  v*u^2*v^-1*u^2=u^2*v*u^2*v^-1
+##  v*u^2*v^-1*u*v^-1*u^2*v*u=u*v^-1*u^2*v*u*v*u^2*v^-1
+##  v*u*v*u^2*v^-1*u*v^-1*u^2=u^2*v*u*v*u^2*v^-1*u*v^-1
 ##  [ [ v*u^2*v^-1*u^2, u^2*v*u^2*v^-1 ],
 ##    [ v*u^2*v^-1*u*v^-1*u^2*v*u, u*v^-1*u^2*v*u*v*u^2*v^-1 ],
 ##    [ v*u*v*u^2*v^-1*u*v^-1*u^2, u^2*v*u*v*u^2*v^-1*u*v^-1 ] ]
 ##  gap> x := Transformation([1,1,2]);;
 ##  gap> y := Transformation([2,2,3]);;
 ##  gap> FindSemigroupRelations([x,y],["x","y"]);
-##  #I  y*x=x
-##  #I  y^2=y
-##  #I  x^3=x^2
-##  #I  x^2*y=x*y
+##  y*x=x
+##  y^2=y
+##  x^3=x^2
+##  x^2*y=x*y
 ##  [ [ y*x, x ], [ y^2, y ], [ x^3, x^2 ], [ x^2*y, x*y ] ]
 ##  \endexample
 ##
@@ -814,7 +851,7 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  and an element has infinite order, then the proof of this fact is printed.
 ##
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(1,1)(1,2), b=(a,c), c=(a,d),d=(1,b)");
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> OrderUsingSections( a*b*a*c*b );
 ##  16
@@ -859,12 +896,12 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##  The following examlpe illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
-##  gap> FindElement(GrigorchukGroup,Order,16,5);
+##  gap> FindElement(GrigorchukGroup, Order, 16, 5);
 ##  a*b
 ##  gap> FindElements(GrigorchukGroup,Order,16,5);
-##  [ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a, c*a*d*a,
-##    d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c, c*a*b*a*b,
-##    c*a*c*a*b ]
+##  [ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a,
+##    c*a*d*a, d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c,
+##    c*a*b*a*b, c*a*c*a*b ]
 ##  \endexample
 ##
 DeclareOperation("FindElement", [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]);
@@ -888,9 +925,9 @@ DeclareOperation("FindElements", [IsTreeHomomorphismSemigroup, IsFunction, IsObj
 ##  The second function returns the list of all such elements up to length <max_len>.
 ##
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(b,1)");
+##  gap> G := AutomatonGroup("a=(1,1)(1,2), b=(a,c), c=(b,1)");
 ##  < a, b, c >
-##  gap> FindElementOfInfiniteOrder(G,5,10);
+##  gap> FindElementOfInfiniteOrder(G, 5, 10);
 ##  a*b*c
 ##  \endexample
 ##
@@ -912,21 +949,22 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##  If <max_len> and <depth> are omitted they are assumed to be `infinity' and 10 respectively.
 ##
 ##  If `InfoLevel' of `InfoAutomGrp' is greater than
-##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)'), then the proof 
+##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)'), then the proof
 ##  is printed.
 ##
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(b,a)(1,2),b=(c,b)(),c=(c,a)");
+##  gap> G := AutomatonGroup("a=(b,a)(1,2), b=(c,b), c=(c,a)");
 ##  < a, b, c >
 ##  gap> IsNoncontracting(G);
 ##  true
-##  gap> H:=AutomatonGroup("a=(c,b)(1,2),b=(b,a),c=(a,a)");
+##  gap> H := AutomatonGroup("a=(c,b)(1,2), b=(b,a), c=(a,a)");
 ##  < a, b, c >
 ##  gap> SetInfoLevel(InfoAutomGrp, 3);
 ##  gap> IsNoncontracting(H);
-##  #I  Length not greater than 2: 37
-##  #I  Length not greater than 3: 187
-##  #I  (a^2*c^-1*b^-1)^2 has congutate of a^2*c^-1*b^-1 as a section at vertex [ 1, 1 ]
+##  #I  There are 37 elements of length up to 2
+##  #I  There are 187 elements of length up to 3
+##  #I  (a^2*c^-1*b^-1)^2 has congutate of a^2*c^-1*b^-1 as a section at vertex
+##  [ 1, 1 ]
 ##  #I  a^2*c^-1*b^-1 has b*c*a^-2 as a section at vertex [ 2 ]
 ##  true
 ##  \endexample
@@ -941,6 +979,13 @@ DeclareGlobalFunction("IsNoncontracting");
 ##  In certain cases (for groups generated by bounded automata~\cite{BKNV05},
 ##  some virtually abelian groups or finite groups) returns `true' if <G> is
 ##  amenable.
+##
+##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> IsAmenable(GrigorchukGroup);
+##  true
+##  \endexample
 ##
 DeclareProperty("IsAmenable", IsTreeAutomorphismGroup);
 InstallTrueMethod(IsAmenable, IsAbelian);
@@ -958,6 +1003,8 @@ InstallTrueMethod(IsAmenable, IsFinite);
 ##  See also `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton") and
 ##  `PolynomialDegreeOfGrowthOfUnderlyingAutomaton' ("PolynomialDegreeOfGrowthOfUnderlyingAutomaton").
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> IsGeneratedByAutomatonOfPolynomialGrowth(Basilica);
 ##  true
 ##  gap> D := AutomatonGroup( "a=(a,b)(1,2), b=(b,a)");
@@ -978,11 +1025,13 @@ DeclareProperty("IsGeneratedByAutomatonOfPolynomialGrowth", IsAutomatonGroup);
 ##
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowthOfUnderlyingAutomaton' ("PolynomialDegreeOfGrowthOfUnderlyingAutomaton").
-##  \beginexample
+##  \beginexample                                    
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> IsGeneratedByBoundedAutomaton(Basilica);
 ##  true
 ##  gap> C := AutomatonGroup("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
-##  < a, b >
+##  < a, b, c >
 ##  gap> IsGeneratedByBoundedAutomaton(C);
 ##  false
 ##  \endexample
@@ -1002,10 +1051,12 @@ DeclareProperty("IsGeneratedByBoundedAutomaton", IsAutomatonGroup);
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
 ##  and `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton").
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(Basilica);
 ##  0
 ##  gap> C := AutomatonGroup("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
-##  < a, b >
+##  < a, b, c >
 ##  gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(C);
 ##  2
 ##  \endexample

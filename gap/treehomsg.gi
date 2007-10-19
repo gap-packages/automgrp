@@ -185,12 +185,12 @@ end);
 ##  <iterator>
 ##  gap> l := [];;
 ##  gap> for g in iter do
-##  >      if Order(g)=16 then Add(l,g); fi;
+##  >      if Order(g) = 16 then Add(l,g); fi;
 ##  >    od;
 ##  gap> l;
-##  [ b*a, a*b, d*a*c, c*a*d, d*a*c*a, d*a*b*a, c*a*d*a, b*a*d*a, a*d*a*c, a*d*a*b,
-##    a*c*a*d, a*b*a*d, c*a*c*a*b, c*a*b*a*b, b*a*c*a*c, b*a*b*a*c, a*d*a*c*a,
-##    a*c*a*d*a ]
+##  [ b*a, a*b, d*a*c, c*a*d, d*a*c*a, d*a*b*a, c*a*d*a, b*a*d*a, a*d*a*c,
+##    a*d*a*b, a*c*a*d, a*b*a*d, c*a*c*a*b, c*a*b*a*b, b*a*c*a*c, b*a*b*a*c,
+##    a*d*a*c*a, a*c*a*d*a ]
 ##  \endexample
 ##
 InstallMethod(Iterator, [IsTreeHomomorphismSemigroup],

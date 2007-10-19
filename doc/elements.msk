@@ -13,8 +13,8 @@
 In the examples below we will consider the elements of the lamplighter and Basilica groups. First 
 we define them as
 \beginexample
-gap> G:=AutomatonGroup("a=(a,b)(1,2),b=(a,b)");
-< a, b >
+gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+< p, q >
 gap> Basilica:=AutomatonGroup("u=(v,1)(1,2),v=(u,1)");
 < u, v >
 \endexample
@@ -33,7 +33,9 @@ Note also that these groups are predefined in a global variable `AG_Groups' (see
 Returns whether automorphism <a> acs trivially on the tree. For contracting groups see also 
 `UseContraction' ("UseContraction") and `IsOneContr' ("IsOneContr").
 \beginexample
-gap> IsOne(b*a^-1*b*a^-1);
+gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+< p, q >
+gap> IsOne(q*p^-1*q*p^-1);
 true
 \endexample
 
@@ -50,7 +52,11 @@ If `InfoLevel' of `InfoAutomGrp' is greater than or equal to 3 (one can set it b
 is printed.
 
 \beginexample
-gap> Order(a*b^-1);
+gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");                             
+< p, q >
+gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+< u, v >
+gap> Order(p*q^-1);
 2
 gap> SetInfoLevel( InfoAutomGrp, 3);
 gap> Order( u^35*v^-12*u^2*v^-3 );
@@ -82,9 +88,11 @@ The following operations allow to compute the actions of tree homomorphisms on l
 \>`<vertex> ^ <a>'{action}!{of tree homomorphism on vertex}
 
 \beginexample
-gap> 1^a;
+gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");                             
+< p, q >
+gap> 1^p;
 2
-gap> [1,2,2,1,2,1]^(a*b^2);
+gap> [1,2,2,1,2,1]^(p*q^2);
 [ 2, 1, 2, 2, 1, 2 ]
 \endexample
 
@@ -103,9 +111,11 @@ The operations below describe how to work with sections of tree homomorphisms.
 
 Returns whether automorphism <a> belongs to group <G>. In some cases does not stop.
 \beginexample
-gap> H:=Group([a^2,b^2]);
-< a^2, b^2 >
-gap> a in H;
+gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");                             
+< p, q >
+gap> H:=Group([p^2, q^2]);
+< p^2, q^2 >
+gap> p in H;
 false
 \endexample
 
@@ -131,9 +141,6 @@ encodes its action on the tree.
 \Section{Elements of contracting groups}
 
 \Declaration{AutomPortrait}
-%Declaration{AutomPortraitBoundary}
-%Declaration{AutomPortraitDepth}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

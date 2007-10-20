@@ -52,7 +52,7 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  < u, v >
 ##  gap> M := MealyAutomaton(u*v*u^-3);
 ##  <automaton>
-##  gap> Print(M, "\n");
+##  gap> Print(M);
 ##  a1 = (a2, a5), a2 = (a3, a4), a3 = (a4, a2)(1,2), a4 = (a4, a4), a5 = (a6, a3)
 ##  (1,2), a6 = (a7, a4), a7 = (a6, a4)(1,2)
 ##  \endexample

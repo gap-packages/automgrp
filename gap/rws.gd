@@ -20,7 +20,32 @@ DeclareOperation("AddRules", [IsAGRewritingSystem, IsObject, IsBool]);
 DeclareOperation("SetRwRules", [IsAGRewritingSystem, IsObject]);
 
 DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
+
+#############################################################################
+##
+#F  UseAGRewritingSystem( <G>[, <setting>] )
+##
+##  Tells whether computations in the group <G> should use a rewriting system.
+##  <setting> defaults to `true' if omitted.
+##
+##  \beginexample
+##  gap> G := AutomatonGroup("a=(1,2), b=(a, c), c=(a, d), d=(1, b)");
+##  < a, b, c, d >
+##  gap> Comm(a*b, b*a);
+##  b^-1*a^-2*b^-1*a*b^2*a
+##  gap> UseAGRewritingSystem(G);
+##  true
+##  gap> Comm(a*b, b*a);
+##  1
+##  gap> UseAGRewritingSystem(G, false);
+##  false
+##  gap> Comm(a*b, b*a);
+##  b^-1*a^-2*b^-1*a*b^2*a
+##  \endexample
+##
 DeclareOperation("UseAGRewritingSystem", [IsAutomFamily, IsBool]);
+
+DeclareGlobalFunction("BuildAGRewritingSystem");
 
 
 #E

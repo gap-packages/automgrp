@@ -330,7 +330,7 @@ $FA_rws_add_rule := function(rws, rule)
   fi;
 end;
 
-BuildAGRewritingSystem :=
+InstallGlobalFunction(BuildAGRewritingSystem,
 function(arg)
   local limit, init_rules,
         fam, frgrp, rels, w, g, rws,
@@ -374,7 +374,7 @@ function(arg)
   fi;
 
   return rws;
-end;
+end);
 
 
 InstallMethod(AGRewritingSystem, [IsAutomFamily],

@@ -73,8 +73,10 @@ DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
 ##  Vertex <v> can be a list representing vertex, or a positive integer
 ##  representing a vertex of the first level of the tree.
 ##  \beginexample
-##  gap> Section(a*b*a^2,[1,2,2,1,2,1]);
-##  a^2*b^2
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> Section(p*q*p^2, [1,2,2,1,2,1]);
+##  p^2*q^2
 ##  \endexample
 ##
 DeclareOperation("Section", [IsTreeHomomorphism, IsList]);
@@ -87,8 +89,10 @@ DeclareOperation("Section", [IsTreeHomomorphism, IsPosInt]);
 ##  Returns the list of sections of <a> at the <lev>-th level. If <lev> is ommited
 ##  it is assumed to be 1.
 ##  \beginexample
-##  gap> Sections(a*b*a^2);
-##  [ a*b^2*a, b*a^2*b ]
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> Sections(p*q*p^2);
+##  [ p*q^2*p, q*p^2*q ]
 ##  \endexample
 ##
 DeclareOperation("Sections", [IsTreeHomomorphism]);
@@ -102,10 +106,12 @@ DeclareOperation("Sections", [IsTreeHomomorphism]);
 ##  where $a_i$ are the sections of <a> at the <k>-th level, and $\sigma$ is the
 ##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
 ##  \beginexample
-##  gap> Decompose(a*b^2);
-##  (a*b^2, b*a^2)(1,2)
-##  gap> Decompose(a*b^2,3);
-##  (a*b^2, b*a^2, a^2*b, b^2*a, a*b*a, b*a*b, a^3, b^3)(1,8,3,5)(2,7,4,6)
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> Decompose(p*q^2);
+##  (p*q^2, q*p^2)(1,2)
+##  gap> Decompose(p*q^2,3);
+##  (p*q^2, q*p^2, p^2*q, q^2*p, p*q*p, q*p*q, p^3, q^3)(1,8,3,5)(2,7,4,6)
 ##  \endexample
 ##
 DeclareOperation("Decompose", [IsTreeHomomorphism]);
@@ -122,21 +128,21 @@ DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 ##  <fam>, or to which homomorphism <a> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(a,b)(1,2), b=(a,b)");
-##  < a, b >
-##  gap> F := UnderlyingFreeGroup(G);
-##  <free group on the generators [ a, b ]>
-##  gap> c := Representative( F.1*F.2^2, a);
-##  a*b^2
-##  gap> Decompose(c);
-##  (a*b^2, b*a^2)(1,2)
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> F := UnderlyingFreeGroup(L);
+##  <free group on the generators [ p, q ]>
+##  gap> r := Representative(F.1*F.2^2, p);
+##  p*q^2
+##  gap> Decompose(r);
+##  (p*q^2, q*p^2)(1,2)
 ##  gap> H := SelfSimilarGroup("x=(x*y,x)(1,2), y=(x^-1,y)");
 ##  < x, y >
 ##  gap> F := UnderlyingFreeGroup(H);
 ##  <free group on the generators [ x, y ]>
-##  gap> c := SelfSim( F.1^-1*F.2, x);
+##  gap> r := Representative(F.1^-1*F.2, x);
 ##  x^-1*y
-##  gap> Decompose(c);
+##  gap> Decompose(r);
 ##  (x^-1*y, y^-1*x^-2)(1,2)
 ##  \endexample
 ##
@@ -151,8 +157,10 @@ DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 ##  Returns <a> as an associative word (an element of underlying free group) in
 ##  generators of the self-similar group (semigroup) to which <a> belongs.
 ##  \beginexample
-##  gap> w:=Word(a*b^2*a^-1);
-##  a*b^2*a^-1
+##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+##  < p, q >
+##  gap> w := Word(p*q^2*p^-1);
+##  p*q^2*p^-1
 ##  gap> Length(w);
 ##  4
 ##  \endexample
@@ -182,6 +190,5 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 ##  Returns whether <a> acts transitively on level <lev> of the tree.
 ##
 DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphism, IsPosInt]);
-
 
 #E

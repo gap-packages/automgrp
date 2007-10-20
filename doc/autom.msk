@@ -29,9 +29,9 @@
 
 Constructs a product of 2 noninitial automata <A> and <B>.
 \beginexample
-gap> A:=Automaton("a=(a,b)(1,2),b=(a,b)");        
+gap> A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");        
 <automaton>
-gap> B:=Automaton("c=(d,c),d=(c,e)(1,2),e=(e,d)");
+gap> B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
 <automaton>
 gap> Print(A*B);                                  
 a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)

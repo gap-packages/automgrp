@@ -31,6 +31,7 @@ UnitTest("SelfSim", function()
 
   AssertEqual( NumberOfStates( UnderlyingAutomaton( UnderlyingAutomatonGroup( FSSelfSimilarGroups[1]))),15);
   AssertEqual( NumberOfStates( UnderlyingAutomaton( UnderlyingAutomatonGroup( FSSelfSimilarGroups[2]))),51);
+  AssertEqual( Size( GeneratorsOfGroup( UnderlyingAutomatonGroup( FSSelfSimilarGroups[2]))), 50);
   AssertEqual( NumberOfStates( UnderlyingAutomaton( UnderlyingAutomatonGroup( FSSelfSimilarGroups[3]))),5);
   AssertEqual( NumberOfStates( UnderlyingAutomaton( UnderlyingAutomatonGroup(T))),52);
 

@@ -131,7 +131,6 @@ end);
 InstallMethod(UnderlyingSelfSimFamily, "for [IsSelfSimSemigroup]", 
               [IsSelfSimSemigroup], 
 function(G)
-  Print("GeneratorsOfSemigroup(G) :", GeneratorsOfSemigroup(G), "\n");
   return FamilyObj(GeneratorsOfSemigroup(G)[1]);
 end);
 
@@ -503,7 +502,7 @@ end);
 InstallMethod(IsomorphicAutomSemigroup, "for [IsSelfSimSemigroup]",
               [IsSelfSimSemigroup], 
 function(G)
-  if IsFiniteState(G) then return UnderlyingAutomatonSemigroup(G); fi;
+  if IsFiniteState(G) then return IsomorphicAutomSemigroup(G); fi;
 end);
 
 

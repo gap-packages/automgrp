@@ -10,18 +10,6 @@
 %Declaration{AutomFamily}
 
 
-In the examples below we will consider the elements of the lamplighter and Basilica groups. First 
-we define them as
-\beginexample
-gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
-< p, q >
-gap> Basilica:=AutomatonGroup("u=(v,1)(1,2),v=(u,1)");
-< u, v >
-\endexample
-
-Note also that these groups are predefined in a global variable `AG_Groups' (see "Some predefined groups").
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and attributes of tree automorphisms and homomorphisms}
 
@@ -113,7 +101,7 @@ Returns whether automorphism <a> belongs to group <G>. In some cases does not st
 \beginexample
 gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");                             
 < p, q >
-gap> H:=Group([p^2, q^2]);
+gap> H := Group([p^2, q^2]);
 < p^2, q^2 >
 gap> p in H;
 false

@@ -16,6 +16,7 @@
 ##
 BindGlobal("AG_Groups", rec(
   GrigorchukGroup := AutomatonGroup("a = (1,2), b = (a, c), c = (a, d), d = (1, b)", false),
+  UniversalGrigorchukGroup := AutomatonGroup("a=(1,4)(2,5)(3,6), b=(a,a,1,b,b,b), c=(a,1,a,c,c,c), d=(1,a,a,d,d,d)", false),
   Basilica := AutomatonGroup("u = (v, 1)(1,2), v = (u, 1)", false),
   Lamplighter := AutomatonGroup("a = (a, b)(1,2), b = (a, b)", false),
   AddingMachine := AutomatonGroup("t = (1, t)(1,2)", false),

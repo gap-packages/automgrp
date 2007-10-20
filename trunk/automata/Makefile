@@ -81,7 +81,8 @@ dist:
 	make distdir && \
 	tar cjf $(archive).tar.bz2 $(distdir) && \
 	tar czf $(archive).tar.gz $(distdir) && \
-	zip -r $(archive)-win.zip $(distdir) && \
+	mv $(distdir)/doc/manual.pdf manual.pdf && zip -lr $(archive)-win.zip $(distdir) && \
+	  mv manual.pdf $(distdir)/doc/manual.pdf && zip $(archive)-win.zip $(distdir)/doc/manual.pdf && \
 	rm -fr $(distdir)
 
 clean:

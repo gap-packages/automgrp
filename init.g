@@ -2,12 +2,12 @@
 ##
 #W  init.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 0.91 started June 07 2004
+##  automgrp v 1.0
 ##
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-DeclareAutoPackage("automgrp", "0.91", ReturnTrue);
+DeclareAutoPackage("automgrp", "1.0", ReturnTrue);
 
 if false then
   MakeReadWriteGlobal("DeclareOperation");

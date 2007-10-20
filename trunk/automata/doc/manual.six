@@ -26,15 +26,18 @@ F 2.2. TopDegreeOfTree
 F 2.2. DegreeOfTree
 F 2.2. IsFractal
 F 2.2. IsFractalByWords
-F 2.2. IsAutomatonGroup
+F 2.2. IsSphericallyTransitive![treehomsg]
+F 2.2. IsTransitiveOnLevel![treehomsg]
 F 2.2. IsSelfSimilar
 F 2.2. IsContracting
 F 2.2. IsNoncontracting
 F 2.2. IsGeneratedByAutomatonOfPolynomialGrowth
 F 2.2. IsGeneratedByBoundedAutomaton
 F 2.2. PolynomialDegreeOfGrowthOfUnderlyingAutomaton
+F 2.2. IsAmenable
 F 2.2. UnderlyingAutomaton
 F 2.2. AutomatonList![automsg]
+F 2.2. RecurList![selfsimsg]
 S 2.3. Operations with groups and semigroups
 F 2.3. PermGroupOnLevel
 F 2.3. StabilizerOfLevel
@@ -89,6 +92,8 @@ F 3.1. TreeAutomorphism
 F 3.1. Representative
 F 3.1. Representative
 S 3.2. Properties and attributes of tree automorphisms and homomorphisms
+F 3.2. IsSphericallyTransitive![treehom]
+F 3.2. IsTransitiveOnLevel![treehom]
 F 3.2. IsOne
 F 3.2. IsOneContr
 F 3.2. Order
@@ -146,23 +151,27 @@ C misc.tex 5. Miscellaneous
 S 5.1. Trees
 F 5.1. NumberOfVertex
 F 5.1. VertexNumber
-S 5.2. Some predefined groups
-F 5.2. GrigorchukGroup
-F 5.2. Basilica
-F 5.2. Lamplighter
-F 5.2. AddingMachine
-F 5.2. InfiniteDihedral
-F 5.2. AleshinGroup
-F 5.2. Bellaterra
-F 5.2. SushchanskyGroup
-F 5.2. Hanoi3
-F 5.2. Hanoi4
-F 5.2. GuptaSidki3Group
-F 5.2. GuptaFabrikowskiGroup
-F 5.2. BartholdiGrigorchukGroup
-F 5.2. ErschlerGrigorchukGroup
-F 5.2. BartholdiNonunifExponGroup
-F 5.2. IMG_z2plusI
-F 5.2. Airplane
-F 5.2. Rabbit
-F 5.2. TwoStateSemigroupOfIntermediateGrowth
+S 5.2. Rewriting Systems
+F 5.2. UseAGRewritingSystem
+S 5.3. Some predefined groups
+F 5.3. GrigorchukGroup
+F 5.3. UniversalGrigorchukGroup
+F 5.3. Basilica
+F 5.3. Lamplighter
+F 5.3. AddingMachine
+F 5.3. InfiniteDihedral
+F 5.3. AleshinGroup
+F 5.3. Bellaterra
+F 5.3. SushchanskyGroup
+F 5.3. Hanoi3
+F 5.3. Hanoi4
+F 5.3. GuptaSidki3Group
+F 5.3. GuptaFabrikowskiGroup
+F 5.3. BartholdiGrigorchukGroup
+F 5.3. ErschlerGrigorchukGroup
+F 5.3. BartholdiNonunifExponGroup
+F 5.3. IMG_z2plusI
+F 5.3. Airplane
+F 5.3. Rabbit
+F 5.3. TwoStateSemigroupOfIntermediateGrowth
+F 5.3. UniversalD_omega

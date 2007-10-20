@@ -1,5 +1,5 @@
 msk_files =		\
-    groups.msk	\
+    groups.msk		\
     autom.msk		\
     misc.msk		\
     intro.msk		\
@@ -7,10 +7,9 @@ msk_files =		\
     manual.msk
 
 tex_files =		\
-    groups.tex	\
-    automlist.tex	\
+    groups.tex		\
     autom.tex		\
-    data.tex		\
+    misc.tex		\
     intro.tex		\
     elements.tex	\
     manual.tex
@@ -22,7 +21,6 @@ g_files =						\
     ../gap/automgroup.gd      ../gap/automgroup.gi	\
     ../gap/listops.gd	      ../gap/listops.gi		\
     ../gap/rws.gd	      ../gap/rws.gi		\
-    ../gap/scilab.gd	      ../gap/scilab.gi		\
     ../gap/selfs.gd	      ../gap/selfs.gi		\
     ../gap/selfsim.gd	      ../gap/selfsim.gi		\
     ../gap/selfsimfam.gd      ../gap/selfsimfam.gi	\

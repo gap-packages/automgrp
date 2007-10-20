@@ -130,6 +130,9 @@ $AG_parse_word := function(word, names)
 
   finish_token := function()
     local j;
+    if in_power and power = fail then
+      Error("trailing power sign: ", word);
+    fi;
     if power = fail then
       power := 1;
     elif IsString(power) then
@@ -193,6 +196,8 @@ $AG_parse_word := function(word, names)
     elif s = '^' then
       if in_power then
         Error("invalid word, power is not associative: ", word);
+      elif tok = fail then
+        Error("power without operand: ", word);
       fi;
       in_power := true;
 

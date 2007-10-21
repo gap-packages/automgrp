@@ -99,6 +99,8 @@ DeclareAttribute("LevelOfFaithfulAction", IsTreeAutomorphismGroup and IsSelfSimi
 ##  `SetInfoLevel(InfoAutomGrp, 3)' for more information to be displayed.
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> IsContracting(Basilica);
 ##  true
 ##  gap> IsContracting(AutomatonGroup("a=(c,a)(1,2), b=(c,b), c=(b,a)"));
@@ -114,6 +116,8 @@ DeclareProperty("IsContracting", IsTreeAutomorphismGroup);
 ##
 ##  Returns the stabilizer of the first level, see also~"StabilizerOfLevel".
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> StabilizerOfFirstLevel(Basilica);
 ##  < u^2, u*v*u^-1, v >
 ##  \endexample
@@ -126,6 +130,8 @@ DeclareAttribute("StabilizerOfFirstLevel", IsTreeAutomorphismGroup);
 ##
 ##  Returns the stabilizer of the <k>-th level.
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> StabilizerOfLevel(Basilica, 2);
 ##  < u*v^2*u^-1, u*v*u*v^2*u^-1*v^-1*u^-1, v^2, v*u^2*v^-1, u*v*u^2*v^-1*u^-1, u^
 ##  2, v*u*v*u*v^-1*u^-1*v^-1*u^-1 >
@@ -140,6 +146,8 @@ KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, Re
 ##  Returns the stabilizer of the vertex <v>. Here <v> can be a list representing a
 ##  vertex, or a positive integer representing a vertex at the first level.
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> StabilizerOfVertex(Basilica, [1,2,1]);
 ##  < v*u^4*v^-1, v*u^2*v^2*u^-2*v^-1, v^2, u^2, v*u^2*v*u^2*v^-1*u^-2*v^
 ##  -1, u*v*u^-1, v*u^-1*v*u*v^-1, v*u^2*v*u*v*u^-1*v^-1*u^-2*v^-1 >
@@ -157,6 +165,8 @@ DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 ##  vertex <v>, otherwise `Error'() will be called. The operation `ProjectionNC' does the
 ##  same thing, except it does not check whether <G> fixes the vertex <v>.
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> Projection(StabilizerOfVertex(Basilica, [1,2,1]), [1,2,1]);
 ##  < v, u >
 ##  \endexample
@@ -173,6 +183,8 @@ DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 ##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
 ##  "StabilizerOfVertex").
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> ProjStab(Basilica, [1,2,1]);
 ##  < v, u >
 ##  \endexample
@@ -193,6 +205,8 @@ DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 ##  Returns the group of permutations induced by the action of the group <G> at the <k>-th
 ##  level.
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> PermGroupOnLevel(Basilica, 4);
 ##  Group([ (1,11,3,9)(2,12,4,10)(5,13)(6,14)(7,15)(8,16), (1,6,2,5)(3,7)(4,8) ])
 ##  gap> H := PermGroupOnLevel(Group([u,v^2]),4);

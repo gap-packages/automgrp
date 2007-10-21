@@ -376,6 +376,8 @@ end);
 ##
 ##  For example, consider a subgroup $\langle a, b\rangle$ of Grigorchuk group.
 ##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
 ##  gap> f := IsomorphismPermGroup(Group(a, b));
 ##  [ a, b ] ->
 ##  [ (1,2)(3,5)(4,6)(7,9)(8,10)(11,13)(12,14)(15,17)(16,18)(19,21)(20,22)(23,
@@ -586,6 +588,8 @@ end);
 ##  Returns a random element of a group (semigroup) <G>.
 ##
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> Random( Basilica );
 ##  v*u^-3
 ##  \endexample

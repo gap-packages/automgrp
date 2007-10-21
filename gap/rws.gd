@@ -30,7 +30,7 @@ DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
 ##  (the defaults value is `true' if omitted) is `true'.
 ##
 ##  \beginexample
-##  gap> G := AutomatonGroup("a=(1,2), b=(a, c), c=(a, d), d=(1, b)");
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> Comm(a*b, b*a);
 ##  b^-1*a^-2*b^-1*a*b^2*a

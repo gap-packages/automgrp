@@ -27,14 +27,14 @@ DeclareCategoryCollections("IsMealyAutomaton");
 #O  MealyAutomaton( <string> )
 #O  MealyAutomaton( <autom> )
 ##
-##  Creates a Mealy automaton (see "Short math background") defined by the <table>, <string>
-##  or <autom>. Format of the <table> is
+##  Creates the Mealy automaton (see "Short math background") defined by the argument <table>, <string>
+##  or <autom>. Format of the argument <table> is
 ##  the following: it is a list of states, where each state is a list of
-##  positive integers which represent transition function at given state and a
-##  permutation or transformation which represent output function at this
-##  state.  Format of string <string> is the same as in `AutomatonGroup' (see~"AutomatonGroup").
+##  positive integers which represent transition function at the given state and a
+##  permutation or transformation which represent the output function at this
+##  state.  Format of the string <string> is the same as in `AutomatonGroup' (see~"AutomatonGroup").
 ##  The third form of this operation takes a tree homomorphism <autom> as its argument.
-##  It returns noninitial automaton constructed from sections of <autom>, whose first state
+##  It returns noninitial automaton constructed from the sections of <autom>, whose first state
 ##  corresponds to <autom> itself.
 ##
 ##  \beginexample
@@ -86,7 +86,7 @@ DeclareOperation("MealyAutomaton", [IsTreeHomomorphism]);
 ##
 #A  AutomatonList( <A> )
 ##
-##  Returns a list of <A> acceptible by `MealyAutomaton' (see "MealyAutomaton")
+##  Returns the list of <A> acceptible by `MealyAutomaton' (see "MealyAutomaton")
 ##
 ##
 DeclareAttribute("AutomatonList", IsMealyAutomaton);
@@ -96,7 +96,7 @@ DeclareAttribute("AutomatonList", IsMealyAutomaton);
 ##
 #A  NumberOfStates( <A> )
 ##
-##  Returns the number of states of automaton <A>.
+##  Returns the number of states of the automaton <A>.
 ##
 ##
 DeclareAttribute("NumberOfStates", IsMealyAutomaton);
@@ -106,7 +106,7 @@ DeclareAttribute("NumberOfStates", IsMealyAutomaton);
 ##
 #A  SizeOfAlphabet( <A> )
 ##
-##  Returns the number of letters in the alphabet automaton <A> acts on.
+##  Returns the number of letters in the alphabet the automaton <A> acts on.
 ##
 ##
 DeclareAttribute("SizeOfAlphabet", IsMealyAutomaton);
@@ -127,7 +127,7 @@ DeclareAttribute( "AG_MinimizedAutomatonList", IsMealyAutomaton, "mutable" );
 ##
 #F  MinimizationOfAutomaton ( <A> )
 ##
-##  Returns an automaton obtained from automaton <A> by minimization.
+##  Returns the automaton obtained from automaton <A> by minimization.
 ##  \beginexample
 ##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>
@@ -146,8 +146,8 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##
 ##  Returns the list `[A_new, new_via_old, old_via_new]', where `A_new' is an
 ##  automaton obtained from automaton <A> by minimization,
-##  `new_via_old' is how new states are expressed in terms of the old ones, and
-##  `old_via_new' is how old states are expressed in terms of the new ones.
+##  `new_via_old' describes how new states are expressed in terms of the old ones, and
+##  `old_via_new' describes how old states are expressed in terms of the new ones.
 ##  \beginexample
 ##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>
@@ -197,7 +197,7 @@ DeclareProperty("IsInvertible", IsMealyAutomaton);
 ##
 #P  IsOfPolynomialGrowth ( <A> )
 ##
-##  Determines whether an automaton <A> has polynomial growth in terms of Sidki~\cite{Sid00}.
+##  Determines whether the automaton <A> has polynomial growth in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also `IsBounded' ("IsBounded") and
 ##  `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
@@ -219,7 +219,7 @@ DeclareProperty("IsOfPolynomialGrowth", IsMealyAutomaton);
 ##
 #P  IsBounded ( <A> )
 ##
-##  Determines whether an automaton <A> is bounded in terms of Sidki~\cite{Sid00}.
+##  Determines whether the automaton <A> is bounded in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also `IsOfPolynomialGrowth' ("IsOfPolynomialGrowth")
 ##  and `PolynomialDegreeOfGrowth' ("PolynomialDegreeOfGrowth").
@@ -266,7 +266,7 @@ DeclareAttribute("PolynomialDegreeOfGrowth", IsMealyAutomaton);
 ##
 #O  DualAutomaton ( <A> )
 ##
-##  Returns an automaton dual to <A>.
+##  Returns the automaton dual of <A>.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
 ##  <automaton>
@@ -283,7 +283,7 @@ DeclareOperation("DualAutomaton", [IsMealyAutomaton]);
 ##
 #O  InverseAutomaton ( <A> )
 ##
-##  Returns an automaton inverse to <A> if <A> is invertible.
+##  Returns the automaton inverse to <A> if <A> is invertible.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
 ##  <automaton>
@@ -300,8 +300,8 @@ DeclareOperation("InverseAutomaton", [IsMealyAutomaton]);
 ##
 #O  IsBireversible ( <A> )
 ##
-##  Computes whether or not automaton <A> is bireversible, i.e. <A>, dual to <A> and
-##  dual to the inverse of <A> are invertible. The example below shows that the
+##  Computes whether or not the automaton <A> is bireversible, i.e. <A>, the dual of <A> and
+##  the dual of the inverse of <A> are invertible. The example below shows that the
 ##  Bellaterra automaton is bireversible.
 ##  \beginexample
 ##  gap> Bellaterra := MealyAutomaton("a=(c,c)(1,2), b=(a,b), c=(b,a)");
@@ -317,7 +317,7 @@ DeclareProperty("IsBireversible", IsMealyAutomaton);
 ##
 #O  IsTrivial ( <A> )
 ##
-##  Computes whether automaton <A> is equivalent to the trivial automaton.
+##  Computes whether the automaton <A> is equivalent to the trivial automaton.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(c,c), b=(a,b), c=(b,a)");
 ##  <automaton>
@@ -332,7 +332,7 @@ DeclareProperty("IsTrivial", IsMealyAutomaton);
 ##
 #O  DisjointUnion ( <A>, <B> )
 ##
-##  Constructs a disjoint union of automata <A> and <B>
+##  Constructs the disjoint union of automata <A> and <B>
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");
 ##  <automaton>
@@ -351,7 +351,7 @@ DeclareOperation("DisjointUnion", [IsMealyAutomaton, IsMealyAutomaton]);
 ##
 #O  AreEquivalentAutomata( <A>, <B> )
 ##
-##  Returns `true' if for every state `s' of automaton <A> there is a state of automaton <B>
+##  Returns `true' if for every state `s' of the automaton <A> there is a state of the automaton <B>
 ##  equivalent to `s' and vice versa.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(b,a)(1,2), b=(a,c), c=(b,c)(1,2)");
@@ -370,7 +370,7 @@ DeclareOperation("AreEquivalentAutomata", [IsMealyAutomaton, IsMealyAutomaton]);
 ##
 #O  SubautomatonWithStates( <A>, <states> )
 ##
-##  Returns the minilal subautomaton of automaton <A> containing states <states>.
+##  Returns the minimal subautomaton of the automaton <A> containing states <states>.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(e,d)(1,2),b=(c,c),c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
 ##  <automaton>
@@ -387,7 +387,7 @@ DeclareOperation("SubautomatonWithStates", [IsMealyAutomaton, IsList]);
 ##
 #O  AutomatonNucleus( <A> )
 ##
-##  Returns the nucleus of automaton <A>, i.e. the minimal subautomaton
+##  Returns the nucleus of the automaton <A>, i.e. the minimal subautomaton
 ##  containing all cycles in <A>.
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");

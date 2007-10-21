@@ -49,7 +49,7 @@ DeclareProperty("IsSphericallyTransitive", IsTreeHomomorphismSemigroup);
 #O  IsTransitiveOnLevel (<G>, <lev>)
 ##
 ##  Returns whether the group (semigroup) <G> acts transitively on level <lev>.
-##  See also `IsSphericallyTransitive' ("IsSphericallyTransitive").
+##
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >

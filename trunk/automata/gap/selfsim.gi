@@ -608,7 +608,7 @@ function(a, max_depth)
       if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
         if Product(degs{[i..Length(degs)]})>1 then
           if i>1 then Info(InfoAutomGrp, 3, "(", a!.word, ")^", Product(degs{[1..i-1]}), " has ", el!.word, " as a section at vertex ", vertex{[1..i-1]}); fi;
-          Info(InfoAutomGrp, 3, "(", el!.word, ")^", Product(degs{[i..Length(degs)]}), " has congutate of ", g!.word, " as a section at vertex ", vertex{[i..Length(degs)]});
+          Info(InfoAutomGrp, 3, "(", el!.word, ")^", Product(degs{[i..Length(degs)]}), " has conjugate of ", g!.word, " as a section at vertex ", vertex{[i..Length(degs)]});
           SetIsFinite(GroupOfSelfSimFamily(FamilyObj(a)), false);
           return infinity;
         else

@@ -119,7 +119,7 @@ function(table, states, alphabet)
   return _AG_CreateAutomaton(table, states, alphabet);
 end);
 
-InstallMethod(MealyAutomaton, [IsList, IsList], 
+InstallMethod(MealyAutomaton, [IsList, IsList],
 function(table, states)
   return _AG_CreateAutomaton(table, states, fail);
 end);
@@ -451,18 +451,16 @@ end);
 
 
 
-InstallMethod(IsBounded, "for [IsMealyAutomaton]", true, 
-              [IsMealyAutomaton], 
+InstallMethod(IsBounded, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
 function(A)
-  # XXX ???
-  local res;
-  res := IsOfPolynomialGrowth(A);
+  IsOfPolynomialGrowth(A);
   return IsBounded(A);
 end);
 
 
-InstallMethod(PolynomialDegreeOfGrowth, "for [IsMealyAutomaton]", true, 
-              [IsMealyAutomaton], 
+InstallMethod(PolynomialDegreeOfGrowth, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
 function(A)
   local res;
 
@@ -478,14 +476,14 @@ end);
 
 
 InstallMethod(DualAutomaton, "for [IsMealyAutomaton]", true,
-              [IsMealyAutomaton], 
+              [IsMealyAutomaton],
 function(A)
   local list, dual_list, states, d, n;
 
   list := AutomatonList(A);
   d := Length(list[1]) - 1;
   n := Length(list);
-  dual_list := List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]), 
+  dual_list := List([1..d], i -> Concatenation(List([1..n], j -> i^list[j][d+1]),
                                                [Transformation(List([1..n], j -> list[j][i]))]));
   states := List([1..d], i -> Concatenation(AG_Globals.state_symbol_dual, String(i)));
 
@@ -493,8 +491,8 @@ function(A)
 end);
 
 
-InstallMethod(InverseAutomaton, "for [IsMealyAutomaton]", true, 
-              [IsMealyAutomaton], 
+InstallMethod(InverseAutomaton, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
 function(A)
   local list, inv_list, states, n;
 
@@ -511,7 +509,7 @@ function(A)
 end);
 
 
-InstallMethod(IsBireversible, "for [IsMealyAutomaton]", true, 
+InstallMethod(IsBireversible, "for [IsMealyAutomaton]", true,
               [IsMealyAutomaton],
 function(A)
   local list, inv_list, states, n;
@@ -527,7 +525,7 @@ end);
 ##
 ##  Constructs a product of two noninitial automata
 ##
-InstallMethod(\*, "for [IsMealyAutomaton, IsMealyAutomaton]", [IsMealyAutomaton, IsMealyAutomaton], 
+InstallMethod(\*, "for [IsMealyAutomaton, IsMealyAutomaton]", [IsMealyAutomaton, IsMealyAutomaton],
 function(A1, A2)
   local n, m, d, i, j, aut_list, states;
 
@@ -551,7 +549,7 @@ function(A1, A2)
 end);
 
 
-InstallMethod(IsTrivial, "for [IsMealyAutomaton]", [IsMealyAutomaton], 
+InstallMethod(IsTrivial, "for [IsMealyAutomaton]", [IsMealyAutomaton],
 function(A)
   # XXX trivial transformation
   return AutomatonList(MinimizationOfAutomaton(A)) = [Concatenation(List([1..A!.degree], x -> 1), [()])];

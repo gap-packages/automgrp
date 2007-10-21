@@ -32,7 +32,7 @@ InstallSubsetMaintenance(SphericalIndex, IsCollection, IsCollection);
 ##
 #A  TopDegreeOfTree (<obj>)
 ##
-##  Returns degree of the tree on the first level, i.e. the number of vertices
+##  Returns the degree of the tree on the first level, i.e. the number of vertices
 ##  adjacent to the root vertex.
 ##
 DeclareAttribute("TopDegreeOfTree", IsActingOnTree);
@@ -70,7 +70,7 @@ InstallTrueMethod(IsActingOnRegularTree, IsActingOnBinaryTree);
 #A  DegreeOfTree (<obj>)
 ##
 ##  This is a synonym for TopDegreeOfTree~("TopDegreeOfTree") for the case of
-##  regular tree. It is an error to call this method for an object which acts
+##  a regular tree. It is an error to call this method for an object which acts
 ##  on a non-regular tree.
 ##
 DeclareAttribute("DegreeOfTree", IsActingOnTree);
@@ -80,8 +80,8 @@ InstallSubsetMaintenance(DegreeOfTree, IsCollection, IsCollection);
 ##
 #O  FixesVertex (<obj>, <v>)
 ##
-##  Returns whether <obj> fixes vertex <v>. Vertex <v> may be given as a list, or as
-##  a positive integer, in which case it denotes <v>-th vertex at the first
+##  Returns whether <obj> fixes the vertex <v>. The vertex <v> may be given as a list, or as
+##  a positive integer, in which case it denotes the <v>-th vertex at the first
 ##  level.
 ##
 DeclareOperation("FixesVertex", [IsActingOnTree, IsObject]);
@@ -108,12 +108,12 @@ DeclareAttribute("FirstMovedLevel", IsActingOnTree);
 ##
 #A  AbelImage(<obj>)
 ##
-##  Returns image of <obj> in canonical projection onto abelianization of
+##  Returns image of <obj> in the canonical projection onto the abelianization of
 ##  the full group of tree automorphisms, represented as a subgroup of additive
 ##  group of rational functions.
-##  XXX it doesn't make sense for non-invertible automata, does it?
 ##
 DeclareAttribute("AbelImage", IsActingOnTree);
 
+#XXX it doesn't make sense for non-invertible automata, does it?
 
 #E

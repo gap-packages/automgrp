@@ -27,7 +27,7 @@
 \Declaration{DisjointUnion}
 \>`<A> \* <B>'{product}!{for noninitial automata}
 
-Constructs a product of 2 noninitial automata <A> and <B>.
+Constructs the product of 2 noninitial automata <A> and <B>.
 \beginexample
 gap> A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");        
 <automaton>

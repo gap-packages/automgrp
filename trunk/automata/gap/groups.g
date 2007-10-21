@@ -34,7 +34,7 @@ BindGlobal("AG_Groups", rec(
   GuptaSidki3Group := SelfSimilarGroup("a = (1,2,3), b = (a, a^-1, b)", false),
   GuptaFabrikowskiGroup := AutomatonGroup([[1,1,1,()],[1,1,1,(1,2,3)],[2,1,3,()]],["1","a","b"], false),
   BartholdiGrigorchukGroup := AutomatonGroup([[1,1,1,()],[1,1,1,(1,2,3)],[2,2,3,()]],["1","a","b"], false),
-  ErschlerGrigorchukGroup := AutomatonGroup([[1,1,()],[1,1,(1,2)],[2,3,()],[2,5,()],[1,4,()]],["1","a","b","c","d"], false),
+  GrigorchukErschlerGroup := AutomatonGroup([[1,1,()],[1,1,(1,2)],[2,3,()],[2,5,()],[1,4,()]],["1","a","b","c","d"], false),
   BartholdiNonunifExponGroup := AutomatonGroup([ [1,1,1,1,1,1,1,()],\
             [1,1,1,1,1,1,1,(1,5)(3,7)],[1,1,1,1,1,1,1,(2,3)(6,7)],[1,1,1,1,1,1,1,(4,6)(5,7)],\
             [5,2,1,1,1,1,1,()],[6,3,1,1,1,1,1,()],[7,4,1,1,1,1,1,()]],\

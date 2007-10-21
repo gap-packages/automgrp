@@ -1,7 +1,7 @@
 #############################################################################
 ##
 #W  selfs.gd             automgrp package                      Yevgen Muntyan
-#W                                                             D := mytro Savchuk
+#W                                                             Dmytro Savchuk
 ##  automgrp v 1.0
 ##
 #Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
@@ -31,7 +31,7 @@ DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
 ##
 #A  GeneratingSetWithNucleus( <G> )
 ##
-##  Tries to compute the generating set of the group which includes original
+##  Tries to compute the generating set of the group which includes the original
 ##  generators and the <nucleus> (the minimal set that need not contain original
 ##  generators) of a self-similar group <G>. It uses `FindNucleus' operation
 ##  and behaves accordingly: if the group is not contracting
@@ -52,7 +52,7 @@ DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable"
 ##
 #A  GeneratingSetWithNucleusAutom( <G> )
 ##
-##  Computes automaton of the generating set that includes nucleus of the contracting group <G>.
+##  Computes the automaton of the generating set that includes the nucleus of the contracting group <G>.
 ##  See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
@@ -73,13 +73,13 @@ DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "
 ##
 #A  ContractingLevel( <G> )
 ##
-##  Given a contracting group <G> with nucleus $N$, stored in
+##  Given a contracting group <G> with generating set $N$ that includes the nucleus, stored in
 ##  `GeneratingSetWithNucleus'(<G>) (see "GeneratingSetWithNucleus") computes the
 ##  minimal level $n$, such that for every vertex $v$ of the $n$-th
 ##  level and all $g, h \in N$ the section $gh|_v \in N$.
 ##
 ##  In case if it is not known whether <G> is contracting it first tries to compute
-##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
+##  the nucleus. If <G> happens to be noncontracting, it will loop forever. One can
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
@@ -98,7 +98,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##
 #A  ContractingTable( <G> )
 ##
-##  Given a contracting group <G> with nucleus $N$ of size $k$, stored in
+##  Given a contracting group <G> with generating set $N$  of size $k$ that includes the nucleus, stored in
 ##  `GeneratingSetWithNucleus'(<G>)~(see "GeneratingSetWithNucleus")
 ##  computes the $k\times k$ table, whose
 ##  [i][j]-th entry contains decomposition of $N$[i]$N$[j] on
@@ -107,7 +107,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##  algorithm solving the word problem in polynomial time.
 ##
 ##  In case if it is not known whether <G> is contracting it first tries to compute
-##  the nucleus. If <G> is happened to be noncontracting, it will loop forever. One can
+##  the nucleus. If <G> happens to be noncontracting, it will loop forever. One can
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
@@ -138,51 +138,39 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  the decision on which algorithm to use is left to the user. To use the
 ##  exponential algorithm one can use the second operation `DoNotUseContraction'(<G>).
 ##
-#  XXX   The example below is obsolete. Need new example!
-#  Below we provide an example which shows that both methods can be of use.
-#  %notest
-#  \beginexample
-#  gap> G := AutomatonGroup("a=(b,b)(1,2), b=(c,a), c=(a,a)");
-#  < a, b, c >
-#  gap> IsContracting(G);
-#  true
-#  gap> Size(GroupNucleus(G));
-#  41
-#  gap> Order(a); Order(b); Order(c);
-#  2
-#  2
-#  2
-#  gap> UseContraction(G);
-#  true
-#  gap> H := Group(a*b, b*c);
-#  < a*b, b*c >
-#  gap> St2 := StabilizerOfLevel(H, 2); time;
-#  < b*c*b*c, b^-1*a^-1*b*c*b^-1*a^-1*c^-1*b^-1, a*b*a*b*a*b*a*b, a*b^2*c*a*b*c^-1*b^
-#  -1, a*b^2*c*b*c*b^-1*a^-1, b*c*a*b^2*c*a*b, b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^
-#  -1, a*b*a*b^2*c*a*b*c^-1*b^-2*a^-1, a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1 >
-#  741
-#  gap> IsAbelian(St2); time;
-#  true
-#  11977
-#  gap> DoNotUseContraction(G);
-#  true
-#  gap> H := Group(a*b, b*c);
-#  < a*b, b*c >
-#  gap> St2 := StabilizerOfLevel(H, 2);; time;
-#  240
-#  gap> IsAbelian(St2); time;
-#  true
-#  542060
-#  \endexample
-#  Here we show that the group <G> is virtually abelian. First we check that the group
-#  is contracting. Then we see that the size of the nucleus is 41. Since all of generators have
-#  order 2, the subgroup $H = \langle ab,bc \rangle$ has index 2 in <G>. Now we compute
-#  the stabilizer of the second level in $H$ and verify, that it is abelian by 2 methods:
-#  with and without using the contraction. We see, that the time required to compute the stabilizer
-#  is approximately the same in both methods, while verification of commutativity works much faster
-#  with contraction. Here it was enough to consider the first level stabilizer, but the difference
-#  in performance of two methods is better seen for the second level stabilizer.
-#
+##  Below we provide an example which shows that both methods can be of use.
+##  %notest
+##  \beginexample
+##  gap> G := AutomatonGroup("a=(b,b)(1,2), b=(c,a), c=(a,a)");
+##  < a, b, c >
+##  gap> IsContracting(G);
+##  true
+##  gap> Size(GroupNucleus(G));
+##  41
+##  gap> v := a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1;;
+##  gap> w := b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^-1;;
+##  gap> UseContraction(G);
+##  true
+##  gap> IsOne(Comm(v,w)); time;
+##  true
+##  70
+##  gap> FindGroupRelations(G, 3);; time;
+##  a^2
+##  b^2
+##  c^2
+##  8152
+##  gap> DoNotUseContraction(G);
+##  true
+##  gap> IsOne(Comm(v,w)); time;
+##  true
+##  5999
+##  gap> FindGroupRelations(G, 3);; time;
+##  a^2
+##  b^2
+##  c^2
+##  10
+##  \endexample
+##
 DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
 DeclareOperation( "DoNotUseContraction", [IsTreeAutomorphismGroup]);
 
@@ -248,9 +236,9 @@ DeclareGlobalFunction("WordActionOnVertex");
 ##
 #O  OrbitOfVertex( <ver>, <g>[, <n>] )
 ##
-##  Returns the list of vertices in the orbit of vertex <ver> under the
-##  action of a semigroup generated by an automorphism <g>.
-##  If <n> is specified, it returns only first <n> elements of the orbit.
+##  Returns the list of vertices in the orbit of the vertex <ver> under the
+##  action of the semigroup generated by the automorphism <g>.
+##  If <n> is specified, it returns only the first <n> elements of the orbit.
 ##  Vertices are defined either as lists with entries from $\{1,\ldots,d\}$, or as
 ##  strings containing characters $1,\ldots,d$, where $d$
 ##  is the degree of the tree.
@@ -274,11 +262,11 @@ DeclareOperation("OrbitOfVertex",[IsList, IsTreeHomomorphism, IsCyclotomic]);
 ##
 #O  PrintOrbitOfVertex( <ver>, <g>[, <n>] )
 ##
-##  Prints the orbit of vertex <ver> under the action of a semigroup generated by
+##  Prints the orbit of the vertex <ver> under the action of the semigroup generated by
 ##  <g>. Each vertex is printed as a string containing characters $1,\ldots,d$, where $d$
 ##  is the degree of the tree. In case of binary tree the symbols `` '' and ```x'''
 ##  are used to represent `1' and `2'.
-##  If <n> is specified only first <n> elements of the orbit are printed.
+##  If <n> is specified only the first <n> elements of the orbit are printed.
 ##  Vertices are defined either as lists with entries from $\{1,\ldots,d\}$, or as
 ##  strings. See also `OrbitOfVertex' ("OrbitOfVertex").
 ##  \beginexample
@@ -378,9 +366,9 @@ DeclareGlobalFunction("GeneratorActionOnVertex");
 ##
 #F  NumberOfVertex( <ver>, <deg> )
 ##
-##  Let <ver> belong to $n$-th level of the <deg>-ary tree. One can
-##  naturally enumerate all the vertices of this level by numbers $1,\ldots,<deg>^{<n>}$.
-##  This function returns the number, which corresponds to the vertex <ver>.
+##  Let <ver> belong to the $n$-th level of the <deg>-ary tree. One can
+##  naturally enumerate all the vertices of this level by the numbers $1,\ldots,<deg>^{<n>}$.
+##  This function returns the number that corresponds to the vertex <ver>.
 ##  \beginexample
 ##  gap> NumberOfVertex([1,2,1,2], 2);
 ##  6
@@ -397,8 +385,8 @@ DeclareGlobalFunction("NumberOfVertex");     # over alphabet [1,...,d]
 #F  VertexNumber( <num>, <lev>, <deg> )
 ##
 ##  One can naturally enumerate all the vertices of the <lev>-th level of
-##  the <deg>-ary tree by numbers $1,\ldots,<deg>^{<n>}$.
-##  This function returns the vertex of this level, which has number <num>.
+##  the <deg>-ary tree by the numbers $1,\ldots,<deg>^{<n>}$.
+##  This function returns the vertex of this level that has number <num>.
 ##  \beginexample
 ##  gap> VertexNumber(1, 3, 2);
 ##  [ 1, 1, 1 ]
@@ -541,7 +529,7 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##  `GeneratingSetWithNucleusAutom'(<G>)] (see "GeneratingSetWithNucleus",
 ##  "GroupNucleus", "GeneratingSetWithNucleusAutom").
 ##
-##  If <max_nucl> is given stops after finding <max_nucl> elements that need to be in
+##  If <max_nucl> is given it stops after finding <max_nucl> elements that need to be in
 ##  the nucleus and returns `fail' if the nucleus was not found.
 ##
 ##  An optional argument <print_info> is a boolean telling whether to print results of
@@ -577,6 +565,9 @@ DeclareOperation("FindNucleus",[IsTreeAutomorphismGroup and IsSelfSimilar, IsCyc
 DeclareGlobalFunction("InversePerm");
 
 
+#  TODO: Portrait of certain depth
+
+
 ################################################################################
 ##
 #F  AutomPortrait( <a> )
@@ -590,7 +581,7 @@ DeclareGlobalFunction("InversePerm");
 ##  $[\sigma, `AutomPortrait'(g_1),\ldots, `AutomPortrait'(g_d)]$, where $d$ is
 ##  the degree of the tree. This structure describes a finite tree whose inner vertices
 ##  are labelled by permutations from $S_d$ and the leaves are labelled by
-##  the elements of the nucleus. The contraction in $G$ guarantees that the
+##  elements from the nucleus. The contraction in $G$ guarantees that the
 ##  portrait of any element is finite.
 ##
 ##  The portraits may be considered as ``normal forms''
@@ -600,8 +591,8 @@ DeclareGlobalFunction("InversePerm");
 ##  of all leaves of the portrait. This boundary can be described by an ordered set of
 ##  pairs $[level_i, g_i]$, $i=1,\ldots,r$ representing the leaves of the tree ordered from left
 ##  to right (where $level_i$ and $g_i$ are the level and the label of the $i$-th leaf
-##  correspondingly, $r$ is the number of leaves). `AutomPortraitBoundary'(<a>) computes
-##  this boundary.
+##  correspondingly, $r$ is the number of leaves). The operation `AutomPortraitBoundary'(<a>) 
+##  computes this boundary.
 ##
 ##  `AutomPortraitDepth'( <a> ) returns the depth of the portrait, i.e. the minimal
 ##  level such that all sections of <a> at this level belong to the nucleus of $G$.
@@ -649,10 +640,10 @@ DeclareGlobalFunction("AutomPortraitDepth");
 ##
 #O  Growth( <G>, <max_len> )
 ##
-##  Returns the list of the first values of the growth function of a group
+##  Returns a list of the first values of the growth function of a group
 ##  (semigroup, monoid) <G>.
 ##  If <G> is a monoid it computes the growth function at $\{0,1,\ldots,<max_len>\}$,
-##  and for a semigroup without identity at $\{0,1,\ldots,<max_len>\}$.
+##  and for a semigroup without identity at $\{1,\ldots,<max_len>\}$.
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
@@ -706,8 +697,8 @@ DeclareOperation("AG_FiniteGroupId",[IsAutomGroup,IsCyclotomic]);
 ##
 #F  MarkovOperator( <G>, <lev> )
 ##
-##  Computes the matrix of Markov operator related to group <G> on the <lev>-th level
-##  of a tree. If the group <G> is generated by $g_1,g_2,\ldots,g_n$ then the Markov operator
+##  Computes the matrix of the Markov operator related to the group <G> on the <lev>-th level
+##  of the tree. If the group <G> is generated by $g_1,g_2,\ldots,g_n$ then the Markov operator
 ##  is defined as $(`PermOnLevelAsMatrix'(g_1)+\cdots+`PermOnLevelAsMatrix'(g_d)+
 ##  `PermOnLevelAsMatrix'(g_1^{-1})+\cdots+`PermOnLevelAsMatrix'(g_d^{-1}))/(2*d)$. See also
 ##  `PermOnLevelAsMatrix' ("PermOnLevelAsMatrix").
@@ -738,14 +729,14 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 #O  FindGroupRelations( <G>[, <max_len>, <max_num_rels>] )
 #O  FindGroupRelations( <subs_words>[, <names>, <max_len>, <max_num_rels>] )
 ##
-##  Finds group relations between the generators of group <G>
+##  Finds group relations between the generators of the group <G>
 ##  or in the group generated by <subs_words>. Stops after investigating all words
 ##  of length up to <max_len> elements or when it finds <max_num_rels>
 ##  relations. The optional argument <names> is a list of names of generators of the same length
 ##  as <subs_words>. If this argument is given the relations are given in terms of these names.
-##  Otherwise they are given in terms of the elements of group generated by <subs_words>.
+##  Otherwise they are given in terms of the elements of the group generated by <subs_words>.
 ##  If <max_len> or <max_num_rels> are not specified, they are assumed to be `infinity'.
-##  This operation can be applied for any group, not only for group generated by automata.
+##  This operation can be applied for any group, not only for a group generated by automata.
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
@@ -762,10 +753,10 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 ##  u^-2*v*u^-2*v^-1*u^2*v*u^2*v^-1
 ##  [ u^-2*v*u^-2*v^-1*u^2*v*u^2*v^-1 ]
 ##  gap> FindGroupRelations([(1,2)(3,4), (1,2,3)], ["x", "y"]);
-##  #I  x^2
-##  #I  y^-3
-##  #I  y^-1*x*y^-1*x*y^-1*x
-##  #I  y*x*y^-1*x*y^-1*x*y
+##  x^2
+##  y^-3
+##  y^-1*x*y^-1*x*y^-1*x
+##  y*x*y^-1*x*y^-1*x*y
 ##  [ x^2, y^-3, y^-1*x*y^-1*x*y^-1*x, y*x*y^-1*x*y^-1*x*y ]
 ##  \endexample
 ##
@@ -785,17 +776,17 @@ DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic, IsCyclotomic]);
 #O  FindSemigroupRelations( <G>[, <max_len>, <max_num_rels>] )
 #O  FindSemigroupRelations( <subs_words>[, <names>, <max_len>, <max_num_rels>] )
 ##
-##  Finds semigroup relatoins between the generators of the group or semigroup <G>,
-##  or in the semigroup generated by <subs_words>. Arguments have the same meaning
-##  as in `FindGroupRelations'~("FindGroupRelations"). It returns the list of pairs of equal words.
+##  Finds semigroup relations between the generators of the group or semigroup <G>,
+##  or in the semigroup generated by <subs_words>. The arguments have the same meaning
+##  as in `FindGroupRelations'~("FindGroupRelations"). It returns a list of pairs of equal words.
 ##  In order to make the list of relations shorter
-##  it also tries to remove the relations that can
+##  it also tries to remove relations that can
 ##  be derived from the known ones. Note, that by default the trivial automorphism is
-##  not inclded in every semigroup. So if one needs to find the relations of the form
-##  $w=1$ be sure to define <G> as a monoid or to include the trivial automorphism
+##  not included in every semigroup. So if one needs to find relations of the form
+##  $w=1$ one has to define <G> as a monoid or to include the trivial automorphism
 ##  into <subs_words> (for instance, as `One(g)' for any element `g' acting on the same
 ##  tree).
-##  This operation can be applied for any semigroup, not only for semigroup generated by automata.
+##  This operation can be applied for any semigroup, not only for a semigroup generated by automata.
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
@@ -838,17 +829,17 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##
 #O  OrderUsingSections( <a>[, <max_depth>] )
 ##
-##  Tries to compute the order of an element <a> by looking at its sections
+##  Tries to compute the order of the element <a> by looking at its sections
 ##  of depth up to <max_depth>-th level.
 ##  If <max_depth> is omitted it is assumed to be `infinity', but then it may not stop. Also note,
 ##  that if <max_depth> is not given, it searches the tree in depth first and may be trapped
 ##  in some infinite ray, while specifying finite <max_depth> may produce a result by looking at
-##  the section not in that ray.
-##  For bounded automata will always produce a result.
+##  a section not in that ray.
+##  For bounded automata it will always produce a result.
 ##
 ##  If `InfoLevel' of `InfoAutomGrp' is greater than
 ##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)')
-##  and an element has infinite order, then the proof of this fact is printed.
+##  and the element has infinite order, then the proof of this fact is printed.
 ##
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
@@ -858,7 +849,7 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  gap> SetInfoLevel( InfoAutomGrp, 3);
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
 ##  #I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
-##  #I  (v^13*u^15)^4 has congutate of v^13*u^15 as a section at vertex [ 1, 1 ]
+##  #I  (v^13*u^15)^4 has conjugate of v^13*u^15 as a section at vertex [ 1, 1 ]
 ##  infinity
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
 ##  fail
@@ -893,7 +884,7 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##
 ##  These functions are based on `Iterator' operation (see "Iterator"), so can be applied in
 ##  more general settings whenever \GAP knows how to solve word problem in the group.
-##  The following examlpe illustrates how to find an element of order 16 in
+##  The following examlple illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
 ##  gap> FindElement(GrigorchukGroup, Order, 16, 5);
@@ -943,10 +934,10 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##  Enumerates the elements of the group <G> up to length <max_len>
 ##  until it finds an element which has a section <g> of infinite order, such that
 ##  `OrderUsingSections'(<g>, <depth>) (see "OrderUsingSections")
-##  is `infinity' and such that <g> stabilizes some vertex and has itself as a
+##  returns `infinity' and such that <g> stabilizes some vertex and has itself as a
 ##  section at this vertex. See also `IsContracting'~("IsContracting").
 ##
-##  If <max_len> and <depth> are omitted they are assumed to be `infinity' and 10 respectively.
+##  If <max_len> and <depth> are omitted they are assumed to be `infinity' and 10, respectively.
 ##
 ##  If `InfoLevel' of `InfoAutomGrp' is greater than
 ##  or equal to 3 (one can set it by `SetInfoLevel( InfoAutomGrp, 3)'), then the proof
@@ -963,7 +954,7 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##  gap> IsNoncontracting(H);
 ##  #I  There are 37 elements of length up to 2
 ##  #I  There are 187 elements of length up to 3
-##  #I  (a^2*c^-1*b^-1)^2 has congutate of a^2*c^-1*b^-1 as a section at vertex
+##  #I  (a^2*c^-1*b^-1)^2 has conjugate of a^2*c^-1*b^-1 as a section at vertex
 ##  [ 1, 1 ]
 ##  #I  a^2*c^-1*b^-1 has b*c*a^-2 as a section at vertex [ 2 ]
 ##  true
@@ -997,7 +988,7 @@ InstallTrueMethod(IsAmenable, IsFinite);
 ##
 #P  IsGeneratedByAutomatonOfPolynomialGrowth( <G> )
 ##
-##  For a group <G> generated by all states of finite automaton (see "IsAutomatonGroup")
+##  For a group <G> generated by all states of a finite automaton (see "IsAutomatonGroup")
 ##  determines whether this automaton has polynomial growth in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also operations `IsGeneratedByBoundedAutomaton' ("IsGeneratedByBoundedAutomaton") and
@@ -1020,7 +1011,7 @@ DeclareProperty("IsGeneratedByAutomatonOfPolynomialGrowth", IsAutomatonGroup);
 ##
 #P  IsGeneratedByBoundedAutomaton( <G> )
 ##
-##  For a group <G> generated by all states of finite automaton (see "IsAutomatonGroup")
+##  For a group <G> generated by all states of a finite automaton (see "IsAutomatonGroup")
 ##  determines whether this automaton is bounded in terms of Sidki~\cite{Sid00}.
 ##
 ##  See also `IsGeneratedByAutomatonOfPolynomialGrowth' ("IsGeneratedByAutomatonOfPolynomialGrowth")
@@ -1043,7 +1034,7 @@ DeclareProperty("IsGeneratedByBoundedAutomaton", IsAutomatonGroup);
 ##
 #A  PolynomialDegreeOfGrowthOfUnderlyingAutomaton( <G> )
 ##
-##  For a group <G> generated by all states of finite automaton (see "IsAutomatonGroup")
+##  For a group <G> generated by all states of a finite automaton (see "IsAutomatonGroup")
 ##  of polynomial growth in terms of Sidki~\cite{Sid00} determines the degree of
 ##  polynomial growth of this automaton. This degree is 0 if and only if the automaton is bounded.
 ##  If the growth of automaton is exponential returns `fail'.

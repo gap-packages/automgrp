@@ -52,7 +52,7 @@ DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 #O  TransformationOnLevel( <a>, <lev> )
 #O  TransformationOnFirstLevel( <a> )
 ##
-##  The first function returns transformation induced by tree homomorphism
+##  The first function returns the transformation induced by the tree homomorphism
 ##  <a> on the level <lev>. See also `PermOnLevel'~("PermOnLevel").
 ##
 ##  If the transformation is invertible then it returns a permutation, and
@@ -69,8 +69,8 @@ DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
 ##
 #O  Section( <a>, <v> )
 ##
-##  Returns the section of automorphism (homomorphism) <a> at vertex <v>.
-##  Vertex <v> can be a list representing vertex, or a positive integer
+##  Returns the section of the automorphism (homomorphism) <a> at the vertex <v>.
+##  The vertex <v> can be a list representing the vertex, or a positive integer
 ##  representing a vertex of the first level of the tree.
 ##  \beginexample
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
@@ -86,7 +86,7 @@ DeclareOperation("Section", [IsTreeHomomorphism, IsPosInt]);
 ##
 #O  Sections( <a> [, <lev>] )
 ##
-##  Returns the list of sections of <a> at the <lev>-th level. If <lev> is ommited
+##  Returns the list of sections of <a> at the <lev>-th level. If <lev> is omitted
 ##  it is assumed to be 1.
 ##  \beginexample
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
@@ -101,7 +101,7 @@ DeclareOperation("Sections", [IsTreeHomomorphism]);
 ##
 #O  Decompose( <a>[, <k>] )
 ##
-##  Returns a decomposition of tree homomorphism <a> on the <k>-th level of the tree, i.e. the
+##  Returns the decomposition of the tree homomorphism <a> on the <k>-th level of the tree, i.e. the
 ##  representation of the form $$a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma$$
 ##  where $a_i$ are the sections of <a> at the <k>-th level, and $\sigma$ is the
 ##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
@@ -124,7 +124,7 @@ DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 #O  Representative( <word>, <fam> )
 #O  Representative( <word>, <a> )
 ##
-##  Given assosiative word <word> constructs a tree homomorphism from the family
+##  Given an associative word <word> constructs the tree homomorphism from the family
 ##  <fam>, or to which homomorphism <a> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also `Word' ("Word").
 ##  \beginexample
@@ -154,8 +154,8 @@ DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 ##
 #O  Word( <a> )
 ##
-##  Returns <a> as an associative word (an element of underlying free group) in
-##  generators of the self-similar group (semigroup) to which <a> belongs.
+##  Returns <a> as an associative word (an element of the underlying free group) in
+##  the generators of the self-similar group (semigroup) to which <a> belongs.
 ##  \beginexample
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >

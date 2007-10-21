@@ -371,8 +371,8 @@ end);
 ##  there is a level of the tree (see "LevelOfFaithfulAction"), where <G> acts faithfully.
 ##  The corresponding representation is returned in this case. If <max_lev> is given
 ##  it finds only first <max_lev> quotients by stabilizers and if all of them have
-##  different size returns `fail'.
-##  If <G> is infinite and <max_lev> is not specified will loop forever.
+##  different size it returns `fail'.
+##  If <G> is infinite and <max_lev> is not specified it will loop forever.
 ##
 ##  For example, consider a subgroup $\langle a, b\rangle$ of Grigorchuk group.
 ##  \beginexample
@@ -944,16 +944,22 @@ end);
 ##
 #M  UseContraction( <G> )
 ##
-InstallMethod(UseContraction, "for [IsSelfSimGroup]", true, 
-              [IsSelfSimGroup], 
+InstallMethod(UseContraction, "for [IsSelfSimGroup]", true,
+              [IsSelfSimGroup],
 function(G)
-  if not IsContracting(G) then
-    Info( InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
-    return fail;
-  elif not IsContracting(G) then
-    Info( InfoAutomGrp, 0, "The group of family is not contracting");
+  if not IsSelfSimilarGroup(G) then 
+    Print("Error in UseContraction(<G>): The method is implemented only for IsSelfSimilarGroup\n");
     return fail;
   fi;
+
+  if not HasIsContracting(G) then
+    Print("Error in UseContraction(<G>): It is not known whether the group <G> is contracting\n");
+    return fail;
+  elif not IsContracting(G) then
+    Print("Error in UseContraction(<G>): The group <G> is not contracting");
+    return fail;
+  fi;
+  #  IsContracting returns either true or false or an error (it can not return fail)
 
   UnderlyingSelfSimFamily(G)!.use_contraction := true;
   UnderlyingAutomFamily( UnderlyingAutomatonGroup(G))!.use_contraction := true;

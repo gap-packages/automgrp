@@ -149,8 +149,7 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  41
 ##  gap> v := a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1;;
 ##  gap> w := b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^-1;;
-##  gap> UseContraction(G);
-##  true
+##  gap> UseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
 ##  70
@@ -159,8 +158,7 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  b^2
 ##  c^2
 ##  8152
-##  gap> DoNotUseContraction(G);
-##  true
+##  gap> DoNotUseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
 ##  5999

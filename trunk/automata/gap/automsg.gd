@@ -27,7 +27,7 @@ DeclareSynonym("IsAutomSemigroup", IsSemigroup and IsAutomCollection);
 ##  or <list>, or by the argument <automaton>.
 ##
 ##  The argument <string> is a conventional notation of the form
-##  `name1 = (name11, name12, ..., name1d)trans1, name2 = ...'
+##  `name1=(name11,name12,...,name1d)trans1, name2=...'
 ##  where each `name\*' is a name of a state or `1', and each `trans\*' is either a
 ##  permutation written in {\GAP} notation, or a list defining a transformation
 ##  of the alphabet via `Transformation(trans\*)'. Trivial permutations may be

@@ -30,7 +30,7 @@ InstallTrueMethod(IsInvertibleAutomCollection, IsAutomGroup);
 ##  or <list>, or by the argument <automaton>.
 ##
 ##  The argument <string> is a conventional notation of the form
-##  `name1 = (name11, name12, ..., name1d)perm1, name2 = ...'
+##  `name1=(name11,name12,...,name1d)perm1, name2=...'
 ##  where each `name\*' is a name of a state or `1', and each `perm\*' is a
 ##  permutation written in {\GAP} notation. Trivial permutations may be
 ##  omitted. This function ignores whitespace, and states may be separated

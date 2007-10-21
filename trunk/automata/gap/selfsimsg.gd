@@ -32,7 +32,7 @@ DeclareSynonym("IsSelfSimSemigroup", IsSemigroup and IsSelfSimCollection);
 ##  necessary sections in the generating set.
 ##
 ##  The argument <string> is a conventional notation of the form
-##  `name1 = (word11, word12, ..., word1d)trans1, name2 = ...'
+##  `name1=(word11,word12,...,word1d)trans1, name2=...'
 ##  where each `name\*' is a name of a state, `word\*' is an associative word
 ##  over the alphabet consisting of all `name\*', and each `trans\*' is either a
 ##  permutation written in {\GAP} notation, or a list defining a transformation

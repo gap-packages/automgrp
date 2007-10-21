@@ -8,6 +8,7 @@ top_files =			\
     init.g			\
     read.g			\
     PackageInfo.g		\
+    COPYING			\
     README
 
 gap_files =			\

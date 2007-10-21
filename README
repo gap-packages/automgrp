@@ -55,4 +55,4 @@ When sending a bug report, please include:
   when you start up GAP, or enter the following at the GAP prompt:
   VERSION;
 * The operating system you are using e.g. Debian Linux, Windows XP, etc.
-* A piece of GAP code that demonstrates the problem.
+* A GAP script that demonstrates the problem.

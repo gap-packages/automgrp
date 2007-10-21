@@ -26,7 +26,8 @@ DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
 #F  UseAGRewritingSystem( <G>[, <setting>] )
 ##
 ##  Tells whether computations in the group <G> should use a rewriting system.
-##  <setting> defaults to `true' if omitted.
+##  Namely, the rewriting system will be used if and only if the boolean argument <setting>
+##  (the defaults value is `true' if omitted) is `true'.
 ##
 ##  \beginexample
 ##  gap> G := AutomatonGroup("a=(1,2), b=(a, c), c=(a, d), d=(1, b)");

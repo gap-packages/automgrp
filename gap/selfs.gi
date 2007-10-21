@@ -872,20 +872,21 @@ InstallGlobalFunction(AG_AddInversesListTrack, function(H)
 end);
 
 
-InstallMethod(UseContraction, "for [IsAutomGroup]", true, 
-              [IsAutomGroup], 
+InstallMethod(UseContraction, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
 function(G)
   local H;
   H := GroupOfAutomFamily(UnderlyingAutomFamily(G));
 
   if not HasIsContracting(H) then
-    Info(InfoAutomGrp, 0, "It is not known whether the group of family is contracting");
+    Print("Error in UseContraction(<G>): It is not known whether the group of family is contracting\n");
     return fail;
   elif not IsContracting(H) then
-    Info(InfoAutomGrp, 0, "The group of family is not contracting");
+    Print("Error in UseContraction(<G>): The group of family is not contracting");
     return fail;
   fi;
 
+  #  IsContracting returns either true or false or an error (it can not return fail)
   UnderlyingAutomFamily(G)!.use_contraction := true;
   return true;
 end);
@@ -2863,7 +2864,7 @@ function(a, max_depth)
       if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
         if Product(degs{[i..Length(degs)]}) > 1 then
           if i > 1 then Info(InfoAutomGrp, 3, "(", a!.word, ")^", Product(degs{[1..i-1]}), " has ", el!.word, " as a section at vertex ", vertex{[1..i-1]}); fi;
-          Info(InfoAutomGrp, 3, "(", el!.word, ")^", Product(degs{[i..Length(degs)]}), " has congutate of ", g!.word, " as a section at vertex ", vertex{[i..Length(degs)]});
+          Info(InfoAutomGrp, 3, "(", el!.word, ")^", Product(degs{[i..Length(degs)]}), " has conjugate of ", g!.word, " as a section at vertex ", vertex{[i..Length(degs)]});
           SetIsFinite(GroupOfAutomFamily(FamilyObj(a)), false);
           return infinity;
         else

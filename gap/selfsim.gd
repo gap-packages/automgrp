@@ -60,8 +60,8 @@ DeclareOperation("StatesWords", [IsSelfSim]);
 ##
 #P  IsFiniteState( <a> )
 ##
-##  Returns `true' if <a> has finitely many different sections at the vertices
-##  of the tree. It will never stop if the free reduction of words is not sufficient
+##  Returns `true' if <a> has finitely many different sections.
+##  It will never stop if the free reduction of words is not sufficient
 ##  to establish the finite-state property or if <a> is not finite-state (has
 ##  infinitely many different sections).
 ##
@@ -84,9 +84,9 @@ DeclareProperty("IsFiniteState", IsSelfSim);
 #A  AllSections( <a> )
 ##
 ##  Returns the list of all sections of <a> if there are finitely many of them and
-##  that can be established using free reduction of words in sections. Otherwise
+##  this fact can be established using free reduction of words in sections. Otherwise
 ##  will never stop. Note, that it does not check whether all elements of the list
-##  are actually different elements of a group (semigroup).
+##  are actually different automorphisms (homomorphisms) of the tree.
 ##  \beginexample
 ##  gap> D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
 ##  < x, y, z >

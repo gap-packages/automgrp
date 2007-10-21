@@ -32,7 +32,9 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 ##
 #P  IsFractal( <G> )
 ##
-##  Returns whether the group <G> is fractal.
+##  Returns whether the group <G> is fractal (also called as <self-replicating>). In other
+##  words, if for any vertex $v$ of the tree the projection of the stabilizer of $v$ in <G> 
+##  on this vertex coincides with the whole group <G>.
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
@@ -49,7 +51,7 @@ DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 ##
 ##  Computes the generators of stabilizers of vertices of the first level
 ##  and their projections on these vertices. Returns `true' if  the preimages of these
-##  projections in the free group under canonical epimorphism generate the whole free
+##  projections in the free group under the canonical epimorphism generate the whole free
 ##  group for each stabilizer, and the <G> acts transitively on the first level.
 ##  This is sufficient but not necessary condition for <G> to be fractal. See also
 ##  `IsFractal' ("IsFractal").
@@ -64,10 +66,10 @@ InstallTrueMethod(IsFractal, IsFractalByWords);
 ##
 ##  For a given finite self-similar group <G> determines the smallest level of
 ##  the tree, where <G> acts faithfully, i.e. the stabilizer of this level in <G>
-##  is trivial. The idea here is that for self-similar group all nontrivial level
+##  is trivial. The idea here is that for a self-similar group all nontrivial level
 ##  stabilizers are different. If <max_lev> is given it finds only first <max_lev>
-##  quotients by stabilizers and if all of them have different size returns `fail'.
-##  If <G> is infinite and <max_lev> is not specified will loop forever.
+##  quotients by stabilizers and if all of them have different size it returns `fail'.
+##  If <G> is infinite and <max_lev> is not specified it will loop forever.
 ##
 ##  See also `IsomorphismPermGroup' ("IsomorphismPermGroup").
 ##  \beginexample
@@ -89,11 +91,11 @@ DeclareAttribute("LevelOfFaithfulAction", IsTreeAutomorphismGroup and IsSelfSimi
 #A  IsContracting( <G> )
 ##
 ##  Given a self-similar group <G> tries to compute whether it is contracting or not.
-##  Only the partial method is implemented (since there is no general algorithm so far).
+##  Only a partial method is implemented (since there is no general algorithm so far).
 ##  First it tries to find the nucleus up to size 50 using `FindNucleus'(<G>,50) (see~"FindNucleus"), then
-##  it tries to find the evidence that the group is noncontracting using
+##  it tries to find evidence that the group is noncontracting using
 ##  `IsNoncontracting'(<G>,10,10) (see~"IsNoncontracting"). If the answer was not found one can try to use
-##  `FindNucleus' and `IsNoncontracting' with bigger tolerances.  Also one can use
+##  `FindNucleus' and `IsNoncontracting' with bigger parameters.  Also one can use
 ##  `SetInfoLevel(InfoAutomGrp, 3)' for more information to be displayed.
 ##
 ##  \beginexample
@@ -135,8 +137,8 @@ KeyDependentOperation("StabilizerOfLevel", IsTreeAutomorphismGroup, IsPosInt, Re
 ##
 #O  StabilizerOfVertex( <G>, <v> )
 ##
-##  Returns stabilizer of the vertex <v>. Here <v> can be a list represnting a
-##  vertex, or a positive intger representing a vertex at the first level.
+##  Returns the stabilizer of the vertex <v>. Here <v> can be a list representing a
+##  vertex, or a positive integer representing a vertex at the first level.
 ##  \beginexample
 ##  gap> StabilizerOfVertex(Basilica, [1,2,1]);
 ##  < v*u^4*v^-1, v*u^2*v^2*u^-2*v^-1, v^2, u^2, v*u^2*v*u^2*v^-1*u^-2*v^
@@ -151,9 +153,9 @@ DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 #O  Projection( <G>, <v> )
 #O  ProjectionNC( <G>, <v> )
 ##
-##  Returns projection of the group <G> at the vertex <v>. The group <G> must fix the
-##  the vertex <v>, otherwise `Error'() will be called. The operation `ProjectionNC' does the
-##  same thing, except it does not check whether <G> fixes vertex <v>.
+##  Returns the projection of the group <G> at the vertex <v>. The group <G> must fix the
+##  vertex <v>, otherwise `Error'() will be called. The operation `ProjectionNC' does the
+##  same thing, except it does not check whether <G> fixes the vertex <v>.
 ##  \beginexample
 ##  gap> Projection(StabilizerOfVertex(Basilica, [1,2,1]), [1,2,1]);
 ##  < v, u >
@@ -167,7 +169,7 @@ DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 ##
 #O  ProjStab (<G>, <v>)
 ##
-##  Returns projection of the stabilizer of <v> at itself. It is a shortcut for
+##  Returns the projection of the stabilizer of <v> at itself. It is a shortcut for
 ##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
 ##  "StabilizerOfVertex").
 ##  \beginexample
@@ -188,7 +190,7 @@ DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 ##
 #O  PermGroupOnLevel (<G>, <k>)
 ##
-##  Returns group of permutations induced by action of group <G> at the <k>-th
+##  Returns the group of permutations induced by the action of the group <G> at the <k>-th
 ##  level.
 ##  \beginexample
 ##  gap> PermGroupOnLevel(Basilica, 4);

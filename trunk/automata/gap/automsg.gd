@@ -143,6 +143,8 @@ DeclareAttribute("UnderlyingAutomaton", IsAutomSemigroup);
 ##
 ##  Returns an `AutomatonList' of `UnderlyingAutomaton'(<G>) (see "UnderlyingAutomaton").
 ##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> AutomatonList(Basilica);
 ##  [ [ 2, 5, (1,2) ], [ 1, 5, () ], [ 5, 4, (1,2) ], [ 3, 5, () ], [ 5, 5, () ] ]
 ##  \endexample

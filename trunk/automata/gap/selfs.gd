@@ -844,6 +844,8 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  < a, b, c, d >
 ##  gap> OrderUsingSections( a*b*a*c*b );
 ##  16
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> SetInfoLevel( InfoAutomGrp, 3);
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
 ##  #I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
@@ -885,6 +887,8 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##  The following examlple illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
 ##  gap> FindElement(GrigorchukGroup, Order, 16, 5);
 ##  a*b
 ##  gap> FindElements(GrigorchukGroup,Order,16,5);

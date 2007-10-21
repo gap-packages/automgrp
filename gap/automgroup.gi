@@ -254,7 +254,7 @@ end);
 ##
 #M  MihailovaSystem(G)
 ##
-## TODO XXX it's broken, test it
+##  TODO XXX it's broken, test it
 ##
 InstallMethod(MihailovaSystem, "for [IsAutomGroup]", [IsAutomGroup],
 function (G)

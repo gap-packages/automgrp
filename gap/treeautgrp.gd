@@ -55,6 +55,7 @@ DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 ##  group for each stabilizer, and the <G> acts transitively on the first level.
 ##  This is sufficient but not necessary condition for <G> to be fractal. See also
 ##  `IsFractal' ("IsFractal").
+##
 DeclareProperty("IsFractalByWords", IsTreeAutomorphismGroup);
 InstallTrueMethod(IsFractal, IsFractalByWords);
 

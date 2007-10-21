@@ -133,6 +133,4 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
 
 
-
-
 #E

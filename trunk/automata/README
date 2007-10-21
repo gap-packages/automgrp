@@ -32,7 +32,7 @@ Installing the AutomGrp package
 -------------------------------
 
 To install the AutomGrp package, move the archive file 'automgrp-1.0.tar.bz2' or
-'automgrp-1.0.tar.gz' (automgrp-1.0-win.zip if you are using a MS Window system)
+'automgrp-1.0.tar.gz' (automgrp-1.0-win.zip if you are using a Windows system)
 into the 'pkg' directory of your GAP installation, and unpack it. See section
 "ref:Installing GAP Packages" of the GAP 4 reference manual for details and
 additional options for installing GAP packages.

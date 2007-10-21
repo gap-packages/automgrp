@@ -23,7 +23,7 @@ DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
 
 #############################################################################
 ##
-#F  UseAGRewritingSystem( <G>[, <setting>] )
+#O  UseAGRewritingSystem( <G>[, <setting>] )
 ##
 ##  Tells whether computations in the group <G> should use a rewriting system.
 ##  Namely, the rewriting system will be used if and only if the boolean argument <setting>

@@ -30,7 +30,7 @@ InstallTrueMethod(IsInvertibleSelfSimCollection, IsSelfSimGroup);
 ##  or <list>, or given by the argument <automaton>.
 ##
 ##  The argument <string> is a conventional notation of the form
-##  `name1 = (word11, word12, ..., word1d)perm1, name2 = ...'
+##  `name1=(word11,word12,...,word1d)perm1, name2=...'
 ##  where each `name\*' is a name of a state, `word\*' is an associative word
 ##  over the alphabet consisting of all `name\*', and each `perm\*' is a
 ##  permutation written in {\GAP} notation. Trivial permutations may be

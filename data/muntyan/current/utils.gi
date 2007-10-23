@@ -74,9 +74,9 @@ end);
 
 ###############################################################################
 ##
-#F  IsEqualSphericalIndex(<ind1>, <ind2>)
+##  AG_IsEqualSphericalIndex(<ind1>, <ind2>)
 ##
-InstallGlobalFunction("IsEqualSphericalIndex",
+InstallGlobalFunction("AG_IsEqualSphericalIndex",
 function(M1, M2)
   return ReducedSphericalIndex(M1) = ReducedSphericalIndex(M2);
 end);

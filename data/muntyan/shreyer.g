@@ -6,7 +6,7 @@
 shreyer_gens := function(G, gens, n)
   local vertices, vert_graph, gens_graph, vert_num, gens_num, i, j, img;
 
-  vertices := TreeLevelTuples(SphericalIndex(G), n);
+  vertices := AG_TreeLevelTuples(SphericalIndex(G), n);
   vert_num := Length(vertices);
   gens_num := Length(gens);
   vert_graph := List([1..vert_num], i -> [i]);

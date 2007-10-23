@@ -78,7 +78,7 @@ find_diff_bidual := function(d, m)
     Add(symmetries, s);
   od;
 
-  s := l -> InverseAutomatonList(l);
+  s := l -> AG_InverseAutomatonList(l);
   s := List(all, s);
   s := PermListList(all, s);
   Add(symmetries, s);

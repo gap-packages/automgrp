@@ -14,7 +14,7 @@ function(perms, deg, round, stacksize)
   temp_dir, temp_file, temp_file_name, sci_temp_file, sci_temp_file_name,
   plot_spectra_func_file, exec_string;
 
-  plot_spectra_func_file := Filename(DirectoriesPackageLibrary("automata","scilab"),
+  plot_spectra_func_file := Filename(DirectoriesPackageLibrary("automgrp","scilab"),
                                      "PlotSpectraPermsInScilab.sci");
   if plot_spectra_func_file = fail then
     Print("error in PlotSpectraPermsInScilab:\n  scilab file not found\n");

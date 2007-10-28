@@ -61,39 +61,62 @@ end);
 
 #############################################################################
 ##
-#M  PlotSpectraInScilabAddInverses(<G>, <level>)
+##  PlotSpectraInScilabAddInverses(<obj>, <level>[, <round>])
 ##
 InstallOtherMethod(PlotSpectraInScilabAddInverses,
                    [IsTreeAutomorphismGroup, IsPosInt],
-function(G, lev)
-  PlotSpectraInScilabAddInverses(G, lev, AG_Globals.round_spectra);
+function(G, level)
+  PlotSpectraInScilabAddInverses(G, level, AG_Globals.round_spectra);
 end);
 
-
-#############################################################################
-##
-#M  PlotSpectraInScilabAddInverses(<G>, <level>, <round>)
-##
 InstallMethod(PlotSpectraInScilabAddInverses,
               [IsTreeAutomorphismGroup, IsPosInt, IsPosInt],
-function(G, lev, round)
-  local gens;
-  gens := Filtered(List(GeneratorsOfGroup(G), g -> PermOnLevel(g, lev)),
-                    p -> not IsOne(p));
-  PlotSpectraInScilabAddInverses(gens, DegreeOfTree(G)^lev, round);
+function(G, level, round)
+  PlotSpectraInScilabAddInverses(GeneratorsOfGroup(G), level, round);
+end);
+
+InstallOtherMethod(PlotSpectraInScilabAddInverses,
+                   [IsList and IsTreeAutomorphismCollection, IsPosInt],
+function(gens, level)
+  PlotSpectraInScilabAddInverses(gens, level, AG_Globals.round_spectra);
+end);
+
+InstallMethod(PlotSpectraInScilabAddInverses,
+              [IsList and IsTreeAutomorphismCollection, IsPosInt, IsPosInt],
+function(gens, level, round)
+  gens := Concatenation(gens, List(gens, g->g^-1));
+  PlotSpectraInScilab(gens, level, round);
 end);
 
 
 #############################################################################
 ##
-#M  PlotSpectraInScilabAddInverses(<perm_list>, <perm_deg>, <round>)
+##  PlotSpectraInScilab(<list>, <level>[, <round>])
 ##
-InstallMethod(PlotSpectraInScilabAddInverses,
-              [IsList and IsPermCollection, IsPosInt, IsPosInt],
-function(perms, perm_deg, round)
-  PlotSpectraPermsInScilab( Concatenation(perms, List(perms, p -> p^-1)),
-                            perm_deg, round,
-                            AG_Globals.scilab_stacksize );
+InstallMethod(PlotSpectraInScilab,
+              [IsList and IsTreeAutomorphismCollection, IsPosInt, IsPosInt],
+function(gens, level, round)
+  PlotSpectraPermsInScilab(List(gens, g -> PermOnLevel(g, level)),
+                           DegreeOfTree(gens[1])^level, round,
+                           AG_Globals.scilab_stacksize);
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
+                   [IsList and IsTreeAutomorphismCollection, IsPosInt],
+function(gens, level)
+  PlotSpectraInScilab(gens, level, AG_Globals.round_spectra);
+end);
+
+InstallMethod(PlotSpectraInScilab,
+              [IsTreeAutomorphismGroup, IsPosInt, IsPosInt],
+function(G, level, round)
+  PlotSpectraInScilab(GeneratorsOfGroup(G), level, round);
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
+                   [IsTreeAutomorphismGroup, IsPosInt],
+function(G, level)
+  PlotSpectraInScilab(G, level, AG_Globals.round_spectra);
 end);
 
 

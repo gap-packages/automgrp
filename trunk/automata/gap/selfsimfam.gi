@@ -30,6 +30,7 @@ DeclareRepresentation("IsSelfSimFamilyRep",
                                           # Some fi^-1 may be missing if corresponding
                                           # generator is not invertible (but the list still
                                           # has the length of 2n + 1).
+                        "recurgens",      # Generators of the group, list of length n.
                         "numstates",      # number of non - trivial generating states
                         "deg",
                         "trivstate",      # 0 or 2*numstates + 1

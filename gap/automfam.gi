@@ -30,6 +30,7 @@ DeclareRepresentation("IsAutomFamilyRep",
                                           # Some fi^-1 may be missing if corresponding
                                           # generator is not invertible (but the list still
                                           # has the length of 2n+1).
+                        "automgens",      # Generators of the group, list of length n.
                         "numstates",      # number of non-trivial generating states
                         "deg",
                         "trivstate",      # 0 or 2*numstates+1
@@ -195,7 +196,7 @@ function (list, names, bind_global)
   family!.oldstates := oldstates;
   family!.use_rws := false;
   family!.rws := fail;
-  family!.use_contraction := false;    
+  family!.use_contraction := false;
 
   SetIsActingOnBinaryTree(family, deg = 2);
   SetDegreeOfTree(family, deg);

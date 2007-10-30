@@ -1,4 +1,4 @@
-############################### ##############################################
+#############################################################################
 ##
 #W  automfam.gd              automgrp package                  Yevgen Muntyan
 #W                                                             Dmytro Savchuk
@@ -56,7 +56,7 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 ##
 #O  DiagonalAction(<fam>[, <k>])
 ##
-##  For a given automaton group <G> acting on alphabet $X$ and corresponding family 
+##  For a given automaton group <G> acting on alphabet $X$ and corresponding family
 ##  <fam> of automata one can consider the action of $<G>^<k>$ on $X^<k>$ defined by
 ##  $(x_1,x_2,\ldots, x_k)^{(g_1,g_2,\ldots,g_k)}=(x_1^{g_1},x_2^{g_2},\ldots,x_k^{g_k})$.
 ##  This function constructs a self-similar group, which encodes this action. If

@@ -176,7 +176,7 @@ $$f_0=(f_0,f_0)(1,2),\quad f_1=(f_1,f_0)[2,2].$$
 \>UniversalD_omega
 
 is the group constructed in~\cite{Nek07} as a universal group which covers an uncountable family
-of groups parametrized by infinite binary sequences. It is contracting with nucleus consisting of 25
+of groups parametrized by infinite binary sequences. It is contracting with nucleus consisting of 35
 elements. The automaton generating it is the following (it acts on the 4-ary tree)
 $$a=(1,2)(3,4),\quad b=(a,c,a,c),\quad c=(b,1,1,b)\.$$
 

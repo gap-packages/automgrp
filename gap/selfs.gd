@@ -12,8 +12,9 @@
 ##
 #A  GroupNucleus( <G> )
 ##
-##  Tries to compute the <nucleus> (the minimal set that need not contain original
-##  generators) of a self-similar group <G>. It uses `FindNucleus' (see "FindNucleus")
+##  Tries to compute the <nucleus> (see the definition in "Short math background") of
+##  a self-similar group <G>. Note that this set need not contain the original
+##  generators of <G>. It uses `FindNucleus' (see "FindNucleus")
 ##  operation and behaves accordingly: if the group is not contracting it will loop
 ##  forever. See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##
@@ -31,9 +32,9 @@ DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
 ##
 #A  GeneratingSetWithNucleus( <G> )
 ##
-##  Tries to compute the generating set of the group which includes the original
-##  generators and the <nucleus> (the minimal set that need not contain original
-##  generators) of a self-similar group <G>. It uses `FindNucleus' operation
+##  Tries to compute the generating set of a self-similar group <G> that includes 
+##  the original generators and the <nucleus> (see "Short math background") of <G>.
+##  It uses `FindNucleus' operation
 ##  and behaves accordingly: if the group is not contracting
 ##  it will loop forever (modulo memory constraints, of course).
 ##  See also `GroupNucleus' ("GroupNucleus").
@@ -523,9 +524,9 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 ##  Given a self-similar group <G> it tries to find its nucleus. If the group
 ##  is not contracting it will loop forever. When it finds the nucleus it returns
-##  the triple [`GeneratingSetWithNucleus'(<G>), `GroupNucleus'(<G>),
-##  `GeneratingSetWithNucleusAutom'(<G>)] (see "GeneratingSetWithNucleus",
-##  "GroupNucleus", "GeneratingSetWithNucleusAutom").
+##  the triple [`GroupNucleus'(<G>), `GeneratingSetWithNucleus'(<G>),
+##  `GeneratingSetWithNucleusAutom'(<G>)] (see "GroupNucleus", "GeneratingSetWithNucleus",
+##  "GeneratingSetWithNucleusAutom").
 ##
 ##  If <max_nucl> is given it stops after finding <max_nucl> elements that need to be in
 ##  the nucleus and returns `fail' if the nucleus was not found.
@@ -883,8 +884,8 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##  and returns the list of elements $g$, for which <func>($g$)=<val>.
 ##
 ##  These functions are based on `Iterator' operation (see "Iterator"), so can be applied in
-##  more general settings whenever \GAP knows how to solve word problem in the group.
-##  The following examlple illustrates how to find an element of order 16 in
+##  more general settings whenever \GAP\ knows how to solve word problem in the group.
+##  The following example illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");

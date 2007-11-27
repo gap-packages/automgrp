@@ -178,6 +178,7 @@ InstallGlobalFunction(IsOneWordContr, function(word, G)
   IsOneWordContrLocal:=function(word)
     local i, b, l, v, c, k, res, t, w;
     w := ShallowCopy(word);
+#    Print("w=",w,"\n");
     if Length(w) = 0 then return true; fi;
     if Length(w) = 1 then
       if w = [1] then return true;
@@ -254,7 +255,7 @@ InstallGlobalFunction(CONVERT_ASSOCW_TO_LIST, function(w)
 end);
 
 
-InstallGlobalFunction(IsOneContr, 
+InstallGlobalFunction(IsOneContr,
 function(a)
   local a_list, a_list_orig, track_l, Gi, i;
 
@@ -569,6 +570,7 @@ function(H)
 
   ContractingLevelLocal := function(G)
     local i, j, res, ContPairs, d, maxlev, n, Pairs, DoesPairContract;
+
     DoesPairContract := function(i, j, lev)
       local t, res, localmaxlev;
       if lev > maxlev then maxlev := lev; fi;
@@ -659,7 +661,7 @@ function(H)
               g1 := G[PairAct[t][1]][k];
               g2 := G[PairAct[t][2]][k^G[PairAct[t][1]][d+1]];
               if Pairs[g1][g2] <> 0 then Add(TmpList, Pairs[g1][g2]);
-                                  else Add(TmpList, [g1, g2]);
+                                    else Add(TmpList, [g1, g2]);
               fi;
             od;
           fi;
@@ -902,9 +904,9 @@ end);
 
 
 InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic, IsBool]", true,
-                                    [IsAutomatonGroup, IsCyclotomic, IsBool], 
+                                    [IsAutomatonGroup, IsCyclotomic, IsBool],
 function(H, max_nucl, print_info)
-  local G, g, Pairs, i, j, PairsToAdd, AssocWPairsToAdd, res, ContPairs, n, d, found, num, DoesPairContract, AddPairs, lev, maxlev, tmp, Nucl, IsElemInNucleus, 
+  local G, g, Pairs, i, j, PairsToAdd, AssocWPairsToAdd, res, ContPairs, n, d, found, num, DoesPairContract, AddPairs, lev, maxlev, tmp, Nucl, IsElemInNucleus,
     nucl_final, cur_nucl, cur_nucl_tmp, Hi, track_s, track_l, G_track, automgens, cur_nucl_length, info;
 
   DoesPairContract := function(i, j, lev)
@@ -1082,15 +1084,15 @@ function(H, max_nucl, print_info)
   SetGeneratingSetWithNucleus(H, cur_nucl);
   SetAG_GeneratingSetWithNucleusAutom(H, G);
   SetGeneratingSetWithNucleusAutom(H, MealyAutomaton(G));
-  SetContractingLevel(H, maxlev);
+  #SetContractingLevel(H, maxlev);
   UseContraction(H);
 
   return [nucl_final, cur_nucl, GeneratingSetWithNucleusAutom(H)];
 end);
 
 
-InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsBool]", true, 
-                                    [IsAutomatonGroup, IsBool], 
+InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsBool]", true,
+                                    [IsAutomatonGroup, IsBool],
 function(H, print_info)
   return FindNucleus(H, infinity, print_info);
 end);
@@ -2863,8 +2865,8 @@ function(a, max_depth)
       el := cur_list[i];
       if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
         if Product(degs{[i..Length(degs)]}) > 1 then
-          if i > 1 then Info(InfoAutomGrp, 3, "(", a!.word, ")^", Product(degs{[1..i-1]}), " has ", el!.word, " as a section at vertex ", vertex{[1..i-1]}); fi;
-          Info(InfoAutomGrp, 3, "(", el!.word, ")^", Product(degs{[i..Length(degs)]}), " has conjugate of ", g!.word, " as a section at vertex ", vertex{[i..Length(degs)]});
+          if i > 1 then Info(InfoAutomGrp, 3, el!.word, " is obtained from (", a!.word, ")^", Product(degs{[1..i-1]}), "\n    by taking sections and cyclic reductions at vertex ", vertex{[1..i-1]}); fi;
+          Info(InfoAutomGrp, 3, g!.word, " is obtained from (", el!.word, ")^", Product(degs{[i..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex{[i..Length(degs)]});
           SetIsFinite(GroupOfAutomFamily(FamilyObj(a)), false);
           return infinity;
         else
@@ -2963,8 +2965,8 @@ end);
 
 
 
-InstallMethod(FindElement, "for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]", true, 
-              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic], 
+InstallMethod(FindElement, "for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]", true,
+              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic],
 function(G, func, val, n)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k;
 

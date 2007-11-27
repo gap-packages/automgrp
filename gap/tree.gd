@@ -109,7 +109,7 @@ DeclareAttribute("FirstMovedLevel", IsActingOnTree);
 #A  AbelImage(<obj>)
 ##
 ##  Returns image of <obj> in the canonical projection onto the abelianization of
-##  the full group of tree automorphisms, represented as a subgroup of additive
+##  the full group of tree automorphisms, represented as a subgroup of the additive
 ##  group of rational functions.
 ##
 DeclareAttribute("AbelImage", IsActingOnTree);

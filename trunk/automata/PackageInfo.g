@@ -161,7 +161,7 @@ Status := "deposited",
 README_URL :=
   "http://finautom.sourceforge.net/README",
 PackageInfoURL :=
-  "http://finautom.sourceforge.net/PackageInfo.g",
+  "http://finautom.sourceforge.net/automgrp/PackageInfo.g",
 
 ##  Here you  must provide a short abstract explaining the package content
 ##  in HTML format (used on the package overview Web page) and an URL
@@ -220,9 +220,8 @@ PackageDoc := rec(
  LongTitle := "Automata Groups",
  # Should this help book be autoloaded when GAP starts up? This should
  # usually be 'true', otherwise say 'false'.
- Autoload  := true
+ Autoload  := false
 ),
-
 
 ##  Are there restrictions on the operating system for this package? Or does
 ##  the package need other packages to be available?
@@ -297,7 +296,7 @@ AvailabilityTest := ReturnTrue,
 ##  the overall system performance for many users.
 
 ##  It's unlikely the package ever gets accepted, so it's safely can be 'true'
-Autoload := true,
+Autoload := false,
 
 ##  *Optional*, but recommended: path relative to package root to a file which
 ##  contains as many tests of the package functionality as sensible.
@@ -306,7 +305,7 @@ TestFile := "tst/testall.g",
 ##  *Optional*: Here you can list some keyword related to the topic
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["finite automata", "tree automorphisms"]
+Keywords := ["finite automata", "tree automorphisms", "self-similar groups"]
 
 ));
 

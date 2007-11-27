@@ -146,7 +146,7 @@ end);
 ##
 InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup,
                                     IsList and IsTreeAutomorphismCollection, 
-                                    IsPosInt], 
+                                    IsPosInt],
 function(G, gens, level)
   local overgroup;
 
@@ -208,7 +208,7 @@ end);
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "for [IsSelfSimGroup]", 
+InstallMethod(PrintObj, "for [IsSelfSimGroup]",
               [IsSelfSimGroup], 
 function(G)
   local i, gens, printone;
@@ -370,7 +370,7 @@ end);
 ##  regular representation, which works generally much slower. If <G> is self-similar
 ##  there is a level of the tree (see "LevelOfFaithfulAction"), where <G> acts faithfully.
 ##  The corresponding representation is returned in this case. If <max_lev> is given
-##  it finds only first <max_lev> quotients by stabilizers and if all of them have
+##  it finds only the first <max_lev> quotients by stabilizers and if all of them have
 ##  different size it returns `fail'.
 ##  If <G> is infinite and <max_lev> is not specified it will loop forever.
 ##
@@ -585,7 +585,8 @@ end);
 ##
 #O  Random(<G>)
 ##
-##  Returns a random element of a group (semigroup) <G>.
+##  Returns a random element of a group (semigroup) <G>. The operation is based
+##  on the generator of random elements in free groups and semigroups.
 ##
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
@@ -595,7 +596,7 @@ end);
 ##  \endexample
 ##
 InstallMethod(Random, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   local F, gens, pi;
 
@@ -616,8 +617,8 @@ end);
 ##
 #M  UnderlyingFreeSubgroup(<G>)
 ##
-InstallMethod(UnderlyingFreeSubgroup, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(UnderlyingFreeSubgroup, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   local f;
   if HasIsGroupOfSelfSimFamily(G) and IsGroupOfSelfSimFamily(G) then
@@ -635,8 +636,8 @@ end);
 ##
 #M  IndexInFreeGroup(<G>)
 ##
-InstallMethod(IndexInFreeGroup, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(IndexInFreeGroup, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
 end);
@@ -646,8 +647,8 @@ end);
 ##
 #M  UnderlyingFreeGenerators(<G>)
 ##
-InstallMethod(UnderlyingFreeGenerators, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(UnderlyingFreeGenerators, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   return List(GeneratorsOfGroup(G), g -> Word(g));
 end);
@@ -658,7 +659,7 @@ end);
 ##  AG_ApplyNielsen(<G>)
 ##
 InstallMethod(AG_ApplyNielsen, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   local fgens;
 
@@ -682,8 +683,8 @@ end);
 ##
 #M  TrivialSubmagmaWithOne(<G>)
 ##
-InstallMethod(TrivialSubmagmaWithOne, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(TrivialSubmagmaWithOne, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   return Subgroup(G, [One(G)]);
 end);
@@ -694,7 +695,7 @@ end);
 #M  IsSelfSimilarGroup(<G>)
 ##
 ##  Returns `true' if generators of <G> coincide with generators of the family
-InstallImmediateMethod(IsSelfSimilarGroup, IsSelfSimGroup, 0, 
+InstallImmediateMethod(IsSelfSimilarGroup, IsSelfSimGroup, 0,
 function(G)
   local fam;
   fam := UnderlyingSelfSimFamily(G);
@@ -707,8 +708,8 @@ end);
 ##
 #M  RecurList(<G>)
 ##
-InstallMethod(RecurList, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(RecurList, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   if IsSelfSimilarGroup(G) then
     return RecurList(GroupOfSelfSimFamily(UnderlyingSelfSimFamily(G)));
@@ -723,7 +724,7 @@ end);
 #M  IsSelfSimilar(<G>)
 ##
 InstallMethod(IsSelfSimilar, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   local g, i, res;
   res := true;
@@ -746,7 +747,7 @@ end);
 #M  UnderlyingSelfSimFamily(<G>)
 ##
 InstallMethod(UnderlyingSelfSimFamily, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   return FamilyObj(GeneratorsOfGroup(G)[1]);
 end);
@@ -757,7 +758,7 @@ end);
 #M  IsFiniteState(<G>)
 ##
 InstallMethod(IsFiniteState, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function, \
         inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom, \
@@ -814,12 +815,12 @@ function(G)
 
 
   if IsSelfSimilarGroup(G) then
-    free_groups_hom := 
-       GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H), 
+    free_groups_hom :=
+       GroupHomomorphismByImagesNC( Group(gens_in_freegrp), UnderlyingFreeGroup(H),
                                     gens_in_freegrp, images_in_freegrp );
 
-    inv_free_groups_hom := 
-       GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G), 
+    inv_free_groups_hom :=
+       GroupHomomorphismByImagesNC( UnderlyingFreeGroup(H), UnderlyingFreeGroup(G),
                                     UnderlyingFreeGenerators(H), preimages_in_freegrp );
 
     hom_function := function(a)
@@ -1041,7 +1042,7 @@ function(G)
 end);
 
 
-InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true, 
+InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true,
               [IsSelfSimilarGroup], 
 function(G)
   if IsContracting(G) then return GeneratingSetWithNucleus(G); fi;

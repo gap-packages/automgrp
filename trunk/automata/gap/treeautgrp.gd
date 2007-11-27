@@ -33,7 +33,8 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 #P  IsFractal( <G> )
 ##
 ##  Returns whether the group <G> is fractal (also called as <self-replicating>). In other
-##  words, if for any vertex $v$ of the tree the projection of the stabilizer of $v$ in <G> 
+##  words, if <G> acts transitively on the first level and for any vertex $v$ of the tree 
+##  the projection of the stabilizer of $v$ in <G>
 ##  on this vertex coincides with the whole group <G>.
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");

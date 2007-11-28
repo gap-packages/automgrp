@@ -566,76 +566,77 @@ end);
 
 InstallMethod(ContractingLevel, "for [IsAutomGroup]", [IsAutomGroup],
 function(H)
-  local ContractingLevelLocal;
-
-  ContractingLevelLocal := function(G)
-    local i, j, res, ContPairs, d, maxlev, n, Pairs, DoesPairContract;
-
-    DoesPairContract := function(i, j, lev)
-      local t, res, localmaxlev;
-      if lev > maxlev then maxlev := lev; fi;
-      if IsList(ContPairs[i][j]) then
-        if lev+ContPairs[i][j][1] > maxlev then maxlev := lev+ContPairs[i][j][1]; fi;
-        return true;
-      fi;
-      if Pairs[i][j] <> 0 then
-        ContPairs[i][j] := [0];
-        return true;
-      fi;
-      if ContPairs[i][j] = 2 then return false; fi;
-      t := 1; res := true;
-      ContPairs[i][j] := 2;
-      localmaxlev := 0;
-      while res and (t <= d) do
-        res := DoesPairContract(G[i][t], G[j][t^G[i][d+1]], lev+1);
-        if res then
-          if ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1 > localmaxlev then
-            localmaxlev := ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1;
-          fi;
-        fi;
-        t := t+1;
-      od;
-      if res then
-               ContPairs[i][j] := [localmaxlev];
-               return true;
-             else return false;
-      fi;
-    end;
-
-    res := true; maxlev := 0; ContPairs := [];
-    Pairs := InvestigatePairs(G);
-    n := Length(G);
-    for i in [1..n] do
-      Add(ContPairs, [[0]]);
-      for j in [1..n-1] do
-        if i = 1 then Add(ContPairs[i], [0]);
-               else Add(ContPairs[i], -1);
-        fi;
-      od;
-    od;
-    #Print(ContPairs, "\n");
-    i := 1;
-    d := Length(G[1])-1;
-    while res and (i <= n) do
-      j := 1;
-      while res and (j <= n) do
-        if ContPairs[i][j] = 0 then return -1; fi;
-        if ContPairs[i][j] = -1 then res := DoesPairContract(i, j, 0); fi;
-        j := j+1;
-      od;
-      i := i+1;
-    od;
-    #Print(ContPairs);
-    if res then return maxlev;
-           else return -1;
-    fi;
-  end;
+#   local ContractingLevelLocal;
+#
+#   ContractingLevelLocal := function(G)
+#     local i, j, res, ContPairs, d, maxlev, n, Pairs, DoesPairContract;
+#
+#     DoesPairContract := function(i, j, lev)
+#       local t, res, localmaxlev;
+#       if lev > maxlev then maxlev := lev; fi;
+#       if IsList(ContPairs[i][j]) then
+#         if lev+ContPairs[i][j][1] > maxlev then maxlev := lev+ContPairs[i][j][1]; fi;
+#         return true;
+#       fi;
+#       if Pairs[i][j] <> 0 then
+#         ContPairs[i][j] := [0];
+#         return true;
+#       fi;
+#       if ContPairs[i][j] = 2 then return false; fi;
+#       t := 1; res := true;
+#       ContPairs[i][j] := 2;
+#       localmaxlev := 0;
+#       while res and (t <= d) do
+#         res := DoesPairContract(G[i][t], G[j][t^G[i][d+1]], lev+1);
+#         if res then
+#           if ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1 > localmaxlev then
+#             localmaxlev := ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1;
+#           fi;
+#         fi;
+#         t := t+1;
+#       od;
+#       if res then
+#                ContPairs[i][j] := [localmaxlev];
+#                return true;
+#              else return false;
+#       fi;
+#     end;
+#
+#     res := true; maxlev := 0; ContPairs := [];
+#     Pairs := InvestigatePairs(G);
+#     n := Length(G);
+#     for i in [1..n] do
+#       Add(ContPairs, [[0]]);
+#       for j in [1..n-1] do
+#         if i = 1 then Add(ContPairs[i], [0]);
+#                else Add(ContPairs[i], -1);
+#         fi;
+#       od;
+#     od;
+#     #Print(ContPairs, "\n");
+#     i := 1;
+#     d := Length(G[1])-1;
+#     while res and (i <= n) do
+#       j := 1;
+#       while res and (j <= n) do
+#         if ContPairs[i][j] = 0 then return -1; fi;
+#         if ContPairs[i][j] = -1 then res := DoesPairContract(i, j, 0); fi;
+#         j := j+1;
+#       od;
+#       i := i+1;
+#     od;
+#     #Print(ContPairs);
+#     if res then return maxlev;
+#            else return -1;
+#     fi;
+#   end;
 ################ ContractingLevel itself #################################
 
   if not HasIsContracting(H) then
     Info(InfoAutomGrp, 1, "If  < H >  is not contracting, the algorithm will never stop");
   fi;
-  return ContractingLevelLocal(AG_GeneratingSetWithNucleusAutom(H));
+  FindNucleus(H);
+  return ContractingLevel(H);
 end);
 
 
@@ -909,32 +910,70 @@ function(H, max_nucl, print_info)
   local G, g, Pairs, i, j, PairsToAdd, AssocWPairsToAdd, res, ContPairs, n, d, found, num, DoesPairContract, AddPairs, lev, maxlev, tmp, Nucl, IsElemInNucleus,
     nucl_final, cur_nucl, cur_nucl_tmp, Hi, track_s, track_l, G_track, automgens, cur_nucl_length, info;
 
+#   DoesPairContract := function(i, j, lev)
+#     local t, res;
+#     if lev > maxlev then maxlev := lev; fi;
+#
+#     # ContPairs[i][j] may take the following values:
+#     # -1 - [i, j] was not met before
+#     # 1  - [i, j] contracts
+#     # 2  - [i, j] was met above in the tree
+#
+#     if (ContPairs[i][j] = 1) then return true; fi;
+#     if Pairs[i][j] <> 0 then
+#       ContPairs[i][j] := 1;
+#       return true;
+#     fi;
+#     # if we've seen this pair before it needs to be in the nucleus
+#     if ContPairs[i][j] = 2 then return [i, j]; fi;
+#     t := 1; res := true;
+#     ContPairs[i][j] := 2;
+#     while res = true and (t <= d) do
+#       res := DoesPairContract(G[i][t], G[j][t^G[i][d+1]], lev+1);
+#       t := t+1;
+#     od;
+#     if res = true then
+#              ContPairs[i][j] := 1;
+#              return true;
+#     else return res;
+#     fi;
+#   end;
+
+
   DoesPairContract := function(i, j, lev)
-    local t, res;
+    local t, res, localmaxlev;
     if lev > maxlev then maxlev := lev; fi;
 
-    # ContPairs[i][j] may take the following values:
-    # -1 - [i, j] was not met before
-    # 1  - [i, j] contracts
-    # 2  - [i, j] was met above in the tree
+#   ContPairs[i][j] may take the following values:
+#   -1 - [i, j] was not met before
+#   [k]  - [i, j] contracts on level k
+#   2  - [i, j] was met above in the tree
 
-    if (ContPairs[i][j] = 1) then return true; fi;
-    if Pairs[i][j] <> 0 then
-      ContPairs[i][j] := 1;
+    if IsList(ContPairs[i][j]) then
+      if lev+ContPairs[i][j][1] > maxlev then maxlev := lev+ContPairs[i][j][1]; fi;
       return true;
     fi;
-    # if we've seen this pair before it needs to be in the nucleus
-    if ContPairs[i][j] = 2 then return [i, j]; fi;
+    if Pairs[i][j] <> 0 then
+      ContPairs[i][j] := [0];
+      return true;
+    fi;
+    if ContPairs[i][j] = 2 then return [i,j]; fi;
     t := 1; res := true;
     ContPairs[i][j] := 2;
+    localmaxlev := 0;
     while res = true and (t <= d) do
       res := DoesPairContract(G[i][t], G[j][t^G[i][d+1]], lev+1);
+      if res = true then
+        if ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1 > localmaxlev then
+          localmaxlev := ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1;
+        fi;
+      fi;
       t := t+1;
     od;
     if res = true then
-             ContPairs[i][j] := 1;
+             ContPairs[i][j] := [localmaxlev];
              return true;
-    else return res;
+           else return res;
     fi;
   end;
 
@@ -1004,14 +1043,25 @@ function(H, max_nucl, print_info)
     else
       Info(InfoAutomGrp, 3, "Trying generating set with ", n, " elements");
     fi;
+#     for i in [1..n] do
+#       Add(ContPairs, [1]);
+#       for j in [1..n-1] do
+#         if i = 1 then Add(ContPairs[i], 1);
+#                else Add(ContPairs[i], -1);
+#         fi;
+#       od;
+#     od;
+
     for i in [1..n] do
-      Add(ContPairs, [1]);
+      Add(ContPairs, [[0]]);
       for j in [1..n-1] do
-        if i = 1 then Add(ContPairs[i], 1);
+        if i = 1 then Add(ContPairs[i], [0]);
                else Add(ContPairs[i], -1);
         fi;
       od;
     od;
+
+
     i := 1;
 
     while res = true and (i <= n) do
@@ -1084,7 +1134,7 @@ function(H, max_nucl, print_info)
   SetGeneratingSetWithNucleus(H, cur_nucl);
   SetAG_GeneratingSetWithNucleusAutom(H, G);
   SetGeneratingSetWithNucleusAutom(H, MealyAutomaton(G));
-  #SetContractingLevel(H, maxlev);
+  SetContractingLevel(H, maxlev);
   UseContraction(H);
 
   return [nucl_final, cur_nucl, GeneratingSetWithNucleusAutom(H)];

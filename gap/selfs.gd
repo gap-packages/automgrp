@@ -139,6 +139,11 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  the decision on which algorithm to use is left to the user. To use the
 ##  exponential algorithm one can use the second operation `DoNotUseContraction'(<G>).
 ##
+##  Note also then in order to use the polynomial time algorithm the `ContractingTable(G)'
+##  (see "ContractingTable") has to be computed first, which takes some time when the
+##  nucleus is big. This attribute is computed automatically when the word problem is solved
+##  for the first time. This sometimes causes some delay.
+##
 ##  Below we provide an example which shows that both methods can be of use.
 ##  %notest
 ##  \beginexample
@@ -148,26 +153,34 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  true
 ##  gap> Size(GroupNucleus(G));
 ##  41
+##  gap> ContractingLevel(G);
+##  6
+##  gap> ContractingTable(G);; time;
+##  14901
 ##  gap> v := a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1;;
 ##  gap> w := b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^-1;;
 ##  gap> UseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  70
-##  gap> FindGroupRelations(G, 3);; time;
+##  571
+##  gap> FindGroupRelations(G, 5);; time;
 ##  a^2
 ##  b^2
 ##  c^2
-##  8152
+##  b*a*b*c*a*b*a*b*c*a
+##  b*c*a*c*a*b*c*a*c*a
+##  1652
 ##  gap> DoNotUseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  5999
-##  gap> FindGroupRelations(G, 3);; time;
+##  7962
+##  gap> FindGroupRelations(G, 5);; time;
 ##  a^2
 ##  b^2
 ##  c^2
-##  10
+##  b*a*b*c*a*b*a*b*c*a
+##  b*c*a*c*a*b*c*a*c*a
+##  731
 ##  \endexample
 ##
 DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
@@ -590,7 +603,7 @@ DeclareGlobalFunction("InversePerm");
 ##  of all leaves of the portrait. This boundary can be described by an ordered set of
 ##  pairs $[level_i, g_i]$, $i=1,\ldots,r$ representing the leaves of the tree ordered from left
 ##  to right (where $level_i$ and $g_i$ are the level and the label of the $i$-th leaf
-##  correspondingly, $r$ is the number of leaves). The operation `AutomPortraitBoundary'(<a>) 
+##  correspondingly, $r$ is the number of leaves). The operation `AutomPortraitBoundary'(<a>)
 ##  computes this boundary.
 ##
 ##  `AutomPortraitDepth'( <a> ) returns the depth of the portrait, i.e. the minimal

@@ -2,5 +2,8 @@ Changes from 1.0 to 1.1
 
 - The bug with contracting level was fixed (in some rear cases IsOne did not work for contracting groups)
 - Order was improved (especially for infinite order)
+- Spherical transitivity for the elements of groups geven by wreath recursion acting on binary tree
+  was implemented
 - TransformationSemigroupOnLevel was added
 - Printing of tree homomorphisms was corrected
+- Some bugs in documentation were fixed

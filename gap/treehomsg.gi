@@ -219,7 +219,7 @@ function(G, k)
   # if there are Permutations and transformations convert all to transformations
   if Position(List(pgens,IsPerm),false) <> fail and Position(List(pgens,IsPerm),true) <> fail then
     for i in [1..Length(pgens)] do
-      if pgens[i]=() then pgens[i]:=Transformation([1..DegreeOfTree(G)^k]);
+      if pgens[i]=() then pgens[i]:=IdentityTransformation(DegreeOfTree(G)^k);
       elif IsPerm(pgens[i]) then pgens[i]:=AsTransformation(pgens[i]);
       fi;
     od;

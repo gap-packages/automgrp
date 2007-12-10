@@ -263,7 +263,7 @@ InstallValue(AG_AbelImageSpherTrans, One(AG_AbelImageX)/ (One(AG_AbelImageX) + A
 ##
 InstallGlobalFunction(AG_AbelImageAutomatonInList,
 function(list)
-  local zero, one, x, m, mk, e, n, d, s, i, det, detk, result;
+  local zero, one, x, m, mk, e, n, d, s, i, k, det, detk, result;
 
   n := Length(list);
   d := Length(list[1]) - 1;
@@ -275,7 +275,15 @@ function(list)
 
   for s in [1..n] do
     for i in [1..d] do
-      m[s][list[s][i]] := m[s][list[s][i]] + x;
+      #  if the family is defined by wreath recursion
+      if IsList(list[s][i]) then
+        for k in [1..Length(list[s][i])] do
+          m[s][AbsInt(list[s][i][k])] := m[s][AbsInt(list[s][i][k])] + x;
+        od;
+      #  if the family is defined by automaton
+      else
+        m[s][list[s][i]] := m[s][list[s][i]] + x;
+      fi;
     od;
     if (list[s][d+1] = ()) then e[s] := zero;
     else e[s] := one; fi;

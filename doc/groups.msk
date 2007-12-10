@@ -43,6 +43,7 @@
 \Section{Operations with groups and semigroups}
 
 \Declaration{PermGroupOnLevel}
+\Declaration{TransformationSemigroupOnLevel}
 \Declaration{StabilizerOfLevel}
 \Declaration{StabilizerOfFirstLevel}
 \Declaration{StabilizerOfVertex}

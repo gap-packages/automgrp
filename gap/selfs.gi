@@ -2910,7 +2910,13 @@ function(a, max_depth)
 
   OrderUsingSections_LOCAL := function(g)
     local i, el, orb, Orbs, res, st, reduced_word, loc_order;
+#    Print("vertex=",vertex,"\n");
+#    Print("g=",g,"\n");
     if IsOne(g) then return 1; fi;
+    if IsActingOnBinaryTree(g) and IsSphericallyTransitive(g) then
+      Info(InfoAutomGrp, 3, g!.word, " acts transitively on levels and is obtained from (", a!.word, ")^", Product(degs{[1..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex);
+      return infinity;
+    fi;
     for i in [1..Length(cur_list)] do
       el := cur_list[i];
       if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
@@ -2939,8 +2945,13 @@ function(a, max_depth)
       reduced_word := AssocWordByLetterRep(FamilyObj(st!.word), CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word, " at ", vertex, "\n");
       res := OrderUsingSections_LOCAL(Autom(reduced_word, FamilyObj(g)));
-      if res = infinity or res = fail then return res; fi;
-      loc_order := Lcm(loc_order, res*Length(orb));
+      if res = infinity then return res; 
+      elif res=fail then
+        loc_order:=fail;
+      fi;
+      if loc_order<>fail then
+        loc_order := Lcm(loc_order, res*Length(orb));
+      fi;
       Remove(degs);
       Remove(vertex);
     od;
@@ -2963,8 +2974,8 @@ end);
 
 
 
-InstallMethod(OrderUsingSections, "for [IsAutom]", true, 
-              [IsAutom], 
+InstallMethod(OrderUsingSections, "for [IsAutom]", true,
+              [IsAutom],
 function(a)
   return OrderUsingSections(a, infinity);
 end);
@@ -3190,7 +3201,7 @@ end);
 
 
 InstallGlobalFunction(IsNoncontracting, function(arg)
-  local IsNoncontrElement, res, 
+  local IsNoncontrElement, res,
         G, n, depth;
 
   IsNoncontrElement := function(g)

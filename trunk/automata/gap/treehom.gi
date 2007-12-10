@@ -187,6 +187,34 @@ function (a)
     fi;
 end);
 
+###############################################################################
+##
+#M  PrintObj(<a>)
+##
+InstallMethod(PrintObj, "for [IsTreeHomomorphism and IsTreeHomomorphismRep]",
+                             [IsTreeHomomorphism and IsTreeHomomorphismRep],
+function (a)
+    local deg, i, states, perm;
+
+    states := Sections(a);
+    deg := Length(states);
+    perm := TransformationOnLevel(a, 1);
+
+    Print("(");
+    for i in [1..deg] do
+      if IsAutom(a!.states[i]) then
+        View(a!.states[i]);
+      else
+        Print(a!.states[i]);
+      fi;
+      if i <> deg then Print(", "); fi;
+    od;
+    Print(")");
+    if not IsOne(perm) then
+      AG_PrintTransformation(perm);
+    fi;
+end);
+
 
 ###############################################################################
 ##

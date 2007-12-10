@@ -862,8 +862,10 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  < u, v >
 ##  gap> SetInfoLevel( InfoAutomGrp, 3);
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
-##  #I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
-##  #I  (v^13*u^15)^4 has conjugate of v^13*u^15 as a section at vertex [ 1, 1 ]
+##  #I  v^13*u^15 is obtained from (u^23*v^-2*u^3*v^15)^1
+##      by taking sections and cyclic reductions at vertex [ 1 ]
+##  #I  v^13*u^15 is obtained from (v^13*u^15)^4
+##      by taking sections and cyclic reductions at vertex [ 1, 1 ]
 ##  infinity
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
 ##  fail
@@ -970,8 +972,8 @@ DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsC
 ##  gap> IsNoncontracting(H);
 ##  #I  There are 37 elements of length up to 2
 ##  #I  There are 187 elements of length up to 3
-##  #I  (a^2*c^-1*b^-1)^2 has conjugate of a^2*c^-1*b^-1 as a section at vertex
-##  [ 1, 1 ]
+##  #I  a^2*c^-1*b^-1 is obtained from (a^2*c^-1*b^-1)^2
+##      by taking sections and cyclic reductions at vertex [ 1, 1 ]
 ##  #I  a^2*c^-1*b^-1 has b*c*a^-2 as a section at vertex [ 2 ]
 ##  true
 ##  \endexample

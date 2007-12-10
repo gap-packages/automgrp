@@ -329,8 +329,8 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphism and IsActingOnBinaryTree],
 function(a)
   local ab;
-  Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): using AbelImage");
-  Info(InfoAutomGrp, 3, "  a = ", a);
+  Info(InfoAutomGrp, 4, "IsSphericallyTransitive(a): using AbelImage");
+  Info(InfoAutomGrp, 4, "  a = ", a);
   ab := AbelImage(a);
   return ab = One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
 end);
@@ -342,9 +342,9 @@ InstallMethod(IsSphericallyTransitive, "for [IsTreeAutomorphism]",
               [IsTreeAutomorphism],
 function(a)
   if not IsTransitive(Group(PermOnLevel(a, 1)), [1..Degree(a)]) then
-    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomGrp, 3, "  PermOnLevel(a, 1) isn't transitive");
-    Info(InfoAutomGrp, 3, "  a = ", a);
+    Info(InfoAutomGrp, 4, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 4, "  PermOnLevel(a, 1) isn't transitive");
+    Info(InfoAutomGrp, 4, "  a = ", a);
     return false;
   fi;
   TryNextMethod();
@@ -355,9 +355,9 @@ InstallMethod(IsSphericallyTransitive,
               [IsTreeAutomorphism and HasOrder],
 function(a)
   if Order(a) < infinity then
-    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(a): false");
-    Info(InfoAutomGrp, 3, "  Order(a) < infinity");
-    Info(InfoAutomGrp, 3, "  a = ", a);
+    Info(InfoAutomGrp, 4, "IsSphericallyTransitive(a): false");
+    Info(InfoAutomGrp, 4, "  Order(a) < infinity");
+    Info(InfoAutomGrp, 4, "  a = ", a);
     return false;
   fi;
   TryNextMethod();

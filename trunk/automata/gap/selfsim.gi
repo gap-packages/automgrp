@@ -548,8 +548,8 @@ end);
 
 
 
-InstallMethod(OrderUsingSections, "[IsSelfSim, IsCyclotomic]", true, 
-              [IsSelfSim, IsCyclotomic], 
+InstallMethod(OrderUsingSections, "[IsSelfSim, IsCyclotomic]", true,
+              [IsSelfSim, IsCyclotomic],
 function(a, max_depth)
   local OrderUsingSections_LOCAL, cur_list, F, degs, vertex, AreConjugateUsingSmallRels, gens_ord2, CyclicallyReduce, res;
 
@@ -629,8 +629,13 @@ function(a, max_depth)
       reduced_word := AssocWordByLetterRep(FamilyObj(st!.word), CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word, " at ", vertex, "\n");
       res := OrderUsingSections_LOCAL(SelfSim(reduced_word, FamilyObj(g)));
-      if res=infinity or res=fail then return res; fi;
-      loc_order := Lcm(loc_order, res*Length(orb));
+      if res = infinity then return res; 
+      elif res=fail then
+        loc_order:=fail;
+      fi;
+      if loc_order<>fail then
+        loc_order := Lcm(loc_order, res*Length(orb));
+      fi;
       Remove(degs);
       Remove(vertex);
     od;

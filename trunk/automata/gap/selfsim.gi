@@ -603,6 +603,12 @@ function(a, max_depth)
   OrderUsingSections_LOCAL := function(g)
     local i, el, orb, Orbs, res, st, reduced_word, loc_order;
     if IsOne(g) then return 1; fi;
+
+    if IsActingOnBinaryTree(g) and IsSphericallyTransitive(g) then
+      Info(InfoAutomGrp, 3, g!.word, " acts transitively on levels and is obtained from (", a!.word, ")^", Product(degs{[1..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex);
+      return infinity;
+    fi;
+
     for i in [1..Length(cur_list)] do
       el := cur_list[i];
       if (AreConjugateUsingSmallRels(g!.word, el!.word) or AreConjugateUsingSmallRels((g!.word)^(-1), el!.word)) then
@@ -670,28 +676,6 @@ end);
 
 
 
-
-###############################################################################
-##
-#M  AbelImage( <a> )
-##
-InstallMethod(AbelImage, "for [IsSelfSim]",
-              [IsSelfSim],
-function(a)
-  local abels, w, i;
-  w := LetterRepAssocWord(Word(a));
-  for i in [1..Length(w)] do
-    if w[i] < 0 then w[i] := -w[i]+FamilyObj(a)!.numstates; fi;
-  od;
-  abels := AG_AbelImagesGenerators(FamilyObj(a));
-  if not IsEmpty(w) then
-    return Sum(List(w, x -> abels[x]));
-  else
-    return Zero(abels[1]);
-  fi;
-end);
-
-
 InstallMethod(SphericalIndex, "for [IsSelfSim]", [IsSelfSim], 
 function(a)
   # XXX check uses of SphericalIndex everywhere
@@ -751,14 +735,14 @@ function(a)
       return OrderUsingSections(a, infinity);
     fi;
   fi;
-#  if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
-#    return infinity;
-#  fi;
+  if IsActingOnBinaryTree(a) and IsSphericallyTransitive(a) then
+    return infinity;
+  fi;
   ord_loc := OrderUsingSections(a, 10);
   if ord_loc <> fail then
     return ord_loc;
   fi;
-  TryNextMethod();
+  return OrderUsingSections(a, infinity);
 end);
 
 
@@ -766,8 +750,8 @@ end);
 ##
 #M  IsTransitiveOnLevel( <a>, <lev> )
 ##
-InstallMethod(IsTransitiveOnLevel, "for [IsInvertibleSelfSim, IsPosInt]", 
-              [IsInvertibleSelfSim, IsPosInt], 
+InstallMethod(IsTransitiveOnLevel, "for [IsInvertibleSelfSim, IsPosInt]",
+              [IsInvertibleSelfSim, IsPosInt],
 function(a, lev)
   return Length(OrbitPerms([PermOnLevel(a, lev)], 1)) = a!.deg^lev;
 end);

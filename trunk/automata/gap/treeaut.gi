@@ -153,7 +153,7 @@ end);
 ##
 #M  PrintObj(<a>)
 ##
-InstallMethod(PrintObj, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]", 
+InstallMethod(PrintObj, "for [IsTreeAutomorphism and IsTreeAutomorphismRep]",
                              [IsTreeAutomorphism and IsTreeAutomorphismRep],
 function (a)
     local deg, printword, i;
@@ -637,6 +637,29 @@ function(a)
   perm := Inverse(Perm(a));
   inv_states := List([1..Length(states)], i -> Inverse(states[i^perm]));
   return TreeAutomorphism(inv_states, perm);
+end);
+
+
+###############################################################################
+##
+#M  AbelImage(<a>)
+##
+##  XXX  Works for IsAutom or IsSelfSim only !!!!
+##
+InstallMethod(AbelImage, "for [IsTreeAutomorphism]",
+              [IsTreeAutomorphism],
+function(a)
+  local abels, w, i;
+  w := LetterRepAssocWord(Word(a));
+  for i in [1..Length(w)] do
+    if w[i] < 0 then w[i] := -w[i]+FamilyObj(a)!.numstates; fi;
+  od;
+  abels := AG_AbelImagesGenerators(FamilyObj(a));
+  if not IsEmpty(w) then
+    return Sum(List(w, x -> abels[x]));
+  else
+    return Zero(abels[1]);
+  fi;
 end);
 
 

@@ -40,4 +40,10 @@ UnitTest("Order", function()
 
   group := AutomatonGroup([[1,1,1,1,()],[1,1,1,1,(1,3)(2,4)],[1,2,4,4,()],[2,1,3,3,()]], ["e", "a", "b", "c"], false);
   AssertEqual(Order(group.1 * group.2), infinity);
+
+  group := SelfSimilarGroup("a=(c*b^-1,b)(1,2), b=(a*c,b), c=(b,a*b^-2)");
+  AssertEqual(Order(group.1), infinity);
+  AssertEqual(Order(group.2), infinity);
+  AssertEqual(Order(group.3), infinity);
+
 end);

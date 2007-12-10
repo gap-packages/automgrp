@@ -42,7 +42,7 @@ function(family, word, states, perm, invertible)
     cat := IsAutom and IsAutomRep;
   fi;
 
-  a := Objectify(NewType(family, cat), 
+  a := Objectify(NewType(family, cat),
                  rec(word := word, 
                      states := states, 
                      perm := perm, 
@@ -767,28 +767,7 @@ end);
 # end);
 
 
-###############################################################################
-##
-#M  AbelImage(<a>)
-##
-InstallMethod(AbelImage, "for [IsAutom]", 
-              [IsAutom], 
-function(a)
-  local abels, w, i;
-  w := LetterRepAssocWord(Word(a));
-  for i in [1..Length(w)] do
-    if w[i] < 0 then w[i] := -w[i]+FamilyObj(a)!.numstates; fi;
-  od;
-  abels := AG_AbelImagesGenerators(FamilyObj(a));
-  if not IsEmpty(w) then
-    return Sum(List(w, x -> abels[x]));
-  else
-    return Zero(abels[1]);
-  fi;
-end);
-
-
-InstallMethod(SphericalIndex, "for [IsAutom]", [IsAutom], 
+InstallMethod(SphericalIndex, "for [IsAutom]", [IsAutom],
 function(a)
   # XXX check uses of SphericalIndex everywhere
   return rec(start := [], period := [a!.deg]);
@@ -819,8 +798,8 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity,
 ##
 #M  IsSphericallyTransitive(<a>)
 ##
-InstallMethod(IsSphericallyTransitive, "for [IsAutom]", 
-              [IsInvertibleAutom], 
+InstallMethod(IsSphericallyTransitive, "for [IsAutom]",
+              [IsInvertibleAutom],
 function(a)
   local w, i, ab, abs;
 
@@ -838,8 +817,8 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallOtherMethod(Order, "for [IsInvertibleAutom]", true, 
-                   [IsInvertibleAutom], 
+InstallOtherMethod(Order, "for [IsInvertibleAutom]", true,
+                   [IsInvertibleAutom],
 function(a)
   local ord_loc;
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(FamilyObj(a))) then
@@ -852,7 +831,7 @@ function(a)
   if ord_loc <> fail then
     return ord_loc;
   fi;
-  TryNextMethod();
+  return OrderUsingSections(a, infinity);
 end);
 
 

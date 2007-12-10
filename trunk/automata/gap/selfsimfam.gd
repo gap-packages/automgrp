@@ -64,4 +64,11 @@ DeclareProperty("IsObviouslyFiniteState", IsSelfSimFamily);
 DeclareAttribute("GeneratorsOfOrderTwo", IsSelfSimFamily);
 
 
+###############################################################################
+##
+##  AG_AbelImagesGenerators(<fam>)
+##
+DeclareAttribute("AG_AbelImagesGenerators", IsSelfSimFamily);
+
+
 #E

@@ -220,4 +220,38 @@ DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
 KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 
 
+###############################################################################
+##
+#A  ContainsSphericallyTransitiveElement( <G> )
+##
+##  Returns the projection of the stabilizer of <v> at itself. It is a shortcut for
+##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
+##  "StabilizerOfVertex").
+##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> ProjStab(Basilica, [1,2,1]);
+##  < v, u >
+##  \endexample
+##
+DeclareAttribute("ContainsSphericallyTransitiveElement", IsTreeAutomorphismGroup);
+
+
+###############################################################################
+##
+#A  SphericallyTransitiveElement( <G> )
+##
+##  Returns the projection of the stabilizer of <v> at itself. It is a shortcut for
+##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
+##  "StabilizerOfVertex").
+##  \beginexample
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
+##  gap> ProjStab(Basilica, [1,2,1]);
+##  < v, u >
+##  \endexample
+##
+DeclareAttribute("SphericallyTransitiveElement", IsTreeAutomorphismGroup);
+
+
 #E

@@ -684,4 +684,31 @@ function(G)
 end);
 
 
+InstallMethod(ContainsSphericallyTransitiveElement, "for [IsTreeAutomorphismGroup and IsSelfSimilar and IsActingOnBinaryTree]",
+              [IsTreeAutomorphismGroup and IsSelfSimilar and IsActingOnBinaryTree],
+function(G)
+  local abels, indices, ab, trans;
+  abels := List( GeneratorsOfGroup(G), AbelImage);
+  if Length(abels)=0 then return false; fi;
+  ab:=abels[1];
+  trans:=One(ab)/(One(ab)+IndeterminateOfUnivariateRationalFunction(ab));
+  for indices in Combinations([1..Length(abels)]) do
+    if Sum(abels{indices})=trans then
+      SetSphericallyTransitiveElement(G,Product(GeneratorsOfGroup(G){indices}));
+      return true;
+    fi;
+  od;
+  return false;
+end);
+
+
+InstallMethod(SphericallyTransitiveElement, "for [IsTreeAutomorphismGroup and IsSelfSimilar and IsActingOnBinaryTree]",
+              [IsTreeAutomorphismGroup and IsSelfSimilar and IsActingOnBinaryTree],
+function(G)
+  ContainsSphericallyTransitiveElement(G);
+  return SphericallyTransitiveElement(G);
+end);
+
+
+
 #E

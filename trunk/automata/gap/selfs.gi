@@ -2913,9 +2913,14 @@ function(a, max_depth)
 #    Print("vertex=",vertex,"\n");
 #    Print("g=",g,"\n");
     if IsOne(g) then return 1; fi;
-    if IsActingOnBinaryTree(g) and IsSphericallyTransitive(g) then
-      Info(InfoAutomGrp, 3, g!.word, " acts transitively on levels and is obtained from (", a!.word, ")^", Product(degs{[1..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex);
-      return infinity;
+    
+    if IsActingOnBinaryTree(g) and 
+       HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) and 
+       ContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) then
+          if IsSphericallyTransitive(g) then
+            Info(InfoAutomGrp, 3, g!.word, " acts transitively on levels and is obtained from (", a!.word, ")^", Product(degs{[1..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex);
+            return infinity;
+          fi;
     fi;
     for i in [1..Length(cur_list)] do
       el := cur_list[i];

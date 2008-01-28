@@ -940,8 +940,8 @@ DeclareOperation("FindElements", [IsTreeHomomorphismSemigroup, IsFunction, IsObj
 ##  a*b*c
 ##  \endexample
 ##
-DeclareOperation("FindElementOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsCyclotomic]);
-DeclareOperation("FindElementsOfInfiniteOrder", [IsAutomGroup, IsCyclotomic, IsCyclotomic]);
+DeclareOperation("FindElementOfInfiniteOrder", [IsTreeHomomorphismSemigroup, IsCyclotomic, IsCyclotomic]);
+DeclareOperation("FindElementsOfInfiniteOrder", [IsTreeHomomorphismSemigroup, IsCyclotomic, IsCyclotomic]);
 
 
 ################################################################################

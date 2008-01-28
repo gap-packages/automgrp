@@ -1745,8 +1745,8 @@ function(subs_words, names, max_len, num_of_rels)
         for r in rels do
           cycr := LongCycle(Length(r));
           for j in [0..Length(r)-1] do
-            r_cyc := Permuted(r, cycr^j);
-            r_cyc_inv := inverseS(Permuted(r, cycr^j));
+            r_cyc := Permuted(r, cycr^j){[1..Int(Length(r)/2)+1]};
+            r_cyc_inv := inverseS(Permuted(r, cycr^j)){[1..Int(Length(r)/2)+1]};
             if PositionSublist(v_cyc, r_cyc) <> fail or PositionSublist(v_cyc, r_cyc_inv) <> fail then
               return false;
             fi;
@@ -1973,8 +1973,8 @@ function(G, max_len, num_of_rels)
         for r in rels do
           cycr := LongCycle(Length(r));
           for j in [0..Length(r)-1] do
-            r_cyc := Permuted(r, cycr^j);
-            r_cyc_inv := inverseS(Permuted(r, cycr^j));
+            r_cyc := Permuted(r, cycr^j){[1..Int(Length(r)/2)+1]};;
+            r_cyc_inv := inverseS(Permuted(r, cycr^j)){[1..Int(Length(r)/2)+1]};;
             if PositionSublist(v_cyc, r_cyc) <> fail or PositionSublist(v_cyc, r_cyc_inv) <> fail then
               return false;
             fi;
@@ -2136,7 +2136,7 @@ function(G, max_len, num_of_rels)
     rel1 := rel;
     repeat
       for r in all_relsF do
-        if PositionWord(rel1, r, 1) <> fail then return false; fi;
+        if PositionWord(rel1, Subword(r,1,Int(Length(r)/2)+1), 1) <> fail then return false; fi;
       od;
       rel1 := rel1^Subword(rel1, 1, 1);
     until rel1 = rel or not new_rel;
@@ -3178,8 +3178,8 @@ end);
 
 
 
-InstallMethod(FindElementOfInfiniteOrder, "for [IsAutomGroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsAutomGroup, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindElementOfInfiniteOrder, "for [IsTreeAutomorphismGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsCyclotomic, IsCyclotomic],
 function(G, n, depth)
   local CheckOrder, res;
 

@@ -6,4 +6,5 @@ Changes from 1.0 to 1.1
   was implemented
 - TransformationSemigroupOnLevel was added
 - Printing of tree homomorphisms was corrected
+- FindGroupRelations returns less superfluous relations now
 - Some bugs in documentation were fixed

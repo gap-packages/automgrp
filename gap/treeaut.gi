@@ -1,10 +1,10 @@
 #############################################################################
 ##
 #W  treeaut.gi                 automgrp package                Yevgen Muntyan
-#W                                                              Dmytro Sachuk
-##  automgrp v 1.0
+#W                                                             Dmytro Savchuk
+##  automgrp v 1.1
 ##
-#Y  Copyright (C) 2003-2007 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 

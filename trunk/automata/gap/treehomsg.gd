@@ -70,7 +70,7 @@ DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphismSemigroup, IsPosInt])
 ##  \beginexample
 ##  gap> S:=AutomatonSemigroup("y=(1,u)[1,1],u=(y,u)(1,2)");
 ##  < 1, y, u >
-##  gap> T:=TransformationSemigroupOnLevel(ss,3);
+##  gap> T:=TransformationSemigroupOnLevel(S,3);
 ##  <semigroup with 3 generators>
 ##  gap> Size(T);
 ##  11

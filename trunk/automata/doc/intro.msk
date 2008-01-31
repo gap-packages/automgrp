@@ -271,12 +271,12 @@ gap> Size(Image(f));
 
 Here is how to find relations in `Basilica' between elements of length not greater than 5.
 \beginexample
-gap> FindGroupRelations(Basilica, 5);
+gap> FindGroupRelations(Basilica, 6);
 v*u*v*u^-1*v^-1*u*v^-1*u^-1
-v*u*v^2*u^-1*v^-1*u*v^-2*u^-1
-v^2*u*v*u^-1*v^-2*u*v^-1*u^-1
-[ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u*v^2*u^-1*v^-1*u*v^-2*u^-1,
-  v^2*u*v*u^-1*v^-2*u*v^-1*u^-1 ]
+v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2
+v^2*u*v^2*u^-1*v^-2*u*v^-2*u^-1
+[ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2,
+  v^2*u*v^2*u^-1*v^-2*u*v^-2*u^-1 ]
 \endexample
 
 Or relations in the subgroup $\langle p=uv^{-1}, q=vu\rangle$

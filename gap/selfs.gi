@@ -2347,7 +2347,7 @@ function(subs_words, names, max_len, num_of_rels)
     rel1 := rel;
     repeat
       for r in all_relsF do
-        if PositionWord(rel1, r, 1) <> fail then return false; fi;
+        if PositionWord(rel1, Subword(r,1,Int(Length(r)/2)+1), 1) <> fail then return false; fi;
       od;
       rel1 := rel1^Subword(rel1, 1, 1);
     until rel1 = rel or not new_rel;
@@ -2914,9 +2914,10 @@ function(a, max_depth)
 #    Print("g=",g,"\n");
     if IsOne(g) then return 1; fi;
     
-    if IsActingOnBinaryTree(g) and 
-       HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) and 
-       ContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) then
+    if IsActingOnBinaryTree(g) and
+       not HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) or 
+       (HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) and
+       ContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g)))) then
           if IsSphericallyTransitive(g) then
             Info(InfoAutomGrp, 3, g!.word, " acts transitively on levels and is obtained from (", a!.word, ")^", Product(degs{[1..Length(degs)]}), "\n    by taking sections and cyclic reductions at vertex ", vertex);
             return infinity;

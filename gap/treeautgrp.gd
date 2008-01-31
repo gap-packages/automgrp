@@ -224,14 +224,18 @@ KeyDependentOperation("PermGroupOnLevel", IsTreeAutomorphismGroup, IsPosInt, Ret
 ##
 #A  ContainsSphericallyTransitiveElement( <G> )
 ##
-##  Returns the projection of the stabilizer of <v> at itself. It is a shortcut for
-##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
-##  "StabilizerOfVertex").
+##  For a self-similar group <G> acting on a binary tree returns `true' if <G> contains
+##  an element acting spherically transitively on the levels of the tree and `false'
+##  otherwise. See also `SphericallyTransitiveElement' ("SphericallyTransitiveElement").
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
-##  gap> ProjStab(Basilica, [1,2,1]);
-##  < v, u >
+##  gap> ContainsSphericallyTransitiveElement(Basilica);
+##  true
+##  gap> G := SelfSimilarGroup("a=(a^-1*b^-1,1)(1,2), b=(b^-1,a*b)");
+##  < a, b >
+##  gap> ContainsSphericallyTransitiveElement(G);
+##  false
 ##  \endexample
 ##
 DeclareAttribute("ContainsSphericallyTransitiveElement", IsTreeAutomorphismGroup);
@@ -241,14 +245,20 @@ DeclareAttribute("ContainsSphericallyTransitiveElement", IsTreeAutomorphismGroup
 ##
 #A  SphericallyTransitiveElement( <G> )
 ##
-##  Returns the projection of the stabilizer of <v> at itself. It is a shortcut for
-##  `Projection'(`StabilizerOfVertex'(G, v), v) (see "Projection",
-##  "StabilizerOfVertex").
+##  For a self-similar group <G> acting on a binary tree returns
+##  an element of <G> acting spherically transitively on the levels of the tree if
+##  such an element exists and `fail'
+##  otherwise. See also `ContainsSphericallyTransitiveElement'
+##  ("ContainsSphericallyTransitiveElement").
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
-##  gap> ProjStab(Basilica, [1,2,1]);
-##  < v, u >
+##  gap> SphericallyTransitiveElement(Basilica);
+##  u*v
+##  gap> G := SelfSimilarGroup("a=(a^-1*b^-1,1)(1,2), b=(b^-1,a*b)");
+##  < a, b >
+##  gap> SphericallyTransitiveElement(G);
+##  fail
 ##  \endexample
 ##
 DeclareAttribute("SphericallyTransitiveElement", IsTreeAutomorphismGroup);

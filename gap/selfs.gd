@@ -156,31 +156,31 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  gap> ContractingLevel(G);
 ##  6
 ##  gap> ContractingTable(G);; time;
-##  14901
+##  11336
 ##  gap> v := a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1;;
 ##  gap> w := b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^-1;;
 ##  gap> UseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  571
+##  251
 ##  gap> FindGroupRelations(G, 5);; time;
 ##  a^2
 ##  b^2
 ##  c^2
 ##  b*a*b*c*a*b*a*b*c*a
 ##  b*c*a*c*a*b*c*a*c*a
-##  1652
+##  881
 ##  gap> DoNotUseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  7962
+##  3855
 ##  gap> FindGroupRelations(G, 5);; time;
 ##  a^2
 ##  b^2
 ##  c^2
 ##  b*a*b*c*a*b*a*b*c*a
 ##  b*c*a*c*a*b*c*a*c*a
-##  731
+##  451
 ##  \endexample
 ##
 DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
@@ -752,12 +752,12 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
-##  gap> FindGroupRelations(Basilica, 5);
+##  gap> FindGroupRelations(Basilica, 6);
 ##  v*u*v*u^-1*v^-1*u*v^-1*u^-1
-##  v*u*v^2*u^-1*v^-1*u*v^-2*u^-1
-##  v^2*u*v*u^-1*v^-2*u*v^-1*u^-1
-##  [ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u*v^2*u^-1*v^-1*u*v^-2*u^-1,
-##    v^2*u*v*u^-1*v^-2*u*v^-1*u^-1 ]
+##  v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2
+##  v^2*u*v^2*u^-1*v^-2*u*v^-2*u^-1
+##  [ v*u*v*u^-1*v^-1*u*v^-1*u^-1, v*u^2*v^-1*u^2*v*u^-2*v^-1*u^-2,
+##    v^2*u*v^2*u^-1*v^-2*u*v^-2*u^-1 ]
 ##  gap> FindGroupRelations([u*v^-1, v*u], ["x", "y"], 5);
 ##  y*x^2*y*x^-1*y^-2*x^-1
 ##  [ y*x^2*y*x^-1*y^-2*x^-1 ]
@@ -869,6 +869,14 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  infinity
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
 ##  fail
+##  gap> G := AutomatonGroup("a=(c,a)(1,2), b=(b,c), c=(b,a)");
+##  < a, b, c >
+##  gap> OrderUsingSections(b,10);
+##  #I  b*c*a^2*b^2*c*a acts transitively on levels and is obtained from (b)^8
+##      by taking sections and cyclic reductions at vertex
+##  [ 2, 2, 1, 1, 1, 1, 2, 2, 1, 1 ]
+##  infinity
+
 ##  \endexample
 DeclareOperation("OrderUsingSections",[IsAutom]);
 DeclareOperation("OrderUsingSections",[IsAutom,IsCyclotomic]);

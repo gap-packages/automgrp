@@ -26,6 +26,7 @@
 \Declaration{IsFractal}
 \Declaration{IsFractalByWords}
 \Declaration{IsSphericallyTransitive}[treehomsg]
+\Declaration{ContainsSphericallyTransitiveElement}
 \Declaration{IsTransitiveOnLevel}[treehomsg]
 \Declaration{IsSelfSimilar}
 \Declaration{IsContracting}
@@ -77,6 +78,7 @@ gap> l;
 
 \Declaration{FindElement}
 \Declaration{FindElementOfInfiniteOrder}
+\Declaration{SphericallyTransitiveElement}
 \Declaration{Growth}
 \Declaration{ListOfElements}
 \Declaration{FindNucleus}

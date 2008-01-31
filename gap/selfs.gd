@@ -876,7 +876,6 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##      by taking sections and cyclic reductions at vertex
 ##  [ 2, 2, 1, 1, 1, 1, 2, 2, 1, 1 ]
 ##  infinity
-
 ##  \endexample
 DeclareOperation("OrderUsingSections",[IsAutom]);
 DeclareOperation("OrderUsingSections",[IsAutom,IsCyclotomic]);

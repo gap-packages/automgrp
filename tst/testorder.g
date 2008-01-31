@@ -46,4 +46,10 @@ UnitTest("Order", function()
   AssertEqual(Order(group.2), infinity);
   AssertEqual(Order(group.3), infinity);
 
+  group := AutomatonGroup("a=(c,a)(1,2), b=(b,c), c=(b,a)");
+  AssertEqual(Order(group.1), infinity);
+  AssertEqual(Order(group.2), infinity);
+  AssertEqual(Order(group.3), infinity);
+  AssertEqual(Order(group.1 * group.1 * group.3), infinity);
+
 end);

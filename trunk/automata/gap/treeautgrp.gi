@@ -698,6 +698,7 @@ function(G)
       return true;
     fi;
   od;
+  SetSphericallyTransitiveElement(G,fail);
   return false;
 end);
 

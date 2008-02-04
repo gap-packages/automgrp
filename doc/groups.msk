@@ -34,6 +34,7 @@
 \Declaration{IsGeneratedByAutomatonOfPolynomialGrowth}
 \Declaration{IsGeneratedByBoundedAutomaton}
 \Declaration{PolynomialDegreeOfGrowthOfUnderlyingAutomaton}
+\Declaration{IsOfSubexponentialGrowth}
 \Declaration{IsAmenable}
 \Declaration{UnderlyingAutomaton}
 \Declaration{AutomatonList}[automsg]

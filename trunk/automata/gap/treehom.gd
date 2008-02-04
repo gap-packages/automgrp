@@ -165,7 +165,6 @@ DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 ##  4
 ##  \endexample
 ##
-##  XXX IsTreeHomomorphism!!!
 DeclareOperation("Word", [IsTreeHomomorphism]);
 
 

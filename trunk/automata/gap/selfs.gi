@@ -3164,7 +3164,7 @@ function(G, func, val, max_len)
 end);
 
 
-InstallMethod(FindElements, "for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]", true, 
+InstallMethod(FindElements, "for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]", true,
               [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic], 
 function(G, func, val, max_len)
   local iter, g, l;
@@ -3374,7 +3374,7 @@ end);
 
 
 InstallMethod(IsGeneratedByBoundedAutomaton, "for [IsAutomatonGroup]", true, 
-              [IsAutomatonGroup], 
+              [IsAutomatonGroup],
 function(G)
   local res;
   res := IsGeneratedByAutomatonOfPolynomialGrowth(G);
@@ -3383,8 +3383,9 @@ end);
 
 
 
-InstallMethod(PolynomialDegreeOfGrowthOfUnderlyingAutomaton, "for [IsAutomatonGroup]", true, 
-              [IsAutomatonGroup], 
+
+InstallMethod(PolynomialDegreeOfGrowthOfUnderlyingAutomaton, "for [IsAutomatonGroup]", true,
+              [IsAutomatonGroup],
 function(G)
   local res;
   res := IsGeneratedByAutomatonOfPolynomialGrowth(G);
@@ -3396,14 +3397,107 @@ function(G)
 end);
 
 
+
+
 InstallMethod(IsAmenable, "for [IsAutomGroup]", true,
-              [IsAutomGroup], 
+              [IsAutomGroup],
 function(G)
   if HasIsFinite(G) and IsFinite(G) then return true; fi;
   if IsGeneratedByBoundedAutomaton(GroupOfAutomFamily(G)) then return true; fi;
   if IsAutomatonGroup(G) and IsAbelian(StabilizerOfLevel(G, 2)) then return true; fi;
+  if IsAutomatonGroup(G) and IsOfSubexponentialGrowth(G)=true then return true; fi;
   TryNextMethod();
 end);
 
+
+
+
+InstallMethod(IsOfSubexponentialGrowth, "for [IsAutomatonGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsAutomatonGroup, IsCyclotomic, IsCyclotomic],
+function(G, len, depth)
+  local iter, res, g, cur_length;
+
+  if (HasIsFinite(G) and IsFinite(G)) or IsAbelian(G) then return true; fi;
+  iter := Iterator(G, len);
+
+  cur_length := 1;
+  res := false;
+
+  while not IsDoneIterator(iter) do
+    g := NextIterator(iter);
+
+    if Length(Word(g)) > cur_length then
+      if res then
+        return true;
+        SetIsAmenable(G, true);
+      fi;
+      res := true;
+      cur_length := cur_length + 1;
+    fi;
+
+    if res and cur_length <= Sum( List(Sections(g, depth), x -> Length(Word(x))) ) then
+      Info(InfoAutomGrp, 3, g, " has sections ", Sections(g, depth));
+      res := false;
+    fi;
+
+  od;
+
+  if res then return true; fi;
+
+  # if iterator has enumerated all (finitely many) elements of <G>
+  if HasIsFinite(G) and IsFinite(G) then return true; fi;
+  if IsAbelian(StabilizerOfLevel(G, 2)) then return true; fi;
+  return fail;
+end);
+
+
+
+
+
+InstallMethod(IsOfSubexponentialGrowth, "for [IsSelfSimilarGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsSelfSimilarGroup, IsCyclotomic, IsCyclotomic],
+function(G, len, depth)
+  local iter, res, g, cur_length, F;
+
+  if (HasIsFinite(G) and IsFinite(G)) or IsAbelian(G) then return true; fi;
+  F := UnderlyingFreeGroup(G);
+  iter := Iterator(F);
+
+  cur_length := 1;
+  res := false;
+
+  repeat
+    g := NextIterator(iter);
+
+    if Length(g) > cur_length then
+      if res then
+        return true;
+        SetIsAmenable(G, true);
+      fi;
+      res := true;
+      cur_length := cur_length + 1;
+    fi;
+
+    if res and cur_length <= Sum( List(Sections(SelfSim(g,One(G)), depth), x -> Length(Word(x))) ) then
+      Info(InfoAutomGrp, 3, g, " has sections ", Sections( SelfSim(g,One(G)), depth));
+      res := false;
+    fi;
+
+  until Length(g)>len;
+
+  # if iterator has enumerated all (finitely many) elements of <G>
+  if HasIsFinite(G) and IsFinite(G) then return true; fi;
+  if IsAbelian(StabilizerOfLevel(G, 2)) then return true; fi;
+  return fail;
+end);
+
+
+
+
+InstallMethod(IsOfSubexponentialGrowth, "for [IsTreeAutomorphismGroup and IsSelfSimilar]", true,
+              [IsTreeAutomorphismGroup and IsSelfSimilar],
+function(G)
+  return IsOfSubexponentialGrowth(G, 10, 6);
+end);
 
 #E

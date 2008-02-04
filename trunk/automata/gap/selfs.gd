@@ -1079,4 +1079,31 @@ DeclareProperty("IsGeneratedByBoundedAutomaton", IsAutomatonGroup);
 ##
 DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGroup);
 
+
+
+################################################################################
+##
+#O  IsOfSubexponentialGrowth( <G>[, <len>, <depth>])
+##
+##  Tries to check whether the growth function of a self-similar group <G> is subexponential.
+##  The main part of the algorithm works as follows. It looks at all words of length up to <len>
+##  and if for some length $l$ for each word of this length $l$ the sum of the lengths of
+##  all its sections at level <depth> is less then $l$, returns `true'. The default values of
+##  <len> and <depth> are 10 and 6 respectively. Setting `SetInfoLevel(InfoAtomGrp, 3)' will make it
+##  print for each length the words that are not contracted.  It also sometimes helps to use
+##  `UseAGRewritingSystem' (see "UseAGRewritingSystem").
+##
+##  \beginexample
+##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> UseAGRewritingSystem(GrigorchukGroup);
+##  true
+##  gap> IsOfSubexponentialGrowth(GrigorchukGroup,10,6);
+##  true
+##  \endexample
+##
+DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup]);
+DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup, IsCyclotomic, IsCyclotomic]);
+
+
 #E

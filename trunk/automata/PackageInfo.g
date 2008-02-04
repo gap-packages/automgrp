@@ -294,8 +294,6 @@ AvailabilityTest := ReturnTrue,
 ##  started.  This should usually be 'false'. Say 'true' only if your package
 ##  provides some improvements of the GAP library which are likely to enhance
 ##  the overall system performance for many users.
-
-##  It's unlikely the package ever gets accepted, so it's safely can be 'true'
 Autoload := false,
 
 ##  *Optional*, but recommended: path relative to package root to a file which
@@ -305,7 +303,7 @@ TestFile := "tst/testall.g",
 ##  *Optional*: Here you can list some keyword related to the topic
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["finite automata", "tree automorphisms", "self-similar groups"]
+Keywords := ["finite automata", "tree automorphisms", "self-similar groups", "wreath recursion"]
 
 ));
 

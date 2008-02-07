@@ -47,6 +47,7 @@ dvi: manual
 manual: .manual-stamp
 .manual-stamp: $(msk_files) $(g_files) buildman.config
 	./buildman.pe -f buildman.config && \
+	chmod 0644 $(tex_files) && \
 	tex manual &&  \
 	bibtex manual && \
 	tex manual && \

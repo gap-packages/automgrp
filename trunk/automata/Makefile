@@ -9,7 +9,8 @@ top_files =			\
     read.g			\
     PackageInfo.g		\
     COPYING			\
-    README
+    README			\
+    NEWS
 
 gap_files =			\
     gap/automaton.gd		\
@@ -64,6 +65,7 @@ tst_files =			\
     tst/teststructures.g	\
     tst/testiter.g		\
     tst/testmisc.g		\
+    tst/testrws.g		\
     tst/testutil.g
 
 all:

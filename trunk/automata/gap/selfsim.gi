@@ -64,7 +64,7 @@ function(w, fam)
         nperm, i, j, perm, a, wtmp, reduced, invertible;
 
   if fam!.use_rws then
-    w := ReducedForm(fam!.rws, w);
+    w := AG_ReducedForm(fam!.rws, w);
   fi;
 
   if Length(w) = 0 then
@@ -248,7 +248,7 @@ function(a1, a2)
     word := a1!.word * a2!.word;
 
     if fam!.use_rws then
-      word := ReducedForm(fam!.rws, word);
+      word := AG_ReducedForm(fam!.rws, word);
     fi;
 
     if IsOne(word) then
@@ -259,7 +259,7 @@ function(a1, a2)
 
     if fam!.use_rws then
       for i in [1..a1!.deg] do
-        states[i] := ReducedForm(fam!.rws, states[i]);
+        states[i] := AG_ReducedForm(fam!.rws, states[i]);
       od;
     fi;
 
@@ -321,7 +321,7 @@ function(a)
   fam := FamilyObj(a);
   word := a!.word ^ -1;
   if fam!.use_rws then
-    word := ReducedForm(fam!.rws, word);
+    word := AG_ReducedForm(fam!.rws, word);
     if IsOne(word) then
       return One(a);
     fi;
@@ -331,7 +331,7 @@ function(a)
 
   if fam!.use_rws then
     for i in [1..a!.deg] do
-      states[i] := ReducedForm(fam!.rws, states[i]);
+      states[i] := AG_ReducedForm(fam!.rws, states[i]);
     od;
   fi;
 
@@ -456,7 +456,7 @@ function(a, k)
   return perm;
 end);
 
-InstallMethod(TransformationOnFirstLevel, [IsSelfSim], 
+InstallMethod(TransformationOnFirstLevel, [IsSelfSim],
 function(a)
   return a!.perm;
 end);
@@ -635,7 +635,7 @@ function(a, max_depth)
       reduced_word := AssocWordByLetterRep(FamilyObj(st!.word), CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word, " at ", vertex, "\n");
       res := OrderUsingSections_LOCAL(SelfSim(reduced_word, FamilyObj(g)));
-      if res = infinity then return res; 
+      if res = infinity then return res;
       elif res=fail then
         loc_order:=fail;
       fi;
@@ -668,28 +668,28 @@ end);
 
 
 
-InstallMethod(OrderUsingSections, "for [IsSelfSim]", true, 
-              [IsSelfSim], 
+InstallMethod(OrderUsingSections, "for [IsSelfSim]", true,
+              [IsSelfSim],
 function(a)
   return OrderUsingSections(a, infinity);
 end);
 
 
 
-InstallMethod(SphericalIndex, "for [IsSelfSim]", [IsSelfSim], 
+InstallMethod(SphericalIndex, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   # XXX check uses of SphericalIndex everywhere
   return rec(start := [], period := [a!.deg]);
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(DegreeOfTree, "for [IsSelfSim]", [IsSelfSim], 
+InstallMethod(DegreeOfTree, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   return a!.deg;
 end);
 
 # XXX check uses of this everywhere
-InstallMethod(TopDegreeOfTree, "for [IsSelfSim]", [IsSelfSim], 
+InstallMethod(TopDegreeOfTree, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   return a!.deg;
 end);
@@ -761,7 +761,7 @@ end);
 ##
 #M  IsFiniteState( <a> )
 ##
-InstallMethod(IsFiniteState, "for [IsSelfSim]", [IsSelfSim], 
+InstallMethod(IsFiniteState, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   local st, state_words, find_all_sections;
 

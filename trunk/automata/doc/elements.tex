@@ -134,11 +134,20 @@ gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> SetInfoLevel( InfoAutomGrp, 3);
 gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
-#I  (u^23*v^-2*u^3*v^15)^1 has v^13*u^15 as a section at vertex [ 1 ]
-#I  (v^13*u^15)^4 has conjugate of v^13*u^15 as a section at vertex [ 1, 1 ]
+#I  v^13*u^15 is obtained from (u^23*v^-2*u^3*v^15)^1
+    by taking sections and cyclic reductions at vertex [ 1 ]
+#I  v^13*u^15 is obtained from (v^13*u^15)^4
+    by taking sections and cyclic reductions at vertex [ 1, 1 ]
 infinity
 gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
 fail
+gap> G := AutomatonGroup("a=(c,a)(1,2), b=(b,c), c=(b,a)");
+< a, b, c >
+gap> OrderUsingSections(b,10);
+#I  b*c*a^2*b^2*c*a acts transitively on levels and is obtained from (b)^8
+    by taking sections and cyclic reductions at vertex
+[ 2, 2, 1, 1, 1, 1, 2, 2, 1, 1 ]
+infinity
 \endexample
 
 
@@ -211,7 +220,7 @@ gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 < p, q >
 gap> 1^p;
 2
-gap> [1,2,2,1,2,1]^(p*q^2);
+gap> [1, 2, 2, 1, 2, 1]^(p*q^2);
 [ 2, 1, 2, 2, 1, 2 ]
 \endexample
 
@@ -412,7 +421,7 @@ One also can be interested only in the boundary of a portrait, which consists
 of all leaves of the portrait. This boundary can be described by an ordered set of
 pairs $[level_i, g_i]$, $i=1,\ldots,r$ representing the leaves of the tree ordered from left
 to right (where $level_i$ and $g_i$ are the level and the label of the $i$-th leaf
-correspondingly, $r$ is the number of leaves). The operation `AutomPortraitBoundary'(<a>) 
+correspondingly, $r$ is the number of leaves). The operation `AutomPortraitBoundary'(<a>)
 computes this boundary.
 
 `AutomPortraitDepth'( <a> ) returns the depth of the portrait, i.e. the minimal

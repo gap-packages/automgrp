@@ -25,6 +25,7 @@ BindGlobal("AG_Globals", rec(
   scilab_stacksize := 100000000,
   use_inv_order_in_apply_nielsen := true,
   run_tests_forever := false,
+  max_rws_relator_len := 2,
 ));
 
 

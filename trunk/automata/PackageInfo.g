@@ -159,7 +159,7 @@ Status := "deposited",
 ##  and updating of the package in the GAP distribution.
 #
 README_URL :=
-  "http://finautom.sourceforge.net/README",
+  "http://finautom.sourceforge.net/automgrp/README",
 PackageInfoURL :=
   "http://finautom.sourceforge.net/automgrp/PackageInfo.g",
 

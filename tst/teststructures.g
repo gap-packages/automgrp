@@ -63,16 +63,22 @@ end);
 
 
 $ST_MultWord := function(word, family)
-  local rep, product, gen, i;
+  local rep, product, gen, gens, i;
 
   rep := LetterRepAssocWord(word);
   product := One(family);
 
+  if IsSelfSimFamily(family) then
+    gens := family!.recurgens;
+  else
+    gens := family!.automgens;
+  fi;
+
   for i in rep do
     if i > 0 then
-      gen := family!.automgens[i];
+      gen := gens[i];
     else
-      gen := family!.automgens[-i]^-1;
+      gen := gens[-i]^-1;
     fi;
     product := product * gen;
   od;
@@ -80,27 +86,34 @@ $ST_MultWord := function(word, family)
   return product;
 end;
 
-$ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
+$ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws, do_selfsim)
   local group, fam, w, a, b, c, count;
 
-  if isgroup then
-    group := AutomatonGroup(table, false);
+  if do_selfsim then
+    if isgroup then
+      group := SelfSimilarGroup(table, false);
+    else
+      group := SelfSimilarSemigroup(table, false);
+    fi;
+    if IsTrivial(group) then
+      return;
+    fi;
+    fam := UnderlyingSelfSimFamily(group);
   else
-    group := AutomatonSemigroup(table, false);
+    if isgroup then
+      group := AutomatonGroup(table, false);
+    else
+      group := AutomatonSemigroup(table, false);
+    fi;
+    fam := UnderlyingAutomFamily(group);
   fi;
-
-  fam := UnderlyingAutomFamily(group);
 
   if contracting then
     IsContracting(group);
   fi;
 
   if use_rws then
-    fam!.rws := BuildAGRewritingSystem(fam);
-    fam!.use_rws := true;
-    if IsEmpty(Rules(fam!.rws)) then
-      return;
-    fi;
+    AG_UseRewritingSystem(fam);
   fi;
 
   for count in [1..10] do
@@ -108,13 +121,21 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws)
     b := Random(group);
     c := Random(group);
     AssertEqual((a*b)*c, a*(b*c));
+    if isgroup then
+      AssertEqual(Comm(a,b), Comm(b,a)^-1);
+    fi;
   od;
 
   count := 0;
   for w in fam!.freegroup do
     if isgroup or ForAll(LetterRepAssocWord(w), x -> x > 0) then
-      a := Autom(w, fam);
-      AssertTrue(IsAutom(a));
+      if do_selfsim then
+        a := SelfSim(w, fam);
+        AssertTrue(IsSelfSim(a));
+      else
+        a := Autom(w, fam);
+        AssertTrue(IsAutom(a));
+      fi;
       AssertEqual(a, $ST_MultWord(w, fam));
 
       if isgroup then
@@ -138,9 +159,19 @@ end;
 UnitTest("Multiplication in groups", function()
   local g;
   for g in $ST_Groups do
-    $ST_TestMultiplication1(g[1], true, false, false);
+    $ST_TestMultiplication1(g[1], true, false, false, false);
     if g[2] then
-      $ST_TestMultiplication1(g[1], true, true, false);
+      $ST_TestMultiplication1(g[1], true, true, false, false);
+    fi;
+  od;
+end);
+
+UnitTest("Multiplication in self-similar groups", function()
+  local g;
+  for g in $ST_Groups do
+    $ST_TestMultiplication1(g[1], true, false, false, true);
+    if g[2] then
+      $ST_TestMultiplication1(g[1], true, true, false, true);
     fi;
   od;
 end);
@@ -148,7 +179,14 @@ end);
 UnitTest("Multiplication in semigroups", function()
   local g;
   for g in $ST_Semigroups do
-    $ST_TestMultiplication1(g[1], false, false, false);
+    $ST_TestMultiplication1(g[1], false, false, false, false);
+  od;
+end);
+
+UnitTest("Multiplication in self-similar semigroups", function()
+  local g;
+  for g in $ST_Semigroups do
+    $ST_TestMultiplication1(g[1], false, false, false, true);
   od;
 end);
 
@@ -157,9 +195,21 @@ UnitTest("Rewriting systems", function()
   local l;
   for l in $ST_Groups do
     if Length(l[1]) > 1 then
-      $ST_TestMultiplication1(l[1], true, false, true);
+      $ST_TestMultiplication1(l[1], true, false, true, false);
       if l[2] then
-        $ST_TestMultiplication1(l[1], true, true, true);
+        $ST_TestMultiplication1(l[1], true, true, true, false);
+      fi;
+    fi;
+  od;
+end);
+
+UnitTest("Rewriting systems self-sim", function()
+  local l;
+  for l in $ST_Groups do
+    if Length(l[1]) > 1 then
+      $ST_TestMultiplication1(l[1], true, false, true, true);
+      if l[2] then
+        $ST_TestMultiplication1(l[1], true, true, true, true);
       fi;
     fi;
   od;
@@ -173,9 +223,9 @@ UnitTest("Decompose", function()
 
     for count in [1..10] do
       a := Random(group);
-      AssertEqual(Decompose(a), Decompose(a));
+      AssertEqual(Decompose(a), a);
       a := Decompose(a) * Decompose(a);
-      AssertEqual(Decompose(a), Decompose(a));
+      AssertEqual(Decompose(a), a);
     od;
   od;
 end);

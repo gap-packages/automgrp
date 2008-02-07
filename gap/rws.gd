@@ -8,45 +8,69 @@
 ##
 
 
-DeclareCategory("IsAGRewritingSystem", IsRewritingSystem and IsBuiltFromGroup);
-
-DeclareOperation("AGRewritingSystem", [IsPosInt]);
-DeclareOperation("AGRewritingSystem", [IsPosInt, IsObject]);
-
-DeclareOperation("AddRule", [IsAGRewritingSystem, IsObject]);
-DeclareOperation("AddRule", [IsAGRewritingSystem, IsObject, IsBool]);
-DeclareOperation("AddRules", [IsAGRewritingSystem, IsObject]);
-DeclareOperation("AddRules", [IsAGRewritingSystem, IsObject, IsBool]);
-DeclareOperation("SetRwRules", [IsAGRewritingSystem, IsObject]);
-
-DeclareOperation("AGRewritingSystem", [IsAutomFamily]);
-
 #############################################################################
 ##
-#O  UseAGRewritingSystem( <G>[, <setting>] )
+#O  AG_UseRewritingSystem( <G>[, <setting>] )
 ##
 ##  Tells whether computations in the group <G> should use a rewriting system.
-##  Namely, the rewriting system will be used if and only if the boolean argument <setting>
-##  (the defaults value is `true' if omitted) is `true'.
+##  <setting> defaults to `true' if omitted.
 ##
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> Comm(a*b, b*a);
 ##  b^-1*a^-2*b^-1*a*b^2*a
-##  gap> UseAGRewritingSystem(G);
+##  gap> AG_UseRewritingSystem(G);
 ##  true
 ##  gap> Comm(a*b, b*a);
 ##  1
-##  gap> UseAGRewritingSystem(G, false);
+##  gap> AG_UseRewritingSystem(G, false);
 ##  false
 ##  gap> Comm(a*b, b*a);
 ##  b^-1*a^-2*b^-1*a*b^2*a
 ##  \endexample
 ##
-DeclareOperation("UseAGRewritingSystem", [IsAutomFamily, IsBool]);
+DeclareOperation("AG_UseRewritingSystem", [IsObject, IsBool]);
 
-DeclareGlobalFunction("BuildAGRewritingSystem");
+
+#############################################################################
+##
+#O  AG_AddRelators( <G>, <relators> )
+##
+##  Adds relators.
+##
+DeclareOperation("AG_AddRelators", [IsObject, IsList]);
+
+
+#############################################################################
+##
+#O  AG_UpdateRewritingSystem( <G> )
+##
+##  Tries to find new relators.
+##
+DeclareOperation("AG_UpdateRewritingSystem", [IsObject]);
+DeclareOperation("AG_UpdateRewritingSystem", [IsObject, IsPosInt]);
+
+
+#############################################################################
+##
+#O  AG_RewritingSystem( <G> )
+##
+##  Returns the rewriting system object.
+##
+DeclareOperation("AG_RewritingSystem", [IsObject]);
+
+
+#############################################################################
+##
+#O  AG_RewritingSystemRules( <G> )
+##
+##  Returns the list of rules used in the rewriting system.
+##
+DeclareOperation("AG_RewritingSystemRules", [IsObject]);
+
+
+DeclareOperation("AG_ReducedForm", [IsObject, IsObject]);
 
 
 #E

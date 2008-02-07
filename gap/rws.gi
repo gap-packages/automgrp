@@ -8,416 +8,260 @@
 ##
 
 
+DeclareGlobalFunction("$AG_FindRelators");
+
+# It's not an IsRewritingSytem object
+DeclareCategory("IsAGRewritingSystem", IsObject);
+
 DeclareRepresentation("IsAGRewritingSystemRep",
-                      IsComponentObjectRep, # must not be IsAttributeStoringRep
-                      ["rules",   # list of pairs [v, w] where v and w are stored as
-                                  # list of exponents of free generators, e.g.
-                                  # [[1, 1], []] or [[-1], [1]] if 1-st generator is an involution.
-                       "ngens",   # number of free generators
-                       "names"    # names of generators
+                      IsComponentObjectRep,
+                      ["rels",    # list of relators, they are words in the family's free group
+                       "kb",      # Knuth-Bendix rewriting system
+                       "fam",     # the automata family
+                       "fpg_fam", # family of the elements from FP group <freegroup / rels>
+                       "fpm_fam", # family of the elements of FP monoid obtained from the above group
+                       "mhom",    # isomorphism from the FP group to the FP monoid
                       ]);
 
+$AG_CreateRewritingSystem := function(fam, rels)
+  local grp, fr_grp, fp_grp, fp_mon, fmon,
+        ord, m_gens, rws, rws_data;
 
-InstallMethod(AGRewritingSystem, [IsPosInt],
-function(n)
-  local rws, names;
+  rws_data := rec(fam := fam);
 
-  names := List([1..n], i -> Concatenation("a", String(i)));
+  if rels = fail then
+    rels := $AG_FindRelators(fam, AG_Globals.max_rws_relator_len);
+  fi;
+  rws_data.rels := Difference(rels, [Word(One(fam))]);
+
+  if IsAutomFamily(fam) then
+    grp := GroupOfAutomFamily(fam);
+  else
+    grp := GroupOfSelfSimFamily(fam);
+  fi;
+
+  fr_grp := UnderlyingFreeGroup(grp);
+  fp_grp := fr_grp / rels;
+  rws_data.mhom := IsomorphismFpMonoid(fp_grp);
+  fp_mon := Image(rws_data.mhom);
+  fmon := FreeMonoidOfFpMonoid(fp_mon);
+
+  rws_data.fpg_fam := FamilyObj(One(fp_grp));
+  rws_data.fpm_fam := FamilyObj(One(fp_mon));
+
+  m_gens := GeneratorsOfMonoid(fmon);
+  m_gens := Permuted(m_gens, Product(List([1..Length(m_gens)/2], k->(2*k-1, 2*k))));
+  ord := ShortLexOrdering(FamilyObj(One(fmon)), m_gens);
+
+  rws_data.kb := KnuthBendixRewritingSystem(fp_mon, ord);
+  MakeConfluent(rws_data.kb);
+
   rws := Objectify(NewType(NewFamily("AGRewritingSystem"),
                            IsAGRewritingSystem and IsAGRewritingSystemRep),
-                   rec(rules := [],
-                       ngens := n,
-                       names := names));
+                   rws_data);
 
   return rws;
-end);
-
-InstallMethod(AGRewritingSystem, [IsPosInt, IsList],
-function(n, rules)
-  local rws, names;
-
-  rws := AGRewritingSystem(n);
-  AddRules(rws, rules);
-
-  return rws;
-end);
-
-
-InstallMethod(AddRules, [IsAGRewritingSystem, IsList],
-function(rws, new_rules)
-  AddRules(rws, new_rules, false);
-end);
-
-InstallMethod(AddRules, [IsAGRewritingSystem, IsList, IsBool],
-function(rws, new_rules, start)
-  local tmp;
-  if start then
-    tmp := rws!.rules;
-    rws!.rules := StructuralCopy(new_rules);
-    Append(rws!.rules, tmp);
-  else
-    Append(rws!.rules, StructuralCopy(new_rules));
-  fi;
-end);
-
-
-InstallMethod(SetRwRules, [IsAGRewritingSystem, IsList],
-function(rws, new_rules)
-  rws!.rules := StructuralCopy(new_rules);
-end);
-
-
-InstallOtherMethod(AddRule, [IsAGRewritingSystem, IsList],
-function(rws, rule)
-  AddRules(rws, [rule], false);
-end);
-
-InstallOtherMethod(AddRule, [IsAGRewritingSystem, IsList, IsBool],
-function(rws, rule, start)
-  AddRules(rws, [rule], start);
-end);
-
-
-InstallMethod(Rules, [IsAGRewritingSystem],
-function(rws)
-  return rws!.rules;
-end);
-
-
-$FA_rws_print_word := function(rws, word)
-  local s, i, j, len;
-
-  s := "";
-  len := Length(word);
-
-  if len = 0 then
-    return AG_Globals.identity_symbol;
-  fi;
-
-  i := 1;
-  while i <= len do
-    j := i + 1;
-    while j <= len and word[j] = word[i] do j := j + 1; od;
-    if i > 1 then
-      Append(s, "*");
-    fi;
-    Append(s, rws!.names[AbsInt(word[i])]);
-    if j - i > 1 or word[i] < 0 then
-      Append(s, "^");
-      if word[i] < 0 then
-        Append(s, "-");
-      fi;
-      Append(s, String(j - i));
-    fi;
-    i := j;
-  od;
-
-  return s;
 end;
 
-InstallMethod(PrintObj, [IsAGRewritingSystem],
-function(rws)
-  local i;
 
-  Print("<< ");
-
-  for i in [1..Length(rws!.rules)] do
-    if i <> 1 then
-      Print(", ");
-    fi;
-    Print($FA_rws_print_word(rws, rws!.rules[i][1]), " -> ",
-          $FA_rws_print_word(rws, rws!.rules[i][2]));
-  od;
-
-  Print(" >>");
-end);
-
-InstallMethod(ViewObj, [IsAGRewritingSystem],
-function(rws)
-  Print("<< ");
-  if IsEmpty(rws!.rules) then
-    Print("empty ");
-  fi;
-  Print("rewriting system on ", rws!.ngens, " generators >>");
-end);
-
-
-$FA_rws_mult := function(w1, w2)
-  local s, e, len;
-
-  e := Length(w1);
-  s := 1;
-  len := Length(w2);
-
-  while e > 0 and s <= len and w1[e] = -w2[s] do
-    e := e - 1;
-    s := s + 1;
-  od;
-
-  return Concatenation(w1{[1..e]}, w2{[s..len]});
+$AG_ReducedForm := function(rws, word)
+  local reduced, word_mon;
+  word_mon := ImageElm(rws!.mhom, ElementOfFpGroup(rws!.fpg_fam, word));
+  reduced := ReducedForm(rws!.kb, UnderlyingElement(word_mon));
+  word_mon := ElementOfFpMonoid(rws!.fpm_fam, reduced);
+  return UnderlyingElement(PreImagesRepresentative(rws!.mhom, word_mon));
 end;
 
-InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsList],
-function(rws, w)
-  local start, pos, r, again, reduced, n_rules, rules;
 
-  rules := rws!.rules;
-  n_rules := Length(rules);
-  reduced := true;
+InstallGlobalFunction($AG_FindRelators,
+function(fam, max_len)
+  local fr_grp, w, elm, rels;
 
-  while reduced do
-    reduced := false;
-    again := true;
-    start := 0;
-    while again do
-      again := false;
-      for r in rules do
-        pos := PositionSublist(w, r[1], start);
-        if pos <> fail then
-#           Print("found ", r[1], " in ", w, " at position ", pos, "\n");
-#           Print("replacing with ", r[2], "\n");
-          again := true;
-          reduced := true;
-          w := $FA_rws_mult($FA_rws_mult(w{[1 .. pos-1]}, r[2]), w{[pos+Length(r[1]) .. Length(w)]});
-          start := pos;
-          break;
-        fi;
-      od;
-    od;
-  od;
-
-  return w;
-end);
-
-InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAssocWord],
-function(rws, g)
-  return AssocWordByLetterRep(FamilyObj(g), ReducedForm(rws, LetterRepAssocWord(g)));
-end);
-
-InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAutom],
-function(rws, a)
-  return Autom(ReducedForm(rws, a!.word), a);
-end);
-
-InstallOtherMethod(ReducedForm, [IsAutom],
-function(a)
-  local rws;
-  rws := AGRewritingSystem(FamilyObj(a));
-  if rws = fail then
-    return fail;
-  else
-    return ReducedForm(rws, a);
-  fi;
-end);
-
-InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsList and IsAutomCollection],
-function(rws, list)
-  if IsEmpty(list) then
-    return [];
-  else
-    return Difference(List(list, a -> ReducedForm(rws, a)), [One(list[1])]);
-  fi;
-end);
-
-InstallOtherMethod(ReducedForm, [IsList and IsAutomCollection],
-function(list)
-  local rws;
-  rws := AGRewritingSystem(FamilyObj(list[1]));
-  if rws = fail then
-    return fail;
-  else
-    return ReducedForm(rws, list);
-  fi;
-end);
-
-InstallMethod(ReducedForm, [IsAGRewritingSystem and IsAGRewritingSystem, IsAutomGroup],
-function(rws, grp)
-  local gens;
-  gens := Difference(ReducedForm(rws, GeneratorsOfGroup(grp)), [One(grp)]);
-  gens := ReducedForm(rws, AG_ReducedByNielsen(gens));
-  gens := Difference(gens, [One(grp)]);
-  if IsEmpty(gens) then
-    return Group(One(grp));
-  else
-    return Group(gens);
-  fi;
-end);
-
-InstallOtherMethod(ReducedForm, [IsAutomGroup],
-function(grp)
-  local fam, rws;
-  fam := UnderlyingAutomFamily(grp);
-  if fam!.use_rws then
-    return ReducedForm(fam!.rws, grp);
-  else
-    return grp;
-  fi;
-end);
-
-InstallOtherMethod(ReducedForm, [IsTreeAutomorphism],
-function(a)
-  return a;
-end);
-
-InstallOtherMethod(ReducedForm, [IsList and IsTreeAutomorphismCollection],
-function(list)
-  if not IsEmpty(list) then
-    return Difference(list, One(list[1]));
-  else
-    return [];
-  fi;
-end);
-
-InstallOtherMethod(ReducedForm, [IsTreeAutomorphismGroup],
-function(grp)
-  return grp;
-end);
-
-
-$FA_rws_get_rels :=
-function(fam, maxlen)
-  local words, rels, i, j, w, nw,
-        freegen, letters;
-
-  letters := fam!.numstates;
-  freegen := fam!.freegens[1];
-
-  rels := List([1..maxlen], i->[]);
-  words := List([1..maxlen], i->[]);
-  words[1] := Concatenation(List([1..letters], i->[[i], [-i]]));
-
-  for i in [1 .. maxlen-1] do
-    for w in words[i] do
-      if not w in rels[i] then
-        for j in [1..letters] do
-          if j <> -w[i] then
-            nw := Concatenation(w, [j]);
-            Add(words[i+1], nw);
-            if IsOne(Autom(AssocWordByLetterRep(FamilyObj(freegen), nw), fam)) then
-              Add(rels[i+1], nw);
-            fi;
-          fi;
-          if j <> w[i] then
-            nw := Concatenation(w, [-j]);
-            Add(words[i+1], nw);
-            if IsOne(Autom(AssocWordByLetterRep(FamilyObj(freegen), nw), fam)) then
-              Add(rels[i+1], nw);
-            fi;
-          fi;
-        od;
-      fi;
-    od;
-  od;
-
-  return [Concatenation(words), Concatenation(rels)];
-end;
-
-$FA_rws_inv := function(w)
-  local len;
-  len := Length(w);
-  return List([1..len], i -> -w[len-i+1]);
-end;
-
-$FA_rws_add_rule := function(rws, rule)
-  local new;
-
-  new := List(rule, w -> ReducedForm(rws, w));
-
-  if Length(new[1]) >= Length(new[2]) and new[1] <> new[2] and
-     not new in rws!.rules
-  then
-    AddRule(rws, new);
-  fi;
-end;
-
-InstallGlobalFunction(BuildAGRewritingSystem,
-function(arg)
-  local limit, init_rules,
-        fam, frgrp, rels, w, g, rws,
-        len, i, right;
-
-  if IsAutomFamily(arg[1]) then
-    fam := arg[1];
-  elif IsAutomGroup(arg[1]) then
-    fam := UnderlyingAutomFamily(arg[1]);
-  else
-    Error();
-  fi;
-
-  limit := 4;
-  init_rules := [];
-
-  if Length(arg) > 1 then
-    limit := arg[2];
-  fi;
-  if Length(arg) > 2 then
-    init_rules := arg[3];
-  fi;
-
-  frgrp := fam!.freegroup;
-
-  rels := $FA_rws_get_rels(fam, limit)[2];
-  rws := AGRewritingSystem(fam!.numstates, init_rules);
-  rws!.names := ShallowCopy(fam!.names);
-
-  for w in rels do
-    len := Length(w);
-    $FA_rws_add_rule(rws, [w, []]);
-
-    for i in [1 .. Int(len/2)] do
-      $FA_rws_add_rule(rws, [$FA_rws_inv(w{[1 .. len-i]}), w{[len-i+1 .. len]}]);
-    od;
-  od;
-
-  if not IsEmpty(rws!.rules) and fam!.rws = fail then
-    fam!.rws := rws;
-  fi;
-
-  return rws;
-end);
-
-
-InstallMethod(AGRewritingSystem, [IsAutomFamily],
-function(fam)
   if fam!.rws = fail then
-    BuildAGRewritingSystem(fam);
-    if fam!.rws = fail then
-      fam!.rws := AGRewritingSystem(fam!.numstates);
-      fam!.rws!.names := ShallowCopy(fam!.names);
-    fi;
+    rels := [];
+  else
+    rels := List(fam!.rws!.rels);
   fi;
-  return fam!.rws;
+
+  fr_grp := UnderlyingFreeGroup(fam);
+
+  # XXX FindRelations?
+  for w in fr_grp do
+    if Length(w) > max_len then
+      break;
+    fi;
+    if IsAutomFamily(fam) then
+      elm := Autom(w, fam);
+    else
+      elm := SelfSim(w, fam);
+    fi;
+    if IsOne(elm) then
+      Add(rels, w);
+    fi;
+  od;
+
+  return Difference(rels, [One(fr_grp)]);
 end);
 
-InstallOtherMethod(AGRewritingSystem, [IsGroupOfAutomFamily],
-function(grp)
-  return AGRewritingSystem(UnderlyingAutomFamily(grp));
-end);
+
+$AG_UpdateRewritingSystem := function(arg)
+  local fam, max_len, new_rels;
+
+  fam := arg[1];
+  if Length(arg) > 1 then
+    max_len := arg[2];
+  else
+    max_len := AG_Globals.max_rws_relator_len;
+  fi;
+
+  new_rels := $AG_FindRelators(fam, max_len);
+  if fam!.rws = fail or new_rels <> fam!.rws!.rels then
+    fam!.rws := $AG_CreateRewritingSystem(fam, new_rels);
+  fi;
+
+  return fail;
+end;
 
 
-InstallMethod(UseAGRewritingSystem, [IsAutomFamily, IsBool],
-function(fam, use)
+$AG_UseRewritingSystem := function(fam, use)
   if fam!.use_rws <> use then
     if use then
-      if AGRewritingSystem(fam) = fail then
-        return fail;
+      if fam!.rws = fail then
+        fam!.rws := $AG_CreateRewritingSystem(fam, fail);
       fi;
-      fam!.use_rws := true;
-    else
-      fam!.use_rws := false;
     fi;
+    fam!.use_rws := use;
   fi;
+end;
 
-  return fam!.use_rws;
+
+$AG_RewritingSystem := function(fam)
+  return fam!.rws;
+end;
+
+
+$AG_AddRelators := function(fam, rels)
+  local old_rels;
+  if fam!.rws = fail then
+    old_rels := [];
+  else
+    old_rels := fam!.rws!.rels;
+  fi;
+  rels := Difference(Union(old_rels, rels), [One(UnderlyingFreeGroup(fam))]);
+  if rels <> old_rels then
+    fam!.rws := $AG_CreateRewritingSystem(fam, rels);
+  fi;
+end;
+
+
+InstallMethod(AG_ReducedForm, [IsAGRewritingSystem, IsAssocWord],
+function(rws, w)
+  return $AG_ReducedForm(rws, w);
 end);
 
-InstallOtherMethod(UseAGRewritingSystem, [IsGroupOfAutomFamily, IsBool],
+InstallMethod(AG_ReducedForm, [IsAGRewritingSystem, IsList and IsAssocWordCollection],
+function(rws, words)
+  return Difference(List(words, w -> $AG_ReducedForm(rws, w)), [One(words[1])]);
+end);
+
+
+InstallOtherMethod(AG_UseRewritingSystem, [IsObject],
+function(obj)
+  AG_UseRewritingSystem(obj, true);
+end);
+
+InstallMethod(AG_UseRewritingSystem, [IsAutomFamily, IsBool],
+function(fam, use)
+  $AG_UseRewritingSystem(fam, use);
+end);
+
+InstallMethod(AG_UseRewritingSystem, [IsAutomGroup, IsBool],
 function(grp, use)
-  return UseAGRewritingSystem(UnderlyingAutomFamily(grp), use);
+  AG_UseRewritingSystem(UnderlyingAutomFamily(grp), use);
 end);
 
-InstallOtherMethod(UseAGRewritingSystem, [IsAutomFamily],
-function(fam) return UseAGRewritingSystem(fam, true); end);
+InstallMethod(AG_UseRewritingSystem, [IsSelfSimFamily, IsBool],
+function(fam, use)
+  $AG_UseRewritingSystem(fam, use);
+end);
 
-InstallOtherMethod(UseAGRewritingSystem, [IsGroupOfAutomFamily],
-function(grp) return UseAGRewritingSystem(grp, true); end);
+InstallMethod(AG_UseRewritingSystem, [IsSelfSimGroup, IsBool],
+function(grp, use)
+  AG_UseRewritingSystem(UnderlyingSelfSimFamily(grp), use);
+end);
+
+
+InstallMethod(AG_UpdateRewritingSystem, [IsObject],
+function(obj)
+  AG_UpdateRewritingSystem(obj, AG_Globals.max_rws_relator_len);
+end);
+
+InstallMethod(AG_UpdateRewritingSystem, [IsAutomFamily, IsPosInt],
+function(fam, max_len)
+  $AG_UpdateRewritingSystem(fam, max_len);
+end);
+
+InstallMethod(AG_UpdateRewritingSystem, [IsAutomGroup, IsPosInt],
+function(grp, max_len)
+  AG_UpdateRewritingSystem(UnderlyingAutomFamily(grp), max_len);
+end);
+
+InstallMethod(AG_UpdateRewritingSystem, [IsSelfSimFamily, IsPosInt],
+function(fam, max_len)
+  $AG_UpdateRewritingSystem(fam, max_len);
+end);
+
+InstallMethod(AG_UpdateRewritingSystem, [IsSelfSimGroup, IsPosInt],
+function(grp, max_len)
+  AG_UpdateRewritingSystem(UnderlyingSelfSimFamily(grp), max_len);
+end);
+
+
+InstallMethod(AG_RewritingSystem, [IsAutomFamily],
+function(fam)
+  return $AG_RewritingSystem(fam);
+end);
+
+InstallMethod(AG_RewritingSystem, [IsAutomGroup],
+function(grp)
+  return AG_RewritingSystem(UnderlyingAutomFamily(grp));
+end);
+
+InstallMethod(AG_RewritingSystem, [IsSelfSimFamily],
+function(fam)
+  return $AG_RewritingSystem(fam);
+end);
+
+InstallMethod(AG_RewritingSystem, [IsSelfSimGroup],
+function(grp)
+  return AG_RewritingSystem(UnderlyingSelfSimFamily(grp));
+end);
+
+
+InstallMethod(AG_RewritingSystemRules, [IsObject],
+function(obj)
+  return Rules(AG_RewritingSystem(obj)!.kb);
+end);
+
+
+InstallMethod(AG_AddRelators, [IsAutomGroup, IsList and IsAssocWordCollection],
+function(obj, rels) $AG_AddRelators(UnderlyingAutomFamily(obj), rels); end);
+
+InstallMethod(AG_AddRelators, [IsAutomFamily, IsList and IsAssocWordCollection],
+function(obj, rels) $AG_AddRelators(obj, rels); end);
+
+InstallMethod(AG_AddRelators, [IsSelfSimGroup, IsList and IsAssocWordCollection],
+function(obj, rels) $AG_AddRelators(UnderlyingSelfSimFamily(obj), rels); end);
+
+InstallMethod(AG_AddRelators, [IsSelfSimFamily, IsList and IsAssocWordCollection],
+function(obj, rels) $AG_AddRelators(obj, rels); end);
+
+InstallMethod(AG_AddRelators, [IsObject, IsList and IsAutomCollection],
+function(obj, list)
+  AG_AddRelators(obj, List(list, g -> Word(g)));
+end);
+
+InstallMethod(AG_AddRelators, [IsObject, IsList and IsSelfSimCollection],
+function(obj, list)
+  AG_AddRelators(obj, List(list, g -> Word(g)));
+end);

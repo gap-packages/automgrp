@@ -189,8 +189,14 @@ function(gens)
   words := FreeGeneratorsOfGroup(Group(List(gens, a -> a!.word)));
 
   if fam!.use_rws and not IsEmpty(words) then
-    words := ReducedForm(fam!.rws, words);
-    words := FreeGeneratorsOfGroup(Group(words));
+    words := AG_ReducedForm(fam!.rws, words);
+    if not IsEmpty(words) then
+      words := FreeGeneratorsOfGroup(Group(words));
+    fi;
+  fi;
+
+  if IsEmpty(words) then
+    return [];
   fi;
 
   return List(words, w -> Autom(w, fam));
@@ -528,8 +534,8 @@ function(G, H)
   fam := UnderlyingAutomFamily(G);
 
   if fam!.rws <> fail then
-    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
-    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+    fgens1 := AG_ReducedForm(fam!.rws, fgens1);
+    fgens2 := AG_ReducedForm(fam!.rws, fgens2);
   fi;
 
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
@@ -561,8 +567,8 @@ function(G, H)
   fam := UnderlyingAutomFamily(G);
 
   if fam!.rws <> fail then
-    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
-    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+    fgens1 := AG_ReducedForm(fam!.rws, fgens1);
+    fgens2 := AG_ReducedForm(fam!.rws, fgens2);
   fi;
 
   if IsSubgroup(GroupWithGenerators(fgens1), GroupWithGenerators(fgens2)) then
@@ -594,8 +600,11 @@ function(g, G)
   fam := UnderlyingAutomFamily(G);
 
   if fam!.rws <> fail then
-    fgens := AsSet(ReducedForm(fam!.rws, fgens));
-    w := ReducedForm(fam!.rws, w);
+    fgens := AG_ReducedForm(fam!.rws, fgens);
+    if IsEmpty(fgens) then
+      return IsOne(g);
+    fi;
+    w := AG_ReducedForm(fam!.rws, w);
   fi;
 
   if w in GroupWithGenerators(fgens) then

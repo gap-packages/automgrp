@@ -10,4 +10,5 @@ Changes from 1.0 to 1.1
 - FindGroupRelations returns less superfluous relations now
 - Operations for finding transitive elements in a self-similar groups acting on a binary tree were
   implemented (see SphericallyTransitiveElement and ContainsSphericallyTransitiveElement)
+- Rewriting systems work for self-similar groups now
 - Some bugs in documentation were fixed

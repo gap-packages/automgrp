@@ -22,10 +22,10 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "for [IsList, IsBool]", [IsList, IsBool], 
+InstallMethod(SelfSimilarGroup, "for [IsList, IsBool]", [IsList, IsBool],
 function(list, bind_vars)
   if not AG_IsCorrectRecurList(list, true) then
-    Error("in SelfSimilarGroup(IsList, IsBool):\n", 
+    Error("in SelfSimilarGroup(IsList, IsBool):\n",
           "  given list is not a correct list representing self-similar group\n");
   fi;
 
@@ -37,7 +37,7 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <names>)
 ##
-InstallMethod(SelfSimilarGroup, "for [IsList, IsList]", [IsList, IsList], 
+InstallMethod(SelfSimilarGroup, "for [IsList, IsList]", [IsList, IsList],
 function(list, names)
   return SelfSimilarGroup(list, names, AG_Globals.bind_vars_autom_family);
 end);
@@ -47,11 +47,11 @@ end);
 ##
 #M  SelfSimilarGroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, 
-              "for [IsList, IsList, IsBool]", [IsList, IsList, IsBool], 
+InstallMethod(SelfSimilarGroup,
+              "for [IsList, IsList, IsBool]", [IsList, IsList, IsBool],
 function(list, names, bind_vars)
   if not AG_IsCorrectRecurList(list, true) then
-    Error("error in SelfSimilarGroup(IsList, IsList, IsBool):\n", 
+    Error("error in SelfSimilarGroup(IsList, IsList, IsBool):\n",
           "  given list is not a correct list representing self-similar group\n");
   fi;
 
@@ -64,12 +64,12 @@ end);
 #M  SelfSimilarGroup(<string>)
 #M  SelfSimilarGroup(<string>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "for [IsString]", [IsString], 
+InstallMethod(SelfSimilarGroup, "for [IsString]", [IsString],
 function(string)
   return SelfSimilarGroup(string, AG_Globals.bind_vars_autom_family);
 end);
 
-InstallMethod(SelfSimilarGroup, "for [IsString, IsBool]", [IsString, IsBool], 
+InstallMethod(SelfSimilarGroup, "for [IsString, IsBool]", [IsString, IsBool],
 function(string, bind_vars)
   local s;
   s := AG_ParseAutomatonStringFR(string);
@@ -82,7 +82,7 @@ end);
 #M  SelfSimilarGroup(<A>)
 #M  SelfSimilarGroup(<A>, <bind_vars>)
 ##
-InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton], 
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
 function(A)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -90,7 +90,7 @@ function(A)
   return SelfSimilarGroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool], 
+InstallMethod(SelfSimilarGroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   if not IsInvertible(A) then
     Error("Automaton <A> is not invertible");
@@ -104,8 +104,8 @@ end);
 ##
 #M  GroupOfSelfSimFamily(<G>)
 ##
-InstallOtherMethod(GroupOfSelfSimFamily, "for [IsSelfSimGroup]", 
-                   [IsSelfSimGroup], 
+InstallOtherMethod(GroupOfSelfSimFamily, "for [IsSelfSimGroup]",
+                   [IsSelfSimGroup],
 function(G)
   return GroupOfSelfSimFamily(UnderlyingSelfSimFamily(G));
 end);
@@ -115,8 +115,8 @@ end);
 ##
 #M  IsGroupOfSelfSimFamily(<G>)
 ##
-InstallMethod(IsGroupOfSelfSimFamily, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(IsGroupOfSelfSimFamily, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   return G = GroupOfSelfSimFamily(G);
 end);
@@ -127,8 +127,8 @@ end);
 #M  UseSubsetRelation(<G>)
 ##
 InstallMethod(UseSubsetRelation,
-              "for [IsSelfSimGroup, IsSelfSimGroup]", 
-              [IsSelfSimGroup, IsSelfSimGroup], 
+              "for [IsSelfSimGroup, IsSelfSimGroup]",
+              [IsSelfSimGroup, IsSelfSimGroup],
 function(super, sub)
   ## the full group is self similar, so if <super> is smaller than the full
   ##  group then sub is smaller either
@@ -145,7 +145,7 @@ end);
 #M  $AG_SubgroupOnLevel(<G>, <gens>, <level>)
 ##
 InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup,
-                                    IsList and IsTreeAutomorphismCollection, 
+                                    IsList and IsTreeAutomorphismCollection,
                                     IsPosInt],
 function(G, gens, level)
   local overgroup;
@@ -163,14 +163,14 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup, IsList and IsEmpty, IsPosInt], 
+InstallMethod($AG_SubgroupOnLevel, [IsSelfSimGroup, IsList and IsEmpty, IsPosInt],
 function(G, gens, level)
   return TrivialSubgroup(G);
 end);
 
 InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                    IsList and IsSelfSimCollection, 
-                                    IsPosInt], 
+                                    IsList and IsSelfSimCollection,
+                                    IsPosInt],
 function(G, gens, level)
   local overgroup;
 
@@ -183,8 +183,8 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]", 
-                          [IsList and IsInvertibleSelfSimCollection], 
+InstallMethod($AG_SimplifyGroupGenerators, "for [IsList and IsInvertibleSelfSimCollection]",
+                          [IsList and IsInvertibleSelfSimCollection],
 function(gens)
   local words, fam;
 
@@ -196,7 +196,10 @@ function(gens)
   words := FreeGeneratorsOfGroup(Group(List(gens, a -> a!.word)));
 
   if fam!.use_rws and not IsEmpty(words) then
-    words := ReducedForm(fam!.rws, words);
+    words := AG_ReducedForm(fam!.rws, words);
+    if IsEmpty(words) then
+      return [];
+    fi;
     words := FreeGeneratorsOfGroup(Group(words));
   fi;
 
@@ -209,7 +212,7 @@ end);
 #M  PrintObj(<G>)
 ##
 InstallMethod(PrintObj, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup], 
+              [IsSelfSimGroup],
 function(G)
   local i, gens, printone;
 
@@ -235,8 +238,8 @@ end);
 ##
 #M  ViewObj(<G>)
 ##
-InstallMethod(ViewObj, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(ViewObj, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function(G)
   local i, gens;
   gens := List(GeneratorsOfGroup(G), g -> Word(g));
@@ -262,8 +265,8 @@ end);
 ##
 #M  IsFractalByWords(G)
 ##
-InstallMethod(IsFractalByWords, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(IsFractalByWords, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function (G)
   local freegens, stab, i, sym, f;
 
@@ -394,8 +397,8 @@ end);
 ##  16
 ##  \endexample
 ##
-InstallOtherMethod(IsomorphismPermGroup, "for [IsSelfSimilarGroup, IsCyclotomic]", 
-                   [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic], 
+InstallOtherMethod(IsomorphismPermGroup, "for [IsSelfSimilarGroup, IsCyclotomic]",
+                   [IsSelfSimGroup and IsSelfSimilar, IsCyclotomic],
 function (G, n)
   local H, lev;
   lev := LevelOfFaithfulAction(G, n);
@@ -411,8 +414,8 @@ end);
 ##
 #M  IsSphericallyTransitive(G)
 ##
-InstallMethod(IsSphericallyTransitive, "for [IsSelfSimGroup]", 
-              [IsSelfSimGroup], 
+InstallMethod(IsSphericallyTransitive, "for [IsSelfSimGroup]",
+              [IsSelfSimGroup],
 function (G)
   local x, rat_gens, abel_hom;
 
@@ -455,9 +458,9 @@ end);
 ##
 #M  DiagonalAction(<G>, <n>)
 ##
-InstallOtherMethod( DiagonalAction, 
-                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]", 
-                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt], 
+InstallOtherMethod( DiagonalAction,
+                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]",
+                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt],
 function(G, n)
   return DiagonalAction(UnderlyingSelfSimFamily(G), n);
 end);
@@ -467,9 +470,9 @@ end);
 ##
 #M  MultAutomAlphabet(<G>, <n>)
 ##
-InstallOtherMethod( MultAutomAlphabet, 
-                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]", 
-                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt], 
+InstallOtherMethod( MultAutomAlphabet,
+                    "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]",
+                    [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt],
 function(G, n)
   return MultAutomAlphabet(UnderlyingSelfSimFamily(G), n);
 end);
@@ -479,7 +482,7 @@ end);
 ##
 #M  \= (<G>, <H>)
 ##
-InstallMethod(\=, "for [IsSelfSimGroup, IsSelfSimGroup]", 
+InstallMethod(\=, "for [IsSelfSimGroup, IsSelfSimGroup]",
               IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup],
 function(G, H)
   local fgens1, fgens2, fam;
@@ -500,8 +503,8 @@ function(G, H)
   fam := UnderlyingSelfSimFamily(G);
 
   if fam!.rws <> fail then
-    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
-    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+    fgens1 := AG_ReducedForm(fam!.rws, fgens1);
+    fgens2 := AG_ReducedForm(fam!.rws, fgens2);
   fi;
 
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
@@ -517,8 +520,8 @@ end);
 ##
 #M  IsSubset (<G>, <H>)
 ##
-InstallMethod(IsSubset, "for [IsSelfSimGroup, IsSelfSimGroup]", 
-              IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup], 
+InstallMethod(IsSubset, "for [IsSelfSimGroup, IsSelfSimGroup]",
+              IsIdenticalObj, [IsSelfSimGroup, IsSelfSimGroup],
 function(G, H)
   local h, fam, fgens1, fgens2;
 
@@ -533,8 +536,8 @@ function(G, H)
   fam := UnderlyingSelfSimFamily(G);
 
   if fam!.rws <> fail then
-    fgens1 := AsSet(ReducedForm(fam!.rws, fgens1));
-    fgens2 := AsSet(ReducedForm(fam!.rws, fgens2));
+    fgens1 := AG_ReducedForm(fam!.rws, fgens1);
+    fgens2 := AG_ReducedForm(fam!.rws, fgens2);
   fi;
 
   if IsSubgroup(GroupWithGenerators(fgens1), GroupWithGenerators(fgens2)) then
@@ -551,8 +554,8 @@ end);
 ##
 #M  <g> in <G>
 ##
-InstallMethod(\in, "for [IsSelfSim, IsSelfSimGroup]", 
-              [IsSelfSim, IsSelfSimGroup], 
+InstallMethod(\in, "for [IsSelfSim, IsSelfSimGroup]",
+              [IsSelfSim, IsSelfSimGroup],
 function(g, G)
   local fam, fgens, w;
 
@@ -566,8 +569,8 @@ function(g, G)
   fam := UnderlyingSelfSimFamily(G);
 
   if fam!.rws <> fail then
-    fgens := AsSet(ReducedForm(fam!.rws, fgens));
-    w := ReducedForm(fam!.rws, w);
+    fgens := AG_ReducedForm(fam!.rws, fgens);
+    w := AG_ReducedForm(fam!.rws, w);
   fi;
 
   if w in GroupWithGenerators(fgens) then
@@ -927,8 +930,8 @@ end);
 ##
 #M  GroupNucleus( <G> )
 ##
-InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]", 
-              [IsSelfSimilarGroup], 
+InstallMethod(GroupNucleus, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
 function(G)
   local H;
   if not IsFiniteState(G) then
@@ -954,7 +957,7 @@ end);
 InstallMethod(UseContraction, "for [IsSelfSimGroup]", true,
               [IsSelfSimGroup],
 function(G)
-  if not IsSelfSimilarGroup(G) then 
+  if not IsSelfSimilarGroup(G) then
     Print("Error in UseContraction(<G>): The method is implemented only for IsSelfSimilarGroup\n");
     return fail;
   fi;
@@ -980,8 +983,8 @@ end);
 ##
 #M  DoNotUseContraction( <G> )
 ##
-InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true, 
-              [IsSelfSimGroup], 
+InstallMethod(DoNotUseContraction, "for [IsSelfSimGroup]", true,
+              [IsSelfSimGroup],
 function(G)
   UnderlyingAutomFamily(G)!.use_contraction := false;
 
@@ -998,8 +1001,8 @@ end);
 ##
 #M  FindNucleus( <G> )
 ##
-InstallMethod(FindNucleus, "for [IsSelfSimilarGroup, IsCyclotomic]", 
-              [IsSelfSimilarGroup, IsCyclotomic], 
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup, IsCyclotomic]",
+              [IsSelfSimilarGroup, IsCyclotomic],
 function(G, max_nucl)
   local H, nuclH, nuclG;
   if not IsFiniteState(G) then
@@ -1035,15 +1038,15 @@ function(G, max_nucl)
 end);
 
 
-InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true, 
-              [IsSelfSimilarGroup], 
+InstallMethod(FindNucleus, "for [IsSelfSimilarGroup]", true,
+              [IsSelfSimilarGroup],
 function(G)
   return FindNucleus(G, infinity);
 end);
 
 
 InstallMethod(GeneratingSetWithNucleus, "for [IsSelfSimilarGroup]", true,
-              [IsSelfSimilarGroup], 
+              [IsSelfSimilarGroup],
 function(G)
   if IsContracting(G) then return GeneratingSetWithNucleus(G); fi;
 end);

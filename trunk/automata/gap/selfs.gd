@@ -1090,7 +1090,7 @@ DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGro
 ##  all its sections at level <depth> is less then $l$, returns `true'. The default values of
 ##  <len> and <depth> are 10 and 6 respectively. Setting `SetInfoLevel(InfoAtomGrp, 3)' will make it
 ##  print for each length the words that are not contracted.  It also sometimes helps to use
-##  `UseAGRewritingSystem' (see "UseAGRewritingSystem").
+##  `AG_UseRewritingSystem' (see "AG_UseRewritingSystem").
 ##
 ##  \beginexample
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");

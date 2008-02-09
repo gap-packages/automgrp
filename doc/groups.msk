@@ -130,6 +130,17 @@ gap> l;
 \Declaration{UseContraction}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Rewriting Systems}
+
+It is possible to use basic relators in all computations performed
+in a self-similar group.
+
+\Declaration{AG_UseRewritingSystem}
+\Declaration{AG_AddRelators}
+\Declaration{AG_UpdateRewritingSystem}
+\Declaration{AG_RewritingSystemRules}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -55,4 +55,19 @@ UnitTest("SelfSim", function()
   od;
 
 
+# example of finite self-similar group
+
+  H := SelfSimilarGroup("a=(a*b,1)(1,2), b=(1,b*a^-1)(1,2), c=(b, a*b)");
+
+  AssertTrue(IsFinite(H));
+  AssertEqual(Size(H), 8);
+  AssertTrue(H.1=H.2);
+  AssertTrue( not H.1<H.2);
+
+  hom := IsomorphismPermGroup(H);
+  for w in H do
+    AssertEqual(w,PreImagesRepresentative(hom,w^hom));
+  od;
+
+
 end);

@@ -675,13 +675,15 @@ function(g, G)
 end);
 
 
-InstallMethod(IsomorphismPermGroup, "for [IsTreeAutomorphismGroup]",
-              [IsTreeAutomorphismGroup],
+InstallMethod(IsomorphismPermGroup, "for [IsTreeAutomorphismGroup and IsSelfSimilar]",
+              [IsTreeAutomorphismGroup and IsSelfSimilar],
 function(G)
-  local H;
+  local H, F, gens_in_freegrp, pi, pi_bar, hom_function, inv_hom_function;
   H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
-  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+  return AG_GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
 end);
+
+
 
 
 InstallMethod(ContainsSphericallyTransitiveElement, "for [IsTreeAutomorphismGroup and IsSelfSimilar and IsActingOnBinaryTree]",

@@ -398,7 +398,7 @@ function (G, n)
   lev := LevelOfFaithfulAction(G, n);
   if lev <> fail then
     H := PermGroupOnLevel(G,LevelOfFaithfulAction(G));
-    return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+    return AG_GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
   fi;
   return fail;
 end);
@@ -410,7 +410,7 @@ InstallMethod(IsomorphismPermGroup, "for [IsAutomGroup]",
 function (G)
   local H;
   H := AG_FiniteGroupId(G);
-  return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+  return AG_GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
 end);
 
 

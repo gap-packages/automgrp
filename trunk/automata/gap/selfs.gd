@@ -768,8 +768,7 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 ##  x^2
 ##  y^-3
 ##  y^-1*x*y^-1*x*y^-1*x
-##  y*x*y^-1*x*y^-1*x*y
-##  [ x^2, y^-3, y^-1*x*y^-1*x*y^-1*x, y*x*y^-1*x*y^-1*x*y ]
+##  [ x^2, y^-3, y^-1*x*y^-1*x*y^-1*x ]
 ##  \endexample
 ##
 DeclareOperation("FindGroupRelations", [IsGroup]);
@@ -1104,6 +1103,17 @@ DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGro
 ##
 DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup]);
 DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup, IsCyclotomic, IsCyclotomic]);
+
+
+################################################################################
+##
+#F  AG_GroupHomomorphismByImagesNC( <G>, <H>, <gens_G>, <gens_H> )
+##
+##  Returns a group homomorphism from a self-similar group <G> to <H> sending 
+##  <gens_G> to <gens_H>. It's possible to find images and preimages of elements
+##  under homomorphism defined using this function. Does NOT perform any checkings.
+##
+DeclareGlobalFunction("AG_GroupHomomorphismByImagesNC");
 
 
 #E

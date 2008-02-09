@@ -278,7 +278,7 @@ end);
 ##
 #M  AG_IsOneList(w, G)      (IsList, IsAutomGroup)
 ##
-#InstallGlobalFunction(AG_IsOneList, 
+#InstallGlobalFunction(AG_IsOneList,
 #function(w, G)
 #  if HasIsContracting(G) and IsContracting(G) and UseContraction(G) then
 #    return IsOneWordContr(w, AG_ContractingTable(G));
@@ -1153,7 +1153,7 @@ function(H, max_nucl)
   return FindNucleus(H, max_nucl, true);
 end);
 
-InstallMethod(FindNucleus, "for [IsAutomatonGroup]", true, 
+InstallMethod(FindNucleus, "for [IsAutomatonGroup]", true,
                                     [IsAutomatonGroup], 
 function(H)
   return FindNucleus(H, infinity, true);
@@ -2139,7 +2139,7 @@ function(G, max_len, num_of_rels)
         if PositionWord(rel1, Subword(r,1,Int(Length(r)/2)+1), 1) <> fail then return false; fi;
       od;
       rel1 := rel1^Subword(rel1, 1, 1);
-    until rel1 = rel or not new_rel;
+    until rel1 = rel;
     return true;
   end;
 
@@ -2269,7 +2269,7 @@ function(G, max_len, num_of_rels)
             if Length(rel) < Length(f)+Length(ElListF[k-1]) then new_rel := false; fi;
 
 
-            if IsNewRel(rel) and IsNewRel(Image(FFhom, rel^-1)) then
+            if new_rel and IsNewRel(rel) and IsNewRel(Image(FFhom, rel^-1)) then
 #              Add(rels, inv_gens[j]*ElList_inv[i]*ElList[k-1]);
               cur_rel := Image(FGhom, rel);
               Add(rels, cur_rel);
@@ -2350,7 +2350,7 @@ function(subs_words, names, max_len, num_of_rels)
         if PositionWord(rel1, Subword(r,1,Int(Length(r)/2)+1), 1) <> fail then return false; fi;
       od;
       rel1 := rel1^Subword(rel1, 1, 1);
-    until rel1 = rel or not new_rel;
+    until rel1 = rel;
     return true;
   end;
 
@@ -2455,7 +2455,7 @@ function(subs_words, names, max_len, num_of_rels)
             if Length(rel) < Length(f)+Length(ElListF[k-1]) then new_rel := false; fi;
 
 
-            if IsNewRel(rel) and IsNewRel(Image(FFhom, rel^-1)) then
+            if new_rel and IsNewRel(rel) and IsNewRel(Image(FFhom, rel^-1)) then
               Add(relsF, rel);
               Print( rel, "\n");
               Append(all_relsF, CyclicConjugates(rel));
@@ -3499,5 +3499,49 @@ InstallMethod(IsOfSubexponentialGrowth, "for [IsTreeAutomorphismGroup and IsSelf
 function(G)
   return IsOfSubexponentialGrowth(G, 10, 6);
 end);
+
+
+InstallGlobalFunction(AG_GroupHomomorphismByImagesNC,
+function(G, H, gens_G, gens_H)
+
+  local F, gens_in_freegrp, pi, pi_bar, hom_function, inv_hom_function;
+
+  if Length(gens_G)<>Length(gens_H) then
+    Error("Lengths of generating sets must coincide");
+  fi;
+
+  F := FreeGroup(Length(gens_G));
+
+
+  gens_in_freegrp := List(gens_G, Word);
+
+#        pi
+#    F ------> G ----> H
+#      -------------->
+#            pi_bar
+
+  pi := GroupHomomorphismByImages(F,                     Group(gens_in_freegrp),
+                                  GeneratorsOfGroup(F),  gens_in_freegrp);
+
+  pi_bar := GroupHomomorphismByImages(F,                     H,
+                                      GeneratorsOfGroup(F),  gens_H);
+
+  hom_function := function(g)
+    return Image(pi_bar, PreImagesRepresentative(pi, g!.word));
+  end;
+
+  if IsAutomGroup(G) then
+    inv_hom_function :=  function(b)
+      return Autom(Image(pi, PreImagesRepresentative(pi_bar, b)), UnderlyingAutomFamily(G));
+    end;
+  elif IsSelfSimGroup(G) then
+    inv_hom_function :=  function(b)
+      return SelfSim(Image(pi, PreImagesRepresentative(pi_bar, b)), UnderlyingSelfSimFamily(G));
+    end;
+  fi;
+
+  return GroupHomomorphismByFunction(G, H, hom_function, inv_hom_function);
+end);
+
 
 #E

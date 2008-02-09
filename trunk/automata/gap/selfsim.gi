@@ -277,7 +277,16 @@ end);
 ##
 InstallMethod(\<, "for [IsSelfSim, IsSelfSim]", IsIdenticalObj, [IsSelfSim, IsSelfSim],
 function(a1, a2)
-  local d, checked, checked_words, p, pos, np, np_words, i, perm1, perm2, cmp;
+  local d, checked, checked_words, p, pos, np, np_words, i, perm1, perm2, cmp, G1, G2;
+
+  G1 := GroupOfSelfSimFamily(FamilyObj(a1));
+  G2 := GroupOfSelfSimFamily(FamilyObj(a2));
+
+  # if a1 or a2 are elements of semigroup, which is not a group, then G1 or G2 is `fail'
+
+  if IsIdenticalObj(G1, G2) and HasIsFinite(G1) and IsFinite(G1) and a1 = a2 then
+    return false;
+  fi;
 
   d := a1!.deg;
 
@@ -483,6 +492,12 @@ function(a)
   local st, state_words, IsOneLocal, G;
 
   G := GroupOfSelfSimFamily(FamilyObj(a));
+
+  if HasIsFinite(G) and IsFinite(G) then
+    return IsOne(Image(IsomorphismPermGroup(G), a));
+  fi;
+
+
   if HasIsContracting(G) and IsContracting(G) then
     return IsOne(Image(MonomorphismToAutomatonGroup(G), a));
   fi;
@@ -516,7 +531,17 @@ end);
 ##
 InstallMethod(\=, "for [IsSelfSim, IsSelfSim]", IsIdenticalObj, [IsSelfSim, IsSelfSim],
 function(a1, a2)
-  local areequalstates, d, checked_pairs;
+  local areequalstates, d, checked_pairs, G1, G2;
+
+  G1 := GroupOfSelfSimFamily(FamilyObj(a1));
+  G2 := GroupOfSelfSimFamily(FamilyObj(a2));
+
+  # if a1 or a2 are elements of semigroup, which is not a group, then G1 or G2 is `fail'
+
+  if IsIdenticalObj(G1, G2) and HasIsFinite(G1) and IsFinite(G1) then
+    return IsOne(Image(IsomorphismPermGroup(G1), a1*a2^-1));
+  fi;
+
   d := a1!.deg;
 
   areequalstates := function(a, b)

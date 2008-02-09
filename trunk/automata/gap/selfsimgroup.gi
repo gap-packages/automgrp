@@ -382,19 +382,24 @@ end);
 ##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> f := IsomorphismPermGroup(Group(a, b));
-##  [ a, b ] ->
+##  MappingByFunction( < a, b >, Group(
 ##  [ (1,2)(3,5)(4,6)(7,9)(8,10)(11,13)(12,14)(15,17)(16,18)(19,21)(20,22)(23,
 ##      25)(24,26)(27,29)(28,30)(31,32), (1,3)(2,4)(5,7)(6,8)(9,11)(10,12)(13,
-##      15)(14,16)(17,19)(18,20)(21,23)(22,24)(25,27)(26,28)(29,31)(30,32) ]
+##      15)(14,16)(17,19)(18,20)(21,23)(22,24)(25,27)(26,28)(29,31)(30,32)
+##   ]), function( g ) ... end, function( b ) ... end )
 ##  gap> Size(Image(f));
 ##  32
-##  gap> H := SelfSimilarGroup("a=(a, a)(1, 2), b=(a, a), c=(b, a)(1, 2)");
+##  gap> H := SelfSimilarGroup("a=(a*b,1)(1,2), b=(1,b*a^-1)(1,2), c=(b, a*b)");
 ##  < a, b, c >
 ##  gap> f1 := IsomorphismPermGroup(H);
-##  [ a, b, c ] -> [ (1,8)(2,7)(3,6)(4,5), (1,4)(2,3)(5,8)(6,7),
-##    (1,6,3,8)(2,5,4,7) ]
+##  MappingByFunction( < a, b, c >, Group([ (1,3)(2,4), (1,3)(2,4), (1,2)
+##   ]), function( g ) ... end, function( b ) ... end )
 ##  gap> Size(Image(f1));
-##  16
+##  8
+##  gap> PreImagesRepresentative(f1, (1,3,2,4));
+##  a*c
+##  gap> (a*c)^f1;
+##  (1,3,2,4)
 ##  \endexample
 ##
 InstallOtherMethod(IsomorphismPermGroup, "for [IsSelfSimilarGroup, IsCyclotomic]",
@@ -404,7 +409,7 @@ function (G, n)
   lev := LevelOfFaithfulAction(G, n);
   if lev <> fail then
     H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));
-    return GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
+    return AG_GroupHomomorphismByImagesNC(G, H, GeneratorsOfGroup(G), GeneratorsOfGroup(H));
   fi;
   return fail;
 end);
@@ -766,7 +771,7 @@ function(G)
   local states, MealyAutomatonLocal, aut_list, gens, images, H, g, hom_function, \
         inv_hom_function, hom, free_groups_hom, inv_free_groups_hom, inv_hom, \
         gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar, \
-        preimage_in_freegrp;
+        preimage_in_freegrp, MealyAutomatonLocalFinite;
 
   MealyAutomatonLocal := function(g)
     local cur_state;
@@ -778,15 +783,35 @@ function(G)
     return cur_state;
   end;
 
+
+  MealyAutomatonLocalFinite := function(g)
+    local cur_state;
+    if g in states then return Position(states, g); fi;
+    Add(states, g);
+    cur_state := Length(states);
+    aut_list[cur_state] := List([1..g!.deg], x -> MealyAutomatonLocalFinite(Section(g, x)));
+    Add(aut_list[cur_state], g!.perm);
+    return cur_state;
+  end;
+
+
+
   states := [];
   aut_list := [];
   gens := GeneratorsOfGroup(G);
   images := [];
 
-  for g in gens do
-    Add(images, MealyAutomatonLocal(g));
-  od;
 
+  if HasIsFinite(G) and IsFinite(G) then
+    for g in gens do
+      Add(images, MealyAutomatonLocalFinite(g));
+    od;
+    states := List(states, Word);
+  else
+    for g in gens do
+      Add(images, MealyAutomatonLocal(g));
+    od;
+  fi;
 
   H := AutomatonGroup(aut_list);
 

@@ -12,11 +12,11 @@
 ##
 #O  AG_UseRewritingSystem( <G>[, <setting>] )
 ##
-##  Tells whether computations in the group <G> should use a rewriting system
-##  (depending on the value of <setting>). The default value of
-##  <setting> is `true'. See also `AG_AddRelators' ("AG_AddRelators"),
-##  `AG_UpdateRewritingSystem' ("AG_UpdateRewritingSystem") and `AG_RewritingSystemRules'
-##  ("AG_RewritingSystemRules")
+##  Tells whether computations in the group <G> should use a rewriting system.
+##  <setting> defaults to `true' if omitted. This function initially only
+##  tries to find involutions in <G>. See `AG_AddRelators' ("AG_AddRelators")
+##  and `AG_UpdateRewritingSystem' ("AG_UpdateRewritingSystem") for the ways
+##  to add more relators.
 ##
 ##  \beginexample
 ##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
@@ -39,15 +39,30 @@ DeclareOperation("AG_UseRewritingSystem", [IsObject, IsBool]);
 ##
 #O  AG_AddRelators( <G>, <relators> )
 ##
-##  Adds relators to rewring system. In some cases it's hard to find relations
-##  directly from the wreath recursion of a self-similar group (at least, there is
-##  no general agorithm). This function provides possibility to add relators manually.
-##  After that one can use `AG_UpdateRewritingSystem' (see "AG_UpdateRewritingSystem")
-##  and `AG_UseRewritingSystem' (see "AG_UseRewritingSystem") to use these relators
-##  in computations. In the example below we consider a finite group $H$, in which $a=b$, but the
-##  standard algorithm is unable to solve the word problem. There are two solutions of
-##  that. One can manually add a relator, or one can ask if the group is finite (which
-##  does not stop generally if the group is infinite).
+##  Adds relators from the list <relators> to the rewriting system used in
+##  <G>.
+##
+##  \beginexample
+##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> AG_UseRewritingSystem(G);
+##  gap> b*c;
+##  b*c
+##  gap> AG_AddRelators(G, [b*c*d]);
+##  gap> b*c;
+##  d
+##  \endexample
+##
+##  In some cases it's hard to find relations directly from the wreath
+##  recursion of a self-similar group (at least, there is no general agorithm).
+##  This function provides possibility to add relators manually. After that
+##  one can use `AG_UpdateRewritingSystem' (see "AG_UpdateRewritingSystem")
+##  and `AG_UseRewritingSystem' (see "AG_UseRewritingSystem") to use these
+##  relators in computations. In the example below we consider a finite group
+##  $H$, in which $a=b$, but the standard algorithm is unable to solve the
+##  word problem. There are two solutions for that. One can manually add a
+##  relator, or one can ask if the group is finite (which does not stop
+##  generally if the group is infinite).
 ##  \beginexample
 ##  H := SelfSimilarGroup("a=(a*b,1)(1,2), b=(1,b*a^-1)(1,2), c=(b, a*b)");
 ##  < a, b, c >
@@ -56,18 +71,28 @@ DeclareOperation("AG_UseRewritingSystem", [IsObject, IsBool]);
 ##  gap> Order(a*c);
 ##  4
 ##  \endexample
-
 ##
 DeclareOperation("AG_AddRelators", [IsObject, IsList]);
 
 
 #############################################################################
 ##
-#O  AG_UpdateRewritingSystem( <G> )
+#O  AG_UpdateRewritingSystem( <G>, <maxlen> )
 ##
-##  Tries to find new relators based on the current information about <G>.
-##  For example, one may use this command after introducing new relators via
-##  `AG_AddRelators' (see "AG_AddRelators").
+##  Tries to find new relators of length up to <maxlen> and adds them into
+##  the rewriting system. It can also be used after introducing new relators
+##  via `AG_AddRelators' (see "AG_AddRelators").
+##
+##  \beginexample
+##  gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  < a, b, c, d >
+##  gap> AG_UseRewritingSystem(G);
+##  gap> b*c;
+##  b*c
+##  gap> AG_UpdateRewritingSystem(G, 3);
+##  gap> b*c;
+##  d
+##  \endexample
 ##
 DeclareOperation("AG_UpdateRewritingSystem", [IsObject]);
 DeclareOperation("AG_UpdateRewritingSystem", [IsObject, IsPosInt]);
@@ -77,7 +102,8 @@ DeclareOperation("AG_UpdateRewritingSystem", [IsObject, IsPosInt]);
 ##
 #O  AG_RewritingSystem( <G> )
 ##
-##  Returns the rewriting system object. See also `AG_UseRewritingSystem' ("AG_UseRewritingSystem").
+##  Returns the rewriting system object. See also `AG_UseRewritingSystem'
+##  ("AG_UseRewritingSystem").
 ##
 DeclareOperation("AG_RewritingSystem", [IsObject]);
 

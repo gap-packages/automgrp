@@ -90,6 +90,11 @@ F 2.5. ContractingLevel
 F 2.5. ContractingTable
 F 2.5. UseContraction
 F 2.5. DoNotUseContraction
+S 2.6. Rewriting Systems
+F 2.6. AG_UseRewritingSystem
+F 2.6. AG_AddRelators
+F 2.6. AG_UpdateRewritingSystem
+F 2.6. AG_RewritingSystemRules
 C elements.tex 3. Properties and operations with group and semigroup elements
 S 3.1. Creation of tree automorphisms and homomorphisms
 F 3.1. TreeAutomorphism
@@ -155,30 +160,25 @@ C misc.tex 5. Miscellaneous
 S 5.1. Trees
 F 5.1. NumberOfVertex
 F 5.1. VertexNumber
-S 5.2. Rewriting Systems
-F 5.2. AG_UseRewritingSystem
-F 5.2. AG_AddRelators
-F 5.2. AG_UpdateRewritingSystem
-F 5.2. AG_RewritingSystemRules
-S 5.3. Some predefined groups
-F 5.3. GrigorchukGroup
-F 5.3. UniversalGrigorchukGroup
-F 5.3. Basilica
-F 5.3. Lamplighter
-F 5.3. AddingMachine
-F 5.3. InfiniteDihedral
-F 5.3. AleshinGroup
-F 5.3. Bellaterra
-F 5.3. SushchanskyGroup
-F 5.3. Hanoi3
-F 5.3. Hanoi4
-F 5.3. GuptaSidki3Group
-F 5.3. GuptaFabrikowskiGroup
-F 5.3. BartholdiGrigorchukGroup
-F 5.3. GrigorchukErschlerGroup
-F 5.3. BartholdiNonunifExponGroup
-F 5.3. IMG_z2plusI
-F 5.3. Airplane
-F 5.3. Rabbit
-F 5.3. TwoStateSemigroupOfIntermediateGrowth
-F 5.3. UniversalD_omega
+S 5.2. Some predefined groups
+F 5.2. GrigorchukGroup
+F 5.2. UniversalGrigorchukGroup
+F 5.2. Basilica
+F 5.2. Lamplighter
+F 5.2. AddingMachine
+F 5.2. InfiniteDihedral
+F 5.2. AleshinGroup
+F 5.2. Bellaterra
+F 5.2. SushchanskyGroup
+F 5.2. Hanoi3
+F 5.2. Hanoi4
+F 5.2. GuptaSidki3Group
+F 5.2. GuptaFabrikowskiGroup
+F 5.2. BartholdiGrigorchukGroup
+F 5.2. GrigorchukErschlerGroup
+F 5.2. BartholdiNonunifExponGroup
+F 5.2. IMG_z2plusI
+F 5.2. Airplane
+F 5.2. Rabbit
+F 5.2. TwoStateSemigroupOfIntermediateGrowth
+F 5.2. UniversalD_omega

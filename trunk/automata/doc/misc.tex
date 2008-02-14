@@ -36,49 +36,6 @@ gap> VertexNumber(4, 4, 3);
 %  how to construct all leaves of the finite tree
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Rewriting Systems}
-
-It is possible to use basic relators in all computations performed
-in a self-similar group.
-
-\>AG_UseRewritingSystem( <G>[, <setting>] ) O
-
-Tells whether computations in the group <G> should use a rewriting system.
-<setting> defaults to `true' if omitted.
-
-\beginexample
-gap> G := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
-< a, b, c, d >
-gap> Comm(a*b, b*a);
-b^-1*a^-2*b^-1*a*b^2*a
-gap> AG_UseRewritingSystem(G);
-true
-gap> Comm(a*b, b*a);
-1
-gap> AG_UseRewritingSystem(G, false);
-false
-gap> Comm(a*b, b*a);
-b^-1*a^-2*b^-1*a*b^2*a
-\endexample
-
-
-\>AG_AddRelators( <G>, <relators> ) O
-
-Adds relators.
-
-
-\>AG_UpdateRewritingSystem( <G> ) O
-
-Tries to find new relators.
-
-
-\>AG_RewritingSystemRules( <G> ) O
-
-Returns the list of rules used in the rewriting system.
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Some predefined groups}

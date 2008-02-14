@@ -2,7 +2,7 @@
 ##
 #W  treeautgrp.gi              automgrp package                Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -281,7 +281,7 @@ function (G, k)
   F := FreeGroup(Length(perms));
   hom := GroupHomomorphismByImagesNC(F, S, GeneratorsOfGroup(F), perms);
   gens := FreeGeneratorsOfGroup(Kernel(hom));
-  gens := List(gens, w  -> 
+  gens := List(gens, w  ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
@@ -328,7 +328,7 @@ function (G, k)
       return k^Image(hom, w);
   end;
   gens := FreeGeneratorsOfGroup(Stabilizer(F, k, action));
-  gens := List(gens, w  -> 
+  gens := List(gens, w  ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then
@@ -376,7 +376,7 @@ function (G, seq)
       return k^Image(hom, w);
   end;
   gens := FreeGeneratorsOfGroup(Stabilizer(F, v, action));
-  gens := List(gens, w  -> 
+  gens := List(gens, w  ->
     MappedWord(w, GeneratorsOfGroup(F), GeneratorsOfGroup(G)));
   gens := $AG_SimplifyGroupGenerators(gens);
   if IsEmpty(gens) then

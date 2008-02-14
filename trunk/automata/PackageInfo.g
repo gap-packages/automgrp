@@ -16,7 +16,7 @@ Subtitle := "Automata groups",
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers. For an automatic package distribution update
 ##  you must provide a new version number even after small changes.
-Version := "1.1",
+Version := "1.2",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
@@ -31,7 +31,7 @@ Date := "13/02/2008",
 ##  example/init.g, ...    or  example-1.3/init.g, ...  )
 #
 ArchiveURL :=
-  "http://downloads.sourceforge.net/finautom/automgrp-1.1",
+  "http://downloads.sourceforge.net/finautom/automgrp-1.2",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.

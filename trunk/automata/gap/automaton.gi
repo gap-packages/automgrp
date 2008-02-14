@@ -2,7 +2,7 @@
 ##
 #W  automaton.gi              automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -90,12 +90,12 @@ function(table, states, alphabet)
   fi;
 
   a := Objectify(NewType(AG_AutomatonFamily, IsMealyAutomaton and IsAutomatonRep),
-                 rec(table := table, 
-                     perms := perms, 
+                 rec(table := table,
+                     perms := perms,
                      trans := List([1..n_states], i -> List([1..degree], j -> j^perms[i])),
-                     states := states, 
-                     n_states := n_states, 
-                     alphabet := alphabet, 
+                     states := states,
+                     n_states := n_states,
+                     alphabet := alphabet,
                      degree := degree));
 
   SetIsInvertible(a, invertible);
@@ -104,7 +104,7 @@ function(table, states, alphabet)
 end);
 
 
-BindGlobal("$AG_PrintPerm", 
+BindGlobal("$AG_PrintPerm",
 function(p)
   if IsPerm(p) then
     Print(p);
@@ -114,7 +114,7 @@ function(p)
 end);
 
 
-InstallMethod(MealyAutomaton, [IsList, IsList, IsList], 
+InstallMethod(MealyAutomaton, [IsList, IsList, IsList],
 function(table, states, alphabet)
   return _AG_CreateAutomaton(table, states, alphabet);
 end);
@@ -124,12 +124,12 @@ function(table, states)
   return _AG_CreateAutomaton(table, states, fail);
 end);
 
-InstallMethod(MealyAutomaton, [IsList], 
+InstallMethod(MealyAutomaton, [IsList],
 function(table)
   return _AG_CreateAutomaton(table, fail, fail);
 end);
 
-InstallMethod(MealyAutomaton, [IsString], 
+InstallMethod(MealyAutomaton, [IsString],
 function(string)
   local ret;
   ret := AG_ParseAutomatonString(string);
@@ -137,7 +137,7 @@ function(string)
 end);
 
 
-InstallMethod(MealyAutomaton, [IsTreeHomomorphism], 
+InstallMethod(MealyAutomaton, [IsTreeHomomorphism],
 function(a)
   local states, MealyAutomatonLocal, aut_list;
 
@@ -158,7 +158,7 @@ function(a)
 end);
 
 
-InstallMethod(MealyAutomaton, [IsSelfSim], 
+InstallMethod(MealyAutomaton, [IsSelfSim],
 function(a)
   local states, MealyAutomatonLocal, aut_list;
 
@@ -244,13 +244,13 @@ function(a)
 end);
 
 
-InstallMethod(NumberOfStates, [IsMealyAutomaton], 
+InstallMethod(NumberOfStates, [IsMealyAutomaton],
 function(A)
   return A!.n_states;
 end);
 
 
-InstallMethod(SizeOfAlphabet, [IsMealyAutomaton], 
+InstallMethod(SizeOfAlphabet, [IsMealyAutomaton],
 function(A)
   return A!.degree;
 end);
@@ -279,8 +279,8 @@ end);
 
 
 # this is the method which uses PolynomialDegreeOfGrowthOfUnderlyingAutomaton
-#InstallMethod(IsOfPolynomialGrowth, "for [IsMealyAutomaton]", true, 
-#              [IsMealyAutomaton], 
+#InstallMethod(IsOfPolynomialGrowth, "for [IsMealyAutomaton]", true,
+#              [IsMealyAutomaton],
 #function(A)
 #  local G, res;
 #  G := AutomatonGroup(A);
@@ -293,12 +293,12 @@ end);
 #end);
 
 
-InstallMethod(IsOfPolynomialGrowth, "for [IsMealyAutomaton]", true, 
-              [IsMealyAutomaton], 
+InstallMethod(IsOfPolynomialGrowth, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
 function(A)
-  local i, d, ver, nstates, cycles, cycle_of_vertex, 
-        IsNewCycle, known_vertices, aut_list, HasPolyGrowth, 
-        cycle_order, next_cycles, cur_cycles, cur_path, cycles_of_level, 
+  local i, d, ver, nstates, cycles, cycle_of_vertex,
+        IsNewCycle, known_vertices, aut_list, HasPolyGrowth,
+        cycle_order, next_cycles, cur_cycles, cur_path, cycles_of_level,
         lev, ContainsTrivState, s;
 
   IsNewCycle := function(C)
@@ -579,7 +579,7 @@ function(A, B)
 end);
 
 
-InstallMethod(AreEquivalentAutomata, "for [IsMealyAutomaton, IsMealyAutomaton]", [IsMealyAutomaton, IsMealyAutomaton], 
+InstallMethod(AreEquivalentAutomata, "for [IsMealyAutomaton, IsMealyAutomaton]", [IsMealyAutomaton, IsMealyAutomaton],
 function(A, B)
   local n, m, i, j, aut_list, found, Am, Bm, C, equiv_statesB;
 
@@ -618,7 +618,7 @@ function(A, B)
 end);
 
 
-InstallMethod(SubautomatonWithStates, "for [IsMealyAutomaton, IsList]", [IsMealyAutomaton, IsList], 
+InstallMethod(SubautomatonWithStates, "for [IsMealyAutomaton, IsList]", [IsMealyAutomaton, IsList],
 function(A, states)
   local G, d, i, g, perm, subautom_list, newsubautom_list;
 

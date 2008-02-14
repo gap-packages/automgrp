@@ -2,7 +2,7 @@
 ##
 #W  selfs.gi             automgrp package                      Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -289,7 +289,7 @@ end);
 
 
 
-InstallGlobalFunction(AG_ChooseAutomatonList, 
+InstallGlobalFunction(AG_ChooseAutomatonList,
 function(G)
   if HasIsContracting(G) and IsContracting(G) and UnderlyingAutomFamily(G)!.use_contraction then
     return AG_ContractingTable(G);
@@ -323,7 +323,7 @@ end);
 
 
 InstallMethod(AG_OrderOfElement, "for [IsList, IsList, IsPosInt]",
-              [IsList, IsList], 
+              [IsList, IsList],
 function(v, G)
   return AG_OrderOfElement(v, G, infinity);
 end);
@@ -895,8 +895,8 @@ function(G)
 end);
 
 
-InstallMethod(DoNotUseContraction, "for [IsAutomGroup]", true, 
-              [IsAutomGroup], 
+InstallMethod(DoNotUseContraction, "for [IsAutomGroup]", true,
+              [IsAutomGroup],
 function(G)
   UnderlyingAutomFamily(G)!.use_contraction := false;
   return true;
@@ -1147,14 +1147,14 @@ function(H, print_info)
   return FindNucleus(H, infinity, print_info);
 end);
 
-InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic]", true, 
-                                    [IsAutomatonGroup, IsCyclotomic], 
+InstallMethod(FindNucleus, "for [IsAutomatonGroup, IsCyclotomic]", true,
+                                    [IsAutomatonGroup, IsCyclotomic],
 function(H, max_nucl)
   return FindNucleus(H, max_nucl, true);
 end);
 
 InstallMethod(FindNucleus, "for [IsAutomatonGroup]", true,
-                                    [IsAutomatonGroup], 
+                                    [IsAutomatonGroup],
 function(H)
   return FindNucleus(H, infinity, true);
 end);
@@ -1359,8 +1359,8 @@ end);
 # end);
 
 
-InstallMethod(Growth, "for [IsAutomGroup, IsCyclotomic]", true, 
-              [IsAutomGroup, IsCyclotomic], 
+InstallMethod(Growth, "for [IsAutomGroup, IsCyclotomic]", true,
+              [IsAutomGroup, IsCyclotomic],
 function(G, max_len)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, cur_els;
 
@@ -1408,8 +1408,8 @@ function(G, max_len)
 end);
 
 
-InstallMethod(Growth, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true, 
-              [IsTreeHomomorphismSemigroup, IsCyclotomic], 
+InstallMethod(Growth, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsCyclotomic],
 function(G, max_len)
   local iter, g, i;
   iter := Iterator(G, max_len);
@@ -1418,14 +1418,14 @@ function(G, max_len)
 end);
 
 
-InstallMethod(ListOfElements, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true, 
-              [IsTreeHomomorphismSemigroup, IsCyclotomic], 
+InstallMethod(ListOfElements, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsCyclotomic],
 function(G, max_len)
   return FindElements(G, ReturnTrue, true, max_len);
 end);
 
 
-InstallMethod(AG_FiniteGroupId, "for [IsAutomatonGroup, IsPosInt]", true, 
+InstallMethod(AG_FiniteGroupId, "for [IsAutomatonGroup, IsPosInt]", true,
               [IsAutomatonGroup, IsCyclotomic],
 function(H, size)
   local gr, len, ElList, GrList, inv, i, j, k, oldgr, v, tmpv, New, IsNewRel, inverse, G, FinG, tmpl, push, ProductEls, act, rels, LongCycle;
@@ -1553,8 +1553,8 @@ function(H, size)
 end);
 
 
-InstallMethod(AG_FiniteGroupId, "for [IsAutomGroup]", 
-              [IsAutomGroup], 
+InstallMethod(AG_FiniteGroupId, "for [IsAutomGroup]",
+              [IsAutomGroup],
 function(G)
   return AG_FiniteGroupId(G, infinity);
 end);
@@ -1563,7 +1563,7 @@ end);
 InstallMethod(AG_FiniteGroupId, "for [IsAutomGroup, IsCyclotomic]",
               [IsAutomGroup, IsCyclotomic],
 function(G, n)
-  local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, ProductEls, FinG, tmpl, push, act, track_l, 
+  local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, ProductEls, FinG, tmpl, push, act, track_l,
         num_diff_gens, num_orig_gens, old_gens;
 
   ProductEls := function(i, j)
@@ -2492,13 +2492,13 @@ end);
 #               [IsAutomSemigroup, IsCyclotomic, IsCyclotomic],
 # function(G, max_len, num_of_rels)
 #   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, has_one, rels, rel;
-# 
+#
 #   orig_gens := ShallowCopy(GeneratorsOfSemigroup(G));
-# 
+#
 #   gens := [];
 #   rels := [];
 #   has_one := false;
-# 
+#
 # # select pairwise different generators
 #   for i in [1..Length(orig_gens)] do
 #     if not IsOne(orig_gens[i]) then
@@ -2520,7 +2520,7 @@ end);
 #       has_one := true;
 #     fi;
 #   od;
-# 
+#
 #   if has_one then
 #     ElList := [One(G)];
 #     GrList := [1];
@@ -2528,31 +2528,31 @@ end);
 #     ElList := [];
 #     GrList := [0];
 #   fi;
-# 
+#
 #   Append(ElList, ShallowCopy(gens));
 #   Add(GrList, Length(gens)+GrList[1]);
 #   len := 1;
-# 
+#
 #   while GrList[len] <> GrList[len+1] and len < max_len and Length(rels) < num_of_rels  do
 #     for i in [GrList[len]+1..GrList[len+1]] do
 #       oldgr := Length(ElList);
 #       for gen in gens do
 #         g := ElList[i]*gen;
 #         New := true;
-# 
+#
 # #        Print("g = ", g, "\n");
 # #        Print("rels = ", rels, "\n");
-# 
+#
 # # If g includes a longer part of some relation it can not represent
 # # neither a new element, nor be involved in a new relation
-# 
+#
 #         for rel in rels do
 #           if PositionWord(Word(g), Word(rel[1]), 1) <> fail then New := false; fi;
 #         od;
-# 
+#
 # #        Print("New el/rel:", New, "\n");
 #         if New then
-# 
+#
 #           k := 0;
 #           while New and k < Length(ElList) do
 #             k := k+1;
@@ -2582,17 +2582,17 @@ end);
 #   fi;
 #   return rels;
 # end);
-# 
-# 
-# 
-# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic]", true, 
-#               [IsAutomSemigroup, IsCyclotomic], 
+#
+#
+#
+# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup, IsCyclotomic]", true,
+#               [IsAutomSemigroup, IsCyclotomic],
 # function(G, max_len)
 #   return FindSemigroupRelations(G, max_len, infinity);
 # end);
-# 
-# 
-# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup]", 
+#
+#
+# InstallMethod(FindSemigroupRelations, "for [IsAutomSemigroup]",
 #               [IsAutomSemigroup],
 # function(G)
 #   return FindSemigroupRelations(G, infinity, infinity);
@@ -2600,8 +2600,8 @@ end);
 
 
 
-InstallMethod(FindSemigroupRelations, "for [IsSemigroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsSemigroup, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindSemigroupRelations, "for [IsSemigroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsSemigroup, IsCyclotomic, IsCyclotomic],
 function(G, max_len, num_of_rels)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, oldgr, New, k, has_one, rels, rel, F, relsF, ElListF, genf, f;
 
@@ -2913,9 +2913,9 @@ function(a, max_depth)
 #    Print("vertex=",vertex,"\n");
 #    Print("g=",g,"\n");
     if IsOne(g) then return 1; fi;
-    
+
     if IsActingOnBinaryTree(g) and
-       not HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) or 
+       not HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) or
        (HasContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g))) and
        ContainsSphericallyTransitiveElement(GroupOfAutomFamily(FamilyObj(g)))) then
           if IsSphericallyTransitive(g) then
@@ -2951,7 +2951,7 @@ function(a, max_depth)
       reduced_word := AssocWordByLetterRep(FamilyObj(st!.word), CyclicallyReduce(LetterRepAssocWord(st!.word)));
 #      Print(st!.word, " at ", vertex, "\n");
       res := OrderUsingSections_LOCAL(Autom(reduced_word, FamilyObj(g)));
-      if res = infinity then return res; 
+      if res = infinity then return res;
       elif res=fail then
         loc_order:=fail;
       fi;
@@ -3090,8 +3090,8 @@ function(G, func, val, n)
 end);
 
 
-InstallMethod(FindElements, "for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]", true, 
-              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic], 
+InstallMethod(FindElements, "for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]", true,
+              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic],
 function(G, func, val, n)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, cur_els;
 
@@ -3151,8 +3151,8 @@ function(G, func, val, n)
 end);
 
 
-InstallMethod(FindElement, "for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]", true, 
-              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic], 
+InstallMethod(FindElement, "for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]", true,
+              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic],
 function(G, func, val, max_len)
   local iter, g;
   iter := Iterator(G, max_len);
@@ -3165,7 +3165,7 @@ end);
 
 
 InstallMethod(FindElements, "for [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]", true,
-              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic], 
+              [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic],
 function(G, func, val, max_len)
   local iter, g, l;
   iter := Iterator(G, max_len);
@@ -3193,8 +3193,8 @@ function(G, n, depth)
 end);
 
 
-InstallMethod(FindElementsOfInfiniteOrder, "for [IsAutomGroup, IsCyclotomic, IsCyclotomic]", true, 
-              [IsAutomGroup, IsCyclotomic, IsCyclotomic], 
+InstallMethod(FindElementsOfInfiniteOrder, "for [IsAutomGroup, IsCyclotomic, IsCyclotomic]", true,
+              [IsAutomGroup, IsCyclotomic, IsCyclotomic],
 function(G, n, depth)
   local CheckOrder, res;
   if HasIsFinite(G) and IsFinite(G) then return []; fi;
@@ -3240,8 +3240,8 @@ end);
 
 
 
-InstallMethod(IsGeneratedByAutomatonOfPolynomialGrowth, "for [IsAutomatonGroup]", true, 
-              [IsAutomatonGroup], 
+InstallMethod(IsGeneratedByAutomatonOfPolynomialGrowth, "for [IsAutomatonGroup]", true,
+              [IsAutomatonGroup],
 function(G)
   local i, d, ver, nstates, cycles, cycle_of_vertex, IsNewCycle, known_vertices, aut_list, HasPolyGrowth, cycle_order, next_cycles, cur_cycles, cur_path, cycles_of_level, lev;
 
@@ -3373,7 +3373,7 @@ end);
 
 
 
-InstallMethod(IsGeneratedByBoundedAutomaton, "for [IsAutomatonGroup]", true, 
+InstallMethod(IsGeneratedByBoundedAutomaton, "for [IsAutomatonGroup]", true,
               [IsAutomatonGroup],
 function(G)
   local res;

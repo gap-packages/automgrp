@@ -1,3 +1,12 @@
+#############################################################################
+##
+#W  testcontr.g               automgrp package                 Dmytro Savchuk
+#W                                                             Yevgen Muntyan
+##  automgrp v 1.2
+##
+#Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
+##
+
 # XXX
 UnitTest("Contracting groups", function()
   local l, ContractingGroups,     NoncontractingGroups,     CantDecideGroups,\

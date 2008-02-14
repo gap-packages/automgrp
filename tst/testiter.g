@@ -1,3 +1,12 @@
+#############################################################################
+##
+#W  testiter.g               automgrp package                  Dmytro Savchuk
+#W                                                             Yevgen Muntyan
+##  automgrp v 1.2
+##
+#Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
+##
+
 UnitTest("Iterator", function()
   local G, g, elms, groups, inf_groups;
 

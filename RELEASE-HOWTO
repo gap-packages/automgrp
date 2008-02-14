@@ -2,7 +2,7 @@
 2.  Fix bugs.
 3.  Check the following fields in PackageInfo.g:
     Version, Date, ArchiveURL.
-4.  Check the version in README, check NEWS.
+4.  Check the version in init.g, README, Makefile, buildman.config, check NEWS.
 5.  Check docs.
 6.  Run tests, restart from step 2 if needed.
 7.  Commit.

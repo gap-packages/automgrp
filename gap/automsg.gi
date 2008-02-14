@@ -2,7 +2,7 @@
 ##
 #W  automsg.gi               automgrp package                  Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -12,7 +12,7 @@
 ##
 #M  AutomatonSemigroup(<list>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsList]", [IsList], 
+InstallMethod(AutomatonSemigroup, "for [IsList]", [IsList],
 function (list)
   return AutomatonSemigroup(list, false);
 end);
@@ -22,10 +22,10 @@ end);
 ##
 #M  AutomatonSemigroup(<list>, <bind_vars>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsList, IsBool]", [IsList, IsBool], 
+InstallMethod(AutomatonSemigroup, "for [IsList, IsBool]", [IsList, IsBool],
 function (list, bind_vars)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("in AutomatonSemigroup(IsList):\n", 
+    Error("in AutomatonSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -38,10 +38,10 @@ end);
 ##
 #M  AutomatonSemigroup(<list>, <names>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsList, IsList]", [IsList, IsList], 
+InstallMethod(AutomatonSemigroup, "for [IsList, IsList]", [IsList, IsList],
 function (list, names)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("error in AutomatonSemigroup(IsList, IsList):\n", 
+    Error("error in AutomatonSemigroup(IsList, IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -54,11 +54,11 @@ end);
 ##
 #M  AutomatonSemigroup(<list>, <names>, <bind_vars>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsList, IsList, IsBool]", 
-              [IsList, IsList, IsBool], 
+InstallMethod(AutomatonSemigroup, "for [IsList, IsList, IsBool]",
+              [IsList, IsList, IsBool],
 function (list, names, bind_vars)
   if not AG_IsCorrectAutomatonList(list, false) then
-    Error("error in AutomatonSemigroup(IsList):\n", 
+    Error("error in AutomatonSemigroup(IsList):\n",
           "  given list is not a correct list representing automaton\n");
   fi;
 
@@ -72,11 +72,11 @@ end);
 #M  AutomatonSemigroup(<string>)
 #M  AutomatonSemigroup(<string>, <bind_vars>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsString]", [IsString], 
+InstallMethod(AutomatonSemigroup, "for [IsString]", [IsString],
 function(string)
     return AutomatonSemigroup(string, AG_Globals.bind_vars_autom_family);
 end);
-InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsString, IsBool]", [IsString, IsBool], 
+InstallMethod(AutomatonSemigroup, "AutomatonSemigroup(IsString, IsBool]", [IsString, IsBool],
 function(string, bind_vars)
     local s;
     s := AG_ParseAutomatonString(string);
@@ -89,12 +89,12 @@ end);
 #M  AutomatonSemigroup(<A>)
 #M  AutomatonSemigroup(<A>, <bind_vars>)
 ##
-InstallMethod(AutomatonSemigroup, "for [IsMealyAutomaton]", [IsMealyAutomaton], 
+InstallMethod(AutomatonSemigroup, "for [IsMealyAutomaton]", [IsMealyAutomaton],
 function(A)
   return AutomatonSemigroup(AutomatonList(A), A!.states);
 end);
 
-InstallMethod(AutomatonSemigroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool], 
+InstallMethod(AutomatonSemigroup, "for [IsMealyAutomaton, IsBool]", [IsMealyAutomaton, IsBool],
 function(A, bind_vars)
   return AutomatonSemigroup(AutomatonList(A), A!.states, bind_vars);
 end);
@@ -105,7 +105,7 @@ end);
 #M  IsSelfSimilar(<G>)
 ##
 InstallMethod(IsSelfSimilar, "for [IsAutomSemigroup]",
-              [IsAutomSemigroup], 
+              [IsAutomSemigroup],
 function(G)
   local g, i, res;
   res := true;
@@ -126,8 +126,8 @@ end);
 ##
 #M  UnderlyingAutomFamily(<G>)
 ##
-InstallMethod(UnderlyingAutomFamily, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(UnderlyingAutomFamily, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return FamilyObj(GeneratorsOfSemigroup(G)[1]);
 end);
@@ -137,7 +137,7 @@ end);
 # ##
 # #M  UseSubsetRelation(<G>)
 # ##
-# InstallMethod(UseSubsetRelation, 
+# InstallMethod(UseSubsetRelation,
 #               "for [IsAutomSemigroup, IsAutomSemigroup]",
 #               [IsAutomSemigroup, IsAutomSemigroup],
 # function(super, sub)
@@ -155,9 +155,9 @@ end);
 # ##
 # #M  $AG_SubgroupOnLevel(<G>, <gens>, <level>)
 # ##
-# InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup, 
-#                                  IsList and IsTreeAutomorphismCollection, 
-#                                  IsPosInt], 
+# InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup,
+#                                  IsList and IsTreeAutomorphismCollection,
+#                                  IsPosInt],
 # function(G, gens, level)
 #   local overgroup;
 #
@@ -180,8 +180,8 @@ end);
 # end);
 #
 # InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
-#                                  IsList and IsAutomCollection, 
-#                                  IsPosInt], 
+#                                  IsList and IsAutomCollection,
+#                                  IsPosInt],
 # function(G, gens, level)
 #   local overgroup;
 #
@@ -194,7 +194,7 @@ end);
 #   return SubgroupNC(overgroup, gens);
 # end);
 #
-# InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsAutomCollection], 
+# InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsAutomCollection],
 # function(gens)
 #   local words, fam;
 #
@@ -218,14 +218,14 @@ end);
 ##
 #M  DegreeOfTree(<G>)
 ##
-InstallMethod(DegreeOfTree, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(DegreeOfTree, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return DegreeOfTree(UnderlyingAutomFamily(G));
 end);
 
-InstallMethod(TopDegreeOfTree, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(TopDegreeOfTree, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return DegreeOfTree(UnderlyingAutomFamily(G));
 end);
@@ -235,8 +235,8 @@ end);
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(PrintObj, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   local i, gens, printone;
 
@@ -262,8 +262,8 @@ end);
 ##
 #M  ViewObj(<G>)
 ##
-InstallMethod(ViewObj, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(ViewObj, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   local i, gens;
   gens := List(GeneratorsOfSemigroup(G), g -> Word(g));
@@ -288,7 +288,7 @@ end);
 ##
 #M  IsTrivial(G)
 ##
-InstallMethod(IsTrivial, "for [IsAutomSemigroup]", [IsAutomSemigroup], 
+InstallMethod(IsTrivial, "for [IsAutomSemigroup]", [IsAutomSemigroup],
 function (G)
   local g;
   for g in GeneratorsOfSemigroup(G) do
@@ -303,7 +303,7 @@ end);
 ##
 #M  Size(G)
 ##
-InstallMethod(Size, "for [IsAutomSemigroup]", [IsAutomSemigroup], 
+InstallMethod(Size, "for [IsAutomSemigroup]", [IsAutomSemigroup],
 function (G)
   local g;
   if IsTrivial(G) then
@@ -322,8 +322,8 @@ end);
 # ##
 # #M  \= (<G>, <H>)
 # ##
-# InstallMethod(\=, "for [IsAutomGroup, IsAutomGroup]", 
-#               IsIdenticalObj, [IsAutomGroup, IsAutomGroup], 
+# InstallMethod(\=, "for [IsAutomGroup, IsAutomGroup]",
+#               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 # function(G, H)
 #   local fgens1, fgens2, fam;
 #
@@ -360,8 +360,8 @@ end);
 # ##
 # #M  IsSubset (<G>, <H>)
 # ##
-# InstallMethod(IsSubset, "for [IsAutomGroup, IsAutomGroup]", 
-#               IsIdenticalObj, [IsAutomGroup, IsAutomGroup], 
+# InstallMethod(IsSubset, "for [IsAutomGroup, IsAutomGroup]",
+#               IsIdenticalObj, [IsAutomGroup, IsAutomGroup],
 # function(G, H)
 #   local h, fam, fgens1, fgens2;
 #
@@ -394,8 +394,8 @@ end);
 ##
 #M  <g> in <G>
 ##
-InstallMethod(\in, "for [IsAutom, IsAutomGroup]", 
-              [IsAutom, IsAutomSemigroup], 
+InstallMethod(\in, "for [IsAutom, IsAutomGroup]",
+              [IsAutom, IsAutomSemigroup],
 function(g, G)
   local fam, fgens, w;
 
@@ -428,8 +428,8 @@ end);
 ##
 #M  Random(<G>)
 ##
-InstallMethod(Random, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(Random, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   local w, monoid, F, gens, pi;
 
@@ -481,8 +481,8 @@ end);
 ##
 #M  UnderlyingFreeGenerators( <G> )
 ##
-InstallMethod(UnderlyingFreeGenerators, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(UnderlyingFreeGenerators, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return List(GeneratorsOfSemigroup(G), g -> Word(g));
 end);
@@ -492,8 +492,8 @@ end);
 # ##
 # #M  UnderlyingFreeSubgroup(<G>)
 # ##
-# InstallMethod(UnderlyingFreeSubgroup, "for [IsAutomGroup]", 
-#               [IsAutomGroup], 
+# InstallMethod(UnderlyingFreeSubgroup, "for [IsAutomGroup]",
+#               [IsAutomGroup],
 # function(G)
 #   local f;
 #   if HasIsGroupOfAutomFamily(G) and IsGroupOfAutomFamily(G) then
@@ -511,7 +511,7 @@ end);
 # ##
 # #M  IndexInFreeGroup(<G>)
 # ##
-# InstallMethod(IndexInFreeGroup, "for [IsAutomGroup]", 
+# InstallMethod(IndexInFreeGroup, "for [IsAutomGroup]",
 #               [IsAutomGroup],
 # function(G)
 #   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
@@ -522,8 +522,8 @@ end);
 ##
 #M  UnderlyingFreeGroup( <G> )
 ##
-InstallMethod(UnderlyingFreeGroup, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(UnderlyingFreeGroup, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return UnderlyingAutomFamily(G)!.freegroup;
 end);
@@ -533,25 +533,25 @@ end);
 ##
 #M  UnderlyingFreeGenerators( <G> )
 ##
-InstallMethod(UnderlyingFreeGenerators, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(UnderlyingFreeGenerators, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   return List(GeneratorsOfSemigroup(G), g -> Word(g));
 end);
 
 
-InstallMethod(SphericalIndex, "for IsAutomSemigroup", 
-              [IsAutomSemigroup], 
+InstallMethod(SphericalIndex, "for IsAutomSemigroup",
+              [IsAutomSemigroup],
 function(G)
   return SphericalIndex(GeneratorsOfSemigroup(G)[1]);
 end);
-InstallMethod(DegreeOfTree, "for IsAutomSemigroup", 
-              [IsAutomSemigroup], 
+InstallMethod(DegreeOfTree, "for IsAutomSemigroup",
+              [IsAutomSemigroup],
 function(G)
   return UnderlyingAutomFamily(G)!.deg;
 end);
-InstallMethod(TopDegreeOfTree, "for IsAutomSemigroup", 
-              [IsAutomSemigroup], 
+InstallMethod(TopDegreeOfTree, "for IsAutomSemigroup",
+              [IsAutomSemigroup],
 function(G)
   return UnderlyingAutomFamily(G)!.deg;
 end);
@@ -561,8 +561,8 @@ end);
 ##
 #M  UnderlyingAutomaton(<G>)
 ##
-InstallMethod(UnderlyingAutomaton, "for [IsAutomSemigroup]", 
-              [IsAutomSemigroup], 
+InstallMethod(UnderlyingAutomaton, "for [IsAutomSemigroup]",
+              [IsAutomSemigroup],
 function(G)
   local fam, numstates, automatonlist, d, i, j;
   fam := UnderlyingAutomFamily(G);

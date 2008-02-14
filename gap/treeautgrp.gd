@@ -2,7 +2,7 @@
 ##
 #W  treeautgrp.gd              automgrp package                Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -33,7 +33,7 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 #P  IsFractal( <G> )
 ##
 ##  Returns whether the group <G> is fractal (also called as <self-replicating>). In other
-##  words, if <G> acts transitively on the first level and for any vertex $v$ of the tree 
+##  words, if <G> acts transitively on the first level and for any vertex $v$ of the tree
 ##  the projection of the stabilizer of $v$ in <G>
 ##  on this vertex coincides with the whole group <G>.
 ##  \beginexample

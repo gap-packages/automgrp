@@ -1,3 +1,12 @@
+#############################################################################
+##
+#W  teststructures.g           automgrp package                Dmytro Savchuk
+#W                                                             Yevgen Muntyan
+##  automgrp v 1.2
+##
+#Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
+##
+
 $ST_Groups := [
   [[[1,1,()]], false],
   ["a=(1,a)(1,2)", true],

@@ -2,7 +2,7 @@
 ##
 #W  selfs.gd             automgrp package                      Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -32,7 +32,7 @@ DeclareAttribute( "GroupNucleus", IsTreeAutomorphismGroup, "mutable" );
 ##
 #A  GeneratingSetWithNucleus( <G> )
 ##
-##  Tries to compute the generating set of a self-similar group <G> that includes 
+##  Tries to compute the generating set of a self-similar group <G> that includes
 ##  the original generators and the <nucleus> (see "Short math background") of <G>.
 ##  It uses `FindNucleus' operation
 ##  and behaves accordingly: if the group is not contracting
@@ -1109,7 +1109,7 @@ DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup, IsCycloto
 ##
 #F  AG_GroupHomomorphismByImagesNC( <G>, <H>, <gens_G>, <gens_H> )
 ##
-##  Returns a group homomorphism from a self-similar group <G> to <H> sending 
+##  Returns a group homomorphism from a self-similar group <G> to <H> sending
 ##  <gens_G> to <gens_H>. It's possible to find images and preimages of elements
 ##  under homomorphism defined using this function. Does NOT perform any checkings.
 ##

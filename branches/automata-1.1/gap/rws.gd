@@ -27,7 +27,6 @@
 ##  gap> Comm(a*b, b*a);
 ##  1
 ##  gap> AG_UseRewritingSystem(G, false);
-##  false
 ##  gap> Comm(a*b, b*a);
 ##  b^-1*a^-2*b^-1*a*b^2*a
 ##  \endexample
@@ -64,7 +63,7 @@ DeclareOperation("AG_UseRewritingSystem", [IsObject, IsBool]);
 ##  relator, or one can ask if the group is finite (which does not stop
 ##  generally if the group is infinite).
 ##  \beginexample
-##  H := SelfSimilarGroup("a=(a*b,1)(1,2), b=(1,b*a^-1)(1,2), c=(b, a*b)");
+##  gap> H := SelfSimilarGroup("a=(a*b,1)(1,2), b=(1,b*a^-1)(1,2), c=(b, a*b)");
 ##  < a, b, c >
 ##  gap> AG_AddRelators(H, [a*b^-1]);
 ##  gap> AG_UseRewritingSystem(H);

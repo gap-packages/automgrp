@@ -2,7 +2,7 @@
 ##
 #W  autom32.g                  automgrp package                Dmytro Savchuk
 ##
-##  automgrp v 1.1
+##  automgrp v 1.1.1
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##

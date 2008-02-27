@@ -54,7 +54,7 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 
 ###############################################################################
 ##
-#O  DiagonalAction(<fam>[, <k>])
+#O  DiagonalPower(<fam>[, <k>])
 ##
 ##  For a given automaton group <G> acting on alphabet $X$ and corresponding family
 ##  <fam> of automata one can consider the action of $<G>^<k>$ on $X^<k>$ defined by
@@ -64,13 +64,13 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
-##  gap> S := DiagonalAction(UnderlyingAutomFamily(Basilica));
+##  gap> S := DiagonalPower(UnderlyingAutomFamily(Basilica));
 ##  < uu, uv, u1, vu, vv, v1, 1u, 1v >
 ##  gap> Decompose(uu);
 ##  (vv, v1, 1v, 1)(1,4)(2,3)
 ##  \endexample
 ##
-KeyDependentOperation("DiagonalAction", IsAutomFamily, IsPosInt, ReturnTrue);
+KeyDependentOperation("DiagonalPower", IsAutomFamily, IsPosInt, ReturnTrue);
 
 
 ###############################################################################

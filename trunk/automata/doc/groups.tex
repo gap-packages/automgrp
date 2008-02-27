@@ -982,7 +982,7 @@ the full group of tree automorphisms, represented as a subgroup of the additive
 group of rational functions.
 
 
-\>DiagonalAction( <fam>[, <k>] ) O
+\>DiagonalPower( <fam>[, <k>] ) O
 
 For a given automaton group <G> acting on alphabet $X$ and corresponding family
 <fam> of automata one can consider the action of $<G>^<k>$ on $X^<k>$ defined by
@@ -992,7 +992,7 @@ This function constructs a self-similar group, which encodes this action. If
 \beginexample
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
-gap> S := DiagonalAction(UnderlyingAutomFamily(Basilica));
+gap> S := DiagonalPower(UnderlyingAutomFamily(Basilica));
 < uu, uv, u1, vu, vv, v1, 1u, 1v >
 gap> Decompose(uu);
 (vv, v1, 1v, 1)(1,4)(2,3)

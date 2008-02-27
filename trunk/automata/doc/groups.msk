@@ -90,7 +90,7 @@ gap> l;
 
 
 \Declaration{AbelImage}
-\Declaration{DiagonalAction}
+\Declaration{DiagonalPower}
 \Declaration{MultAutomAlphabet}
 
 \Declaration{UnderlyingAutomFamily}

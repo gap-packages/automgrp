@@ -10,9 +10,9 @@
 
 ###############################################################################
 ##
-#R  IsAutomatonRep
+#R  IsMealyAutomatonRep
 ##
-DeclareRepresentation("IsAutomatonRep",
+DeclareRepresentation("IsMealyAutomatonRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["table",     # transitions: table[i][j] is the state automaton goes to after processing letter j
                                     # if it was in state i
@@ -89,7 +89,7 @@ function(table, states, alphabet)
     od;
   fi;
 
-  a := Objectify(NewType(AG_AutomatonFamily, IsMealyAutomaton and IsAutomatonRep),
+  a := Objectify(NewType(AG_AutomatonFamily, IsMealyAutomaton and IsMealyAutomatonRep),
                  rec(table := table,
                      perms := perms,
                      trans := List([1..n_states], i -> List([1..degree], j -> j^perms[i])),
@@ -184,7 +184,7 @@ function(a)
   Print("<automaton>");
 end);
 
-InstallMethod(PrintObj, [IsMealyAutomaton and IsAutomatonRep],
+InstallMethod(PrintObj, [IsMealyAutomaton and IsMealyAutomatonRep],
 function(a)
   local i, j;
 
@@ -224,7 +224,7 @@ function(a, q, x)
 end);
 
 
-# InstallMethod(TransitionFunction, [IsMealyAutomaton and IsAutomatonRep],
+# InstallMethod(TransitionFunction, [IsMealyAutomaton and IsMealyAutomatonRep],
 # function(a)
 #   local func, table;
 #

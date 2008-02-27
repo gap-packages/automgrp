@@ -572,9 +572,9 @@ end);
 
 ###############################################################################
 ##
-##  AG_DiagonalActionInList(<list>, <n>)
+##  AG_DiagonalPowerInList(<list>, <n>)
 ##
-InstallGlobalFunction(AG_DiagonalActionInList,
+InstallGlobalFunction(AG_DiagonalPowerInList,
 function(list, n, names)
   local d, nlist, nd, nalph, nstates, nperm,
         i, j, k, letter, n_letter, n_state, state,

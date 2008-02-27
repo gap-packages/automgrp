@@ -423,9 +423,9 @@ end);
 
 ###############################################################################
 ##
-#M  DiagonalActionOp(<fam>, <n>)
+#M  DiagonalPowerOp(<fam>, <n>)
 ##
-InstallMethod(DiagonalActionOp, "for [IsAutomFamily, IsPosInt]",
+InstallMethod(DiagonalPowerOp, "for [IsAutomFamily, IsPosInt]",
               [IsAutomFamily, IsPosInt],
 function(fam, n)
   local names, list, states, dlist;
@@ -442,18 +442,18 @@ function(fam, n)
     Add(names, AG_Globals!.identity_symbol);
   fi;
   dlist := AG_MinimalSubAutomatonInlist(states, list)[1];
-  return AutomatonGroup(AG_DiagonalActionInList(dlist, n, names)[1],
-                    AG_DiagonalActionInList(dlist, n, names)[2]);
+  return AutomatonGroup(AG_DiagonalPowerInList(dlist, n, names)[1],
+                    AG_DiagonalPowerInList(dlist, n, names)[2]);
 end);
 
 
 ###############################################################################
 ##
-#M  DiagonalAction(<obj>)
+#M  DiagonalPower(<obj>)
 ##
-InstallOtherMethod(DiagonalAction, "for [IsObject]", [IsObject],
+InstallOtherMethod(DiagonalPower, "for [IsObject]", [IsObject],
 function(obj)
-  return DiagonalAction(obj, 2);
+  return DiagonalPower(obj, 2);
 end);
 
 

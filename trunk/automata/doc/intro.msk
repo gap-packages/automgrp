@@ -170,7 +170,19 @@ your GAP distribution. This will create `automgrp' subdirectory.
 % a Microsoft Windows system, and `automgrp-{{pkgversion}}.tar.bz2' or
 % `automgrp-{{pkgversion}}.tar.gz' otherwise.
 
-To test the installation, restart \GAP\ and issue the command
+To load package issue the command
+\beginexample
+gap> LoadPackage("automgrp");
+-----------------------------------------------------------------------------
+Loading  AutomGrp 1.1.1 (Automata Groups)
+by Yevgen Muntyan (http://www.math.tamu.edu/~muntyan/) and
+   Dmytro Savchuk (http://www.math.tamu.edu/~savchuk/).
+-----------------------------------------------------------------------------
+true
+\endexample
+
+
+To test the installation, issue the command
 \beginexample
 gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
 \endexample

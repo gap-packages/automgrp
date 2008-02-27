@@ -487,13 +487,13 @@ end);
 
 ###############################################################################
 ##
-#M  DiagonalAction(<G>, <n>)
+#M  DiagonalPower(<G>, <n>)
 ##
-InstallOtherMethod( DiagonalAction,
+InstallOtherMethod( DiagonalPower,
                     "for [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt]",
                     [IsAutomGroup and IsGroupOfAutomFamily, IsPosInt],
 function(G, n)
-  return DiagonalAction(UnderlyingAutomFamily(G), n);
+  return DiagonalPower(UnderlyingAutomFamily(G), n);
 end);
 
 

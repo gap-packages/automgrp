@@ -1,3 +1,9 @@
+Changes from 1.1.1 to 1.1.2
+
+- IsAutomatonRep was renamed to IsMealyAutomatonRep,  and
+  DiagonalAction was renamed to DiagonalPower to avoid conflicts
+  with other packages
+
 Changes from 1.1 to 1.1.1
 
 - The bug with undeclared local variable in one of the tests was fixed.

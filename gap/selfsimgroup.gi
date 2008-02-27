@@ -461,13 +461,13 @@ end);
 
 ###############################################################################
 ##
-#M  DiagonalAction(<G>, <n>)
+#M  DiagonalPower(<G>, <n>)
 ##
-InstallOtherMethod( DiagonalAction,
+InstallOtherMethod( DiagonalPower,
                     "for [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt]",
                     [IsSelfSimGroup and IsGroupOfSelfSimFamily, IsPosInt],
 function(G, n)
-  return DiagonalAction(UnderlyingSelfSimFamily(G), n);
+  return DiagonalPower(UnderlyingSelfSimFamily(G), n);
 end);
 
 

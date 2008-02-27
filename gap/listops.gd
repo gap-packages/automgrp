@@ -157,9 +157,9 @@ DeclareGlobalFunction("AG_WordStateAndPermInList");
 
 ###############################################################################
 ##
-##  AG_DiagonalActionInList(<list>, <n>)
+##  AG_DiagonalPowerInList(<list>, <n>)
 ##
-DeclareGlobalFunction("AG_DiagonalActionInList");
+DeclareGlobalFunction("AG_DiagonalPowerInList");
 
 
 ###############################################################################

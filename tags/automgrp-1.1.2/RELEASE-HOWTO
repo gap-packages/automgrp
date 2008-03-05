@@ -1,0 +1,19 @@
+1.  Add new features and fix bugs.
+2.  Fix bugs.
+3.  Check the following fields in PackageInfo.g:
+    Version, Date, ArchiveURL.
+4.  Check the version in init.g, README, Makefile, buildman.config, check NEWS.
+5.  Check docs.
+6.  Run tst/testrelease.sh.
+7.  Commit.
+8.  Run 'make dist' to create three tarballs.
+9.  Upload them to ftp://upload.sf.net/incoming/
+10. Go to http://sourceforge.net/projects/finautom > Admin > File releases.
+    Create new release, add files.
+11. Download fresh tarball from http://sf.net, install it, run tests.
+    Restart from step 2 if needed.
+12. Upload the tarball to ssh://shell.sf.net/groups/f/fi/finautom/htdocs,
+    unpack it.
+13. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
+14. Tag the release.
+15. Done.

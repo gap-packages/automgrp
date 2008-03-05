@@ -4,7 +4,7 @@
     Version, Date, ArchiveURL.
 4.  Check the version in init.g, README, Makefile, buildman.config, check NEWS.
 5.  Check docs.
-6.  Run tests, restart from step 2 if needed.
+6.  Run tst/testrelease.sh.
 7.  Commit.
 8.  Run 'make dist' to create three tarballs.
 9.  Upload them to ftp://upload.sf.net/incoming/

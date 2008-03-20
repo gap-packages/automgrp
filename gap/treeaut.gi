@@ -59,13 +59,27 @@ end);
 
 BindGlobal("AG_TreeAutomorphism",
 function(list_states, permutation)
-  local top_deg, bot_deg, ind, fam;
+  local top_deg, bot_deg, ind, fam, s, Orbs, orb;
+
+  if Length(list_states)=0 then
+    Error("The list of states can not be empty");
+  fi;
 
   top_deg := Length(list_states);
   if not IsOne(permutation) and
       top_deg < Maximum(MovedPoints(permutation)) then
     Error();
   fi;
+
+  Orbs := OrbitsPerms([permutation], [1..Length(list_states)]);
+
+  for orb in Orbs do
+    for s in [2..Length(orb)] do
+      if list_states[orb[s]]!.deg<>list_states[orb[1]]!.deg then
+        Error("Sections in one orbit are acting on different trees");
+      fi;
+    od;
+  od;
 
   bot_deg := DegreeOfTree(list_states[1]);
   ind := rec(start := [top_deg], period := [bot_deg]);

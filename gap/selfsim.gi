@@ -107,7 +107,7 @@ function(w, fam)
     od;
 
 #    if fam!.use_rws and Length(wstates[i]) > 0 then
-#      wstates[i] := ReducedForm(fam!.rws, wstates[i]);
+#      wstates[i] := AG_ReducedForm(fam!.rws, wstates[i]);
 #    fi;
   od;
 

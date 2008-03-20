@@ -258,8 +258,8 @@ function(g, G)
   fam := UnderlyingSelfSimFamily(G);
 
   if fam!.rws <> fail then
-    fgens := AsSet(ReducedForm(fam!.rws, fgens));
-    w := ReducedForm(fam!.rws, w);
+    fgens := AsSet(AG_ReducedForm(fam!.rws, fgens));
+    w := AG_ReducedForm(fam!.rws, w);
   fi;
 
   if w in SemigroupByGenerators(fgens) then

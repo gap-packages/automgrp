@@ -605,8 +605,8 @@ function(G, H)
     return false;
   fi;
 
-  G := ReducedForm(G);
-  H := ReducedForm(H);
+  G := AG_ReducedForm(G);
+  H := AG_ReducedForm(H);
 
   gens := GeneratorsOfGroup(H);
   for h in gens do
@@ -652,8 +652,8 @@ function(g, G)
     return false;
   fi;
 
-  G := ReducedForm(G);
-  g := ReducedForm(g);
+  G := AG_ReducedForm(G);
+  g := AG_ReducedForm(g);
 
   if FindElement(G, function(el) return el=g; end ,true, 8)<>fail then
     Info(InfoAutomGrp, 3, "g in G: FindElement returned true");

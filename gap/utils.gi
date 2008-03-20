@@ -253,7 +253,7 @@ end);
 ##  AG_AbelImageX
 ##  AG_AbelImageSpherTrans
 ##
-InstallValue(AG_AbelImageX, Indeterminate(GF(2), "x"));
+InstallValue(AG_AbelImageX, Indeterminate(GF(2)));
 InstallValue(AG_AbelImageSpherTrans, One(AG_AbelImageX)/ (One(AG_AbelImageX) + AG_AbelImageX));
 
 
@@ -285,7 +285,7 @@ function(list)
         m[s][list[s][i]] := m[s][list[s][i]] + x;
       fi;
     od;
-    if (list[s][d+1] = ()) then e[s] := zero;
+    if SignPerm(list[s][d+1]) = 1 then e[s] := zero;
     else e[s] := one; fi;
   od;
 

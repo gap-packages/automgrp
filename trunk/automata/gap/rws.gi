@@ -165,6 +165,56 @@ function(rws, words)
 end);
 
 
+$AG_ReducedFormOfGroup := function(group, fam, construct)
+  local gens, rws;
+
+  if not fam!.use_rws then
+    return group;
+  fi;
+
+  gens := GeneratorsOfGroup(group);
+  gens := List(AG_ReducedForm(fam!.rws, List(gens, a -> Word(a))), w -> construct(w, fam));
+  gens := Difference(gens, [One(group)]);
+  if IsEmpty(gens) then
+    return Group(One(group));
+  else
+    return GroupWithGenerators(gens);
+  fi;
+end;
+
+InstallOtherMethod(AG_ReducedForm, [IsAutomGroup],
+function(group)
+  return $AG_ReducedFormOfGroup(group, UnderlyingAutomFamily(group), Autom);
+end);
+
+InstallOtherMethod(AG_ReducedForm, [IsSelfSimGroup],
+function(group)
+  return $AG_ReducedFormOfGroup(group, UnderlyingSelfSimFamily(group), SelfSim);
+end);
+
+$AG_ReducedFormOfElm := function(g, construct)
+  local fam;
+
+  fam := FamilyObj(g);
+
+  if not fam!.use_rws then
+    return g;
+  else
+    return construct(AG_ReducedForm(fam!.rws, Word(g)), fam);
+  fi;
+end;
+
+InstallOtherMethod(AG_ReducedForm, [IsAutom],
+function(g)
+  return $AG_ReducedFormOfElm(g, Autom);
+end);
+
+InstallOtherMethod(AG_ReducedForm, [IsSelfSim],
+function(g)
+  return $AG_ReducedFormOfElm(g, SelfSim);
+end);
+
+
 InstallOtherMethod(AG_UseRewritingSystem, [IsObject],
 function(obj)
   AG_UseRewritingSystem(obj, true);

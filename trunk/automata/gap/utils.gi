@@ -253,8 +253,19 @@ end);
 ##  AG_AbelImageX
 ##  AG_AbelImageSpherTrans
 ##
-InstallValue(AG_AbelImageX, Indeterminate(GF(2)));
-InstallValue(AG_AbelImageSpherTrans, One(AG_AbelImageX)/ (One(AG_AbelImageX) + AG_AbelImageX));
+InstallGlobalFunction(AG_AbelImageX,
+function()
+  if not IsReadOnlyGlobal("AG_AbelImageXvar") then
+    AG_AbelImageXvar := Indeterminate(GF(2),"x");
+    MakeReadOnlyGlobal("AG_AbelImageXvar");
+  fi;
+  return AG_AbelImageXvar;
+end);
+
+InstallGlobalFunction(AG_AbelImageSpherTrans,
+function()
+  return One(AG_AbelImageX())/ (One(AG_AbelImageX()) + AG_AbelImageX());
+end);
 
 
 #############################################################################
@@ -267,7 +278,7 @@ function(list)
 
   n := Length(list);
   d := Length(list[1]) - 1;
-  x := AG_AbelImageX;
+  x := AG_AbelImageX();
   m := IdentityMat(n, x);
   e := [];
   zero := 0*x;

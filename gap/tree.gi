@@ -2,7 +2,7 @@
 ##
 #W  tree.gi                 automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.2
+##  automgrp v 1.1.3
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##

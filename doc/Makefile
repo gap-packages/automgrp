@@ -15,7 +15,7 @@ tex_files =		\
     manual.tex
 
 g_files =						\
-    ../gap/automaton.gd	      ../gap/automaton.gi	\
+	../gap/automaton.gd	      ../gap/automaton.gi	\
     ../gap/automfam.gd	      ../gap/automfam.gi	\
     ../gap/autom.gd	      ../gap/autom.gi		\
     ../gap/automgroup.gd      ../gap/automgroup.gi	\

@@ -13,7 +13,14 @@
 11. Download fresh tarball from http://sf.net, install it, run tests.
     Restart from step 2 if needed.
 12. Upload the tarball to ssh://shell.sf.net/groups/f/fi/finautom/htdocs,
-    unpack it.
-13. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
-14. Tag the release.
-15. Done.
+    (use scp protocol in winscp or  midnight commander (Right -> Shell Link) to 
+    connect to shell.sf.net)
+13. Unpack it:
+    ssh shell.sf.net
+    cd /home/groups/f/fi/finautom/htdocs
+    tar xzf automgrp-x.y.z.tar.gz
+    chmod -R g+w automgrp
+14. Change version and date in index.html
+15. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
+16. Tag the release.
+17. Done.

@@ -9,18 +9,28 @@ fi
 script=`mktemp`
 script_all=`mktemp`
 
-cat > $script << HERE_EOF
+echo1 () {
+cat << HERE_EOF
 LoadPackage("automgrp");
 AG_Globals.run_tests_forever := true;
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
 HERE_EOF
+}
 
-cp $script $script_all
-cat >> $script_all << HERE_EOF
+echo2 () {
+cat << HERE_EOF
 LoadAllPackages();
 AG_Globals.run_tests_forever := true;
 Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
 HERE_EOF
+}
+
+echo1 > $script
+echo "QUIT;" >> $script
+
+echo1 > $script_all
+echo2 >> $script_all
+echo "QUIT;" >> $script_all
 
 mkdir $gapdir/pkg-bak || exit 1
 mv $gapdir/pkg/* $gapdir/pkg-bak/ || exit 1

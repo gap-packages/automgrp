@@ -1,5 +1,5 @@
 pkgname = automgrp
-pkgver  = 1.1.3
+pkgver  = 1.1.4
 distdir = $(pkgname)
 # archive = $(pkgname)-`date +%Y%m%d%H%M`
 archive = $(pkgname)-$(pkgver)
@@ -24,6 +24,7 @@ gap_files =			\
     gap/automsg.gd		\
     gap/automsg.gi		\
     gap/globals.g		\
+    gap/groups.g		\
     gap/listops.gd		\
     gap/listops.gi		\
     gap/parser.g		\

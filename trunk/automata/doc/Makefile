@@ -34,12 +34,13 @@ g_files =						\
     ../gap/treehom.gd	      ../gap/treehom.gi		\
     ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
     ../gap/utils.gd	      ../gap/utils.gi		\
-    ../gap/globals.g
+    ../gap/globals.g          ../gap/groups.g
 
 dist_files =		\
     manual.pdf		\
     $(tex_files)	\
-    manual.six
+    manual.six          \
+    manual.toc
 
 all: pdf htm dvi
 

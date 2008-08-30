@@ -16,11 +16,11 @@ Subtitle := "Automata groups",
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers. For an automatic package distribution update
 ##  you must provide a new version number even after small changes.
-Version := "1.1.3",
+Version := "1.1.4",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "25/03/2008",
+Date := "30/08/2008",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
@@ -31,7 +31,7 @@ Date := "25/03/2008",
 ##  example/init.g, ...    or  example-1.3/init.g, ...  )
 #
 ArchiveURL :=
-  "http://downloads.sourceforge.net/finautom/automgrp-1.1.3",
+  "http://downloads.sourceforge.net/finautom/automgrp-1.1.4",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -121,7 +121,7 @@ Persons := [
     FirstNames    := "Dmytro",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "savchuk@math.tamu.edu",
+    Email         := "dmytro.savchuk@gmail.com",
     WWWHome       := "http://www.math.tamu.edu/~savchuk/",
     PostalAddress := "",
     Place         := "College Station, TX, USA",
@@ -220,7 +220,7 @@ PackageDoc := rec(
  LongTitle := "Automata Groups",
  # Should this help book be autoloaded when GAP starts up? This should
  # usually be 'true', otherwise say 'false'.
- Autoload  := false
+ Autoload  := true
 ),
 
 ##  Are there restrictions on the operating system for this package? Or does

@@ -2,7 +2,7 @@
 ##
 #W  testorder.g              automgrp package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.1.3
+##  automgrp v 1.1.4
 ##
 #Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
 ##

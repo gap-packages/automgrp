@@ -2,7 +2,7 @@
 ##
 #W  testselfsim.g             automgrp package                 Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.1.3
+##  automgrp v 1.1.4
 ##
 #Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
 ##
@@ -77,6 +77,10 @@ UnitTest("SelfSim", function()
   for w in H do
     AssertEqual(w,PreImagesRepresentative(hom,w^hom));
   od;
+
+  H := AG_Groups.GrigorchukGroup;
+  AssertTrue(Size(H) = infinity);
+
 
 
 end);

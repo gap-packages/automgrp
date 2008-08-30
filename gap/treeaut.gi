@@ -2,7 +2,7 @@
 ##
 #W  treeaut.gi                 automgrp package                Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.3
+##  automgrp v 1.1.4
 ##
 #Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -140,8 +140,8 @@ InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, Is
   function(a1, a2, a3, a4, perm) return TreeAutomorphism([a1, a2, a3, a4], perm); end);
 InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, a4, a5, perm) return TreeAutomorphism([a1, a2, a3, a4, a5], perm); end);
-InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
-  function(a1, a2, a3, a4, a5, a6, perm) return TreeAutomorphism([a1, a2, a3, a4, a5, a6], perm); end);
+#InstallOtherMethod(TreeAutomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
+#  function(a1, a2, a3, a4, a5, a6, perm) return TreeAutomorphism([a1, a2, a3, a4, a5, a6], perm); end);
 
 
 ###############################################################################

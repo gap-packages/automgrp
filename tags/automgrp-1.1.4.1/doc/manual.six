@@ -1,0 +1,184 @@
+C intro.tex 1. Introduction
+S 1.1. Short math background
+S 1.2. Installation instructions
+S 1.3. Quick example
+C groups.tex 2. Properties and operations with groups and semigroups
+S 2.1. Creation of groups and semigroups
+F 2.1. AutomatonGroup
+F 2.1. AutomatonGroup
+F 2.1. AutomatonGroup
+F 2.1. AutomatonSemigroup
+F 2.1. AutomatonSemigroup
+F 2.1. AutomatonSemigroup
+F 2.1. SelfSimilarGroup
+F 2.1. SelfSimilarGroup
+F 2.1. SelfSimilarGroup
+F 2.1. SelfSimilarSemigroup
+F 2.1. SelfSimilarSemigroup
+F 2.1. SelfSimilarSemigroup
+F 2.1. IsTreeAutomorphismGroup
+F 2.1. IsAutomGroup
+F 2.1. IsAutomatonGroup
+F 2.1. IsSelfSimGroup
+F 2.1. IsSelfSimilarGroup
+S 2.2. Basic properties of groups and semigroups
+F 2.2. TopDegreeOfTree
+F 2.2. DegreeOfTree
+F 2.2. IsFractal
+F 2.2. IsFractalByWords
+F 2.2. IsSphericallyTransitive![treehomsg]
+F 2.2. ContainsSphericallyTransitiveElement
+F 2.2. IsTransitiveOnLevel![treehomsg]
+F 2.2. IsSelfSimilar
+F 2.2. IsContracting
+F 2.2. IsNoncontracting
+F 2.2. IsGeneratedByAutomatonOfPolynomialGrowth
+F 2.2. IsGeneratedByBoundedAutomaton
+F 2.2. PolynomialDegreeOfGrowthOfUnderlyingAutomaton
+F 2.2. IsOfSubexponentialGrowth
+F 2.2. IsAmenable
+F 2.2. UnderlyingAutomaton
+F 2.2. AutomatonList![automsg]
+F 2.2. RecurList![selfsimsg]
+S 2.3. Operations with groups and semigroups
+F 2.3. PermGroupOnLevel
+F 2.3. TransformationSemigroupOnLevel
+F 2.3. StabilizerOfLevel
+F 2.3. StabilizerOfFirstLevel
+F 2.3. StabilizerOfVertex
+F 2.3. FixesLevel
+F 2.3. FixesVertex
+F 2.3. Projection
+F 2.3. ProjectionNC
+F 2.3. ProjStab
+F 2.3. FindGroupRelations
+F 2.3. FindGroupRelations
+F 2.3. FindSemigroupRelations
+F 2.3. FindSemigroupRelations
+F 2.3. Iterator
+F 2.3. FindElement
+F 2.3. FindElements
+F 2.3. FindElementOfInfiniteOrder
+F 2.3. FindElementsOfInfiniteOrder
+F 2.3. SphericallyTransitiveElement
+F 2.3. Growth
+F 2.3. ListOfElements
+F 2.3. FindNucleus
+F 2.3. LevelOfFaithfulAction
+F 2.3. LevelOfFaithfulAction
+F 2.3. IsomorphismPermGroup
+F 2.3. IsomorphismPermGroup
+F 2.3. Random
+F 2.3. MarkovOperator
+F 2.3. AbelImage
+F 2.3. DiagonalPower
+F 2.3. MultAutomAlphabet
+F 2.3. UnderlyingAutomFamily
+S 2.4. Self-similar groups and semigroups defined by wreath recursion
+F 2.4. IsFiniteState![selfsimsg]
+F 2.4. IsomorphicAutomGroup
+F 2.4. IsomorphicAutomSemigroup
+F 2.4. UnderlyingAutomatonGroup
+F 2.4. UnderlyingAutomatonSemigroup
+F 2.4. MonomorphismToAutomatonGroup
+F 2.4. MonomorphismToAutomatonSemigroup
+S 2.5. Contracting groups
+F 2.5. GroupNucleus
+F 2.5. GeneratingSetWithNucleus
+F 2.5. GeneratingSetWithNucleusAutom
+F 2.5. ContractingLevel
+F 2.5. ContractingTable
+F 2.5. UseContraction
+F 2.5. DoNotUseContraction
+S 2.6. Rewriting Systems
+F 2.6. AG_UseRewritingSystem
+F 2.6. AG_AddRelators
+F 2.6. AG_UpdateRewritingSystem
+F 2.6. AG_RewritingSystemRules
+C elements.tex 3. Properties and operations with group and semigroup elements
+S 3.1. Creation of tree automorphisms and homomorphisms
+F 3.1. TreeAutomorphism
+F 3.1. Representative
+F 3.1. Representative
+S 3.2. Properties and attributes of tree automorphisms and homomorphisms
+F 3.2. IsSphericallyTransitive![treehom]
+F 3.2. IsTransitiveOnLevel![treehom]
+F 3.2. IsOne
+F 3.2. IsOneContr
+F 3.2. Order
+F 3.2. OrderUsingSections
+F 3.2. Perm
+F 3.2. PermOnLevel
+F 3.2. PermOnLevelAsMatrix
+F 3.2. TransformationOnLevel
+F 3.2. TransformationOnFirstLevel
+F 3.2. Word
+S 3.3. Operations with tree automorphisms and homomorphisms
+F 3.3. product!for tree homomorphisms
+F 3.3. action!of tree homomorphism on letter
+F 3.3. action!of tree homomorphism on vertex
+F 3.3. Section
+F 3.3. Sections
+F 3.3. Decompose
+F 3.3. in
+F 3.3. OrbitOfVertex
+F 3.3. PrintOrbitOfVertex
+F 3.3. PermActionOnLevel
+S 3.4. Elements of groups and semigroups defined by wreath recursion
+F 3.4. IsFiniteState![selfsim]
+F 3.4. AllSections
+S 3.5. Elements of contracting groups
+F 3.5. AutomPortrait
+F 3.5. AutomPortraitBoundary
+F 3.5. AutomPortraitDepth
+C autom.tex 4. Noninitial automata
+S 4.1. Definition
+F 4.1. MealyAutomaton
+F 4.1. MealyAutomaton
+F 4.1. MealyAutomaton
+F 4.1. IsMealyAutomaton
+F 4.1. NumberOfStates
+F 4.1. SizeOfAlphabet
+F 4.1. AutomatonList![automaton]
+S 4.2. Tools
+F 4.2. IsTrivial
+F 4.2. IsInvertible
+F 4.2. MinimizationOfAutomaton
+F 4.2. MinimizationOfAutomatonTrack
+F 4.2. IsOfPolynomialGrowth
+F 4.2. IsBounded
+F 4.2. PolynomialDegreeOfGrowth
+F 4.2. DualAutomaton
+F 4.2. InverseAutomaton
+F 4.2. IsBireversible
+F 4.2. DisjointUnion
+F 4.2. product!for noninitial automata
+F 4.2. SubautomatonWithStates
+F 4.2. AutomatonNucleus
+F 4.2. AreEquivalentAutomata
+C misc.tex 5. Miscellaneous
+S 5.1. Trees
+F 5.1. NumberOfVertex
+F 5.1. VertexNumber
+S 5.2. Some predefined groups
+F 5.2. GrigorchukGroup
+F 5.2. UniversalGrigorchukGroup
+F 5.2. Basilica
+F 5.2. Lamplighter
+F 5.2. AddingMachine
+F 5.2. InfiniteDihedral
+F 5.2. AleshinGroup
+F 5.2. Bellaterra
+F 5.2. SushchanskyGroup
+F 5.2. Hanoi3
+F 5.2. Hanoi4
+F 5.2. GuptaSidki3Group
+F 5.2. GuptaFabrikowskiGroup
+F 5.2. BartholdiGrigorchukGroup
+F 5.2. GrigorchukErschlerGroup
+F 5.2. BartholdiNonunifExponGroup
+F 5.2. IMG_z2plusI
+F 5.2. Airplane
+F 5.2. Rabbit
+F 5.2. TwoStateSemigroupOfIntermediateGrowth
+F 5.2. UniversalD_omega

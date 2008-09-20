@@ -1,0 +1,21 @@
+1.  Add new features and fix bugs.
+2.  Fix bugs.
+3.  Check the following fields in PackageInfo.g:
+    Version, Date, ArchiveURL.
+4.  Check the version in init.g, README, Makefile, buildman.config, check NEWS.
+5.  Check docs.
+6.  Run tst/test-release.sh.
+7.  Commit.
+8.  Run 'make dist' to create three tarballs.
+9.  Upload them to sf.net as described at 
+    http://alexandria.wiki.sourceforge.net/File+Release+System+-+Offering+Files+for+Download#upload
+10. Go to http://sourceforge.net/projects/finautom > Admin > File releases.
+    Create new release, add files.
+11. Download fresh tarball from http://sf.net, install it, run tests.
+    Restart from step 2 if needed.
+12. Unpack a tarball and upload its content to the web site, as described at 
+    http://alexandria.wiki.sourceforge.net/Project+Web,+Shell,+VHOST+and+Database+Services
+14. Change version and date in index.html
+15. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
+16. Tag the release.
+17. Done.

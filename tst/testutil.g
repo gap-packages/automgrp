@@ -2,7 +2,7 @@
 ##
 #W  testutil.g               automata package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.1.4
+##  automgrp v 1.1.4.1
 ##
 #Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
 ##

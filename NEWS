@@ -1,3 +1,8 @@
+Changes from 1.1.4 to 1.1.4.1
+
+- Methods with more than six arguments were really removed this time
+
+
 Changes from 1.1.3 to 1.1.4
 
 - Methods with more than six arguments were removed

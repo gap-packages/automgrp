@@ -149,20 +149,12 @@ InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsTransforma
   function(a1, a2, a3, perm) return TreeHomomorphism([a1, a2, a3], perm); end);
 InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsTransformation],
   function(a1, a2, a3, a4, perm) return TreeHomomorphism([a1, a2, a3, a4], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsTransformation],
-  function(a1, a2, a3, a4, a5, perm) return TreeHomomorphism([a1, a2, a3, a4, a5], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsObject, IsTransformation],
-  function(a1, a2, a3, a4, a5, a6, perm) return TreeHomomorphism([a1, a2, a3, a4, a5, a6], perm); end);
 InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsPerm],
   function(a1, a2, perm) return TreeHomomorphism([a1, a2], perm); end);
 InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, perm) return TreeHomomorphism([a1, a2, a3], perm); end);
 InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, a4, perm) return TreeHomomorphism([a1, a2, a3, a4], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
-  function(a1, a2, a3, a4, a5, perm) return TreeHomomorphism([a1, a2, a3, a4, a5], perm); end);
-#InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm],
-#  function(a1, a2, a3, a4, a5, a6, perm) return TreeHomomorphism([a1, a2, a3, a4, a5, a6], perm); end);
 
 ###############################################################################
 ##

@@ -98,7 +98,6 @@ gap> l;
 %Declaration{UnderlyingFreeGroup}
 %Declaration{UnderlyingFreeSubgroup}
 %Declaration{UnderlyingFreeGenerators}
-%Declaration{IndexInFreeGroup}
 %Declaration{TrivialSubgroup}
 
 

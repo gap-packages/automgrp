@@ -110,13 +110,6 @@ DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
 
 #############################################################################
 ##
-#A  IndexInFreeGroup( <G> )
-##
-DeclareAttribute("IndexInFreeGroup", IsAutomGroup, "mutable");
-
-
-#############################################################################
-##
 #P  IsAutomatonGroup( <G> )
 ##
 ##  is `true' if <G> is created using the command `AutomatonGroup' ("AutomatonGroup")
@@ -124,13 +117,6 @@ DeclareAttribute("IndexInFreeGroup", IsAutomGroup, "mutable");
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
 DeclareProperty("IsAutomatonGroup", IsAutomGroup);
 InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
-
-
-#############################################################################
-##
-#A  MihailovaSystem( <G> )
-##
-DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
 
 
 #E

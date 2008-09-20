@@ -15,7 +15,7 @@ tex_files =		\
     manual.tex
 
 g_files =						\
-	../gap/automaton.gd	      ../gap/automaton.gi	\
+    ../gap/automaton.gd	      ../gap/automaton.gi	\
     ../gap/automfam.gd	      ../gap/automfam.gi	\
     ../gap/autom.gd	      ../gap/autom.gi		\
     ../gap/automgroup.gd      ../gap/automgroup.gi	\
@@ -32,7 +32,7 @@ g_files =						\
     ../gap/treehom.gd	      ../gap/treehom.gi		\
     ../gap/treehomsg.gd	      ../gap/treehomsg.gi	\
     ../gap/treehom.gd	      ../gap/treehom.gi		\
-    ../gap/utilsfrgrp.gd      ../gap/utilsfrgrp.gi	\
+    ../gap/utilsfrgrp.gi	\
     ../gap/utils.gd	      ../gap/utils.gi		\
     ../gap/globals.g          ../gap/groups.g
 

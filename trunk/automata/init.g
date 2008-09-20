@@ -31,7 +31,6 @@ ReadPkg("automgrp", "gap/automsg.gd");
 ReadPkg("automgrp", "gap/automgroup.gd");
 ReadPkg("automgrp", "gap/listops.gd");
 ReadPkg("automgrp", "gap/utils.gd");
-ReadPkg("automgrp", "gap/utilsfrgrp.gd");
 ReadPkg("automgrp", "gap/rws.gd");
 ReadPkg("automgrp", "gap/selfs.gd");
 ReadPkg("automgrp", "gap/selfsim.gd");

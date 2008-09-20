@@ -99,8 +99,6 @@ gap> l;
 %Declaration{UnderlyingFreeSubgroup}
 %Declaration{UnderlyingFreeGenerators}
 %Declaration{IndexInFreeGroup}
-%Declaration{ApplyNielsen}
-%Declaration{MihailovaSystem} 
 %Declaration{TrivialSubgroup}
 
 

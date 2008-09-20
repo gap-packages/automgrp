@@ -197,7 +197,7 @@ DeclareOperation("ProjStab", [IsTreeAutomorphismGroup, IsObject]);
 DeclareOperation("$AG_SubgroupOnLevel", [IsTreeAutomorphismGroup,
                                          IsTreeHomomorphismCollection,
                                          IsPosInt]);
-DeclareOperation("$AG_SimplifyGroupGenerators", [IsTreeHomomorphismCollection]);
+DeclareOperation("$AG_SimplifyGroupGenerators", [IsObject]);
 
 
 ###############################################################################

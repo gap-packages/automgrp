@@ -56,7 +56,7 @@ UnitTestRun := function()
 
   for t in UnitTestData.tests do
     UnitTestData.current_test := t;
-    Print(t.name, " .");
+    Print(t.name, " .\c");
     t.func();
     Print(" done\n");
   od;
@@ -109,10 +109,10 @@ Assert_ := function(condition, test_args, msg_args, def_msg_args)
 
   if condition then
     result := [true];
-    Print(".");
+    Print(".\c");
   else
     result := [false, test_args, msg_args];
-    Print("F");
+    Print("F\c");
   fi;
 
   Add(UnitTestData.current_test.results, result);

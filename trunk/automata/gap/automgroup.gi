@@ -258,41 +258,6 @@ end);
 
 ###############################################################################
 ##
-#M  MihailovaSystem(G)
-##
-##  TODO XXX it's broken, test it
-##
-InstallMethod(MihailovaSystem, "for [IsAutomGroup]", [IsAutomGroup],
-function (G)
-  local gens, mih, mih_gens, i;
-
-  if not IsActingOnBinaryTree(G) then
-    Error("MihailovaSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
-  fi;
-  if not IsFractalByWords(G) then
-    Info(InfoAutomGrp, 1, "given group is not IsFractalByWords");
-    return fail;
-  fi;
-
-  gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
-  mih := AG_ComputeMihailovaSystemPairs(List(gens, a -> StatesWords(a)));
-
-  if mih = fail then
-    return fail;
-  elif not mih[3] then
-    return gens;
-  fi;
-
-  mih_gens := [];
-  for i in [1..Length(gens)] do
-    mih_gens[i] := AG_CalculateWord(mih[2][i], gens);
-  od;
-  return mih_gens;
-end);
-
-
-###############################################################################
-##
 #M  IsFractalByWords(G)
 ##
 InstallMethod(IsFractalByWords, "for [IsAutomGroup]",
@@ -656,17 +621,6 @@ function(G)
     SetIsGroupOfAutomFamily(G, true);
   fi;
   return f;
-end);
-
-
-###############################################################################
-##
-#M  IndexInFreeGroup(<G>)
-##
-InstallMethod(IndexInFreeGroup, "for [IsAutomGroup]",
-              [IsAutomGroup],
-function(G)
-  return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
 end);
 
 

@@ -505,17 +505,6 @@ end);
 #   fi;
 #   return f;
 # end);
-#
-#
-# ###############################################################################
-# ##
-# #M  IndexInFreeGroup(<G>)
-# ##
-# InstallMethod(IndexInFreeGroup, "for [IsAutomGroup]",
-#               [IsAutomGroup],
-# function(G)
-#   return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
-# end);
 
 
 ###############################################################################

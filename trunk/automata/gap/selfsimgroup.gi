@@ -642,17 +642,6 @@ end);
 
 ###############################################################################
 ##
-#M  IndexInFreeGroup(<G>)
-##
-InstallMethod(IndexInFreeGroup, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup],
-function(G)
-  return IndexInWholeGroup(UnderlyingFreeSubgroup(G));
-end);
-
-
-###############################################################################
-##
 #M  UnderlyingFreeGenerators(<G>)
 ##
 InstallMethod(UnderlyingFreeGenerators, "for [IsSelfSimGroup]",

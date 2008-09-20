@@ -97,15 +97,6 @@ DeclareOperation("FixesLevel", [IsActingOnTree, IsPosInt]);
 
 #############################################################################
 ##
-#A  FirstMovedLevel (<obj>)
-##
-##  Returns the first level on which <obj> acts non-trivially if such a level exists
-##  (i.e. if <obj> is not trivial), or `infinity' otherwise.
-##
-DeclareAttribute("FirstMovedLevel", IsActingOnTree);
-
-#############################################################################
-##
 #A  AbelImage(<obj>)
 ##
 ##  Returns image of <obj> in the canonical projection onto the abelianization of

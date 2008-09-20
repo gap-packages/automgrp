@@ -664,31 +664,6 @@ end);
 
 ###############################################################################
 ##
-##  AG_ApplyNielsen(<G>)
-##
-InstallMethod(AG_ApplyNielsen, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup],
-function(G)
-  local fgens;
-
-  fgens := List(GeneratorsOfGroup(G), g -> Word(g));
-  fgens := AG_ReducedByNielsen(fgens);
-  fgens := Difference(fgens, [One(fgens[1])]);
-
-  if IsEmpty(fgens) then
-    SetUnderlyingFreeGenerators(G, [One(UnderlyingFreeGroup(G))]);
-    SetUnderlyingFreeSubgroup(G, TrivialSubgroup(UnderlyingFreeGroup(G)));
-  else
-    SetUnderlyingFreeGenerators(G, fgens);
-    SetUnderlyingFreeSubgroup(G, Subgroup(UnderlyingFreeGroup(G), fgens));
-  fi;
-
-  return fgens;
-end);
-
-
-###############################################################################
-##
 #M  TrivialSubmagmaWithOne(<G>)
 ##
 InstallMethod(TrivialSubmagmaWithOne, "for [IsSelfSimGroup]",

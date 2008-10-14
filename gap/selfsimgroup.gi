@@ -737,6 +737,7 @@ function(G)
         gens_in_freegrp, images_in_freegrp, preimages_in_freegrp, F, pi, pi_bar, \
         preimage_in_freegrp, MealyAutomatonLocalFinite;
 
+# if we do not know much, we compare just words in free group
   MealyAutomatonLocal := function(g)
     local cur_state;
     if g!.word in states then return Position(states, g!.word); fi;
@@ -747,7 +748,7 @@ function(G)
     return cur_state;
   end;
 
-
+# if we do know that the groups is finite, we compare actual elements of the group
   MealyAutomatonLocalFinite := function(g)
     local cur_state;
     if g in states then return Position(states, g); fi;
@@ -759,6 +760,7 @@ function(G)
   end;
 
 
+  if IsTrivial(G) then return true; fi;
 
   states := [];
   aut_list := [];
@@ -778,6 +780,11 @@ function(G)
   fi;
 
   H := AutomatonGroup(aut_list);
+
+  if IsTrivial(H) then 
+    SetIsTrivial( G, true);
+    return true;
+  fi;
 
   images := UnderlyingAutomFamily(H)!.oldstates{images};
 

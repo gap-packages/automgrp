@@ -229,7 +229,7 @@ function(state, list)
 
   check := function(s)
     if IsInt(s) then return state=AbsInt(s);
-                else return s=[] or state=AbsInt(s[1]);
+                else return s=[] or (Length(s)=1 and state=AbsInt(s[1]));
     fi;
   end;
 

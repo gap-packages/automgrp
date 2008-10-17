@@ -54,12 +54,21 @@ function(perms, deg, round, stacksize, output_filename)
                          Length(perms), ", ", deg, ", ", round, ", ",
                          stacksize, ", \"",
                          output_filename, "\");\n");
-#  PrintTo(sci_temp_file, "exit\n");
+
+  if output_filename <> "" then
+    PrintTo(sci_temp_file, "exit\n");
+  fi;
+
   CloseStream(sci_temp_file);
 
-  exec_string := Concatenation("cat ", sci_temp_file_name, "; ",
+  exec_string := Concatenation(#"cat ", sci_temp_file_name, "; ",
                                "xterm -e scilab -nw -f ",
-                               sci_temp_file_name, " &" );
+                               sci_temp_file_name);
+
+  if output_filename = "" then
+    Append(exec_string, " &");
+  fi;
+
   Exec(exec_string);
 end);
 

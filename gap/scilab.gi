@@ -9,7 +9,7 @@
 
 
 InstallGlobalFunction(PlotSpectraPermsInScilab,
-function(perms, deg, round, stacksize)
+function(perms, deg, round, stacksize, output_filename)
   local mats, i, j,
   temp_dir, temp_file, temp_file_name, sci_temp_file, sci_temp_file_name,
   plot_spectra_func_file, exec_string;
@@ -39,22 +39,27 @@ function(perms, deg, round, stacksize)
 
   sci_temp_file_name := Filename(temp_dir, "commands_for_scilab");
   sci_temp_file := OutputTextFile(sci_temp_file_name, false);
+
   if sci_temp_file = fail then
     Print("error in PlotSpectraPermsInScilab:\n",
           "  Could not create temp file for scilab script\n");
     return fail;
   fi;
 
-  AppendTo(sci_temp_file, "getf(\"", plot_spectra_func_file, "\");\n");
-  AppendTo(sci_temp_file, "PlotSpectraPermsInScilab(\"",
-                          temp_file_name, "\", ",
-                          Length(perms), ", ", deg, ", ", round, ", ",
-                          stacksize, ");\n");
-#  AppendTo(sci_temp_file, "exit\n");
+  SetPrintFormattingStatus(sci_temp_file, false);
+
+  PrintTo(sci_temp_file, "getf(\"", plot_spectra_func_file, "\");\n");
+  PrintTo(sci_temp_file, "PlotSpectraPermsInScilab(\"",
+                         temp_file_name, "\", ",
+                         Length(perms), ", ", deg, ", ", round, ", ",
+                         stacksize, ", \"",
+                         output_filename, "\");\n");
+#  PrintTo(sci_temp_file, "exit\n");
   CloseStream(sci_temp_file);
 
-  exec_string := Concatenation( "xterm -e scilab -nw -f ",
-                                sci_temp_file_name, " &" );
+  exec_string := Concatenation("cat ", sci_temp_file_name, "; ",
+                               "xterm -e scilab -nw -f ",
+                               sci_temp_file_name, " &" );
   Exec(exec_string);
 end);
 
@@ -91,20 +96,34 @@ end);
 
 #############################################################################
 ##
-##  PlotSpectraInScilab(<list>, <level>[, <round>])
+##  PlotSpectraInScilab(<list>, <level>[, <round>][, <output_file>])
 ##
 InstallMethod(PlotSpectraInScilab,
               [IsList and IsTreeAutomorphismCollection, IsPosInt, IsPosInt],
 function(gens, level, round)
   PlotSpectraPermsInScilab(List(gens, g -> PermOnLevel(g, level)),
                            DegreeOfTree(gens[1])^level, round,
-                           AG_Globals.scilab_stacksize);
+                           AG_Globals.scilab_stacksize, "");
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
+                   [IsList and IsTreeAutomorphismCollection, IsPosInt, IsPosInt, IsString],
+function(gens, level, round, output_file)
+  PlotSpectraPermsInScilab(List(gens, g -> PermOnLevel(g, level)),
+                           DegreeOfTree(gens[1])^level, round,
+                           AG_Globals.scilab_stacksize, output_file);
 end);
 
 InstallOtherMethod(PlotSpectraInScilab,
                    [IsList and IsTreeAutomorphismCollection, IsPosInt],
 function(gens, level)
   PlotSpectraInScilab(gens, level, AG_Globals.round_spectra);
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
+                   [IsList and IsTreeAutomorphismCollection, IsPosInt, IsString],
+function(gens, level, output_file)
+  PlotSpectraInScilab(gens, level, AG_Globals.round_spectra, output_file);
 end);
 
 InstallMethod(PlotSpectraInScilab,
@@ -114,9 +133,21 @@ function(G, level, round)
 end);
 
 InstallOtherMethod(PlotSpectraInScilab,
+                   [IsTreeAutomorphismGroup, IsPosInt, IsPosInt, IsString],
+function(G, level, round, output_file)
+  PlotSpectraInScilab(GeneratorsOfGroup(G), level, round, output_file);
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
                    [IsTreeAutomorphismGroup, IsPosInt],
 function(G, level)
   PlotSpectraInScilab(G, level, AG_Globals.round_spectra);
+end);
+
+InstallOtherMethod(PlotSpectraInScilab,
+                   [IsTreeAutomorphismGroup, IsPosInt, IsString],
+function(G, level, output_file)
+  PlotSpectraInScilab(G, level, AG_Globals.round_spectra, output_file);
 end);
 
 
@@ -173,7 +204,3 @@ end);
 # function(list, iter_num)
 #   PlotAutomatonSpectraInScilab(list, iter_num, 7, 10000000);
 # end);
-
-
-
-

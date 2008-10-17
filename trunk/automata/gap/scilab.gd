@@ -12,7 +12,7 @@
 
 ###############################################################################
 ##
-#F  PlotSpectraPermsInScilab(<perms>, <perm_deg>[, <round>[, <stacksize>]])
+#F  PlotSpectraPermsInScilab(<perms>, <perm_deg>, <round>, <stacksize>, <output_file>)
 ##
 ##  Writes the <perms> as matrices into a file in Scilab format, and makes
 ##  Scilab compute and plot the spectra of resulting Markov operator (namely,

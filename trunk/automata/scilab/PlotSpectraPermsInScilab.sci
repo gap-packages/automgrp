@@ -1,7 +1,7 @@
 // PlotSpectraPermsInScilab.sci
 // File used by PlotSpectraPermsInScilab() GAP function defined in scilab.gi.
 
-function [spectra] = PlotSpectraPermsInScilab(file_mats, num_mats, size_mats, prec, stack_size)
+function [spectra] = PlotSpectraPermsInScilab(file_mats, num_mats, size_mats, prec, stack_size, output_file)
 
 if stack_size > 0 then
   stacksize(stack_size);
@@ -36,3 +36,7 @@ for i=1:num_eigens,
 end,
 xbasc(0);
 plot2d3(x,y, strf="011", rect=[-1,0,1,max(y)]);
+
+if output_file <> ""
+  xs2eps(0, output_file);
+end

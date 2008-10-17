@@ -108,7 +108,7 @@ function (G)
   fi;
 
   if IsActingOnBinaryTree(G) then
-    if AG_AbelImageSpherTrans in AbelImage(G) then
+    if AG_AbelImageSpherTrans() in AbelImage(G) then
       Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
       Info(InfoAutomGrp, 3, "  using AbelImage");
       Info(InfoAutomGrp, 3, "  G = ", G);

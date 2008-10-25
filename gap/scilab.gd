@@ -27,24 +27,14 @@ DeclareGlobalFunction("PlotSpectraPermsInScilab");
 
 ###############################################################################
 ##
-#O  PlotSpectraInScilabAddInverses(<G>, <level>[, <round>])
-#O  PlotSpectraInScilabAddInverses(<gens>, <level>[, <round>])
-##
-##  Plots the spectra of the Markov operator in Scilab. Adds inverses of
-##  generators.
-##
-DeclareOperation("PlotSpectraInScilabAddInverses", [IsObject, IsPosInt, IsPosInt]);
-
-
-###############################################################################
-##
-#O  PlotSpectraInScilab(<G>, <level>[, <round>])
-#O  PlotSpectraInScilab(<elms>, <level>[, <round>])
+#O  PlotSpectraInScilab(<G>, <level>[, <opts>])
+#O  PlotSpectraInScilab(<elms>, <level>[, <opts>])
 ##
 ##  Plots the spectra of the Markov operator in Scilab. Does not add inverses.
 ##  <elms> is a list of automata.
 ##
-DeclareOperation("PlotSpectraInScilab", [IsObject, IsPosInt, IsPosInt]);
+DeclareOperation("PlotSpectraInScilab", [IsObject, IsPosInt]);
+DeclareOperation("PlotSpectraInScilab", [IsObject, IsPosInt, IsRecord]);
 
 
 #E

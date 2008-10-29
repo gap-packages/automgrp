@@ -163,7 +163,7 @@ function(G, gens, level)
 end);
 
 InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
-                                    IsList and IsAutomCollection,
+                                    IsList and IsInvertibleAutomCollection,
                                     IsPosInt],
 function(G, gens, level)
   local overgroup;
@@ -177,7 +177,7 @@ function(G, gens, level)
   return SubgroupNC(overgroup, gens);
 end);
 
-InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsAutomCollection],
+InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsInvertibleAutomCollection],
 function(gens)
   local words, fam;
 

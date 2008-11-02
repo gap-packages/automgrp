@@ -229,6 +229,30 @@ function(G)
   fi;
 end);
 
+#############################################################################
+##
+#M  String(<G>)
+##
+InstallMethod(String, "for [IsAutomGroup]", [IsAutomGroup],
+function(G)
+  local i, gens, formatone, s;
+
+  formatone := function(a)
+    return Concatenation(String(a), " = ", String(Decompose(a)));
+  end;
+
+  gens := GeneratorsOfGroup(G);
+
+  s := "";
+  for i in [1..Length(gens)] do
+    Append(s, formatone(gens[i]));
+    if i <> Length(gens) then
+      Append(s, ", ");
+    fi;
+  od;
+
+  return s;
+end);
 
 ###############################################################################
 ##

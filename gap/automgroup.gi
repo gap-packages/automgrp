@@ -527,6 +527,12 @@ function(G, H)
     fgens2 := AG_ReducedForm(fam!.rws, fgens2);
   fi;
 
+  if IsEmpty(fgens1) then
+    return ForAll(fgens2, IsOne);
+  elif IsEmpty(fgens2) then
+    return ForAll(fgens1, IsOne);
+  fi;
+
   if GroupWithGenerators(fgens1) = GroupWithGenerators(fgens2) then
     Info(InfoAutomGrp, 3, "G = H: true, by subgroups of free group");
     return true;

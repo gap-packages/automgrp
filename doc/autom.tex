@@ -9,6 +9,7 @@
 \>MealyAutomaton( <table>[, <names>[, <alphabet>]] ) O
 \>MealyAutomaton( <string> ) O
 \>MealyAutomaton( <autom> ) O
+\>MealyAutomaton( <tree_hom_list> ) O
 
 Creates the Mealy automaton (see "Short math background") defined by the argument <table>, <string>
 or <autom>. Format of the argument <table> is
@@ -18,7 +19,8 @@ permutation or transformation which represent the output function at this
 state.  Format of the string <string> is the same as in `AutomatonGroup' (see~"AutomatonGroup").
 The third form of this operation takes a tree homomorphism <autom> as its argument.
 It returns noninitial automaton constructed from the sections of <autom>, whose first state
-corresponds to <autom> itself.
+corresponds to <autom> itself. The fourth form creates a noninitial automaton constructed
+of the states of all tree homomorphisms from the <tree_hom_list>.
 
 \beginexample
 gap> A := MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]], ["a","b","c"]);

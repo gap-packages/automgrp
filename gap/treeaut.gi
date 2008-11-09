@@ -539,23 +539,9 @@ end);
 ##
 #M  \=(<a1>, <a2>)
 ##
-InstallMethod(\=, [IsTreeAutomorphism and IsTreeAutomorphismRep,
-                        IsTreeAutomorphism and IsTreeAutomorphismRep],
-function(a1, a2)
-  local i;
-  if a1!.perm <> a2!.perm then return false; fi;
-  for i in [1..a1!.deg] do
-    if a1!.states[i] <> a2!.states[i] then return false; fi;
-  od;
-  return true;
-end);
-
-
-###############################################################################
-##
-#M  \=(<a1>, <a2>)
-##
-InstallMethod(\=, [IsTreeAutomorphism, IsTreeAutomorphism],
+# TODO: implement a method which would work for different families
+InstallMethod(\=, "for [IsTreeAutomorphism, IsTreeAutomorphism]", IsIdenticalObj,
+              [IsTreeAutomorphism, IsTreeAutomorphism],
 function(a1, a2)
   return Perm(a1) = Perm(a2) and Sections(a1) = Sections(a2);
 end);

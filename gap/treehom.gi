@@ -451,7 +451,8 @@ end);
 ##
 #M  \=(<a1>, <a2>)
 ##
-InstallMethod(\=, "for [IsTreeHomomorphism, IsTreeHomomorphism]",
+# TODO: implement a method which would work for different families
+InstallMethod(\=, "for [IsTreeHomomorphism, IsTreeHomomorphism]", IsIdenticalObj,
               [IsTreeHomomorphism, IsTreeHomomorphism],
 function(a1, a2)
   return TransformationOnLevel(a1, 1) = TransformationOnLevel(a2, 1) and

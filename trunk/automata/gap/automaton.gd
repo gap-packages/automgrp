@@ -65,6 +65,10 @@ DeclareOperation("MealyAutomaton", [IsList, IsList, IsList]);
 DeclareOperation("MealyAutomaton", [IsTreeHomomorphism]);
 
 
+DeclareOperation("SetStateName", [IsMealyAutomaton, IsInt, IsString]);
+DeclareOperation("SetStateNames", [IsMealyAutomaton, IsList]);
+
+
 # ###############################################################################
 # ##
 # #A  TransitionFunction( <A> )

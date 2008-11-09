@@ -223,6 +223,29 @@ function(a)
 end);
 
 
+InstallMethod(SetStateName, [IsMealyAutomaton, IsInt, IsString],
+function(aut, k, name)
+  local new_names;
+  if k < 1 or k > aut!.n_states then
+    Error("wrong state number ", k);
+  fi;
+  new_names := List(aut!.states);
+  new_names[k] := name;
+  SetStateNames(aut, new_names);
+end);
+
+InstallMethod(SetStateNames, [IsMealyAutomaton, IsList],
+function(aut, names)
+  if not IsDenseList(names) or Length(names) <> aut!.n_states or
+     not ForAll(names, IsString) or Length(AsSet(names)) <> aut!.n_states
+  then
+    Error("invalid state names list, it must be a dense list of strings of length ",
+          aut!.n_states, " without duplicates");
+  fi;
+  aut!.states := MakeImmutable(List(names));
+end);
+
+
 InstallMethod(ViewObj, [IsMealyAutomaton],
 function(a)
   Print("<automaton>");

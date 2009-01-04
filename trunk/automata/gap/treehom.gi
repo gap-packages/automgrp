@@ -451,8 +451,8 @@ end);
 ##
 #M  \=(<a1>, <a2>)
 ##
-# TODO: implement a method which would work for different families
-InstallMethod(\=, "for [IsTreeHomomorphism, IsTreeHomomorphism]", IsIdenticalObj,
+# TODO: can lead to infinite recursion
+InstallMethod(\=, "for [IsTreeHomomorphism, IsTreeHomomorphism]", ReturnTrue,
               [IsTreeHomomorphism, IsTreeHomomorphism],
 function(a1, a2)
   return TransformationOnLevel(a1, 1) = TransformationOnLevel(a2, 1) and

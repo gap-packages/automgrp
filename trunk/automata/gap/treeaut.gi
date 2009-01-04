@@ -539,8 +539,8 @@ end);
 ##
 #M  \=(<a1>, <a2>)
 ##
-# TODO: implement a method which would work for different families
-InstallMethod(\=, "for [IsTreeAutomorphism, IsTreeAutomorphism]", IsIdenticalObj,
+# TODO: can lead to infinite recursion
+InstallMethod(\=, "for [IsTreeAutomorphism, IsTreeAutomorphism]", ReturnTrue,
               [IsTreeAutomorphism, IsTreeAutomorphism],
 function(a1, a2)
   return Perm(a1) = Perm(a2) and Sections(a1) = Sections(a2);

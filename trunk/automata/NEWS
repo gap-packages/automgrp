@@ -1,3 +1,8 @@
+Changes from 1.1.4.1 to 1.1.4.2
+
+- Replaced $ character in identifiers with underscores
+
+
 Changes from 1.1.4 to 1.1.4.1
 
 - Methods with more than six arguments were really removed this time

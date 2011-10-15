@@ -104,7 +104,7 @@ function(table, states, alphabet)
 end);
 
 
-BindGlobal("$AG_PrintPerm",
+BindGlobal("__AG_PrintPerm",
 function(p)
   if IsPerm(p) then
     Print(p);
@@ -265,7 +265,7 @@ function(a)
     od;
     Print(")");
     if not IsOne(a!.perms[i]) then
-      $AG_PrintPerm(a!.perms[i]);
+      __AG_PrintPerm(a!.perms[i]);
     fi;
     if i <> a!.n_states then
       Print(", ");

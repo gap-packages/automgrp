@@ -26,7 +26,7 @@ DeclareRepresentation("IsSelfSimRep",
                       ["word", "states", "perm", "deg"]);
 
 
-InstallGlobalFunction($AG_CreateSelfSim,
+InstallGlobalFunction(__AG_CreateSelfSim,
 function(family, word, states, perm, invertible)
   local a, cat;
 
@@ -121,7 +121,7 @@ function(w, fam)
     od;
   fi;
 
-  return $AG_CreateSelfSim(fam, w, wstates, nperm, invertible);
+  return __AG_CreateSelfSim(fam, w, wstates, nperm, invertible);
 end);
 
 
@@ -263,7 +263,7 @@ function(a1, a2)
       od;
     fi;
 
-    return $AG_CreateSelfSim(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
+    return __AG_CreateSelfSim(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
                            IsInvertibleSelfSim(a1) and IsInvertibleSelfSim(a2));
 end);
 
@@ -344,7 +344,7 @@ function(a)
     od;
   fi;
 
-  return $AG_CreateSelfSim(FamilyObj(a), word, states, a!.perm^-1, true);
+  return __AG_CreateSelfSim(FamilyObj(a), word, states, a!.perm^-1, true);
 end);
 
 

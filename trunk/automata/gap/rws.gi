@@ -8,7 +8,7 @@
 ##
 
 
-DeclareGlobalFunction("$AG_FindRelators");
+DeclareGlobalFunction("__AG_FindRelators");
 
 # It's not an IsRewritingSytem object
 DeclareCategory("IsAGRewritingSystem", IsObject);
@@ -23,14 +23,14 @@ DeclareRepresentation("IsAGRewritingSystemRep",
                        "mhom",    # isomorphism from the FP group to the FP monoid
                       ]);
 
-$AG_CreateRewritingSystem := function(fam, rels)
+__AG_CreateRewritingSystem := function(fam, rels)
   local grp, fr_grp, fp_grp, fp_mon, fmon,
         ord, m_gens, rws, rws_data;
 
   rws_data := rec(fam := fam);
 
   if rels = fail then
-    rels := $AG_FindRelators(fam, AG_Globals.max_rws_relator_len);
+    rels := __AG_FindRelators(fam, AG_Globals.max_rws_relator_len);
   fi;
   rws_data.rels := Difference(rels, [Word(One(fam))]);
 
@@ -64,7 +64,7 @@ $AG_CreateRewritingSystem := function(fam, rels)
 end;
 
 
-$AG_ReducedForm := function(rws, word)
+__AG_ReducedForm := function(rws, word)
   local reduced, word_mon;
   word_mon := ImageElm(rws!.mhom, ElementOfFpGroup(rws!.fpg_fam, word));
   reduced := ReducedForm(rws!.kb, UnderlyingElement(word_mon));
@@ -73,7 +73,7 @@ $AG_ReducedForm := function(rws, word)
 end;
 
 
-InstallGlobalFunction($AG_FindRelators,
+InstallGlobalFunction(__AG_FindRelators,
 function(fam, max_len)
   local fr_grp, w, elm, rels;
 
@@ -104,7 +104,7 @@ function(fam, max_len)
 end);
 
 
-$AG_UpdateRewritingSystem := function(arg)
+__AG_UpdateRewritingSystem := function(arg)
   local fam, max_len, new_rels;
 
   fam := arg[1];
@@ -114,20 +114,20 @@ $AG_UpdateRewritingSystem := function(arg)
     max_len := AG_Globals.max_rws_relator_len;
   fi;
 
-  new_rels := $AG_FindRelators(fam, max_len);
+  new_rels := __AG_FindRelators(fam, max_len);
   if fam!.rws = fail or new_rels <> fam!.rws!.rels then
-    fam!.rws := $AG_CreateRewritingSystem(fam, new_rels);
+    fam!.rws := __AG_CreateRewritingSystem(fam, new_rels);
   fi;
 
   return fail;
 end;
 
 
-$AG_UseRewritingSystem := function(fam, use)
+__AG_UseRewritingSystem := function(fam, use)
   if fam!.use_rws <> use then
     if use then
       if fam!.rws = fail then
-        fam!.rws := $AG_CreateRewritingSystem(fam, fail);
+        fam!.rws := __AG_CreateRewritingSystem(fam, fail);
       fi;
     fi;
     fam!.use_rws := use;
@@ -135,12 +135,12 @@ $AG_UseRewritingSystem := function(fam, use)
 end;
 
 
-$AG_RewritingSystem := function(fam)
+__AG_RewritingSystem := function(fam)
   return fam!.rws;
 end;
 
 
-$AG_AddRelators := function(fam, rels)
+__AG_AddRelators := function(fam, rels)
   local old_rels;
   if fam!.rws = fail then
     old_rels := [];
@@ -149,23 +149,23 @@ $AG_AddRelators := function(fam, rels)
   fi;
   rels := Difference(Union(old_rels, rels), [One(UnderlyingFreeGroup(fam))]);
   if rels <> old_rels then
-    fam!.rws := $AG_CreateRewritingSystem(fam, rels);
+    fam!.rws := __AG_CreateRewritingSystem(fam, rels);
   fi;
 end;
 
 
 InstallMethod(AG_ReducedForm, [IsAGRewritingSystem, IsAssocWord],
 function(rws, w)
-  return $AG_ReducedForm(rws, w);
+  return __AG_ReducedForm(rws, w);
 end);
 
 InstallMethod(AG_ReducedForm, [IsAGRewritingSystem, IsList and IsAssocWordCollection],
 function(rws, words)
-  return Difference(List(words, w -> $AG_ReducedForm(rws, w)), [One(words[1])]);
+  return Difference(List(words, w -> __AG_ReducedForm(rws, w)), [One(words[1])]);
 end);
 
 
-$AG_ReducedFormOfGroup := function(group, fam, construct)
+__AG_ReducedFormOfGroup := function(group, fam, construct)
   local gens, rws;
 
   if not fam!.use_rws then
@@ -184,15 +184,15 @@ end;
 
 InstallOtherMethod(AG_ReducedForm, [IsAutomGroup],
 function(group)
-  return $AG_ReducedFormOfGroup(group, UnderlyingAutomFamily(group), Autom);
+  return __AG_ReducedFormOfGroup(group, UnderlyingAutomFamily(group), Autom);
 end);
 
 InstallOtherMethod(AG_ReducedForm, [IsSelfSimGroup],
 function(group)
-  return $AG_ReducedFormOfGroup(group, UnderlyingSelfSimFamily(group), SelfSim);
+  return __AG_ReducedFormOfGroup(group, UnderlyingSelfSimFamily(group), SelfSim);
 end);
 
-$AG_ReducedFormOfElm := function(g, construct)
+__AG_ReducedFormOfElm := function(g, construct)
   local fam;
 
   fam := FamilyObj(g);
@@ -206,12 +206,12 @@ end;
 
 InstallOtherMethod(AG_ReducedForm, [IsAutom],
 function(g)
-  return $AG_ReducedFormOfElm(g, Autom);
+  return __AG_ReducedFormOfElm(g, Autom);
 end);
 
 InstallOtherMethod(AG_ReducedForm, [IsSelfSim],
 function(g)
-  return $AG_ReducedFormOfElm(g, SelfSim);
+  return __AG_ReducedFormOfElm(g, SelfSim);
 end);
 
 
@@ -222,7 +222,7 @@ end);
 
 InstallMethod(AG_UseRewritingSystem, [IsAutomFamily, IsBool],
 function(fam, use)
-  $AG_UseRewritingSystem(fam, use);
+  __AG_UseRewritingSystem(fam, use);
 end);
 
 InstallMethod(AG_UseRewritingSystem, [IsAutomGroup, IsBool],
@@ -232,7 +232,7 @@ end);
 
 InstallMethod(AG_UseRewritingSystem, [IsSelfSimFamily, IsBool],
 function(fam, use)
-  $AG_UseRewritingSystem(fam, use);
+  __AG_UseRewritingSystem(fam, use);
 end);
 
 InstallMethod(AG_UseRewritingSystem, [IsSelfSimGroup, IsBool],
@@ -248,7 +248,7 @@ end);
 
 InstallMethod(AG_UpdateRewritingSystem, [IsAutomFamily, IsPosInt],
 function(fam, max_len)
-  $AG_UpdateRewritingSystem(fam, max_len);
+  __AG_UpdateRewritingSystem(fam, max_len);
 end);
 
 InstallMethod(AG_UpdateRewritingSystem, [IsAutomGroup, IsPosInt],
@@ -258,7 +258,7 @@ end);
 
 InstallMethod(AG_UpdateRewritingSystem, [IsSelfSimFamily, IsPosInt],
 function(fam, max_len)
-  $AG_UpdateRewritingSystem(fam, max_len);
+  __AG_UpdateRewritingSystem(fam, max_len);
 end);
 
 InstallMethod(AG_UpdateRewritingSystem, [IsSelfSimGroup, IsPosInt],
@@ -269,7 +269,7 @@ end);
 
 InstallMethod(AG_RewritingSystem, [IsAutomFamily],
 function(fam)
-  return $AG_RewritingSystem(fam);
+  return __AG_RewritingSystem(fam);
 end);
 
 InstallMethod(AG_RewritingSystem, [IsAutomGroup],
@@ -279,7 +279,7 @@ end);
 
 InstallMethod(AG_RewritingSystem, [IsSelfSimFamily],
 function(fam)
-  return $AG_RewritingSystem(fam);
+  return __AG_RewritingSystem(fam);
 end);
 
 InstallMethod(AG_RewritingSystem, [IsSelfSimGroup],
@@ -295,16 +295,16 @@ end);
 
 
 InstallMethod(AG_AddRelators, [IsAutomGroup, IsList and IsAssocWordCollection],
-function(obj, rels) $AG_AddRelators(UnderlyingAutomFamily(obj), rels); end);
+function(obj, rels) __AG_AddRelators(UnderlyingAutomFamily(obj), rels); end);
 
 InstallMethod(AG_AddRelators, [IsAutomFamily, IsList and IsAssocWordCollection],
-function(obj, rels) $AG_AddRelators(obj, rels); end);
+function(obj, rels) __AG_AddRelators(obj, rels); end);
 
 InstallMethod(AG_AddRelators, [IsSelfSimGroup, IsList and IsAssocWordCollection],
-function(obj, rels) $AG_AddRelators(UnderlyingSelfSimFamily(obj), rels); end);
+function(obj, rels) __AG_AddRelators(UnderlyingSelfSimFamily(obj), rels); end);
 
 InstallMethod(AG_AddRelators, [IsSelfSimFamily, IsList and IsAssocWordCollection],
-function(obj, rels) $AG_AddRelators(obj, rels); end);
+function(obj, rels) __AG_AddRelators(obj, rels); end);
 
 InstallMethod(AG_AddRelators, [IsObject, IsList and IsAutomCollection],
 function(obj, list)

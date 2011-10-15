@@ -206,7 +206,7 @@ function (list, names, bind_global)
   for i in [1..Length(list)] do
     if IsBound(list[i]) then
       family!.automgens[i] :=
-        $AG_CreateAutom(family, freegens[i],
+        __AG_CreateAutom(family, freegens[i],
                         List([1..deg], j -> freegens[list[i][j]]),
                         list[i][deg+1],
                         i > numstates or IsBound(list[i+numstates]));
@@ -304,7 +304,7 @@ end);
 ##
 InstallOtherMethod(One, "for [IsAutomFamily]", [IsAutomFamily],
 function(fam)
-  return $AG_CreateAutom(fam, One(fam!.freegroup),
+  return __AG_CreateAutom(fam, One(fam!.freegroup),
                          List([1..fam!.deg], i -> One(fam!.freegroup)),
                          (), true);
 end);

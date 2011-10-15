@@ -153,9 +153,9 @@ end);
 
 # ###############################################################################
 # ##
-# #M  $AG_SubgroupOnLevel(<G>, <gens>, <level>)
+# #M  __AG_SubgroupOnLevel(<G>, <gens>, <level>)
 # ##
-# InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup,
+# InstallMethod(__AG_SubgroupOnLevel, [IsAutomGroup,
 #                                  IsList and IsTreeAutomorphismCollection,
 #                                  IsPosInt],
 # function(G, gens, level)
@@ -174,12 +174,12 @@ end);
 #   return SubgroupNC(overgroup, gens);
 # end);
 #
-# InstallMethod($AG_SubgroupOnLevel, [IsAutomGroup, IsList and IsEmpty, IsPosInt],
+# InstallMethod(__AG_SubgroupOnLevel, [IsAutomGroup, IsList and IsEmpty, IsPosInt],
 # function(G, gens, level)
 #   return TrivialSubgroup(G);
 # end);
 #
-# InstallMethod($AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
+# InstallMethod(__AG_SubgroupOnLevel, [IsTreeAutomorphismGroup,
 #                                  IsList and IsAutomCollection,
 #                                  IsPosInt],
 # function(G, gens, level)
@@ -194,7 +194,7 @@ end);
 #   return SubgroupNC(overgroup, gens);
 # end);
 #
-# InstallMethod($AG_SimplifyGroupGenerators, [IsList and IsAutomCollection],
+# InstallMethod(__AG_SimplifyGroupGenerators, [IsList and IsAutomCollection],
 # function(gens)
 #   local words, fam;
 #

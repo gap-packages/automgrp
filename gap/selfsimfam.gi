@@ -238,7 +238,7 @@ function (list, names, bind_global)
   for i in [1..Length(list)] do
     if IsBound(list[i]) then
       family!.recurgens[i]  :=
-        $AG_CreateSelfSim(family, freegens[i],
+        __AG_CreateSelfSim(family, freegens[i],
                         List([1..deg], j -> AssocWordByLetterRep(FamilyObj(freegens[1]), list[i][j])),
                         list[i][deg + 1],
                         i > numstates or IsBound(list[i + numstates]));
@@ -313,7 +313,7 @@ end);
 ##
 InstallOtherMethod(One, "for [IsSelfSimFamily]", [IsSelfSimFamily],
 function(fam)
-  return $AG_CreateSelfSim(fam, One(fam!.freegroup),
+  return __AG_CreateSelfSim(fam, One(fam!.freegroup),
                          List([1..fam!.deg], i -> One(fam!.freegroup)),
                          (), true);
 end);

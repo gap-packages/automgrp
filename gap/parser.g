@@ -4,7 +4,7 @@
 ##  of the automaton, e.g.
 ##  "a = (a, 1)(1,2), b=(a,a)" -> ["a = (a, 1)(1,2)", "b=(a,a)"]
 ##
-$AG_split_states := function(str)
+__AG_split_states := function(str)
   local states, s, c, i, parens;
 
   states := [];
@@ -49,7 +49,7 @@ end;
 ##  indicates whether it were parentheses or brackets.
 ##  Correctly skips stuff like (a*b)^2 in "((a*b)^2, a, a)".
 ##
-$AG_split_perms := function(str)
+__AG_split_perms := function(str)
   local s, perms, elms, cl, op,
         paren, bracket, isperm;
 
@@ -94,7 +94,7 @@ end;
 ##  [1,2,3] -> true
 ##  ["a",1,1] -> false
 ##
-$AG_is_permutation := function(list)
+__AG_is_permutation := function(list)
   local s, d, one;
   one := true;
   for s in list do
@@ -116,7 +116,7 @@ end;
 ##  "a*b^-1", [] -> [1, -2], ["a", "b"]
 ##  "(a*b)^-1", [] -> [-2, -1], ["a", "b"]
 ##
-$AG_parse_word := function(word, names)
+__AG_parse_word := function(word, names)
   local parsed_word, paren, paren_start, s, len, i,
         tok, power, in_power, finish_token;
 
@@ -179,7 +179,7 @@ $AG_parse_word := function(word, names)
       fi;
       if paren = 0 then
         if not in_power then
-          tok := $AG_parse_word(word{[paren_start+1..i-1]}, names);
+          tok := __AG_parse_word(word{[paren_start+1..i-1]}, names);
         else
           Error("invalid word, parentheses inside the power: ", word);
         fi;
@@ -232,7 +232,7 @@ end;
 ##  ["a", "b", "c"] -> [[[1], [2], [3]], ["a", "b", "c"]]
 ##  ["a", "1", "1"] -> [[[1], [], []], ["a"]]
 ##
-$AG_make_states := function(list, names, str)
+__AG_make_states := function(list, names, str)
   local states, s;
 
   states := [];
@@ -241,7 +241,7 @@ $AG_make_states := function(list, names, str)
     if s = "1" then
       Add(states, []);
     else
-      Add(states, $AG_parse_word(s, names));
+      Add(states, __AG_parse_word(s, names));
     fi;
   od;
 
@@ -256,7 +256,7 @@ end;
 ##  [[1,2,2],true] -> fail
 ##  [[1,2,"nonsense"],true] -> fail
 ##
-$AG_make_permutation := function(list)
+__AG_make_permutation := function(list)
   local indices, s, d;
 
   indices := [];
@@ -289,7 +289,7 @@ end;
 ##  Modifies names in place.
 ##  E.g. "a = (1, a)", [] -> ["a", [[], [1]], ()], ["a"]
 ##
-$AG_parse_state := function(str, names)
+__AG_parse_state := function(str, names)
   local id_and_def, id, def,
         states, perm, i, p;
 
@@ -301,7 +301,7 @@ $AG_parse_state := function(str, names)
   fi;
 
   id := id_and_def[1];
-  def := $AG_split_perms(id_and_def[2]);
+  def := __AG_split_perms(id_and_def[2]);
 
   if IsEmpty(def) then
     Error("Invalid state '", str, "'");
@@ -311,10 +311,10 @@ $AG_parse_state := function(str, names)
   perm := ();
 
   for i in [1..Length(def)] do
-    if i = 1 and def[i][2] and not $AG_is_permutation(def[i][1]) then
-      states := $AG_make_states(def[i][1], names, str);
+    if i = 1 and def[i][2] and not __AG_is_permutation(def[i][1]) then
+      states := __AG_make_states(def[i][1], names, str);
     else
-      p := $AG_make_permutation(def[i]);
+      p := __AG_make_permutation(def[i]);
       if p = fail then
         Error("Invalid permutation ", def[i], " in '", str, "'");
       fi;
@@ -348,8 +348,8 @@ function(str)
   end;
 
   names := [];
-  states := $AG_split_states(str);
-  states := List(states, s -> $AG_parse_state(s, names));
+  states := __AG_split_states(str);
+  states := List(states, s -> __AG_parse_state(s, names));
 
   alph := Maximum(List(states, s -> largest_moved_point(s[3])));
   aut_states := [];

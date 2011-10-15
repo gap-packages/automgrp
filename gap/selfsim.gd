@@ -103,7 +103,7 @@ DeclareOperation("OrderUsingSections",[IsSelfSim]);
 DeclareOperation("OrderUsingSections",[IsSelfSim, IsCyclotomic]);
 
 
-DeclareGlobalFunction("$AG_CreateSelfSim");
+DeclareGlobalFunction("__AG_CreateSelfSim");
 
 
 #E

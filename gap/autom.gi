@@ -26,7 +26,7 @@ DeclareRepresentation("IsAutomRep",
                       ["word", "states", "perm", "deg"]);
 
 
-InstallGlobalFunction($AG_CreateAutom,
+InstallGlobalFunction(__AG_CreateAutom,
 function(family, word, states, perm, invertible)
   local a, cat;
 
@@ -126,7 +126,7 @@ function(w, fam)
     od;
   fi;
 
-  return $AG_CreateAutom(fam, w, wstates, nperm, invertible);
+  return __AG_CreateAutom(fam, w, wstates, nperm, invertible);
 end);
 
 
@@ -268,7 +268,7 @@ function(a1, a2)
       od;
     fi;
 
-    return $AG_CreateAutom(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
+    return __AG_CreateAutom(FamilyObj(a1), word, states, a1!.perm * a2!.perm,
                            IsInvertibleAutom(a1) and IsInvertibleAutom(a2));
 end);
 
@@ -505,7 +505,7 @@ function(a)
     od;
   fi;
 
-  return $AG_CreateAutom(FamilyObj(a), word, states, a!.perm^-1, true);
+  return __AG_CreateAutom(FamilyObj(a), word, states, a!.perm^-1, true);
 end);
 
 

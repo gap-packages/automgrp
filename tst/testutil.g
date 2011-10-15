@@ -30,9 +30,9 @@
 ##  end);
 
 UnitTestData := rec();
-$ut_arg := "UnitTestSpecialArgument";
-$ut_arg1 := "UnitTestSpecialArgument1";
-$ut_arg2 := "UnitTestSpecialArgument2";
+_ut_arg := "UnitTestSpecialArgument";
+_ut_arg1 := "UnitTestSpecialArgument1";
+_ut_arg2 := "UnitTestSpecialArgument2";
 
 UnitTestInit := function(name)
   UnitTestData := rec(name := name,
@@ -79,11 +79,11 @@ UnitTestRun := function()
       r := t.results[i];
       Print("test ", i, " of ", Length(t.results), ": ");
       for m in r[3] do
-        if m = $ut_arg then
+        if m = _ut_arg then
           Print(r[2][1]);
-        elif m = $ut_arg1 then
+        elif m = _ut_arg1 then
           Print(r[2][2]);
-        elif m = $ut_arg2 then
+        elif m = _ut_arg2 then
           Print(r[2][3]);
         else
           Print(m);
@@ -120,42 +120,42 @@ end;
 
 AssertTrue := function(arg)
   Assert_(IsIdenticalObj(arg[1], true), [arg[1], arg[1], ], arg{[2..Length(arg)]},
-          ["assertion '", $ut_arg, "' failed"]);
+          ["assertion '", _ut_arg, "' failed"]);
 end;
 
 AssertFalse := function(arg)
   Assert_(IsIdenticalObj(arg[1], false), [arg[1], arg[1], ], arg{[2..Length(arg)]},
-          ["assertion 'not ", $ut_arg, "' failed"]);
+          ["assertion 'not ", _ut_arg, "' failed"]);
 end;
 
 AssertFail := function(arg)
   Assert_(IsIdenticalObj(arg[1], fail), [arg[1], arg[1], ], arg{[2..Length(arg)]},
-          ["assertion '", $ut_arg, " = fail' failed"]);
+          ["assertion '", _ut_arg, " = fail' failed"]);
 end;
 
 AssertEqual := function(arg)
   Assert_(arg[1] = arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
-          ["assertion '", $ut_arg1, " = ", $ut_arg2, "' failed"]);
+          ["assertion '", _ut_arg1, " = ", _ut_arg2, "' failed"]);
 end;
 
 AssertLess := function(arg)
   Assert_(arg[1] < arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
-          ["assertion '", $ut_arg1, " < ", $ut_arg2, "' failed"]);
+          ["assertion '", _ut_arg1, " < ", _ut_arg2, "' failed"]);
 end;
 
 AssertLessOrEqualThan := function(arg)
   Assert_(arg[1] <= arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
-          ["assertion '", $ut_arg1, " <= ", $ut_arg2, "' failed"]);
+          ["assertion '", _ut_arg1, " <= ", _ut_arg2, "' failed"]);
 end;
 
 AssertNotEqual := function(arg)
   Assert_(arg[1] <> arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
-          ["assertion '", $ut_arg1, " <> ", $ut_arg2, "' failed"]);
+          ["assertion '", _ut_arg1, " <> ", _ut_arg2, "' failed"]);
 end;
 
 AssertIn := function(arg)
   Assert_(arg[1] in arg[2], [, arg[1], arg[2]], arg{[3..Length(arg)]},
-          ["assertion '", $ut_arg1, " in ", $ut_arg2, "' failed"]);
+          ["assertion '", _ut_arg1, " in ", _ut_arg2, "' failed"]);
 end;
 
 AssertNotReached := function(arg)

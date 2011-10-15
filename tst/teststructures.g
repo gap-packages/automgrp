@@ -7,7 +7,7 @@
 #Y  Copyright (C) 2003 - 2008 Dmytro Savchuk, Yevgen Muntyan
 ##
 
-$ST_Groups := [
+_ST_Groups := [
   [[[1,1,()]], false],
   ["a=(1,a)(1,2)", true],
   ["a=(1,b)(1,2), b=(1,a)", true],
@@ -17,7 +17,7 @@ $ST_Groups := [
   ["a=(c,b)(1,2), b=(b,c)(1,2), c=(a,a)", false],
 ];
 
-$ST_Semigroups := Concatenation($ST_Groups, [
+_ST_Semigroups := Concatenation(_ST_Groups, [
   ["a=(a,a)[1,2]"],
   ["a=(a,a)[1,1]"],
   ["a=(a,a)[1,1], b = (a,a) [1,1]"],
@@ -50,7 +50,7 @@ end);
 
 UnitTest("Groups", function()
   local l;
-  for l in $ST_Groups do
+  for l in _ST_Groups do
     AssertTrue(IsAutomGroup(AutomatonGroup(l[1])));
     if l[2] then
       AssertTrue(IsContracting(AutomatonGroup(l[1])));
@@ -60,10 +60,10 @@ end);
 
 UnitTest("Semigroups", function()
   local l, g, a;
-  for l in $ST_Semigroups do
+  for l in _ST_Semigroups do
     g := AutomatonSemigroup(l[1]);
     AssertTrue(IsAutomSemigroup(g));
-    if l in $ST_Groups then
+    if l in _ST_Groups then
       AssertTrue(ForAll(GeneratorsOfSemigroup(g), IsInvertibleAutom));
       AssertTrue(IsAutomGroup(GroupOfAutomFamily(UnderlyingAutomFamily(g))));
     fi;
@@ -71,7 +71,7 @@ UnitTest("Semigroups", function()
 end);
 
 
-$ST_MultWord := function(word, family)
+_ST_MultWord := function(word, family)
   local rep, product, gen, gens, i;
 
   rep := LetterRepAssocWord(word);
@@ -95,7 +95,7 @@ $ST_MultWord := function(word, family)
   return product;
 end;
 
-$ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws, do_selfsim)
+_ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws, do_selfsim)
   local group, fam, w, a, b, c, count;
 
   if do_selfsim then
@@ -145,7 +145,7 @@ $ST_TestMultiplication1 := function(table, isgroup, contracting, use_rws, do_sel
         a := Autom(w, fam);
         AssertTrue(IsAutom(a));
       fi;
-      AssertEqual(a, $ST_MultWord(w, fam));
+      AssertEqual(a, _ST_MultWord(w, fam));
 
       if isgroup then
         AssertEqual(a*a^-1, a^-1*a);
@@ -167,46 +167,46 @@ end;
 
 UnitTest("Multiplication in groups", function()
   local g;
-  for g in $ST_Groups do
-    $ST_TestMultiplication1(g[1], true, false, false, false);
+  for g in _ST_Groups do
+    _ST_TestMultiplication1(g[1], true, false, false, false);
     if g[2] then
-      $ST_TestMultiplication1(g[1], true, true, false, false);
+      _ST_TestMultiplication1(g[1], true, true, false, false);
     fi;
   od;
 end);
 
 UnitTest("Multiplication in self-similar groups", function()
   local g;
-  for g in $ST_Groups do
-    $ST_TestMultiplication1(g[1], true, false, false, true);
+  for g in _ST_Groups do
+    _ST_TestMultiplication1(g[1], true, false, false, true);
     if g[2] then
-      $ST_TestMultiplication1(g[1], true, true, false, true);
+      _ST_TestMultiplication1(g[1], true, true, false, true);
     fi;
   od;
 end);
 
 UnitTest("Multiplication in semigroups", function()
   local g;
-  for g in $ST_Semigroups do
-    $ST_TestMultiplication1(g[1], false, false, false, false);
+  for g in _ST_Semigroups do
+    _ST_TestMultiplication1(g[1], false, false, false, false);
   od;
 end);
 
 UnitTest("Multiplication in self-similar semigroups", function()
   local g;
-  for g in $ST_Semigroups do
-    $ST_TestMultiplication1(g[1], false, false, false, true);
+  for g in _ST_Semigroups do
+    _ST_TestMultiplication1(g[1], false, false, false, true);
   od;
 end);
 
 
 UnitTest("Rewriting systems", function()
   local l;
-  for l in $ST_Groups do
+  for l in _ST_Groups do
     if Length(l[1]) > 1 then
-      $ST_TestMultiplication1(l[1], true, false, true, false);
+      _ST_TestMultiplication1(l[1], true, false, true, false);
       if l[2] then
-        $ST_TestMultiplication1(l[1], true, true, true, false);
+        _ST_TestMultiplication1(l[1], true, true, true, false);
       fi;
     fi;
   od;
@@ -214,11 +214,11 @@ end);
 
 UnitTest("Rewriting systems self-sim", function()
   local l;
-  for l in $ST_Groups do
+  for l in _ST_Groups do
     if Length(l[1]) > 1 then
-      $ST_TestMultiplication1(l[1], true, false, true, true);
+      _ST_TestMultiplication1(l[1], true, false, true, true);
       if l[2] then
-        $ST_TestMultiplication1(l[1], true, true, true, true);
+        _ST_TestMultiplication1(l[1], true, true, true, true);
       fi;
     fi;
   od;
@@ -227,7 +227,7 @@ end);
 
 UnitTest("Decompose", function()
   local l, group, a, b, count;
-  for l in $ST_Semigroups do
+  for l in _ST_Semigroups do
     group := AutomatonSemigroup(l[1]);
 
     for count in [1..10] do

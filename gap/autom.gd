@@ -56,7 +56,7 @@ DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
 DeclareOperation("StatesWords", [IsAutom]);
 
 
-DeclareGlobalFunction("$AG_CreateAutom");
+DeclareGlobalFunction("__AG_CreateAutom");
 
 
 #E

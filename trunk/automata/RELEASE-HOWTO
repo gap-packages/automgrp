@@ -8,15 +8,13 @@
 7.  Run tst/test-release.sh.
 8.  Commit.
 9.  Run 'make dist' to create three tarballs.
-10. Upload them to sf.net as described at 
-    http://alexandria.wiki.sourceforge.net/File+Release+System+-+Offering+Files+for+Download#upload
-11. Go to http://sourceforge.net/projects/finautom > Admin > File releases.
-    Create new release, add files.
-12. Download fresh tarball from http://sf.net, install it, run tests.
+10. Upload them to sf.net at https://sourceforge.net/projects/finautom/files/automgrp/:
+    create a folder for new release, add files
+11. Download fresh tarball from http://sf.net, install it, run tests.
     Restart from step 2 if needed.
-13. Unpack a tarball and upload its content to the web site, as described at 
+12. Unpack a tarball and upload its content to the web site, as described at 
     http://alexandria.wiki.sourceforge.net/Project+Web,+Shell,+VHOST+and+Database+Services
-14. Change version and date in index.html
-15. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
-16. Tag the release.
-17. Done.
+13. Change version and date in index.html
+14. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
+15. Tag the release.
+16. Done.

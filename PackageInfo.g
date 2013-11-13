@@ -13,13 +13,13 @@ PackageName := "AutomGrp",
 ##  one line.
 Subtitle := "Automata groups",
 
-Version := "1.1.4.2",
+Version := "1.1.5",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "14/10/2011",
+Date := "14/11/2013",
 
-ArchiveURL := "http://downloads.sourceforge.net/project/finautom/automgrp/1.1.4.2",
+ArchiveURL := "http://downloads.sourceforge.net/project/finautom/automgrp/1.1.5",
 
 ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 
@@ -29,11 +29,11 @@ Persons := [
     FirstNames    := "Yevgen",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "muntyan@math.tamu.edu",
-    WWWHome       := "http://www.math.tamu.edu/~muntyan/",
+    Email         := "yevgenm@exchange.microsoft.com",
+    WWWHome       := "http://www.linkedin.com/pub/yevgen-muntyan/13/9a3/867",
     PostalAddress := "",
-    Place         := "College Station, TX, USA",
-    Institution   := "Texas A&M University"
+    Place         := "Redmond, WA, USA",
+    Institution   := "Microsoft"
   ),
   rec(
     LastName      := "Savchuk",
@@ -41,10 +41,10 @@ Persons := [
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "dmytro.savchuk@gmail.com",
-    WWWHome       := "http://www.math.tamu.edu/~savchuk/",
+    WWWHome       := "http://savchuk.myweb.usf.edu/",
     PostalAddress := "",
-    Place         := "College Station, TX, USA",
-    Institution   := "Texas A&M University"
+    Place         := "Tampa, FL, USA",
+    Institution   := "University of South Florida"
   ),
 ],
 

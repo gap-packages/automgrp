@@ -13,7 +13,7 @@ $3$-state automata over a 2-letter alphabet (see
 \cite{BGK06}, \cite{BGK07}).
 
 First author thanks Sveta and Max Muntyan for their infinite patience and
-understanding. Second author thanks Olga and Anna Savchuk for their help
+understanding. Second author thanks Olga and Anna, Irina and Andrey Savchuk for their help
 and understanding. This project would be impossible without them.
 
 We would like to express our warm gratitude to Rostislav Grigorchuk, Zoran Sunic,
@@ -174,9 +174,9 @@ To load package issue the command
 \beginexample
 gap> LoadPackage("automgrp");
 -----------------------------------------------------------------------------
-Loading  AutomGrp 1.1.1 (Automata Groups)
-by Yevgen Muntyan (http://www.math.tamu.edu/~muntyan/) and
-   Dmytro Savchuk (http://www.math.tamu.edu/~savchuk/).
+Loading  AutomGrp 1.1.5 (Automata Groups)
+by Yevgen Muntyan (http://www.linkedin.com/pub/yevgen-muntyan/13/9a3/867) and
+   Dmytro Savchuk (http://savchuk.myweb.usf.edu/).
 -----------------------------------------------------------------------------
 true
 \endexample

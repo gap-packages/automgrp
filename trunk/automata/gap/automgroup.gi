@@ -2,9 +2,9 @@
 ##
 #W  automgroup.gi             automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.4.2
+##  automgrp v 1.1.5
 ##
-#Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -277,6 +277,41 @@ function(G)
   else
     Print(gens[Length(gens)], " >");
   fi;
+end);
+
+
+###############################################################################
+##
+#M  MihailovaSystem(G)
+##
+##  TODO XXX it's broken, test it
+##
+InstallMethod(MihailovaSystem, "for [IsAutomGroup]", [IsAutomGroup],
+function (G)
+  local gens, mih, mih_gens, i;
+
+  if not IsActingOnBinaryTree(G) then
+    Error("MihailovaSystem(IsAutomGroup):\n  sorry, group is not acting on binary tree\n");
+  fi;
+  if not IsFractalByWords(G) then
+    Info(InfoAutomGrp, 1, "given group is not IsFractalByWords");
+    return fail;
+  fi;
+
+  gens := GeneratorsOfGroup(StabilizerOfFirstLevel(G));
+  mih := AG_ComputeMihailovaSystemPairs(List(gens, a -> StatesWords(a)));
+
+  if mih = fail then
+    return fail;
+  elif not mih[3] then
+    return gens;
+  fi;
+
+  mih_gens := [];
+  for i in [1..Length(gens)] do
+    mih_gens[i] := AG_CalculateWord(mih[2][i], gens);
+  od;
+  return mih_gens;
 end);
 
 

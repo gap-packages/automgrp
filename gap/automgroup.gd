@@ -2,9 +2,9 @@
 ##
 #W  automgroup.gd             automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.4.2
+##  automgrp v 1.1.5
 ##
-#Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -117,6 +117,13 @@ DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
 DeclareProperty("IsAutomatonGroup", IsAutomGroup);
 InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
+
+
+#############################################################################
+##
+#A  MihailovaSystem( <G> )
+##
+DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
 
 
 #E

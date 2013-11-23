@@ -2,9 +2,9 @@
 ##
 #W  init.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.4.2
+##  automgrp v 1.1.5
 ##
-#Y  Copyright (C) 2003 - 2008 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 DeclareAutoPackage("automgrp", "1.1.4.2", ReturnTrue);

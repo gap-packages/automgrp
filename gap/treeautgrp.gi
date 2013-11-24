@@ -93,6 +93,13 @@ InstallMethod(IsSphericallyTransitive, "for [IsTreeAutomorphismGroup]",
 function (G)
   local i, k, stab;
 
+  if DegreeOfTree(G)=1 then
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+    Info(InfoAutomGrp, 3, "  G acts on 1-ary tree");
+    return true;
+  fi;
+
+
   if HasIsFinite(G) and IsFinite(G) then
     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
     Info(InfoAutomGrp, 3, "  G is finite");
@@ -163,13 +170,21 @@ end);
 
 InstallImmediateMethod(IsFractal, IsTreeAutomorphismGroup and HasIsFinite, 0,
 function(G)
-  if IsFinite(G) then return false; fi;
+  if IsFinite(G) and DegreeOfTree(G)>1 then return false; fi;
   TryNextMethod();
 end);
 
 InstallMethod(IsFractal, "for [IsTreeAutomorphismGroup]", [IsTreeAutomorphismGroup],
 function(G)
   local i;
+
+  if DegreeOfTree(G)=1 then 
+    SetIsSphericallyTransitive(G, true);
+    Info(InfoAutomGrp, 3, "IsFractal(G): true");
+    Info(InfoAutomGrp, 3, "  G acts on 1-ary tree");
+    return true;
+  fi;
+
 
   if not IsTransitive(PermGroupOnLevel(G, 1), [1..DegreeOfTree(G)]) then
     SetIsSphericallyTransitive(G, false);
@@ -208,13 +223,13 @@ end);
 ##
 InstallImmediateMethod(Size, HasIsFractal, 0,
 function(G)
-  if IsFractal(G) then return infinity; fi;
+  if IsFractal(G) and DegreeOfTree(G)>1 then return infinity; fi;
   TryNextMethod();
 end);
 
 InstallImmediateMethod(Size, HasIsSphericallyTransitive, 0,
 function(G)
-  if IsSphericallyTransitive(G) then return infinity; fi;
+  if IsSphericallyTransitive(G) and DegreeOfTree(G)>1 then return infinity; fi;
   TryNextMethod();
 end);
 
@@ -267,6 +282,10 @@ InstallMethod(StabilizerOfLevelOp,
               [IsTreeAutomorphismGroup, IsPosInt],
 function (G, k)
   local perms, S, F, hom, chooser, s, f, gens;
+
+  if DegreeOfTree(G)=1 then
+    return G;
+  fi;
 
   if FixesLevel(G, k) then
     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
@@ -395,10 +414,12 @@ InstallMethod(FixesLevel, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
   if IsTrivial(PermGroupOnLevel(G, k)) then
-    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    if DegreeOfTree(G)>1 then
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+      SetIsSphericallyTransitive(G, false);
+    fi;
     Info(InfoAutomGrp, 3, "  G fixes level", k);
     Info(InfoAutomGrp, 3, "  G = ", G);
-    SetIsSphericallyTransitive(G, false);
     return true;
   else
     return false;
@@ -418,10 +439,12 @@ function(G, v)
   for g in gens do
     if not FixesVertex(g, v) then return false; fi;
   od;
-  Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
-  Info(InfoAutomGrp, 3, "  G fixes vertex", v);
-  Info(InfoAutomGrp, 3, "  G = ", G);
-  SetIsSphericallyTransitive(G, false);
+  if DegreeOfTree(G)>1 then
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+    Info(InfoAutomGrp, 3, "  G fixes vertex", v);
+    Info(InfoAutomGrp, 3, "  G = ", G);
+    SetIsSphericallyTransitive(G, false);
+  fi;
   return true;
 end);
 

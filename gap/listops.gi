@@ -35,7 +35,7 @@ function(list, invertible)
   od;
 
   deg := Length(list[1]) - 1;
-  if deg < 2 then
+  if deg < 1 then
     return false;
   fi;
 

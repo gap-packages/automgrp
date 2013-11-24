@@ -579,10 +579,22 @@ end);
 InstallMethod(IsBireversible, "for [IsMealyAutomaton]", true,
               [IsMealyAutomaton],
 function(A)
-  local list, inv_list, states, n;
-
   return IsInvertible(A) and IsInvertible(DualAutomaton(A)) and
          IsInvertible(DualAutomaton(InverseAutomaton(A)));
+end);
+
+
+InstallMethod(IsReversible, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
+function(A)
+  return IsInvertible(DualAutomaton(A));
+end);
+
+
+InstallMethod(IsIRautomaton, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
+function(A)
+  return IsInvertible(A) and IsInvertible(DualAutomaton(A));
 end);
 
 

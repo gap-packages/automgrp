@@ -297,6 +297,33 @@ DeclareProperty("IsBireversible", IsMealyAutomaton);
 
 ################################################################################
 ##
+#O  IsReversible ( <A> )
+##
+##  Computes whether or not the automaton <A> is reversible, i.e. the dual of <A>
+##  is invertible.
+##
+DeclareProperty("IsReversible", IsMealyAutomaton);
+
+
+################################################################################
+##
+#O  IsIRautomaton ( <A> )
+##
+##  Computes whether or not the automaton <A> is an IR-automaton, i.e. <A> and its dual are invertible.
+##  The example below shows that the automaton generating lamplighter group is an IR-automaton.
+##  \beginexample
+##  gap> L := MealyAutomaton("a=(b,a)(1,2), b=(a,b)");
+##  <automaton>
+##  gap> IsIRautomaton(L);
+##  true
+##  \endexample
+
+DeclareProperty("IsIRautomaton", IsMealyAutomaton);
+
+
+
+################################################################################
+##
 #O  IsTrivial ( <A> )
 ##
 ##  Computes whether the automaton <A> is equivalent to the trivial automaton.

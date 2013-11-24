@@ -1,3 +1,12 @@
+Changes from 1.1.4.2 to 1.1.5
+
+- Suppressed the output of dots while performing the tests
+- Fixed some bugs and cleaned the code in several places
+- Added a possibility to define automata over 1-letter alphabet
+- Added IsReversible, MihailovaSystem, MDtrivial, MDreduced, MDminimization,
+
+
+
 Changes from 1.1.4.1 to 1.1.4.2
 
 - Replaced $ character in identifiers with underscores

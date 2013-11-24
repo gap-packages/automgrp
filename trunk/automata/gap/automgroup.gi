@@ -474,6 +474,13 @@ InstallMethod(IsSphericallyTransitive, "for [IsAutomGroup]",
 function (G)
   local x, rat_gens, abel_hom;
 
+  if DegreeOfTree(G)=1 then
+    Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
+    Info(InfoAutomGrp, 3, "  G acts on 1-ary tree");
+    return true;
+  fi;
+
+
   if IsFractalByWords(G) then
     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
     Info(InfoAutomGrp, 3, "  G is fractal");

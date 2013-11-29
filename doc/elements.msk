@@ -60,6 +60,7 @@ infinity
 \Declaration{PermOnLevel}
 \Declaration{PermOnLevelAsMatrix}
 \Declaration{TransformationOnLevel}
+\Declaration{TransformationOnLevelAsMatrix}
 \Declaration{Word}
 
 

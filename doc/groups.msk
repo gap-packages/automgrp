@@ -86,7 +86,9 @@ gap> l;
 \Declaration{LevelOfFaithfulAction}
 \Declaration{IsomorphismPermGroup}
 \Declaration{Random}
-\Declaration{MarkovOperator}
+\Declaration{MarkovOperator}[treehomsg]
+\Declaration{MihailovaSystem}
+
 
 
 \Declaration{AbelImage}

@@ -736,5 +736,38 @@ function(G)
 end);
 
 
+###############################################################################
+##
+#M  MarkovOperator(<G>, <lev>, <weights>)
+##
+InstallMethod(MarkovOperator, "for [IsTreeAutomorphismGroup, IsCyclotomic, IsList]",
+              [IsTreeAutomorphismGroup, IsCyclotomic, IsList],
+function(G, n, weights)
+  local gens,R,indet;
+  gens := ShallowCopy(GeneratorsOfGroup(G));
+  if Length(weights)<>2*Length(gens) then Error("The number of weights must be twice as big as the number of generators"); fi;
+  Append(gens, List(gens, x -> x^-1));
+  if IsString(weights[1]) then
+    R:=PolynomialRing(Integers,weights);
+    indet:=IndeterminatesOfPolynomialRing(R);
+    return Sum(List([1..Length(gens)], x -> indet[x]*PermOnLevelAsMatrix(gens[x], n)));
+  else
+    return Sum(List([1..Length(gens)], x -> weights[x]*PermOnLevelAsMatrix(gens[x], n)));
+  fi;
+end);
+
+
+
+###############################################################################
+##
+#M  MarkovOperator(<G>, <lev>)
+##
+InstallMethod(MarkovOperator, "for [IsTreeAutomorphismGroup, IsCyclotomic]",
+              [IsTreeAutomorphismGroup, IsCyclotomic],
+function(G, n)
+  return MarkovOperator(G,n,List([1..2*Length(GeneratorsOfGroup(G))],x->1/(2*Length(GeneratorsOfGroup(G)))));
+end);
+
+
 
 #E

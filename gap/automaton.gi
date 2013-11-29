@@ -591,10 +591,56 @@ function(A)
 end);
 
 
-InstallMethod(IsIRautomaton, "for [IsMealyAutomaton]", true,
+InstallMethod(IsIRAutomaton, "for [IsMealyAutomaton]", true,
               [IsMealyAutomaton],
 function(A)
   return IsInvertible(A) and IsInvertible(DualAutomaton(A));
+end);
+
+
+InstallMethod(MDReduction, "for [IsMealyAutomaton]",
+              [IsMealyAutomaton],
+function(A)
+  local B, DB, MDB;
+  B:=MinimizationOfAutomaton(A);
+  DB:=DualAutomaton(B);
+  MDB:=MinimizationOfAutomaton(DB);
+  while NumberOfStates(MDB)<NumberOfStates(DB) do
+    B:=MDB;
+    DB:=DualAutomaton(B);
+    MDB:=MinimizationOfAutomaton(DB);
+  od;
+  return [B,MDB];
+end);
+
+
+InstallMethod(IsMDTrivial, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
+function(A)
+  local MDT;
+  MDT:=MDReduction(A);
+  if NumberOfStates(MDT[1])=1 then
+    return true;
+  fi;
+  return false;
+end);
+
+
+InstallMethod(IsMDReduced, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
+function(A)
+  local B, DB, MDB;
+  B:=MinimizationOfAutomaton(A);
+  if NumberOfStates(B)<NumberOfStates(A) then
+    return false;
+  else
+    DB:=DualAutomaton(B);
+    MDB:=MinimizationOfAutomaton(DB);
+    if NumberOfStates(MDB)<NumberOfStates(DB) then
+      return false;
+    fi;
+  fi;
+  return true;
 end);
 
 
@@ -763,4 +809,10 @@ function(A)
 
   return SubautomatonWithStates(A, Nucl);
 end);
+
+
+#InstallMethod(IncidenceMatrix, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+#function(A)
+
+#end);
 #E

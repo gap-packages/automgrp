@@ -229,4 +229,36 @@ function(G, k)
   return psemigroup;
 end);
 
+
+###############################################################################
+##
+#M  MarkovOperator(<G>, <lev>, <weights>)
+##
+InstallMethod(MarkovOperator, "for [IsTreeHomomorphismSemigroup, IsCyclotomic, IsList]",
+              [IsTreeHomomorphismSemigroup, IsCyclotomic, IsList],
+function(G, n, weights)
+  local gens,R,indet;
+  gens := ShallowCopy(GeneratorsOfSemigroup(G));
+  if Length(weights)<>Length(gens) then Error("The number of weights must match the number of generators"); fi;
+  if IsString(weights[1]) then
+    R:=PolynomialRing(Integers,weights);
+    indet:=IndeterminatesOfPolynomialRing(R);
+    return Sum(List([1..Length(gens)], x -> indet[x]*TransformationOnLevelAsMatrix(gens[x], n)));
+  else
+    return Sum(List([1..Length(gens)], x -> weights[x]*TransformationOnLevelAsMatrix(gens[x], n)));
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  MarkovOperator(<G>, <lev>)
+##
+InstallMethod(MarkovOperator, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]",
+              [IsTreeHomomorphismSemigroup, IsCyclotomic],
+function(G, n)
+  return MarkovOperator(G,n,List([1..Length(GeneratorsOfGroup(G))],x->1/(2*Length(GeneratorsOfGroup(G)))));
+end);
+
+
 #E

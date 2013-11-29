@@ -25,7 +25,7 @@ BindGlobal("AG_Globals", rec(
   scilab_stacksize := 100000000,
   run_tests_forever := false,
   max_rws_relator_len := 2,
-  unit_test_dots := true,
+  unit_test_dots := false,
 ));
 
 

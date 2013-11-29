@@ -115,6 +115,7 @@ DeclareAttribute("UnderlyingFreeSubgroup", IsAutomGroup, "mutable");
 ##  is `true' if <G> is created using the command `AutomatonGroup' ("AutomatonGroup")
 ##  or if the generators of <G> coincide with the generators of the corresponding family, and `false' otherwise.
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
+##
 DeclareProperty("IsAutomatonGroup", IsAutomGroup);
 InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 
@@ -123,7 +124,28 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 ##
 #A  MihailovaSystem( <G> )
 ##
-DeclareAttribute("MihailovaSystem", IsAutomGroup, "mutable");
+##  In the case when <G> is an automaton fractal group acting on a binary
+##  tree, computes the generating set for the first level stabilizer in G
+##  such that the sections of these generators at the first level,
+##  viewed as elements of $F_r\times F_r$, are in Mihailova normal form.
+##  See~\cite{grigorch_s:essfree} for details.
+##
+##  \beginexample
+##  gap> G:=AutomatonGroup("a=(b,c)(1,2),b=(a,c),c=(a,a)");
+##  < a, b, c >
+##  gap> M:=MihailovaSystem(G);
+##  [ c^-1*b, c^-1*b^-1*c*a^-1*b*c*b^-1*a, a^-1*b*c*b^-1*a, a*c^-1*b^-1*a*c, c^-1*a^-1*b*c*a ]
+##  gap> for g in M do
+##  >      Print(g,"=",Decompose(g),"\n");
+##  >    od;
+##  c^-1*b=(1, a^-1*c)
+##  c^-1*b^-1*c*a^-1*b*c*b^-1*a=(1, a^-1*c^-1*a*b^-1*a*b)
+##  a^-1*b*c*b^-1*a=(a, b^-1*a*b)
+##  a*c^-1*b^-1*a*c=(b, c*a^-2*b*a)
+##  c^-1*a^-1*b*c*a=(c, a^-1*b^-1*a^2*b)
+##  \endexample
+##
+DeclareAttribute("MihailovaSystem", IsAutomatonGroup, "mutable");
 
 
 #E

@@ -475,6 +475,18 @@ InstallGlobalFunction(PermOnLevelAsMatrix, function(g, lev)
 end);
 
 
+InstallGlobalFunction(TransformationOnLevelAsMatrix, function(g, lev)
+  local trans, i, j, m, d;
+  trans := TransformationOnLevel(g, lev);
+  d := DegreeOfTransformation(trans);
+  m := List([1..d], x -> List([1..d], x -> 0));
+  for i in [1..d] do
+    m[i][i^trans] := 1;
+  od;
+  return m;
+end);
+
+
 InstallGlobalFunction(InvestigatePairs, function(G)
   local i, j, k, i1, j1, k1, Pairs, Trip, n, IsPairEq, d, res, tmp;
 
@@ -1668,14 +1680,6 @@ function(G, n)
   od;
 
   return GroupWithGenerators(old_gens);
-end);
-
-
-InstallGlobalFunction(MarkovOperator, function(G, n)
-  local gens;
-  gens := ShallowCopy(GeneratorsOfGroup(G));
-  Append(gens, List(gens, x -> x^-1));
-  return Sum(List(gens, x -> PermOnLevelAsMatrix(x, n)))/Length(gens);
 end);
 
 

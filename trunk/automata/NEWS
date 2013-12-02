@@ -1,12 +1,12 @@
 Changes from 1.1.4.2 to 1.2
 
+- Added IsAcyclic for Mealy automata
 - Added IsReversible, IsMDTrivial, MDReduction
 - Added MihailovaSystem
 - MarkovOperator is implemented for semigroups and now can accept the (possibly symbolic) weights
 - Suppressed the output of dots while performing the tests
 - Fixed some bugs and cleaned the code in several places
 - Added a possibility to define automata over 1-letter alphabet (needed for MD-reduction)
-
 
 
 Changes from 1.1.4.1 to 1.1.4.2

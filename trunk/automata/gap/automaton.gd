@@ -2,7 +2,7 @@
 ##
 #W  automaton.gd              automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.5
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -451,6 +451,42 @@ DeclareOperation("SubautomatonWithStates", [IsMealyAutomaton, IsList]);
 DeclareOperation("AutomatonNucleus", [IsMealyAutomaton]);
 
 
+###############################################################################
+##
+#A  AdjacencyMatrix( <A> )
+##
+##  Returns the adjacency matrix of a Mealy automaton <A>, in which the $ij$-th entry
+##  contains the number of arrows in the Moore diagram of <A> from state $i$ to state $j$.
+##
+##  \beginexample
+##  gap> A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(a,c,b)(1,2),c=(a,a,a)");
+##  <automaton>
+##  gap> AdjacencyMatrix(A);
+##  [ [ 2, 1, 0 ], [ 1, 1, 1 ], [ 3, 0, 0 ] ]
+##  \endexample
+##
+DeclareAttribute("AdjacencyMatrix", IsMealyAutomaton);
+
+
+################################################################################
+##
+#P  IsAcyclic ( <A> )
+##
+##  Computes whether or not an automaton <A> is acyclic in the sense of Sidki~\cite{Sid00}.
+##  I.e. returns `true' if the Moore diagram of <A> does not contain cycles with two or more
+##  states and `false' otherwise.
+##  \beginexample
+##  gap> A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,b)(1,2),c=(d,c,1),d=(d,1,d)");
+##  <automaton>
+##  gap> IsAcyclic(A);
+##  true
+##  gap> A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,d)(1,2),c=(d,c,1),d=(b,1,d)");
+##  <automaton>
+##  gap> IsAcyclic(A);
+##  false
+##  \endexample
+##
+DeclareProperty("IsAcyclic", IsMealyAutomaton);
 
 ##  PassToPowerOfAlphabet ( <A>, <power> )
 

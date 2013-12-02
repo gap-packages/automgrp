@@ -2,7 +2,7 @@
 ##
 #W  testall.g                automgrp package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.1.5
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2013 Dmytro Savchuk, Yevgen Muntyan
 ##

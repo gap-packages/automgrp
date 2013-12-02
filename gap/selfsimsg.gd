@@ -2,7 +2,7 @@
 ##
 #W  selfsimsg.gd             automgrp package                  Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.5
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##

@@ -2,7 +2,7 @@
 ##
 #W  automaton.gi              automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.1.5
+##  automgrp v 1.2
 ##
 #Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
@@ -811,8 +811,33 @@ function(A)
 end);
 
 
-#InstallMethod(IncidenceMatrix, "for [IsMealyAutomaton]", [IsMealyAutomaton],
-#function(A)
+InstallMethod(AdjacencyMatrix, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+function(A)
+  local i, s, d, M, aut_list;
+  aut_list := AutomatonList(A);
+  M:=List([1..A!.n_states],x->List([1..A!.n_states],x->0));
+  d := A!.degree;
+  for s in [1..A!.n_states] do
+    for i in [1..d] do
+      M[s][aut_list[s][i]]:=M[s][aut_list[s][i]]+1;
+    od;
+  od;
+  return M;
+end);
 
-#end);
+InstallMethod(IsAcyclic, "for [IsMealyAutomaton]", [IsMealyAutomaton],
+function(A)
+  local i, j, M, N;
+  M:=AdjacencyMatrix(A);
+  N:=StructuralCopy(M);
+  for i in [1..(A!.n_states-1)] do
+    N:=N*M;
+    for j in [1..A!.n_states] do
+      if N[j][j]<>M[j][j]^(i+1) then return false; fi;
+    od;
+  od;
+  return true;
+end);
+
+
 #E

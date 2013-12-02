@@ -21,16 +21,18 @@
 \Declaration{IsOfPolynomialGrowth}
 \Declaration{IsBounded}
 \Declaration{PolynomialDegreeOfGrowth}
+\Declaration{AdjacencyMatrix}
+\Declaration{IsAcyclic}
 \Declaration{DualAutomaton}
 \Declaration{InverseAutomaton}
 \Declaration{IsBireversible}
 \Declaration{IsReversible}
 \Declaration{IsIRAutomaton}
 
-The next three commands deal with a procedure called MD-reduction developed 
-in~\cite{akhavi_klmp:finiteness_problem}. Particularly, according 
+The next three commands deal with a procedure called MD-reduction developed
+in~\cite{akhavi_klmp:finiteness_problem}. Particularly, according
 to~\cite{klimann:finiteness}, a 2-letter or 2-state invertible reversible automaton
-generates a finite group if and only if the MD-reduction procedure terminates with a 
+generates a finite group if and only if the MD-reduction procedure terminates with a
 trivial automaton. In the last case the automaton is called MD-trivial.
 
 \Declaration{MDReduction}
@@ -53,7 +55,6 @@ a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)
 \Declaration{SubautomatonWithStates}
 \Declaration{AutomatonNucleus}
 \Declaration{AreEquivalentAutomata}
-
 
 
 

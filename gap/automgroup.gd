@@ -128,7 +128,7 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 ##  tree, computes the generating set for the first level stabilizer in G
 ##  such that the sections of these generators at the first level,
 ##  viewed as elements of $F_r\times F_r$, are in Mihailova normal form.
-##  See~\cite{grigorch_s:essfree} for details.
+##  See~\cite{GSESS} for details.
 ##
 ##  \beginexample
 ##  gap> G:=AutomatonGroup("a=(b,c)(1,2),b=(a,c),c=(a,a)");

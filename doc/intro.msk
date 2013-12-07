@@ -173,11 +173,19 @@ your GAP distribution. This will create `automgrp' subdirectory.
 To load package issue the command
 \beginexample
 gap> LoadPackage("automgrp");
------------------------------------------------------------------------------
-Loading  AutomGrp 1.1.5 (Automata Groups)
-by Yevgen Muntyan (http://www.linkedin.com/pub/yevgen-muntyan/13/9a3/867) and
-   Dmytro Savchuk (http://savchuk.myweb.usf.edu/).
------------------------------------------------------------------------------
+----------------------------------------------------------------
+     ^                                    ___
+    / \                                  /   \
+   /   \           _______  ___         ||        ___   __
+  /_____\   ||  ||    |    /   \  |\ /| ||   __ |/   | |  \
+ /       \  ||  ||    |   ||   || | V | ||   || |      |__/
+/         \  \__/     |    \___/  |   |  \___/  |      |
+
+Loading  AutomGrp 1.2 (Automata Groups and Semigroups)
+by Yevgen Muntyan (muntyan@fastmail.fm)
+   Dmytro Savchuk (http://savchuk.myweb.usf.edu/)
+Homepage: http://finautom.sourceforge.net/
+----------------------------------------------------------------
 true
 \endexample
 

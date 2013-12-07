@@ -15,23 +15,21 @@ Authors
 The AutomGrp package is written by:
 
 Yevgen Muntyan
-Department of Mathematics
-Texas A&M University
-College Station, TX
-e-mail: emuntyan@users.sourceforge.net
+Bellevue, WA, USA
+e-mail: muntyan@fastmail.fm
 
 Dmytro Savchuk
-Department of Mathematics
-Texas A&M University
-College Station, TX, 77843-3368
+Department of Mathematics and Statistics
+University of South Florida
+Tampa, FL, 33620
 e-mail: dmytro.savchuk@gmail.com
 
 
 Installing the AutomGrp package
 -------------------------------
 
-To install the AutomGrp package, move the archive file 'automgrp-1.1.4.2.tar.bz2' or
-'automgrp-1.1.4.2.tar.gz' (automgrp-1.1.4.2-win.zip if you are using a Windows system)
+To install the AutomGrp package, move the archive file 'automgrp-1.2.tar.bz2' or
+'automgrp-1.2.tar.gz' (automgrp-1.2-win.zip if you are using a Windows system)
 into the 'pkg' directory of your GAP installation, and unpack it. See section
 "ref:Installing GAP Packages" of the GAP 4 reference manual for details and
 additional options for installing GAP packages.

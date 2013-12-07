@@ -7,7 +7,7 @@
 #Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-DeclareAutoPackage("automgrp", "1.1.4.2", ReturnTrue);
+DeclareAutoPackage("automgrp", "1.2", ReturnTrue);
 
 if false then
   MakeReadWriteGlobal("DeclareOperation");

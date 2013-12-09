@@ -19,7 +19,7 @@ Version := "1.2",
 #
 Date := "06/12/2013",
 
-ArchiveURL := "http://downloads.sourceforge.net/project/finautom/automgrp/1.2",
+ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.2/",
 
 ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 

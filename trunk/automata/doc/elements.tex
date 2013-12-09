@@ -165,13 +165,17 @@ Does the same thing as `Perm'~("Perm").
 
 \>PermOnLevelAsMatrix( <g>, <lev> ) F
 
-Computes the action of the element <g> on the <lev>-th level as a permutational matrix.
+Computes the action of the element <g> of a group on the <lev>-th level as a permutational matrix, in
+which the i-th row contains 1 at the position i^<g>.
 \beginexample
 gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 < p, q >
+gap> PermOnLevel(p*q,2);
+(1,4)(2,3)
 gap> PermOnLevelAsMatrix(p*q, 2);
 [ [ 0, 0, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 1, 0, 0 ], [ 1, 0, 0, 0 ] ]
 \endexample
+
 
 \>TransformationOnLevel( <a>, <lev> ) O
 \>TransformationOnFirstLevel( <a> ) O
@@ -184,6 +188,20 @@ If the transformation is invertible then it returns a permutation, and
 
 `TransformationOnFirstLevel'(<a>) is equivalent to
 `TransformationOnLevel'(<a>, `1').
+
+
+\>TransformationOnLevelAsMatrix( <g>, <lev> ) F
+
+Computes the action of the element <g> on the <lev>-th level as a permutational matrix, in
+which the i-th row contains 1 at the position i^<g>.
+\beginexample
+gap> L := AutomatonSemigroup("p=(p,q)(1,2), q=(p,q)[1,1]");
+< p, q >
+gap> TransformationOnLevel(p*q,2);
+Transformation( [ 1, 1, 2, 2 ] )
+gap> TransformationOnLevelAsMatrix(p*q,2);
+[ [ 1, 0, 0, 0 ], [ 1, 0, 0, 0 ], [ 0, 1, 0, 0 ], [ 0, 1, 0, 0 ] ]
+\endexample
 
 
 \>Word( <a> ) O

@@ -69,7 +69,8 @@ F 2.3. LevelOfFaithfulAction
 F 2.3. IsomorphismPermGroup
 F 2.3. IsomorphismPermGroup
 F 2.3. Random
-F 2.3. MarkovOperator
+F 2.3. MarkovOperator![treehomsg]
+F 2.3. MihailovaSystem
 F 2.3. AbelImage
 F 2.3. DiagonalPower
 F 2.3. MultAutomAlphabet
@@ -112,6 +113,7 @@ F 3.2. PermOnLevel
 F 3.2. PermOnLevelAsMatrix
 F 3.2. TransformationOnLevel
 F 3.2. TransformationOnFirstLevel
+F 3.2. TransformationOnLevelAsMatrix
 F 3.2. Word
 S 3.3. Operations with tree automorphisms and homomorphisms
 F 3.3. product!for tree homomorphisms
@@ -149,9 +151,16 @@ F 4.2. MinimizationOfAutomatonTrack
 F 4.2. IsOfPolynomialGrowth
 F 4.2. IsBounded
 F 4.2. PolynomialDegreeOfGrowth
+F 4.2. AdjacencyMatrix
+F 4.2. IsAcyclic
 F 4.2. DualAutomaton
 F 4.2. InverseAutomaton
 F 4.2. IsBireversible
+F 4.2. IsReversible
+F 4.2. IsIRAutomaton
+F 4.2. MDReduction
+F 4.2. IsMDTrivial
+F 4.2. IsMDReduced
 F 4.2. DisjointUnion
 F 4.2. product!for noninitial automata
 F 4.2. SubautomatonWithStates

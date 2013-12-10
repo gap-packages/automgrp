@@ -1,0 +1,20 @@
+1.  Add new features and fix bugs.
+2.  Search for TODO:RELEASE and fix those.
+3.  Fix bugs.
+4.  Check the following fields in PackageInfo.g:
+    Version, Date, ArchiveURL.
+5.  Check the version in init.g, README, Makefile, buildman.config, check NEWS.
+6.  Check docs.
+7.  Run tst/test-release.sh.
+8.  Commit.
+9.  Run 'make dist' to create three tarballs.
+10. Upload them to sf.net at https://sourceforge.net/projects/finautom/files/automgrp/:
+    create a folder for new release, add files
+11. Download fresh tarball from http://sf.net, install it, run tests.
+    Restart from step 2 if needed.
+12. Unpack a tarball and upload its content to the web site, as described at 
+    https://sourceforge.net/apps/trac/sourceforge/wiki/Project%20web
+13. Change version and date in index.html
+14. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
+15. Tag the release.
+16. Done.

@@ -6,8 +6,8 @@
 \seccontents {2.1}{Creation of groups and semigroups} {9}
 \seccontents {2.2}{Basic properties of groups and semigroups} {12}
 \seccontents {2.3}{Operations with groups and semigroups} {16}
-\seccontents {2.4}{Self-similar groups and semigroups defined by wreath recursion} {23}
-\seccontents {2.5}{Contracting groups} {25}
+\seccontents {2.4}{Self-similar groups and semigroups defined by wreath recursion} {24}
+\seccontents {2.5}{Contracting groups} {26}
 \seccontents {2.6}{Rewriting Systems} {28}
 \chapcontents {3}{Properties and operations with group and semigroup elements}{30}
 \seccontents {3.1}{Creation of tree automorphisms and homomorphisms} {30}

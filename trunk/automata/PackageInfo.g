@@ -19,22 +19,11 @@ Version := "1.2",
 #
 Date := "10/12/2013",
 
-ArchiveURL := "https://sourceforge.net/projects/finautom/files/automgrp/1.2/automgrp-1.2",
+ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.2/automgrp-1.2",
 
 ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 
 Persons := [
-  rec(
-    LastName      := "Savchuk",
-    FirstNames    := "Dmytro",
-    IsAuthor      := true,
-    IsMaintainer  := true,
-    Email         := "dmytro.savchuk@gmail.com",
-    WWWHome       := "http://savchuk.myweb.usf.edu/",
-    PostalAddress := "",
-    Place         := "Tampa, FL, USA",
-    Institution   := "University of South Florida"
-  ),
   rec(
     LastName      := "Muntyan",
     FirstNames    := "Yevgen",
@@ -45,6 +34,17 @@ Persons := [
     PostalAddress := "",
     Place         := "Bellevue, WA, USA",
     Institution   := ""
+  ),
+  rec(
+    LastName      := "Savchuk",
+    FirstNames    := "Dmytro",
+    IsAuthor      := true,
+    IsMaintainer  := true,
+    Email         := "dmytro.savchuk@gmail.com",
+    WWWHome       := "http://savchuk.myweb.usf.edu/",
+    PostalAddress := "",
+    Place         := "Tampa, FL, USA",
+    Institution   := "University of South Florida"
   ),
 ],
 
@@ -136,9 +136,9 @@ BannerString := Concatenation(
   "                                                                \n",
   "Loading  AutomGrp ", ~.Version, " (Automata Groups and Semigroups)\n",
   "by ", ~.Persons[1].FirstNames, " ", ~.Persons[1].LastName,
-        " (", ~.Persons[1].WWWHome, ")\n",
+        " (", ~.Persons[1].Email, ")\n",
   "   ", ~.Persons[2].FirstNames, " ", ~.Persons[2].LastName,
-        " (", ~.Persons[2].Email, ")\n",
+        " (", ~.Persons[2].WWWHome, ")\n",
   "Homepage: http://finautom.sourceforge.net/\n",
   "----------------------------------------------------------------\n" ),
 

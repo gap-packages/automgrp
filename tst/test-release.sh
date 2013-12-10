@@ -34,7 +34,7 @@ echo "QUIT;" >> $script_all
 
 mkdir $gapdir/pkg-bak || exit 1
 mv $gapdir/pkg/* $gapdir/pkg-bak/ || exit 1
-mv $gapdir/pkg-bak/automgrp $gapdir/pkg-bak/fga $gapdir/pkg/ || exit 1
+mv $gapdir/pkg-bak/automgrp $gapdir/pkg-bak/fga $gapdir/pkg-bak/[Gg][Aa][Pp][Dd][Oo][Cc]* $gapdir/pkg/ || exit 1
 gap $script
 mv $gapdir/pkg-bak/* $gapdir/pkg/ || exit 1
 rmdir $gapdir/pkg-bak

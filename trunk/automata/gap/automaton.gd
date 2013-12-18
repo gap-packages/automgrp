@@ -2,7 +2,7 @@
 ##
 #W  automaton.gd              automgrp package                 Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.2
+##  automgrp v 1.2.1
 ##
 #Y  Copyright (C) 2003 - 2013 Yevgen Muntyan, Dmytro Savchuk
 ##

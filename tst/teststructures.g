@@ -2,7 +2,7 @@
 ##
 #W  teststructures.g           automgrp package                Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.2
+##  automgrp v 1.2.1
 ##
 #Y  Copyright (C) 2003 - 2013 Dmytro Savchuk, Yevgen Muntyan
 ##

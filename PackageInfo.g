@@ -13,13 +13,13 @@ PackageName := "AutomGrp",
 ##  one line.
 Subtitle := "Automata groups",
 
-Version := "1.2",
+Version := "1.2.1",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
 Date := "10/12/2013",
 
-ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.2/automgrp-1.2",
+ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.2.1/automgrp-1.2.1",
 
 ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 
@@ -30,7 +30,6 @@ Persons := [
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "muntyan@fastmail.fm",
-    WWWHome       := "",
     PostalAddress := "",
     Place         := "Bellevue, WA, USA",
     Institution   := ""

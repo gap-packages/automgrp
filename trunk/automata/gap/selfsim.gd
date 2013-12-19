@@ -79,23 +79,6 @@ DeclareOperation("StatesWords", [IsSelfSim]);
 DeclareProperty("IsFiniteState", IsSelfSim);
 
 
-###############################################################################
-##
-#A  AllSections( <a> )
-##
-##  Returns the list of all sections of <a> if there are finitely many of them and
-##  this fact can be established using free reduction of words in sections. Otherwise
-##  will never stop. Note, that it does not check whether all elements of the list
-##  are actually different automorphisms (homomorphisms) of the tree.
-##  \beginexample
-##  gap> D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
-##  < x, y, z >
-##  gap> AllSections(x*y^-1);
-##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,
-##    y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, x*y*z, y, z^-1, y^-1*x^-1, z*y^-1 ]
-##  \endexample
-##
-DeclareAttribute("AllSections", IsSelfSim);
 
 
 

@@ -735,4 +735,28 @@ function(a, lev)
 end);
 
 
+
+#########################################################################
+##
+#M  AllSections( <a> )
+##
+InstallMethod(AllSections, "for [IsAutom]",
+              [IsAutom],
+function(a)
+  local states, find_all_sections;
+
+  find_all_sections := function(s)
+    local i;
+    if not s in states then
+      Add(states, s);
+      for i in [1..s!.deg] do find_all_sections(Section(s, i)); od;
+    fi;
+  end;
+
+  states := [];
+  find_all_sections(a);
+  return states;
+end);
+
+
 #E

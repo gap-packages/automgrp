@@ -261,4 +261,49 @@ function(G, n)
 end);
 
 
+###############################################################################
+##
+#M  Section(<G>, <v>)
+##
+InstallMethod(Section, "for [IsTreeHomomorphismSemigroup, IsList]",
+              [IsTreeHomomorphismSemigroup, IsList],
+function(G, v)
+  local gens, g, sec_gens;
+  gens:=GeneratorsOfSemigroup(G);
+  for g in gens do
+    if v^g<>v then
+      Error("Section([IsTreeHomomorphismSemigroup, IsList]): <G> does not fix <v>");
+      return fail;
+    fi;
+  od;
+
+  if not IsAutomSemigroup(G) then
+    return Semigroup(List(gens,x->Section(x,v)));
+  else
+    sec_gens:=[];
+    for g in List(gens,x->Section(x,v)) do
+      if not IsOne(g) and not g in sec_gens then
+        Add(sec_gens, g);
+      fi;
+    od;
+    if Length(sec_gens)>0 then
+      return Semigroup(sec_gens);
+    else
+      return Semigroup([One(FamilyObj(Section(gens[1],v)))]);
+    fi;
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  Section(<G>, <n>)
+##
+InstallMethod(Section, "for [IsTreeHomomorphismSemigroup, IsPosInt]",
+              [IsTreeHomomorphismSemigroup, IsPosInt],
+function(G, n)
+  return Section(G,[n]);
+end);
+
+
 #E

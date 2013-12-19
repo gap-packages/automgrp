@@ -769,5 +769,49 @@ function(G, n)
 end);
 
 
+###############################################################################
+##
+#M  Section(<G>, <v>)
+##
+InstallMethod(Section, "for [IsTreeAutomorphismGroup, IsList]",
+              [IsTreeAutomorphismGroup, IsList],
+function(G, v)
+  local gens, sec_gens, g;
+  gens:=GeneratorsOfGroup(G);
+  for g in gens do
+    if v^g<>v then
+      Error("Section([IsTreeAutomorphismGroup, IsList]): <G> does not fix <v>");
+      return fail;
+    fi;
+  od;
+
+  if not IsAutomGroup(G) then
+    return Group(List(gens,x->Section(x,v)));
+  else
+    sec_gens:=[];
+    for g in List(gens,x->Section(x,v)) do
+      if not IsOne(g) and not g in sec_gens then
+        Add(sec_gens, g);
+      fi;
+    od;
+    if Length(sec_gens)>0 then
+      return Group(sec_gens);
+    else
+      return Group([One(FamilyObj(Section(gens[1],v)))]);
+    fi;
+  fi;
+end);
+
+
+###############################################################################
+##
+#M  Section(<G>, <n>)
+##
+InstallMethod(Section, "for [IsTreeAutomorphismGroup, IsPosInt]",
+              [IsTreeAutomorphismGroup, IsPosInt],
+function(G, n)
+  return Section(G,[n]);
+end);
+
 
 #E

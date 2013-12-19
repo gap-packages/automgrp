@@ -2,6 +2,7 @@ Changes from 1.2 to 1.2.1
 
 - Broken URLs were fixed
 - AllSections was extended to IsAutom argument
+- Section was extended to work with (semi)groups, not only with their elements
 
 
 Changes from 1.1.4.2 to 1.2

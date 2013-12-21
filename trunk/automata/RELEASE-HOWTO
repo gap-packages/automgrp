@@ -12,8 +12,8 @@
     create a folder for new release, add files
 11. Download fresh tarball from http://sf.net, install it, run tests.
     Restart from step 2 if needed.
-12. Unpack a tarball and upload its content to the web site, as described at 
-    https://sourceforge.net/apps/trac/sourceforge/wiki/Project%20web
+12. Unpack a tarball and upload its content to the web site, as described at
+    http://sourceforge.net/p/forge/documentation/Project%20Web%20Services/
 13. Change version and date in index.html
 14. Check http://finautom.sf.net, click around. Restart from step 3 if needed.
 15. Tag the release.

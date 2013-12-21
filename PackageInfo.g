@@ -17,7 +17,7 @@ Version := "1.2.1",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "10/12/2013",
+Date := "20/12/2013",
 
 ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.2.1/automgrp-1.2.1",
 

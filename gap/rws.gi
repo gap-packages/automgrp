@@ -50,7 +50,9 @@ __AG_CreateRewritingSystem := function(fam, rels)
   rws_data.fpm_fam := FamilyObj(One(fp_mon));
 
   m_gens := GeneratorsOfMonoid(fmon);
-  m_gens := Permuted(m_gens, Product(List([1..Length(m_gens)/2], k->(2*k-1, 2*k))));
+#  Print("mgens1=",m_gens,"\n");
+#  m_gens := Permuted(m_gens, Product(List([1..Length(m_gens)/2], k->(2*k-1, 2*k))));
+#  Print("mgens2=",m_gens,"\n");
   ord := ShortLexOrdering(FamilyObj(One(fmon)), m_gens);
 
   rws_data.kb := KnuthBendixRewritingSystem(fp_mon, ord);

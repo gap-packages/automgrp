@@ -118,8 +118,7 @@ DeclareOperation("AG_RewritingSystem", [IsObject]);
 ##  gap> AG_UseRewritingSystem(G);
 ##  gap> AG_RewritingSystemRules(G);
 ##  [ [ a^2, <identity ...> ], [ b^2, <identity ...> ], [ c^2, <identity ...> ],
-##    [ d^2, <identity ...> ], [ a^-1, a ], [ b^-1, b ], [ c^-1, c ], [ d^-1, d ]
-##   ]
+##    [ d^2, <identity ...> ], [ A, a ], [ B, b ], [ C, c ], [ D, d ] ]
 ##  \endexample
 ##
 DeclareOperation("AG_RewritingSystemRules", [IsObject]);

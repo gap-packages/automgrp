@@ -134,7 +134,8 @@ InstallTrueMethod(IsGroupOfAutomFamily, IsAutomatonGroup);
 ##  gap> G:=AutomatonGroup("a=(b,c)(1,2),b=(a,c),c=(a,a)");
 ##  < a, b, c >
 ##  gap> M:=MihailovaSystem(G);
-##  [ c^-1*b, c^-1*b^-1*c*a^-1*b*c*b^-1*a, a^-1*b*c*b^-1*a, a*c^-1*b^-1*a*c, c^-1*a^-1*b*c*a ]
+##  [ c^-1*b, c^-1*b^-1*c*a^-1*b*c*b^-1*a, a^-1*b*c*b^-1*a, a*c^-1*b^-1*a*c, 
+##    c^-1*a^-1*b*c*a ]
 ##  gap> for g in M do
 ##  >      Print(g,"=",Decompose(g),"\n");
 ##  >    od;

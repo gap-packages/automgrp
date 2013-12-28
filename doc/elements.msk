@@ -89,7 +89,7 @@ gap> [1, 2, 2, 1, 2, 1]^(p*q^2);
 
 The operations below describe how to work with sections of tree homomorphisms.
 
-\Declaration{Section}
+\Declaration{Section}[treehom]
 \Declaration{Sections}
 \Declaration{Decompose}
 

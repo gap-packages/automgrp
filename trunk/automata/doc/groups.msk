@@ -87,7 +87,7 @@ gap> l;
 \Declaration{IsomorphismPermGroup}
 \Declaration{Random}
 \Declaration{MarkovOperator}[treehomsg]
-\Declaration{MihailovaSystem}
+\Declaration{MihailovaSystem}[automgroup]
 
 
 

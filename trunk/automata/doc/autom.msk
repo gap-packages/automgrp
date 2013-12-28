@@ -31,7 +31,7 @@
 
 The next three commands deal with a procedure called MD-reduction developed
 in~\cite{AKL}. Particularly, according
-to~\cite{klimann:finiteness}, a 2-letter or 2-state invertible reversible automaton
+to~\cite{KLI}, a 2-letter or 2-state invertible reversible automaton
 generates a finite group if and only if the MD-reduction procedure terminates with a
 trivial automaton. In the last case the automaton is called MD-trivial.
 

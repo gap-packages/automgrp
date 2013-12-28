@@ -70,7 +70,7 @@ F 2.3. IsomorphismPermGroup
 F 2.3. IsomorphismPermGroup
 F 2.3. Random
 F 2.3. MarkovOperator![treehomsg]
-F 2.3. MihailovaSystem
+F 2.3. MihailovaSystem![automgroup]
 F 2.3. AbelImage
 F 2.3. DiagonalPower
 F 2.3. MultAutomAlphabet
@@ -119,7 +119,7 @@ S 3.3. Operations with tree automorphisms and homomorphisms
 F 3.3. product!for tree homomorphisms
 F 3.3. action!of tree homomorphism on letter
 F 3.3. action!of tree homomorphism on vertex
-F 3.3. Section
+F 3.3. Section![treehom]
 F 3.3. Sections
 F 3.3. Decompose
 F 3.3. in

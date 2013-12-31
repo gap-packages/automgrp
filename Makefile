@@ -67,7 +67,8 @@ tst_files =			\
     tst/testiter.g		\
     tst/testmisc.g		\
     tst/testrws.g		\
-    tst/testutil.g
+    tst/testutil.g		\
+    tst/testall.tst
 
 all:
 

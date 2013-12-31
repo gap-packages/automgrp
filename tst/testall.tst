@@ -12,7 +12,7 @@
 
 gap> START_TEST("automgrp");
 gap> __save_AG_Globals_unit_test_dots := AG_Globals.unit_test_dots;
-true
+false
 gap> AG_Globals.unit_test_dots := false;
 false
 gap> Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
@@ -39,7 +39,10 @@ RWS 1  done
 
 All 6553 tests passed
 gap> AG_Globals.unit_test_dots := __save_AG_Globals_unit_test_dots;
-true
+false
 gap> STOP_TEST("automgrp/tst/testall.tst", 10000);
+automgrp
+GAP4stones: 0
+
 
 ## -*- gap -*-

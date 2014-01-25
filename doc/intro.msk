@@ -21,7 +21,8 @@ Volodymyr Nekrashevych, Ievgen Bondarenko, Rostyslav Kravchenko, Yaroslav and Ma
 Vorobets and Ben Steinberg for their support, valuable comments, feature requests and constant interest
 in the project.
 
-Both authors were partially supported by NSF grants DMS-0600975, DMS-0456185 and DMS-0308985.
+Both authors were partially supported by NSF grants DMS-0600975, DMS-0456185 and DMS-0308985. The second author 
+appreciates the support from the New Researcher Grant from University of South Florida.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Short math background}
@@ -174,7 +175,7 @@ To load package issue the command
 \beginexample
 gap> LoadPackage("automgrp");
 ----------------------------------------------------------------
-Loading  AutomGrp 1.2.2 (Automata Groups and Semigroups)
+Loading  AutomGrp 1.2.3 (Automata Groups and Semigroups)
 by Yevgen Muntyan (muntyan@fastmail.fm)
    Dmytro Savchuk (http://savchuk.myweb.usf.edu/)
 Homepage: http://finautom.sourceforge.net/

@@ -2,12 +2,12 @@
 ##
 #W  init.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.2.3
+##  automgrp v 1.2.4
 ##
 #Y  Copyright (C) 2003 - 2014 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-DeclareAutoPackage("automgrp", "1.2.3", ReturnTrue);
+DeclareAutoPackage("automgrp", "1.2.4", ReturnTrue);
 
 if false then
   MakeReadWriteGlobal("DeclareOperation");

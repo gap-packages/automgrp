@@ -2,7 +2,7 @@
 ##
 #W  testrws.g               automgrp package                   Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.2.3
+##  automgrp v 1.2.4
 ##
 #Y  Copyright (C) 2003 - 2014 Dmytro Savchuk, Yevgen Muntyan
 ##

@@ -1,3 +1,7 @@
+Changes from 1.2.3 to 1.2.4
+
+- The date format in PackageInfo.g was changed to comply with GAP standards for packages
+
 Changes from 1.2.2 to 1.2.3
 
 - The EOL issue was fixed in the test file /tst/testall.tst

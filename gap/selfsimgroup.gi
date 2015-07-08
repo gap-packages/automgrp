@@ -421,7 +421,7 @@ end);
 InstallMethod(IsSphericallyTransitive, "for [IsSelfSimGroup]",
               [IsSelfSimGroup],
 function (G)
-  local x, rat_gens, abel_hom;
+  local x, rat_gens, abel_hom, lev;
 
   if IsFractalByWords(G) then
     Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): true");
@@ -453,6 +453,14 @@ function (G)
       return true;
     fi;
   fi;
+
+  for lev in [1..8] do
+    if not IsTransitiveOnLevel(G,lev) then
+      Info(InfoAutomGrp, 3, "IsSphericallyTransitive(G): false");
+      Info(InfoAutomGrp, 3, "  the group does not act transitively on level ", lev);
+      return false;
+    fi;
+  od;
 
   TryNextMethod();
 end);

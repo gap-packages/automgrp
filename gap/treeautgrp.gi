@@ -128,7 +128,8 @@ function (G)
     return IsSphericallyTransitive(Projection(stab, 1));
   fi;
 
-  TryNextMethod();
+#  TryNextMethod();
+  return fail;
 end);
 
 

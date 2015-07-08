@@ -33,7 +33,7 @@ function(family, word, states, perm, invertible)
   if invertible then
     cat := IsInvertibleSelfSim and IsSelfSimRep;
 
-    if not AG_IsInvertibleTransformation(perm) then
+    if perm^-1=fail then
       Error(perm, " is not invertible");
     else
       perm := AG_PermFromTransformation(perm);

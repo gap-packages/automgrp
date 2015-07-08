@@ -38,7 +38,6 @@ DeclareGlobalFunction("AG_ParseAutomatonStringFR");
 ##
 DeclareGlobalFunction("AG_AbelImageAutomatonInList");
 
-DeclareGlobalFunction("AG_IsInvertibleTransformation");
 DeclareGlobalFunction("AG_PermFromTransformation");
 DeclareGlobalFunction("AG_PrintTransformation");
 DeclareGlobalFunction("AG_TrCmp");

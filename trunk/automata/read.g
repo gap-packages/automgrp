@@ -37,9 +37,8 @@ ReadPkg("automgrp", "gap/selfsim.gi");
 ReadPkg("automgrp", "gap/selfsimfam.gi");
 ReadPkg("automgrp", "gap/selfsimsg.gi");
 ReadPkg("automgrp", "gap/selfsimgroup.gi");
-ReadPkg("automgrp", "gap/data.g");
 ReadPkg("automgrp", "gap/groups.g");
-ReadPkg("automgrp", "gap/scilab.gi");
+#ReadPkg("automgrp", "gap/scilab.gi");
 
 
 

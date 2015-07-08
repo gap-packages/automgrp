@@ -33,7 +33,7 @@ function(family, word, states, perm, invertible)
   if invertible then
     cat := IsInvertibleAutom and IsAutomRep;
 
-    if not AG_IsInvertibleTransformation(perm) then
+    if perm^-1=fail then
       Error(perm, " is not invertible");
     else
       perm := AG_PermFromTransformation(perm);
@@ -592,9 +592,11 @@ function(seq, a)
     deg := DegreeOfTree(a);
     for i in seq do
       if not IsInt(i) or i < 1 or i > deg then
-        Print("\^(IsList, IsAutom): ",
-              i, "is out of range 1..", deg, "\n");
-        return seq;
+         Error("\^(IsList, IsAutom): ",
+              i, " is out of range 1..", deg, " and is not a letter of the alphabet\n");
+#        Print("\^(IsList, IsAutom): ",
+#             i, " is out of range 1..", deg, " and is not a letter of the alphabet\n");
+#        return seq;
       fi;
     od;
 

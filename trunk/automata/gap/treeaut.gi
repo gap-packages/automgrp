@@ -68,7 +68,7 @@ function(list_states, permutation)
   top_deg := Length(list_states);
   if not IsOne(permutation) and
       top_deg < Maximum(MovedPoints(permutation)) then
-    Error();
+    Error("The root permutation ", permutation, " must move only points from 1 to the degree ", top_deg, " of the tree");
   fi;
 
   Orbs := OrbitsPerms([permutation], [1..Length(list_states)]);
@@ -252,10 +252,11 @@ function(a, k)
   od;
 
   p := PermList(permuted);
-  if not IsPerm(p) then
-    Error();
+  if p<>fail then
+    return p;
+  else
+    Error("An element ",a," does not induce a permutation on the level ",k);
   fi;
-  return p;
 end);
 
 

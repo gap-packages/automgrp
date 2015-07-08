@@ -135,7 +135,6 @@ function(super, sub)
   if HasIsGroupOfSelfSimFamily(super) then
     if not IsGroupOfSelfSimFamily(super) then
       SetIsGroupOfSelfSimFamily(sub, false); fi; fi;
-InstallTrueMethod(IsFractal, IsFractalByWords);
   TryNextMethod();
 end);
 

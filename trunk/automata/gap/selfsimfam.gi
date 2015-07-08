@@ -149,7 +149,7 @@ function(list, oldstates, names)
       od;
     else
       isgroup := false;
-      if AG_IsInvertibleTransformation(list[i][deg + 1]) then
+      if list[i][deg + 1]^-1<>fail then
         list[i][deg + 1] := AG_PermFromTransformation(list[i][deg + 1]);
       fi;
     fi;

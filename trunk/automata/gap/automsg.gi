@@ -146,7 +146,6 @@ end);
 #   if HasIsGroupOfAutomFamily(super) then
 #     if not IsGroupOfAutomFamily(super) then
 #       SetIsGroupOfAutomFamily(sub, false); fi; fi;
-# InstallTrueMethod(IsFractal, IsFractalByWords);
 #   TryNextMethod();
 # end);
 

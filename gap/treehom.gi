@@ -2,9 +2,9 @@
 ##
 #W  treehom.gi                 automgrp package                Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.2.4
+##  automgrp v 1.3
 ##
-#Y  Copyright (C) 2003 - 2014 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -252,17 +252,18 @@ function(a, k)
     od;
   od;
 
-  p := PermList(permuted);
-  if p = fail then
-    p := Transformation(permuted);
-  fi;
+#  p := PermList(permuted);
+#  if p = fail then
+#    p := Transformation(permuted);
+#  fi;
+#  return p;
 
-  return p;
+  return Transformation(permuted);
 end);
 
 InstallMethod(TransformationOnFirstLevel, [IsTreeHomomorphism and IsTreeHomomorphismRep],
 function(a)
-  return a!.perm;
+  return AsTransformation(a!.perm);
 end);
 
 

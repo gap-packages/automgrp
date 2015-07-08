@@ -2,9 +2,9 @@
 ##
 #W  testmisc.g               automgrp package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.2.4
+##  automgrp v 1.3
 ##
-#Y  Copyright (C) 2003 - 2014 Dmytro Savchuk, Yevgen Muntyan
+#Y  Copyright (C) 2003 - 2015 Dmytro Savchuk, Yevgen Muntyan
 ##
 
 UnitTest("Miscellaneous", function()

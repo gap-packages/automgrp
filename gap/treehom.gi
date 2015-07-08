@@ -73,10 +73,10 @@ function(states, perm)
   local top_deg, bot_deg, ind, fam, a;
 
   if not IsPerm(perm) and not IsTransformation(perm) then
-    Error();
+    Error("The second argument ",perm, "must be a permutation or transformation");
   fi;
 
-  if AG_IsInvertibleTransformation(perm) and
+  if perm^-1<>fail and
      ForAll(states, IsTreeAutomorphism)
   then
     return TreeAutomorphism(states, AG_PermFromTransformation(perm));
@@ -86,11 +86,11 @@ function(states, perm)
 
   if IsPerm(perm) then
     if not IsOne(perm) and top_deg < Maximum(MovedPoints(perm)) then
-      Error();
+      Error("The root permutation ", perm, " must move only points from 1 to the degree ", top_deg, " of the tree");
     fi;
   else
     if not IsOne(perm) and top_deg < DegreeOfTransformation(perm) then
-      Error();
+      Error("The root transformation ", perm, " must move only points from 1 to the degree ", top_deg, " of the tree");
     fi;
   fi;
 

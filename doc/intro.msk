@@ -272,7 +272,7 @@ gap> StabilizerOfVertex(GrigorchukGroup, [2, 1]);
 -1, a*b*a*b*a^-1*b^-1*a^-1 >
 \endexample
 
-In case of a finite group we can produce an isomorphism into a permutational group
+In the case of a finite group we can produce an isomorphism into a permutation group
 \beginexample
 gap> f := IsomorphismPermGroup(Group(a,b));
 [ a, b ] ->

@@ -10,37 +10,17 @@
 
 #############################################################################
 ##
-##  AG_IsInvertibleTransformation( <tr> )
-##
-InstallGlobalFunction(AG_IsInvertibleTransformation,
-function(tr)
-  local img;
-  if IsPerm(tr) then
-    return true;
-  else
-    img := ImageListOfTransformation(tr);
-    return SortedList(img) = AsSet(img);
-  fi;
-end);
-
-#############################################################################
-##
 ##  AG_PermFromTransformation( <tr> )
 ##
 InstallGlobalFunction(AG_PermFromTransformation,
 function(tr)
-  local perm;
-
   if IsPerm(tr) then
     return tr;
-  fi;
-
-  perm := PermList(ImageListOfTransformation(tr));
-  if not IsPerm(perm) then
+  elif tr^-1=fail then
     Error(tr, " is not invertible");
+  else
+    return AsPermutation(tr);
   fi;
-
-  return perm;
 end);
 
 #############################################################################

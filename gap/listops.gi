@@ -4,7 +4,7 @@
 #W                                                             Dmytro Savchuk
 ##  automgrp v 1.2.4
 ##
-#Y  Copyright (C) 2003 - 2014 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -56,7 +56,7 @@ function(list, invertible)
       if not list[i][deg + 1] in semi then
         return false;
       fi;
-      if invertible and not AG_IsInvertibleTransformation(list[i][deg + 1]) then
+      if invertible and list[i][deg + 1]^-1=fail then
         return false;
       fi;
     fi;
@@ -120,13 +120,14 @@ function(list, invertible)
       fi;
     od;
 
-    if not list[i][deg + 1] in sym then
-      if not list[i][deg + 1] in semi then
-        return false;
-      fi;
-      if invertible and not AG_IsInvertibleTransformation(list[i][deg + 1]) then
-        return false;
-      fi;
+
+    # Check that everything is correct here
+    if (not IsPerm(list[i][deg + 1])) and (not IsTransformation(list[i][deg + 1])) then
+      return false;
+    elif LargestMovedPoint(list[i][deg + 1]) > deg then
+      return false;
+    elif IsTransformation(list[i][deg + 1]) and invertible and list[i][deg + 1]^-1=fail then
+      return false;
     fi;
   od;
 
@@ -254,7 +255,7 @@ function(state, list)
   local deg;
   deg := Length(list[1]) - 1;
   return ForAll(AG_ConnectedStatesInList(state, list),
-                s -> AG_IsInvertibleTransformation(list[s][deg+1]));
+                s -> (list[s][deg+1]^-1<>fail));
 end);
 
 

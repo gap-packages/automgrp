@@ -7,7 +7,6 @@
 #Y  Copyright (C) 2003 - 2014 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-DeclareAutoPackage("automgrp", "1.2.4", ReturnTrue);
 
 if false then
   MakeReadWriteGlobal("DeclareOperation");
@@ -38,7 +37,7 @@ ReadPkg("automgrp", "gap/selfsim.gd");
 ReadPkg("automgrp", "gap/selfsimfam.gd");
 ReadPkg("automgrp", "gap/selfsimsg.gd");
 ReadPkg("automgrp", "gap/selfsimgroup.gd");
-ReadPkg("automgrp", "gap/scilab.gd");
+#ReadPkg("automgrp", "gap/scilab.gd");
 
 
 if IsBoundGlobal("AG_saved_DeclareOperation") then

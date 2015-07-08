@@ -55,7 +55,7 @@ end);
 InstallMethod(DegreeOfTree, "for [IsActingOnTree]",
               [IsActingOnTree],
 function(obj)
-  if not IsActingOnRegularTree(obj) then Error(); fi;
+  if not IsActingOnRegularTree(obj) then Error("The object ",obj," is not acting on a regular tree"); fi;
   return SphericalIndex(obj).period[1];
 end);
 

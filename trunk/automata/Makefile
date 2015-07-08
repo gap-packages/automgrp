@@ -1,5 +1,5 @@
 pkgname = automgrp
-pkgver  = 1.2.4
+pkgver  = 1.3
 distdir = $(pkgname)
 # archive = $(pkgname)-`date +%Y%m%d%H%M`
 archive = $(pkgname)-$(pkgver)

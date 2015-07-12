@@ -18,7 +18,6 @@ false
 gap> Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
 Testing automgrp package
 
-list^perm  done
 Parsing automaton string  done
 Groups  done
 Semigroups  done
@@ -37,7 +36,7 @@ SelfSim  done
 Examples from manual  done
 RWS 1  done
 
-All 6553 tests passed
+All 6457 tests passed
 gap> AG_Globals.unit_test_dots := __save_AG_Globals_unit_test_dots;
 false
 gap> STOP_TEST("automgrp/tst/testall.tst", 10000);

@@ -229,8 +229,6 @@ UnitTest("Decompose", function()
   local l, group, a, b, count;
   for l in _ST_Semigroups do
     group := AutomatonSemigroup(l[1]);
-
-    Print(group,"\n");
     for count in [1..10] do
       a := Random(group);
       AssertEqual(Decompose(a), a);

@@ -115,6 +115,7 @@ DeclareAttribute("UnderlyingFreeSubgroup", IsSelfSimGroup, "mutable");
 ##  is `true' if <G> is created using the command `SelfSimilarGroup' ("SelfSimilarGroup")
 ##  or if the generators of <G> coincide with the generators of the corresponding family, and `false' otherwise.
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
+##
 DeclareProperty("IsSelfSimilarGroup", IsSelfSimGroup);
 InstallTrueMethod(IsGroupOfSelfSimFamily, IsSelfSimilarGroup);
 

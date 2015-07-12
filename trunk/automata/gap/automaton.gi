@@ -16,7 +16,7 @@ DeclareRepresentation("IsMealyAutomatonRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["table",     # transitions: table[i][j] is the state automaton goes to after processing letter j
                                     # if it was in state i
-                       "perms",     # output: perms[i] is the output function at state i. it is either IsPerm or IsTransformation
+                       "perms",     # output: perms[i] is the output function at state i. It is either IsPerm or IsTransformation
                        "trans",     # images of elements of perms: i^perms[j] = trans[j][i]
                        "alphabet",  # by default it's [1..degree]; may be something different e.g. after taking "cross product"
                                     # it's used for pretty printing, internally only [1..degree] is used

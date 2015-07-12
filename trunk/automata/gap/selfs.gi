@@ -9,12 +9,6 @@
 
 
 
-InstallOtherMethod(\^, "list^perm", true, [IsList, IsPerm], 0,
-function(l, p)
-  return Permuted(l, p);
-end);
-
-
 InstallGlobalFunction(ReduceWord,
 function(v)
   local i, b;
@@ -31,7 +25,7 @@ end);
 InstallGlobalFunction(ProjectWord, function(w, s, G)
   local i, perm, d, proj;
   d := Length(G[1])-1;
-  if s > d then
+  if s > d or s < 1 then
     Error("Incorrect index of a subtree");
   fi;
   proj := [];
@@ -205,7 +199,7 @@ InstallGlobalFunction(IsOneWordContr, function(word, G)
     l[1][Length(l[1])] := ();
     b := [];
     for i in [1..Length(l)] do
-      b[i] := l[i]^((l[i][Length(l[i])])^(-1));
+      b[i] := Permuted(l[i],(l[i][Length(l[i])])^(-1));
     od;
     i := 1;
     res := true;

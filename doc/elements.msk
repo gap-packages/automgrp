@@ -6,6 +6,7 @@
 \Section{Creation of tree automorphisms and homomorphisms}
 
 \Declaration{TreeAutomorphism}
+\Declaration{TreeHomomorphism}
 \Declaration{Representative}
 %Declaration{AutomFamily}
 

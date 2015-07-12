@@ -17,7 +17,7 @@ Version := "1.3",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "27/01/2014",
+Date := "17/07/2015",
 
 ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.3/automgrp-1.3",
 
@@ -41,22 +41,15 @@ Persons := [
     IsMaintainer  := true,
     Email         := "dmytro.savchuk@gmail.com",
     WWWHome       := "http://savchuk.myweb.usf.edu/",
-    PostalAddress := "",
+    PostalAddress := "Dept of Mathematics and Statistics, University of South Florida, 4202 E Fowler Ave, CMC 342, Tampa, FL, 33647, USA",
     Place         := "Tampa, FL, USA",
     Institution   := "University of South Florida"
   ),
 ],
 
-Status := "deposited",
-
-##  You must provide the next two entries if and only if the status is
-##  "accepted" because is was successfully refereed:
-# format: 'name (place)'
-# CommunicatedBy := "Mike Atkinson (St. Andrews)",
-#CommunicatedBy := "",
-# format: mm/yyyy
-# AcceptDate := "08/1999",
-#AcceptDate := "",
+Status := "accepted",
+CommunicatedBy := "Leonard Soicher (Queen Mary, London)",
+AcceptDate := "07/2015",
 
 README_URL := "http://finautom.sourceforge.net/automgrp/README",
 PackageInfoURL := "http://finautom.sourceforge.net/automgrp/PackageInfo.g",
@@ -106,8 +99,7 @@ Dependencies := rec(
   # NeededOtherPackages := [["GAPDoc", ">= 0.99"]],
   NeededOtherPackages := [["FGA", ">= 1.1.0.1"]],
   # without these the package will issue a warning while loading
-  # SuggestedOtherPackages := [],
-  SuggestedOtherPackages := [],
+  SuggestedOtherPackages := [["FR", ">= 2.0.0"]],
   # needed external conditions (programs, operating system, ...)  provide
   # just strings as text or
   # pairs [text, URL] where URL  provides further information
@@ -145,7 +137,7 @@ BannerString := Concatenation(
 ##  started.  This should usually be 'false'. Say 'true' only if your package
 ##  provides some improvements of the GAP library which are likely to enhance
 ##  the overall system performance for many users.
-Autoload := false,
+Autoload := true,
 
 ##  *Optional*, but recommended: path relative to package root to a file which
 ##  contains as many tests of the package functionality as sensible.
@@ -157,5 +149,3 @@ TestFile := "tst/testall.tst",
 Keywords := ["finite automata", "tree automorphisms", "self-similar groups", "wreath recursion"]
 
 ));
-
-

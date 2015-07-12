@@ -7,15 +7,6 @@
 #Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-if false then
-  MakeReadWriteGlobal("InstallMethod");
-  AG_saved_InstallMethod := InstallMethod;
-  InstallMethod := function(arg)
-    Print("InstallMethod: ", arg[1], "\n");
-    CallFuncList(AG_saved_InstallMethod, arg);
-  end;
-fi;
-
 ReadPkg("automgrp", "gap/globals.g");
 ReadPkg("automgrp", "gap/parser.g");
 ReadPkg("automgrp", "gap/automaton.gi");
@@ -40,12 +31,9 @@ ReadPkg("automgrp", "gap/selfsimgroup.gi");
 ReadPkg("automgrp", "gap/groups.g");
 #ReadPkg("automgrp", "gap/scilab.gi");
 
-
-
-if IsBoundGlobal("AG_saved_InstallMethod") then
-  InstallMethod := AG_saved_InstallMethod;
-  MakeReadOnlyGlobal("InstallMethod");
-  UnbindGlobal("AG_saved_InstallMethod");
+if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
+  ReadPkg("automgrp", "gap/convertersfr.gi");
 fi;
+
 
 #E

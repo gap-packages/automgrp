@@ -7,17 +7,6 @@
 #Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-
-if false then
-  MakeReadWriteGlobal("DeclareOperation");
-  AG_saved_DeclareOperation := DeclareOperation;
-  DeclareOperation := function(arg)
-    Print("DeclareOperation: ", arg, "\n");
-    CallFuncList(AG_saved_DeclareOperation, arg);
-  end;
-fi;
-
-
 ReadPkg("automgrp", "gap/tree.gd");
 ReadPkg("automgrp", "gap/treehom.gd");
 ReadPkg("automgrp", "gap/treehomsg.gd");
@@ -39,11 +28,16 @@ ReadPkg("automgrp", "gap/selfsimsg.gd");
 ReadPkg("automgrp", "gap/selfsimgroup.gd");
 #ReadPkg("automgrp", "gap/scilab.gd");
 
+# In GAP 4.4, the function IsPackageMarkedForLoading is not available.
+if not IsBound( IsPackageMarkedForLoading ) then
+  IsPackageMarkedForLoading:= function( arg )
+    return CallFuncList( LoadPackage, arg ) = true;
+  end;
+fi;
 
-if IsBoundGlobal("AG_saved_DeclareOperation") then
-  DeclareOperation := AG_saved_DeclareOperation;
-  MakeReadOnlyGlobal("DeclareOperation");
-  UnbindGlobal("AG_saved_DeclareOperation");
+
+if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
+  ReadPkg("automgrp", "gap/convertersfr.gd");
 fi;
 
 #E

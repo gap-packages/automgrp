@@ -195,9 +195,15 @@ end);
 ##    a*d*a*c*a, a*c*a*d*a ]
 ##  \endexample
 ##
-InstallMethod(Iterator, [IsTreeHomomorphismSemigroup],
+
+
+InstallMethod(Iterator, "for [IsTreeHomomorphismSemigroup]", [IsTreeHomomorphismSemigroup],
 function(G)
-  return AG_SemigroupIterator(G, infinity);
+  if IsGroup(G) and HasIsFinite(G) and IsFinite(G) then
+    TryNextMethod();
+  else
+    return AG_SemigroupIterator(G, infinity);
+  fi;
 end);
 
 InstallOtherMethod(Iterator, [IsTreeHomomorphismSemigroup, IsCyclotomic],

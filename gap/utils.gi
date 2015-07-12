@@ -59,7 +59,7 @@ function(p1, p2, d)
     if IsTransformation(p) then
       return ImageListOfTransformation(p);
     else
-      return [1..d]^p;
+      return Permuted([1..d],p);
     fi;
   end;
 

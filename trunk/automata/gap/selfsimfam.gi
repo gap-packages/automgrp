@@ -378,6 +378,7 @@ function(fam)
   SetDegreeOfTree(g, fam!.deg);
   SetTopDegreeOfTree(g, fam!.deg);
   SetIsActingOnBinaryTree(g, fam!.deg = 2);
+  SetIsSelfSimilarSemigroup(g, true);
 
   return g;
 end);

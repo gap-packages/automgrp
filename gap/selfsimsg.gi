@@ -101,6 +101,29 @@ function(A, bind_vars)
 end);
 
 
+
+###############################################################################
+##
+#M  SemigroupOfSelfSimFamily(<G>)
+##
+InstallOtherMethod(SemigroupOfSelfSimFamily, "for [IsSelfSimSemigroup]",
+                   [IsSelfSimSemigroup],
+function(G)
+  return SemigroupOfSelfSimFamily(UnderlyingSelfSimFamily(G));
+end);
+
+
+###############################################################################
+##
+#M  IsSemigroupOfSelfSimFamily(<G>)
+##
+InstallMethod(IsSemigroupOfSelfSimFamily, "for [IsSelfSimSemigroup]",
+              [IsSelfSimSemigroup],
+function(G)
+  return G = SemigroupOfSelfSimFamily(G);
+end);
+
+
 ###############################################################################
 ##
 #M  IsSelfSimilar(<G>)
@@ -377,6 +400,7 @@ end);
 
 
 
+
 ###############################################################################
 ##
 #M  IsFiniteState(<G>)
@@ -471,10 +495,10 @@ function(G)
 #            pi_bar
 
     pi := GroupHomomorphismByImages(F,                     Group(gens_in_freegrp),
-                                  GeneratorsOfGroup(F),  gens_in_freegrp);
+                                    GeneratorsOfGroup(F),  gens_in_freegrp);
 
     pi_bar := GroupHomomorphismByImages(F,                     UnderlyingFreeGroup(H),
-                                      GeneratorsOfGroup(F),  images_in_freegrp);
+                                        GeneratorsOfGroup(F),  images_in_freegrp);
 
     hom_function := function(g)
       return Autom(Image(pi_bar, PreImagesRepresentative(pi, g!.word)), UnderlyingAutomFamily(H));

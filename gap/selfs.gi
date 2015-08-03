@@ -788,7 +788,7 @@ InstallGlobalFunction(AG_MinimizationOfAutomatonListTrack, function(G, track_lis
     for j in [i+1..n] do
       Pairs := [];
       if AreEqualStates(i, j) then
-        tmpG := [];  #can be maid better by gluing all pairs from Pairs.
+        tmpG := [];  #can be made better by gluing all pairs from Pairs.
         for k in [1..n] do
           if k <> j then
             st := StructuralCopy(G[k]);

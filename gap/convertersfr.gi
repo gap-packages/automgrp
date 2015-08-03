@@ -10,9 +10,9 @@
 
 #############################################################################
 ##
-#M  AutomGrpToFR (<G>)
+#M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrpToFR, "for [IsAutomatonGroup]", [IsAutomatonGroup],
+InstallMethod(AutomGrp2FR, "for [IsAutomatonGroup]", [IsAutomatonGroup],
 function(G)
   local fam;
   fam:=UnderlyingAutomFamily(G);
@@ -22,9 +22,9 @@ end);
 
 #############################################################################
 ##
-#M  AutomGrpToFR (<G>)
+#M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrpToFR, "for [IsSelfSimilarGroup]", [IsSelfSimilarGroup],
+InstallMethod(AutomGrp2FR, "for [IsSelfSimilarGroup]", [IsSelfSimilarGroup],
 function(G)
   local fam,ngens;
   fam:=UnderlyingSelfSimFamily(G);
@@ -36,9 +36,9 @@ end);
 
 #############################################################################
 ##
-#M  AutomGrpToFR (<G>)
+#M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrpToFR, "for [IsSelfSimGroup]", [IsSelfSimGroup],
+InstallMethod(AutomGrp2FR, "for [IsSelfSimGroup]", [IsSelfSimGroup],
 function(G)
   local fam,gens_letter_reps,ngens,M;
   gens_letter_reps:=List(GeneratorsOfGroup(G),w->LetterRepAssocWord(w!.word));
@@ -52,9 +52,9 @@ end);
 
 #############################################################################
 ##
-#M  AutomGrpToFR (<G>)
+#M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrpToFR, "for [IsSelfSimilarSemigroup]", [IsSelfSimilarSemigroup],
+InstallMethod(AutomGrp2FR, "for [IsSelfSimilarSemigroup]", [IsSelfSimilarSemigroup],
 function(G)
   local fam,ngens;
   fam:=UnderlyingSelfSimFamily(G);
@@ -65,9 +65,9 @@ end);
 
 #############################################################################
 ##
-#M  AutomGrpToFR (<G>)
+#M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrpToFR, "for [IsSelfSimSemigroup]", [IsSelfSimSemigroup],
+InstallMethod(AutomGrp2FR, "for [IsSelfSimSemigroup]", [IsSelfSimSemigroup],
 function(G)
   local fam,gens_letter_reps,ngens,M;
   gens_letter_reps:=List(GeneratorsOfSemigroup(G),w->LetterRepAssocWord(w!.word));
@@ -81,9 +81,9 @@ end);
 
 #############################################################################
 ##
-#M  FRToAutom (<G>)
+#M  FR2AutomGrp (<G>)
 ##
-InstallMethod(FRToAutomGrp, "for [IsFRGroup]", [IsFRGroup],
+InstallMethod(FR2AutomGrp, "for [IsFRGroup]", [IsFRGroup],
 function(G)
   local M, names, recurlist, i;
   M := UnderlyingFRMachine(G);
@@ -98,9 +98,9 @@ end);
 
 #############################################################################
 ##
-#M  FRToAutomGrp (<G>)
+#M  FR2AutomGrp (<G>)
 ##
-InstallMethod(FRToAutomGrp, "for [IsFRSemigroup]", [IsFRSemigroup],
+InstallMethod(FR2AutomGrp, "for [IsFRSemigroup]", [IsFRSemigroup],
 function(G)
   local M, names, recurlist, i;
   M := UnderlyingFRMachine(G);

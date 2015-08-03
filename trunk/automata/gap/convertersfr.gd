@@ -10,23 +10,23 @@
 
 #############################################################################
 ##
-#O  FRToAutomGrp
+#O  FR2AutomGrp
 ##
 ##  This operation is designed to convert data structures defined in FR
 ##  package written by Laurent Bartholdi to corresponding structures in
 ##  AutomGrp package.
 ##
-DeclareOperation("FRToAutomGrp", [IsObject]);
+DeclareOperation("FR2AutomGrp", [IsObject]);
 
 
 #############################################################################
 ##
-#O  AutomGrpToFR
+#O  AutomGrp2FR
 ##
 ##  This operation is designed to convert data structures defined in AutomGrp
 ##  to corresponding structures in AutomGrp package written by Laurent
 ##  Bartholdi.
 ##
-DeclareOperation("AutomGrpToFR", [IsObject]);
+DeclareOperation("AutomGrp2FR", [IsObject]);
 
 #E

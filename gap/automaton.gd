@@ -133,7 +133,9 @@ DeclareAttribute( "AG_MinimizedAutomatonList", IsMealyAutomaton, "mutable" );
 ##
 #F  MinimizationOfAutomaton ( <A> )
 ##
-##  Returns the automaton obtained from automaton <A> by minimization.
+##  Returns the automaton obtained from automaton <A> by minimization. The
+##  implementation of this function was significantly optimized by Andrey Russev
+##  starting from Version 1.3.
 ##  \beginexample
 ##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>
@@ -154,6 +156,8 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##  automaton obtained from automaton <A> by minimization,
 ##  `new_via_old' describes how new states are expressed in terms of the old ones, and
 ##  `old_via_new' describes how old states are expressed in terms of the new ones.
+##  The implementation of this function was significantly optimized by Andrey Russev
+##  starting from Version 1.3.
 ##  \beginexample
 ##  gap> B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
 ##  <automaton>

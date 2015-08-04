@@ -572,72 +572,6 @@ end);
 
 InstallMethod(ContractingLevel, "for [IsAutomGroup]", [IsAutomGroup],
 function(H)
-#   local ContractingLevelLocal;
-#
-#   ContractingLevelLocal := function(G)
-#     local i, j, res, ContPairs, d, maxlev, n, Pairs, DoesPairContract;
-#
-#     DoesPairContract := function(i, j, lev)
-#       local t, res, localmaxlev;
-#       if lev > maxlev then maxlev := lev; fi;
-#       if IsList(ContPairs[i][j]) then
-#         if lev+ContPairs[i][j][1] > maxlev then maxlev := lev+ContPairs[i][j][1]; fi;
-#         return true;
-#       fi;
-#       if Pairs[i][j] <> 0 then
-#         ContPairs[i][j] := [0];
-#         return true;
-#       fi;
-#       if ContPairs[i][j] = 2 then return false; fi;
-#       t := 1; res := true;
-#       ContPairs[i][j] := 2;
-#       localmaxlev := 0;
-#       while res and (t <= d) do
-#         res := DoesPairContract(G[i][t], G[j][t^G[i][d+1]], lev+1);
-#         if res then
-#           if ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1 > localmaxlev then
-#             localmaxlev := ContPairs[G[i][t]][G[j][t^G[i][d+1]]][1]+1;
-#           fi;
-#         fi;
-#         t := t+1;
-#       od;
-#       if res then
-#                ContPairs[i][j] := [localmaxlev];
-#                return true;
-#              else return false;
-#       fi;
-#     end;
-#
-#     res := true; maxlev := 0; ContPairs := [];
-#     Pairs := InvestigatePairs(G);
-#     n := Length(G);
-#     for i in [1..n] do
-#       Add(ContPairs, [[0]]);
-#       for j in [1..n-1] do
-#         if i = 1 then Add(ContPairs[i], [0]);
-#                else Add(ContPairs[i], -1);
-#         fi;
-#       od;
-#     od;
-#     #Print(ContPairs, "\n");
-#     i := 1;
-#     d := Length(G[1])-1;
-#     while res and (i <= n) do
-#       j := 1;
-#       while res and (j <= n) do
-#         if ContPairs[i][j] = 0 then return -1; fi;
-#         if ContPairs[i][j] = -1 then res := DoesPairContract(i, j, 0); fi;
-#         j := j+1;
-#       od;
-#       i := i+1;
-#     od;
-#     #Print(ContPairs);
-#     if res then return maxlev;
-#            else return -1;
-#     fi;
-#   end;
-################ ContractingLevel itself #################################
-
   if not HasIsContracting(H) then
     Info(InfoAutomGrp, 1, "If  < H >  is not contracting, the algorithm will never stop");
   fi;
@@ -717,139 +651,116 @@ function(H)
 end);
 
 
+
+InstallGlobalFunction(AG_MinimizationOfAutomatonListTrack, function(A)
+  local n, perms, m, classes, states, list, i, j, ids, temp, s, d, new_as_old, old_as_new, aut_list, perm, state;
+  n := Length(A);
+  d:=Length(A[1])-1;
+  perms := SSortedList(List(A,x->x[d+1]));
+  # In the minimization process the set of states is partitioned into classes
+  m := Length(perms); # number of states of automaton A
+
+  # "classes" contains classes of states. To each state of automaton A we assign an number from 1 to m
+  # (the first element in the list; if the class is not "finished", we add n)
+  classes := List([1..n], x -> [Position(perms, A[x][d+1])]);
+  # Canonical representatives of classes of states
+  states := [];
+
+  # The list of states of A that have not been classified yet
+  list := [1..n];
+
+  # At this moment all the states that belong to the same class act identically
+  # on words of length 1. During each iteration, classes consist of states that
+  # act identically on the words of length k will be partitioned into smalled
+  # subclasses of states that act identically on words of length k+1.
+  # If no class was partitioned during an iteration, then all the states in
+  # each class are equivalent and act identically on words of arbitrary length.
+  # This is the end of minimization procedure
+  while true do
+    # states from each class act identically on all words of length k.
+    for i in list do
+      # Define classes for the states of the first level
+      classes[i][2] := List(A[i]{[1..d]}, x -> classes[x][1]);
+    od;
+
+    # the extended identifier of a class contains information about the action
+    # of this state, and of its first level states on words of length k.
+    # I.e., it describes the action of the state on words of the length k+1.
+    # If extended identifiers of states coincide, then these states act
+    # identically on words of length k+1.
+    # Update the identifiers of classes; save to "temp" the list of classes
+    # that contain one state
+    ids := [];
+    temp := [];
+    s := Length(states);
+    for i in list do
+      j := Position(ids, classes[i]);
+      if j = fail then
+        Add(ids, ShallowCopy(classes[i]));
+        j := Length(ids);
+        temp[j] := i;
+      else
+        Unbind(temp[j]);
+      fi;
+      classes[i][1] := s + j + n;
+    od;
+    # Check if new classes created during the iteration
+    if s + Length(ids) = m then break; fi;
+    m := s + Length(ids);
+    # Find canonical representatives of classes that contain only a single state of A
+    temp := Compacted(temp);
+    for i in temp do
+      s := s + 1;
+      classes[i][1] := s;
+      states[s] := i;
+    od;
+    # remove all classes with one state from future iterations.
+    SubtractSet(list, temp);
+  od;
+  # Find canonical representatives of the remaining classes
+
+
+  ids := [];
+  for i in list do
+    classes[i][1] := classes[i][1] - n;
+    j := Position(ids, classes[i]);
+    if j = fail then
+      Add(ids, classes[i]);
+      states[classes[i][1]] := i;
+    fi;
+  od;
+
+  aut_list:=List(states,
+    x -> Flat([List(A[x]{[1..d]}, y -> classes[y][1]),
+    A[x][d+1]]));
+  old_as_new:=List(classes,c->c[1]);
+  new_as_old:=List([1..Length(states)],x->Position(old_as_new,x));
+
+  #Now sort the new list in the same order as the old states
+  perm:=Sortex(new_as_old);
+
+  aut_list:=Permuted(aut_list,perm);
+  for state in aut_list do
+    for i in [1..d] do
+      state[i]:=state[i]^perm;
+    od;
+  od;
+
+  Apply(old_as_new, x->x^perm);
+
+  return [aut_list,
+    new_as_old,
+    old_as_new];
+end);
+
+
 InstallGlobalFunction(AG_MinimizationOfAutomatonList, function(G)
-
-  local AreEqualStates, i, j, Pairs, n, tmpG, d, k, l, st;
-
-  AreEqualStates := function(st1, st2)
-    local eq, i;
-    if st1 = st2 or ([st1, st2] in Pairs) or ([st2, st1] in Pairs) then return true; fi;
-    if G[st1][d+1] <> G[st2][d+1] then return false; fi;
-    Add(Pairs, [st1, st2]);
-    eq := true;
-    for i in [1..d] do
-      if not AreEqualStates(G[st1][i], G[st2][i]) then eq := false; break; fi;
-    od;
-    return eq;
-  end;
-
-  n := Length(G);
-  d := Length(G[1])-1;
-  for i in [1..n-1] do
-    for j in [i+1..n] do
-      Pairs := [];
-      if AreEqualStates(i, j) then
-        tmpG := [];  #can be maid better by gluing all pairs from Pairs.
-        for k in [1..n] do
-          if k <> j then
-            st := StructuralCopy(G[k]);
-            for l in [1..d] do
-              if st[l] = j then st[l] := i;
-              elif st[l] > j then st[l] := st[l]-1;
-              fi;
-            od;
-            Add(tmpG, st);
-          fi;
-        od;
-        return AG_MinimizationOfAutomatonList(tmpG);
-      fi;
-    od;
-  od;
-  return G;
+  return AG_MinimizationOfAutomatonListTrack(G)[1];
 end);
-
-
-InstallGlobalFunction(AG_MinimizationOfAutomatonListTrack, function(G, track_list_short, track_list_long)
-
-  local AreEqualStates, i, j, Pairs, n, tmpG, d, k, l, st, track_s, track_l;
-
-  AreEqualStates := function(st1, st2)
-    local eq, i;
-    if st1 = st2 or ([st1, st2] in Pairs) or ([st2, st1] in Pairs) then return true; fi;
-    if G[st1][d+1] <> G[st2][d+1] then return false; fi;
-    Add(Pairs, [st1, st2]);
-    eq := true;
-    for i in [1..d] do
-      if not AreEqualStates(G[st1][i], G[st2][i]) then eq := false; break; fi;
-    od;
-    return eq;
-  end;
-
-
-  if Length(track_list_short) <> Length(G) then
-    Error("length of track_list_short is wrong\n");
-  fi;
-
-  n := Length(G);
-  d := Length(G[1])-1;
-  track_s := StructuralCopy(track_list_short);
-  track_l := StructuralCopy(track_list_long);
-  for i in [1..n-1] do
-    for j in [i+1..n] do
-      Pairs := [];
-      if AreEqualStates(i, j) then
-        tmpG := [];  #can be made better by gluing all pairs from Pairs.
-        for k in [1..n] do
-          if k <> j then
-            st := StructuralCopy(G[k]);
-            for l in [1..d] do
-              if st[l] = j then st[l] := i;
-              elif st[l] > j then st[l] := st[l]-1;
-              fi;
-            od;
-            Add(tmpG, st);
-          fi;
-        od;
-        track_s := [];
-        for k in [1..Length(track_list_short)] do
-          if k < j then track_s[k] := StructuralCopy(track_list_short[k]);
-            elif k > j then track_s[k-1] := StructuralCopy(track_list_short[k]);
-          fi;
-        od;
-        for k in [1..Length(track_list_long)] do
-          if track_l[k] > j then track_l[k] := track_l[k]-1;
-            elif track_l[k] = j then track_l[k] := i;
-          fi;
-        od;
-        return AG_MinimizationOfAutomatonListTrack(tmpG, track_s, track_l);
-      fi;
-    od;
-  od;
-  return [G, track_s, track_l];
-end);
-
-
-InstallGlobalFunction(AG_AddInversesList, function(H)
-  local d, n, G, idEl, st, i, perm, inv;
-
-  d := Length(H[1])-1;
-  n := Length(H);
-  if n < 1 or d < 1 then return fail; fi;
-  idEl := [];
-  for i in [1..d] do Add(idEl, 1); od;
-  Add(idEl, ());
-  G := [idEl];
-  for i in [1..n] do Add(G, StructuralCopy(H[i])); od;
-
-  for st in [2..n+1] do
-    for i in [1..d] do G[st][i] := G[st][i]+1; od;
-  od;
-
-  for st in [2..n+1] do
-    inv := [];
-    perm := G[st][d+1]^(-1);
-    for i in [1..d] do Add(inv, G[st][i^perm]+n); od;
-    Add(inv, perm);
-    Add(G, inv);
-  od;
-
-  return AG_MinimizationOfAutomatonList(G);
-end);
-
 
 
 InstallGlobalFunction(AG_AddInversesListTrack, function(H)
-  local d, n, G, idEl, st, i, perm, inv, track_s, track_l;
+  local d, n, G, idEl, st, i, perm, inv, minimized_autlist;
 
 ##  track_s - new generators in terms of old ones
 ##  track_l - old generators in terms of new ones
@@ -857,9 +768,7 @@ InstallGlobalFunction(AG_AddInversesListTrack, function(H)
   d := Length(H[1])-1;
   n := Length(H);
   if n < 1 or d < 1 then return fail; fi;
-  idEl := [];
-  for i in [1..d] do Add(idEl, 1); od;
-  Add(idEl, ());
+  idEl := Flat([List([1..d],x->1),()]);
   G := [idEl];
   for i in [1..n] do Add(G, StructuralCopy(H[i])); od;
 
@@ -874,11 +783,16 @@ InstallGlobalFunction(AG_AddInversesListTrack, function(H)
     Add(inv, perm);
     Add(G, inv);
   od;
-#  Print("G = ", G, "\n");
-  track_s := [0];
-  Append(track_s, [1..Length(G)-1]);
-  return AG_MinimizationOfAutomatonListTrack(G, track_s, [2..Length(G)]);
+#  return AG_MinimizationOfAutomatonListTrack(G, [0..Length(G)-1], [2..Length(G)]);
+  minimized_autlist := AG_MinimizationOfAutomatonListTrack(G);
+  return [minimized_autlist[1], List(minimized_autlist[2],x->x-1), minimized_autlist[3]{[2..Length(minimized_autlist[3])]}];
 end);
+
+
+InstallGlobalFunction(AG_AddInversesList, function(H)
+  return AG_MinimizationOfAutomatonListTrack(H)[1];
+end);
+
 
 
 InstallMethod(UseContraction, "for [IsAutomGroup]", true,

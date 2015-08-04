@@ -332,7 +332,7 @@ end);
 InstallGlobalFunction(MinimizationOfAutomatonTrack,
 function(a)
   local min_aut;
-  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x -> List(x)), [1..a!.n_states], [1..a!.n_states]);
+  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x -> List(x)));
   return [MealyAutomaton(min_aut[1], a!.states{min_aut[2]}), min_aut[2], min_aut[3]];
 end);
 
@@ -340,7 +340,7 @@ end);
 InstallGlobalFunction(MinimizationOfAutomaton,
 function(a)
   local min_aut;
-  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x -> List(x)), [1..a!.n_states], [1..a!.n_states]);
+  min_aut := AG_MinimizationOfAutomatonListTrack(List(AutomatonList(a), x -> List(x)));
   return MealyAutomaton(min_aut[1], a!.states{min_aut[2]});
 end);
 

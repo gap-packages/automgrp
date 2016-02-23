@@ -239,7 +239,7 @@ end);
 ##
 #M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrp2FR, "for [IsAutom or IsSelfSim]", [IsAutom],
+InstallMethod(AutomGrp2FR, "for [IsAutom]", [IsAutom],
 function(a)
   local fam,G;
   fam:=FamilyObj(a);
@@ -256,7 +256,7 @@ end);
 ##
 #M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrp2FR, "for [IsAutom or IsSelfSim]", [IsSelfSim],
+InstallMethod(AutomGrp2FR, "for [IsSelfSim]", [IsSelfSim],
 function(a)
   local fam,G;
   fam:=FamilyObj(a);

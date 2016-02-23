@@ -651,7 +651,7 @@ function(H)
 end);
 
 
-
+# The base of the code of the function below below was written by Andriy Russev
 InstallGlobalFunction(AG_MinimizationOfAutomatonListTrack, function(A)
   local n, perms, m, classes, states, list, i, j, ids, temp, s, d, new_as_old, old_as_new, aut_list, perm, state;
   n := Length(A);
@@ -790,7 +790,7 @@ end);
 
 
 InstallGlobalFunction(AG_AddInversesList, function(H)
-  return AG_MinimizationOfAutomatonListTrack(H)[1];
+  return AG_AddInversesListTrack(H)[1];
 end);
 
 

@@ -4,8 +4,10 @@
 #W                                                             Dmytro Savchuk
 ##  automgrp v 1.3
 ##
-#Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
 ##
+
+ColorPrompt(true);
 
 ReadPkg("automgrp", "gap/tree.gd");
 ReadPkg("automgrp", "gap/treehom.gd");

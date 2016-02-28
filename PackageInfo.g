@@ -17,7 +17,7 @@ Version := "1.3",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #
-Date := "17/07/2015",
+Date := "17/07/2016",
 
 ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.3/automgrp-1.3",
 
@@ -49,7 +49,7 @@ Persons := [
 
 Status := "accepted",
 CommunicatedBy := "Leonard Soicher (Queen Mary, London)",
-AcceptDate := "07/2015",
+AcceptDate := "07/2016",
 
 README_URL := "http://finautom.sourceforge.net/automgrp/README",
 PackageInfoURL := "http://finautom.sourceforge.net/automgrp/PackageInfo.g",

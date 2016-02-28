@@ -4,21 +4,8 @@
 #W                                                             Dmytro Savchuk
 ##  automgrp v 1.3
 ##
-#Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
 ##
-
-
-#############################################################################
-##
-#M  AutomGrp2FR (<G>)
-##
-#InstallMethod(AutomGrp2FR, "for [IsAutomatonGroup]", [IsAutomatonGroup],
-#function(G)
-#  local fam;
-#  fam:=UnderlyingAutomFamily(G);
-#  return MealyMachine(fam!.names, [[2,1],[2,2]],[(1,2),()]);
-#end);
-
 
 #############################################################################
 ##
@@ -239,7 +226,7 @@ end);
 ##
 #M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrp2FR, "for [IsAutom]", [IsAutom],
+InstallMethod(AutomGrp2FR, "for [IsAutom or IsSelfSim]", [IsAutom],
 function(a)
   local fam,G;
   fam:=FamilyObj(a);
@@ -256,7 +243,7 @@ end);
 ##
 #M  AutomGrp2FR (<G>)
 ##
-InstallMethod(AutomGrp2FR, "for [IsSelfSim]", [IsSelfSim],
+InstallMethod(AutomGrp2FR, "for [IsAutom or IsSelfSim]", [IsSelfSim],
 function(a)
   local fam,G;
   fam:=FamilyObj(a);
@@ -274,7 +261,7 @@ end);
 ##
 #M  FR2AutomGrp (<G>)
 ##
-InstallMethod(FR2AutomGrp, "for [IsFRGroup]", [IsFRGroup],
+InstallMethod(FR2AutomGrp, "for [IsFRGroup and HasUnderlyingFRMachine]", [IsFRGroup and HasUnderlyingFRMachine],
 function(G)
   local M, names, recurlist, i;
   M := UnderlyingFRMachine(G);
@@ -283,7 +270,7 @@ function(G)
   for i in [1..Length(recurlist)] do
     Add(recurlist[i],PermList(M!.output[i]));
   od;
-  return SelfSimilarGroup(recurlist,names);
+  return SelfSimilarGroup(recurlist,names,false);
 end);
 
 
@@ -291,7 +278,49 @@ end);
 ##
 #M  FR2AutomGrp (<G>)
 ##
+InstallMethod(FR2AutomGrp, "for [IsFRGroup]", [IsFRGroup],
+function(G)
+  local UG;
+  UG := FR2AutomGrp(SCGroup(UnderlyingFRMachine(Representative(G))));
+  return Group(List(GeneratorsOfGroup(G),x->SelfSim(AssocWordByLetterRep(FamilyObj(One(UnderlyingFreeGroup(UG))),
+                                                    LetterRepAssocWord(InitialState(x))), UnderlyingSelfSimFamily(UG))));
+end);
+
+
+#############################################################################
+##
+#M  FR2AutomGrp (<G>)
+##
+InstallMethod(FR2AutomGrp, "for [IsFRSemigroup and HasUnderlyingFRMachine]", [IsFRSemigroup and HasUnderlyingFRMachine],
+function(G)
+  local M, names, recurlist, i;
+  M := UnderlyingFRMachine(G);
+  names := List(GeneratorsOfSemigroup(M!.free),x->String(x));
+  recurlist := List(M!.transitions,x->List(x,w->LetterRepAssocWord(w)));
+  for i in [1..Length(recurlist)] do
+    Add(recurlist[i],Transformation(M!.output[i]));
+  od;
+  return SelfSimilarSemigroup(recurlist,names,false);
+end);
+
+
+#############################################################################
+##
+#M  FR2AutomGrp (<G>)
 InstallMethod(FR2AutomGrp, "for [IsFRSemigroup]", [IsFRSemigroup],
+function(G)
+  local UG;
+  UG := FR2AutomGrp(SCSemigroup(UnderlyingFRMachine(Representative(G))));
+  return Semigroup(List(GeneratorsOfSemigroup(G),x->SelfSim(AssocWordByLetterRep(FamilyObj(One(UnderlyingFreeGroup(UG))),
+                                                           LetterRepAssocWord(InitialState(x))), UnderlyingSelfSimFamily(UG))));
+end);
+
+
+#############################################################################
+##
+#M  FR2AutomGrp (<G>)
+##
+InstallMethod(FR2AutomGrp, "for [IsFRMonoid and HasUnderlyingFRMachine]", [IsFRMonoid and HasUnderlyingFRMachine],
 function(G)
   local M, names, recurlist, i;
   M := UnderlyingFRMachine(G);
@@ -300,10 +329,38 @@ function(G)
   for i in [1..Length(recurlist)] do
     Add(recurlist[i],Transformation(M!.output[i]));
   od;
-  return SelfSimilarSemigroup(recurlist,names);
+  return Monoid(GeneratorsOfSemigroup(SelfSimilarSemigroup(recurlist,names,false)));
+end);
+
+#############################################################################
+##
+#M  FR2AutomGrp (<G>)
+InstallMethod(FR2AutomGrp, "for [IsFRMonoid]", [IsFRMonoid],
+function(G)
+  local UG;
+  UG := FR2AutomGrp(SCSemigroup(UnderlyingFRMachine(Representative(G))));
+  return Monoid(List(GeneratorsOfMonoid(G),x->SelfSim(AssocWordByLetterRep(FamilyObj(One(UnderlyingFreeGroup(UG))),
+                                                           LetterRepAssocWord(InitialState(x))), UnderlyingSelfSimFamily(UG))));
 end);
 
 
-#FRMachineFRGroup
+#############################################################################
+##
+#M  FR2AutomGrp (<G>)
+##
+InstallMethod(FR2AutomGrp, "for [IsFRElement]", [IsFRElement],
+function(a)
+  local G, M;
+  M:=UnderlyingFRMachine(a);
+  # Group case
+  if ForAll(M!.output,l->Set(l)=[1..Length(l)]) then
+    G:=FR2AutomGrp(SCGroup(M));
+  # Semigroup case
+  else
+    G:=FR2AutomGrp(SCSemigroup(M));
+  fi;
+  return SelfSim(AssocWordByLetterRep(FamilyObj(One(UnderlyingFreeGroup(G))),
+                 LetterRepAssocWord(InitialState(a))), UnderlyingSelfSimFamily(G));
+end);
 
 #E

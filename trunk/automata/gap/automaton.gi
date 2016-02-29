@@ -113,6 +113,16 @@ function(p)
   fi;
 end);
 
+BindGlobal("__AG_PermString",
+function(p)
+  if IsPerm(p) then
+    return String(p);
+  else
+    return String(ImageListOfTransformation(p));
+  fi;
+end);
+
+
 
 InstallMethod(MealyAutomaton, [IsList, IsList, IsList],
 function(table, states, alphabet)
@@ -246,12 +256,7 @@ function(aut, names)
 end);
 
 
-InstallMethod(ViewObj, [IsMealyAutomaton],
-function(a)
-  Print("<automaton>");
-end);
-
-InstallMethod(PrintObj, [IsMealyAutomaton and IsMealyAutomatonRep],
+InstallMethod(Display, [IsMealyAutomaton and IsMealyAutomatonRep],
 function(a)
   local i, j;
 
@@ -271,6 +276,40 @@ function(a)
       Print(", ");
     fi;
   od;
+end);
+
+InstallMethod(String, [IsMealyAutomaton and IsMealyAutomatonRep],
+function(a)
+  local i, j, str;
+  str := "";
+  for i in [1..a!.n_states] do
+    Append(str,Concatenation(String(a!.states[i]), " = ("));
+    for j in [1..a!.degree] do
+      Append(str,String(a!.states[a!.table[i][j]]));
+      if j <> a!.degree then
+        Append(str,", ");
+      fi;
+    od;
+    Append(str, ")");
+    if not IsOne(a!.perms[i]) then
+      Append(str,__AG_PermString(a!.perms[i]));
+    fi;
+    if i <> a!.n_states then
+      Append(str,", ");
+    fi;
+  od;
+  return str;
+end);
+
+InstallMethod(ViewObj, [IsMealyAutomaton],
+function(a)
+  Print("<automaton>");
+end);
+
+
+InstallMethod(PrintObj, [IsMealyAutomaton],
+function(a)
+  Print("MealyAutomaton(\"",String(a),"\")");
 end);
 
 

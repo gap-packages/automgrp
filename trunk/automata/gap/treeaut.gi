@@ -189,6 +189,31 @@ end);
 
 ###############################################################################
 ##
+#M  String(<a>)
+##
+InstallMethod(String, "for [IsTreeAutomorphism]", [IsTreeAutomorphism],
+function (a)
+    local deg, printword, i, perm, states, str;
+
+    states := Sections(a);
+    deg := Length(states);
+    perm := PermOnLevel(a, 1);
+    str:= "(";
+
+    for i in [1..deg] do
+        Append(str, String(states[i]));
+        if i <> deg then Append(str, ", "); fi;
+    od;
+    Append(str, ")");
+    if not IsOne(perm) then
+      Append(str, AG_TransformationString(perm));
+    fi;
+    return str;
+end);
+
+
+###############################################################################
+##
 #M  SphericalIndex(<a>)
 ##
 InstallMethod(SphericalIndex, [IsTreeAutomorphism and IsTreeAutomorphismRep],

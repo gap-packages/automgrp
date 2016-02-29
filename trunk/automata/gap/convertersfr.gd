@@ -25,9 +25,15 @@
 ##  gap> Display(AZZ);
 ##  < t = (1, t)(1,2) >
 ##  \endexample
-
 ##  \beginexample
-
+##  gap> i4 := FRMonoid("s=(1,2)","f=<s,f>[1,1]");
+##  <state-closed monoid over [ 1 .. 2 ] with 2 generators>
+##  gap> Ai4 := FR2AutomGrp(i4);
+##  < 1, s, f >
+##  gap> Display(Ai4);
+##  < 1 = (1, 1),
+##    s = (1, 1)(1,2),
+##    f = (s, f)[1,1] >
 ##  \endexample
 ##  \beginexample
 

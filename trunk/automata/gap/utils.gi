@@ -46,6 +46,31 @@ function(tr)
 end);
 
 
+#############################################################################
+##
+##  AG_TransformationString( <tr> )
+##
+InstallGlobalFunction(AG_TransformationString,
+function(tr)
+  local list, i, str;
+  if IsPerm(tr) then
+    return String(tr);
+  else
+    list := ImageListOfTransformation(tr);
+    str:="[";
+    for i in [1..Length(list)] do
+      if i <> 1 then
+        Append(str, ",");
+      fi;
+      Append(str, String(list[i]));
+    od;
+    Append(str, "]");
+  fi;
+  return str;
+end);
+
+
+
 InstallGlobalFunction(AG_TrCmp,
 function(p1, p2, d)
   local l1, l2, getlist;

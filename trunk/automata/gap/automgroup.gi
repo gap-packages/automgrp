@@ -201,12 +201,22 @@ function(gens)
   return List(words, w -> Autom(w, fam));
 end);
 
-
 ###############################################################################
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "for [IsAutomGroup]",
+InstallMethod(PrintObj, "for [IsAutomatonGroup]",
+              [IsAutomatonGroup],
+function(G)
+  Print("AutomatonGroup(\"", String(G), "\")");
+end);
+
+
+###############################################################################
+##
+#M  Display(<G>)
+##
+InstallMethod(Display, "for [IsAutomGroup]",
               [IsAutomGroup],
 function(G)
   local i, gens, printone;
@@ -227,6 +237,7 @@ function(G)
     Print("  "); printone(gens[Length(gens)]); Print(" >");
   fi;
 end);
+
 
 #############################################################################
 ##

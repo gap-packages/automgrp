@@ -42,11 +42,11 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  \beginexample
 ##  gap> A := MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]], ["a","b","c"]);
 ##  <automaton>
-##  gap> Print(A, "\n");
+##  gap> Display(A);
 ##  a = (a, b)(1,2), b = (c, a), c = (c, c)(1,2)
 ##  gap> B:=MealyAutomaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
 ##  <automaton>
-##  gap> Print(B, "\n");
+##  gap> Display(B);
 ##  a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
 ##  gap> D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
 ##  <automaton>
@@ -54,7 +54,7 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  < u, v >
 ##  gap> M := MealyAutomaton(u*v*u^-3);
 ##  <automaton>
-##  gap> Print(M);
+##  gap> Display(M);
 ##  a1 = (a2, a5), a2 = (a3, a4), a3 = (a4, a2)(1,2), a4 = (a4, a4), a5 = (a6, a3)
 ##  (1,2), a6 = (a7, a4), a7 = (a6, a4)(1,2)
 ##  \endexample
@@ -141,7 +141,7 @@ DeclareAttribute( "AG_MinimizedAutomatonList", IsMealyAutomaton, "mutable" );
 ##  <automaton>
 ##  gap> C := MinimizationOfAutomaton(B);
 ##  <automaton>
-##  gap> Print(C);
+##  gap> Display(C);
 ##  a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
 ##  \endexample
 ##
@@ -163,7 +163,7 @@ DeclareGlobalFunction("MinimizationOfAutomaton");
 ##  <automaton>
 ##  gap> B_min := MinimizationOfAutomatonTrack(B);
 ##  [ <automaton>, [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
-##  gap> Print(B_min[1]);
+##  gap> Display(B_min[1]);
 ##  a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
 ##  \endexample
 ##
@@ -258,7 +258,7 @@ DeclareAttribute("PolynomialDegreeOfGrowth", IsMealyAutomaton);
 ##  <automaton>
 ##  gap> D := DualAutomaton(A);
 ##  <automaton>
-##  gap> Print(D);
+##  gap> Display(D);
 ##  d1 = (d2, d1)[ 2, 2 ], d2 = (d1, d2)[ 1, 1 ]
 ##  \endexample
 ##
@@ -275,7 +275,7 @@ DeclareOperation("DualAutomaton", [IsMealyAutomaton]);
 ##  <automaton>
 ##  gap> B := InverseAutomaton(A);
 ##  <automaton>
-##  gap> Print(B);
+##  gap> Display(B);
 ##  a1 = (a1, a2)(1,2), a2 = (a2, a1)
 ##  \endexample
 ##
@@ -359,9 +359,9 @@ DeclareProperty("IsTrivial", IsMealyAutomaton);
 ##  4
 ##  gap> MDR:=MDReduction(A);
 ##  [ <automaton>, <automaton> ]
-##  gap> Print(MDR[1]);
+##  gap> Display(MDR[1]);
 ##  d1 = (d2, d2, d1, d1)(1,4,3), d2 = (d1, d1, d2, d2)(1,4)
-##  gap> Print(MDR[2]);
+##  gap> Display(MDR[2]);
 ##  d1 = (d4, d4)(1,2), d2 = (d2, d2)(1,2), d3 = (d1, d3), d4 = (d3, d1)
 ##  \endexample
 DeclareOperation("MDReduction", [IsMealyAutomaton]);
@@ -394,7 +394,7 @@ DeclareProperty("IsMDReduced", IsMealyAutomaton);
 ##  <automaton>
 ##  gap> B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
 ##  <automaton>
-##  gap> Print(DisjointUnion(A, B));
+##  gap> Display(DisjointUnion(A, B));
 ##  a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)
 ##  (1,2), a5 = (a5, a4)
 ##  \endexample
@@ -430,7 +430,7 @@ DeclareOperation("AreEquivalentAutomata", [IsMealyAutomaton, IsMealyAutomaton]);
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(e,d)(1,2),b=(c,c),c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
 ##  <automaton>
-##  gap> Print(SubautomatonWithStates(A, [1, 4]));
+##  gap> Display(SubautomatonWithStates(A, [1, 4]));
 ##  a = (e, d)(1,2), d = (a, e)(1,2), e = (e, d)
 ##  \endexample
 ##
@@ -448,7 +448,7 @@ DeclareOperation("SubautomatonWithStates", [IsMealyAutomaton, IsList]);
 ##  \beginexample
 ##  gap> A := MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
 ##  <automaton>
-##  gap> Print(AutomatonNucleus(A));
+##  gap> Display(AutomatonNucleus(A));
 ##  b = (d, d), d = (d, b)(1,2)
 ##  \endexample
 ##

@@ -234,7 +234,48 @@ end);
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "for [IsAutomSemigroup]",
+InstallMethod(PrintObj, "for [IsAutomatonSemigroup]",
+              [IsAutomatonSemigroup],
+function(G)
+  Print("AutomatonSemigroup(\"", String(G), "\")");
+end);
+
+
+#############################################################################
+##
+#M  String(<G>)
+##
+InstallMethod(String, "for [IsAutomSemigroup]", [IsAutomSemigroup],
+function(G)
+  local i, gens, formatone, s;
+
+  formatone := function(a)
+    return Concatenation(String(a), " = ", String(Decompose(a)));
+  end;
+
+  if IsMonoid(G) then
+    gens := GeneratorsOfMonoid(G);
+  else
+    gens := GeneratorsOfSemigroup(G);
+  fi;
+
+  s := "";
+  for i in [1..Length(gens)] do
+    Append(s, formatone(gens[i]));
+    if i <> Length(gens) then
+      Append(s, ", ");
+    fi;
+  od;
+
+  return s;
+end);
+
+
+###############################################################################
+##
+#M  Display(<G>)
+##
+InstallMethod(Display, "for [IsAutomSemigroup]",
               [IsAutomSemigroup],
 function(G)
   local i, gens, printone;

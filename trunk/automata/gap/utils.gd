@@ -40,6 +40,7 @@ DeclareGlobalFunction("AG_AbelImageAutomatonInList");
 
 DeclareGlobalFunction("AG_PermFromTransformation");
 DeclareGlobalFunction("AG_PrintTransformation");
+DeclareGlobalFunction("AG_TransformationString");
 DeclareGlobalFunction("AG_TrCmp");
 
 

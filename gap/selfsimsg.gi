@@ -179,9 +179,9 @@ end);
 
 ###############################################################################
 ##
-#M  PrintObj(<G>)
+#M  Display(<G>)
 ##
-InstallMethod(PrintObj, "for [IsSelfSimSemigroup]",
+InstallMethod(Display, "for [IsSelfSimSemigroup]",
               [IsSelfSimSemigroup],
 function(G)
   local i, gens, printone;
@@ -227,6 +227,46 @@ function(G)
   else
     Print(gens[Length(gens)], " >");
   fi;
+end);
+
+#############################################################################
+##
+#M  String(<G>)
+##
+InstallMethod(String, "for [IsSelfSimSemigroup]", [IsSelfSimSemigroup],
+function(G)
+  local i, gens, formatone, s;
+
+  formatone := function(a)
+    return Concatenation(String(a), " = ", String(Decompose(a)));
+  end;
+
+  if IsMonoid(G) then
+    gens := GeneratorsOfMonoid(G);
+  else
+    gens := GeneratorsOfSemigroup(G);
+  fi;
+
+  s := "";
+  for i in [1..Length(gens)] do
+    Append(s, formatone(gens[i]));
+    if i <> Length(gens) then
+      Append(s, ", ");
+    fi;
+  od;
+
+  return s;
+end);
+
+
+###############################################################################
+##
+#M  PrintObj(<G>)
+##
+InstallMethod(PrintObj, "for [IsSelfSimilarSemigroup]",
+              [IsSelfSimilarSemigroup],
+function(G)
+  Print("SelfSimilarSemigroup(\"", String(G), "\")");
 end);
 
 

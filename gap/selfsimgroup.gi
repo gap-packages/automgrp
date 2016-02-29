@@ -205,12 +205,22 @@ function(gens)
   return List(words, w -> SelfSim(w, fam));
 end);
 
-
 ###############################################################################
 ##
 #M  PrintObj(<G>)
 ##
-InstallMethod(PrintObj, "for [IsSelfSimGroup]",
+InstallMethod(PrintObj, "for [IsSelfSimilarGroup]",
+              [IsSelfSimilarGroup],
+function(G)
+  Print("SelfSimilarGroup(\"", String(G), "\")");
+end);
+
+
+###############################################################################
+##
+#M  Display(<G>)
+##
+InstallMethod(Display, "for [IsSelfSimGroup]",
               [IsSelfSimGroup],
 function(G)
   local i, gens, printone;
@@ -230,6 +240,32 @@ function(G)
     od;
     Print("  "); printone(gens[Length(gens)]); Print(" >");
   fi;
+end);
+
+
+#############################################################################
+##
+#M  String(<G>)
+##
+InstallMethod(String, "for [IsSelfSimGroup]", [IsSelfSimGroup],
+function(G)
+  local i, gens, formatone, s;
+
+  formatone := function(a)
+    return Concatenation(String(a), " = ", String(Decompose(a)));
+  end;
+
+  gens := GeneratorsOfGroup(G);
+
+  s := "";
+  for i in [1..Length(gens)] do
+    Append(s, formatone(gens[i]));
+    if i <> Length(gens) then
+      Append(s, ", ");
+    fi;
+  od;
+
+  return s;
 end);
 
 
@@ -788,7 +824,7 @@ function(G)
 
   H := AutomatonGroup(aut_list);
 
-  if IsTrivial(H) then 
+  if IsTrivial(H) then
     SetIsTrivial( G, true);
     return true;
   fi;

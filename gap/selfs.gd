@@ -60,7 +60,7 @@ DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable"
 ##  < u, v >
 ##  gap> B_autom := GeneratingSetWithNucleusAutom(Basilica);
 ##  <automaton>
-##  gap> Print(B_autom);
+##  gap> Display(B_autom);
 ##  a1 = (a1, a1), a2 = (a3, a1)(1,2), a3 = (a2, a1), a4 = (a1, a5)
 ##  (1,2), a5 = (a4, a1), a6 = (a1, a7)(1,2), a7 = (a6, a1)(1,2)
 ##  \endexample

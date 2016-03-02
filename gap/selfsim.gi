@@ -149,7 +149,7 @@ end);
 ##
 #M  SelfSim( <word>, <list> )
 ##
-InstallOtherMethod(SelfSim, "for [IsAssocWord, IsList]",
+InstallMethod(SelfSim, "for [IsAssocWord, IsList]",
                    [IsAssocWord, IsList],
 function(w, list)
   local fam;
@@ -220,7 +220,7 @@ end);
 ##
 #M  Perm( <a> )
 ##
-InstallOtherMethod(Perm, "for [IsSelfSim]", [IsSelfSim],
+InstallMethod(Perm, "for [IsSelfSim]", [IsSelfSim],
 function(a)
     return a!.perm;
 end);
@@ -382,7 +382,7 @@ end);
 ##
 #M  Section( <a>, <k>)
 ##
-InstallOtherMethod(Section, "for [IsSelfSim, IsPosInt]", [IsSelfSim, IsPosInt],
+InstallMethod(Section, "for [IsSelfSim, IsPosInt]", [IsSelfSim, IsPosInt],
 function(a, k)
   if k > a!.deg then
     Error("in Section(IsSelfSim, IsPosInt): invalid vertex ", k);
@@ -414,7 +414,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "for [IsPosInt, IsSelfSim]", [IsPosInt, IsSelfSim],
+InstallMethod(\^, "for [IsPosInt, IsSelfSim]", [IsPosInt, IsSelfSim],
 function(k, a)
     return k ^ Perm(a);
 end);
@@ -424,7 +424,7 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "for [IsList, IsSelfSim]", [IsList, IsSelfSim],
+InstallMethod(\^, "for [IsList, IsSelfSim]", [IsList, IsSelfSim],
 function(seq, a)
     local i, deg, img, cur;
 
@@ -751,7 +751,7 @@ end);
 ##
 #M  Order( <a> )
 ##
-InstallOtherMethod(Order, "for [IsInvertibleSelfSim]", true,
+InstallMethod(Order, "for [IsInvertibleSelfSim]", true,
                    [IsInvertibleSelfSim],
 function(a)
   local ord_loc;

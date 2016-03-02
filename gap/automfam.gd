@@ -33,7 +33,7 @@ DeclareAttribute("DualAutomFamily", IsAutomFamily);
 ##
 #A  One(<fam>)
 ##
-DeclareAttribute("One", IsAutomFamily);
+#DeclareAttribute("One", IsAutomFamily);
 
 
 ###############################################################################

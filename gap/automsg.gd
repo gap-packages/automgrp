@@ -121,14 +121,14 @@ DeclareAttribute("UnderlyingFreeGroup", IsAutomSemigroup);
 ##  < x, y >
 ##  gap> A := UnderlyingAutomaton(GS);
 ##  <automaton>
-##  gap> Print(A);
+##  gap> Display(A);
 ##  a1 = (a1, a2)[ 1, 1 ], a2 = (a2, a2)[ 2, 1 ]
 ##  \endexample
 ##  For a subgroup of Basilica group we get the automaton generating Basilica group.
 ##  \beginexample
 ##  gap> H := Group([u*v^-1,v^2]);
 ##  < u*v^-1, v^2 >
-##  gap> Print(UnderlyingAutomaton(H));
+##  gap> Display(UnderlyingAutomaton(H));
 ##  a1 = (a1, a1), a2 = (a3, a1)(1,2), a3 = (a2, a1)
 ##  \endexample
 ##
@@ -161,6 +161,13 @@ DeclareAttribute("GeneratingAutomatonList", IsAutomSemigroup, "mutable");
 ##  and `false' otherwise.
 ##  To test whether <G> is self-similar use `IsSelfSimilar' ("IsSelfSimilar") command.
 DeclareProperty("IsAutomatonSemigroup", IsAutomSemigroup);
+
+#############################################################################
+##
+#A  SemigroupOfAutomFamily(<G>)
+##
+
+DeclareAttribute("SemigroupOfAutomFamily", IsAutomSemigroup);
 
 
 #E

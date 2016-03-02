@@ -44,27 +44,10 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 ##
 DeclareOperation("TreeAutomorphism", [IsList, IsPerm]);
 DeclareOperation("TreeAutomorphismFamily", [IsObject]);
-
-
-###############################################################################
-##
-#O  Perm( <a>[, <lev>] )
-##
-##  Returns the permutation induced by the tree automorphism <a> on the level <lev>
-##  (or first level if <lev> is not given). See also
-##  `TransformationOnLevel'~("TransformationOnLevel").
-##
-DeclareOperation("Perm", [IsTreeAutomorphism, IsPosInt]);
-
-###############################################################################
-##
-#O  PermOnLevel( <a>, <k> )
-##
-##  Does the same thing as `Perm'~("Perm").
-##
-KeyDependentOperation("PermOnLevel", IsTreeAutomorphism, IsPosInt, ReturnTrue);
-
-
+DeclareOperation("TreeAutomorphism", [IsObject, IsObject, IsPerm]);
+DeclareOperation("TreeAutomorphism", [IsObject, IsObject, IsObject, IsPerm]);
+DeclareOperation("TreeAutomorphism", [IsObject, IsObject, IsObject, IsObject, IsPerm]);
+DeclareOperation("TreeAutomorphism", [IsObject, IsObject, IsObject, IsObject, IsObject, IsPerm]);
 
 
 #E

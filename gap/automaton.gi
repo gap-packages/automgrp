@@ -159,27 +159,9 @@ end);
 
 ###############################################################################
 ##
-##  MealyAutomaton( <list>, <name_func> )
-##  MealyAutomaton( <list>, <true> )
 ##
-##  Creates a noninitial automaton constructed of the states of tree
-##  homomorphisms in the <list>. If <name_func> is a function then it is used
-##  to name the states of the newly constructed automaton. If it is <true>
-##  then states of automata from the <list> are used. If it <false> then new
-##  states are named a_1, a_2, etc.
 ##
-##  \beginexample
-##  gap> g := AutomatonGroup("a=(b,a),b=(b,a)(1,2)");
-##  < a, b >
-##  gap> MealyAutomaton([a*b]);; Display(last);
-##  a1 = (a2, a4)(1,2), a2 = (a3, a1), a3 = (a3, a1)(1,2), a4 = (a2, a4)
-##  gap> MealyAutomaton([a*b], true);; Display(last);
-##  <a*b> = (<b^2>, <a^2>)(1,2), <b^2> = (<b*a>, <a*b>), <b*a> = (<b*a>, <a*b>)(1,2), <a^2> = (<b^2>, <a^2>)
-##  gap> MealyAutomaton([a*b], String);; Display(last);
-##  a*b = (b^2, a^2)(1,2), b^2 = (b*a, a*b), b*a = (b*a, a*b)(1,2), a^2 = (b^2, a^2)
-##  \endexample
-##
-InstallOtherMethod(MealyAutomaton, [IsList, IsObject],
+InstallMethod(MealyAutomaton, [IsList, IsObject],
 function(tree_hom_list, name_func)
   local a, states, names, MealyAutomatonLocal, aut_list;
 

@@ -98,7 +98,7 @@ end);
 ##
 #M  GroupOfAutomFamily(<G>)
 ##
-InstallOtherMethod(GroupOfAutomFamily, "for [IsAutomGroup]",
+InstallMethod(GroupOfAutomFamily, "for [IsAutomGroup]",
                    [IsAutomGroup],
 function(G)
   return GroupOfAutomFamily(UnderlyingAutomFamily(G));

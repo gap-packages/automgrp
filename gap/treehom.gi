@@ -143,17 +143,17 @@ end);
 ##
 #M  TreeHomomorphism(<state_1>, <state_2>, ..., <state_n>, <perm>)
 ##
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsTransformation],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsTransformation],
   function(a1, a2, perm) return TreeHomomorphism([a1, a2], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsTransformation],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsTransformation],
   function(a1, a2, a3, perm) return TreeHomomorphism([a1, a2, a3], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsTransformation],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsTransformation],
   function(a1, a2, a3, a4, perm) return TreeHomomorphism([a1, a2, a3, a4], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsPerm],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsPerm],
   function(a1, a2, perm) return TreeHomomorphism([a1, a2], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsPerm],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, perm) return TreeHomomorphism([a1, a2, a3], perm); end);
-InstallOtherMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsPerm],
+InstallMethod(TreeHomomorphism, [IsObject, IsObject, IsObject, IsObject, IsPerm],
   function(a1, a2, a3, a4, perm) return TreeHomomorphism([a1, a2, a3, a4], perm); end);
 
 ###############################################################################
@@ -296,7 +296,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "for [IsPosInt, IsTreeHomomorphism]", [IsPosInt, IsTreeHomomorphism],
+InstallMethod(\^, "for [IsPosInt, IsTreeHomomorphism]", [IsPosInt, IsTreeHomomorphism],
 function(k, a)
     return k ^ TransformationOnLevel(a, 1);
 end);
@@ -305,7 +305,7 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "for [IsList, IsTreeHomomorphism]", [IsList, IsTreeHomomorphism],
+InstallMethod(\^, "for [IsList, IsTreeHomomorphism]", [IsList, IsTreeHomomorphism],
 function(seq, a)
   if Length(seq) = 0 then
     return [];
@@ -412,7 +412,7 @@ end);
 ##
 #M  Sections(a, k)
 ##
-InstallOtherMethod(Sections, "for [IsTreeHomomorphism, IsPosInt]",
+InstallMethod(Sections, "for [IsTreeHomomorphism, IsPosInt]",
                    [IsTreeHomomorphism, IsPosInt],
 function(a, level)
   if level = 1 then
@@ -420,6 +420,11 @@ function(a, level)
   else
     return Concatenation(List(Sections(a), s -> Sections(s, level-1)));
   fi;
+end);
+
+InstallMethod(Sections, "for [IsTreeHomomorphism, IsInt and IsZero]", [IsTreeHomomorphism, IsInt and IsZero],
+function(a, level)
+  return [a];
 end);
 
 
@@ -433,7 +438,7 @@ function(a, level)
   return TreeHomomorphism(Sections(a, level), TransformationOnLevel(a, level));
 end);
 
-InstallOtherMethod(Decompose, [IsTreeHomomorphism, IsInt and IsZero],
+InstallMethod(Decompose, [IsTreeHomomorphism, IsInt and IsZero],
 function(a, level)
   return a;
 end);

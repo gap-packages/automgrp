@@ -250,4 +250,12 @@ DeclareAttribute("UnderlyingAutomatonSemigroup", IsSelfSimSemigroup, "mutable");
 ##
 DeclareAttribute("MonomorphismToAutomatonSemigroup", IsSelfSimSemigroup, "mutable");
 
+#############################################################################
+##
+#A  SemigroupOfSelfSimFamily(<G>)
+##
+
+DeclareAttribute("SemigroupOfSelfSimFamily", IsSelfSimSemigroup);
+
+
 #E

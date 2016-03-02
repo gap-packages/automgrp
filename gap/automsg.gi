@@ -627,6 +627,15 @@ function(G)
 end);
 
 
+###############################################################################
+##
+#M  SemigroupOfAutomFamily(<G>)
+##
+InstallMethod(SemigroupOfAutomFamily, "for [IsAutomSemigroup]",
+                   [IsAutomSemigroup],
+function(G)
+  return SemigroupOfAutomFamily(UnderlyingAutomFamily(G));
+end);
 
 
 #E

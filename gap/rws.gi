@@ -184,12 +184,12 @@ __AG_ReducedFormOfGroup := function(group, fam, construct)
   fi;
 end;
 
-InstallOtherMethod(AG_ReducedForm, [IsAutomGroup],
+InstallMethod(AG_ReducedForm, [IsAutomGroup],
 function(group)
   return __AG_ReducedFormOfGroup(group, UnderlyingAutomFamily(group), Autom);
 end);
 
-InstallOtherMethod(AG_ReducedForm, [IsSelfSimGroup],
+InstallMethod(AG_ReducedForm, [IsSelfSimGroup],
 function(group)
   return __AG_ReducedFormOfGroup(group, UnderlyingSelfSimFamily(group), SelfSim);
 end);
@@ -206,18 +206,18 @@ __AG_ReducedFormOfElm := function(g, construct)
   fi;
 end;
 
-InstallOtherMethod(AG_ReducedForm, [IsAutom],
+InstallMethod(AG_ReducedForm, [IsAutom],
 function(g)
   return __AG_ReducedFormOfElm(g, Autom);
 end);
 
-InstallOtherMethod(AG_ReducedForm, [IsSelfSim],
+InstallMethod(AG_ReducedForm, [IsSelfSim],
 function(g)
   return __AG_ReducedFormOfElm(g, SelfSim);
 end);
 
 
-InstallOtherMethod(AG_UseRewritingSystem, [IsObject],
+InstallMethod(AG_UseRewritingSystem, [IsObject],
 function(obj)
   AG_UseRewritingSystem(obj, true);
 end);

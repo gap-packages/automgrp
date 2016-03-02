@@ -84,9 +84,9 @@ DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> ContractingLevel(GrigorchukGroup);
+##  gap> ContractingLevel(Grigorchuk_Group);
 ##  1
 ##  gap> ContractingLevel(Basilica);
 ##  2
@@ -112,9 +112,9 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> ContractingTable(GrigorchukGroup);
+##  gap> ContractingTable(Grigorchuk_Group);
 ##  [ [ (1, 1), (1, 1)(1,2), (a, c), (a, d), (1, b) ],
 ##    [ (1, 1)(1,2), (1, 1), (c, a)(1,2), (d, a)(1,2), (b, 1)(1,2) ],
 ##    [ (a, c), (a, c)(1,2), (1, 1), (1, b), (a, d) ],
@@ -679,9 +679,9 @@ DeclareGlobalFunction("AutomPortraitDepth");
 ##  If <G> is a monoid it computes the growth function at $\{0,1,\ldots,<max_len>\}$,
 ##  and for a semigroup without identity at $\{1,\ldots,<max_len>\}$.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> Growth(GrigorchukGroup, 7);
+##  gap> Growth(Grigorchuk_Group, 7);
 ##  There are 11 elements of length up to 2
 ##  There are 23 elements of length up to 3
 ##  There are 40 elements of length up to 4
@@ -704,9 +704,9 @@ DeclareOperation("Growth", [IsTreeHomomorphismSemigroup, IsCyclotomic]);
 ##  Returns the list of all different elements of a group (semigroup, monoid)
 ##  <G> up to length <max_len>.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> ListOfElements(GrigorchukGroup, 3);
+##  gap> ListOfElements(Grigorchuk_Group, 3);
 ##  [ 1, a, b, c, d, a*b, a*c, a*d, b*a, c*a, d*a, a*b*a, a*c*a, a*d*a, b*a*b,
 ##    b*a*c, b*a*d, c*a*b, c*a*c, c*a*d, d*a*b, d*a*c, d*a*d ]
 ##  \endexample
@@ -857,7 +857,7 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  and the element has infinite order, then the proof of this fact is printed.
 ##
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> OrderUsingSections( a*b*a*c*b );
 ##  16
@@ -913,11 +913,11 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##  The following example illustrates how to find an element of order 16 in
 ##  Grigorchuk group and the list of all such elements of length at most 5.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> FindElement(GrigorchukGroup, Order, 16, 5);
+##  gap> FindElement(Grigorchuk_Group, Order, 16, 5);
 ##  a*b
-##  gap> FindElements(GrigorchukGroup,Order,16,5);
+##  gap> FindElements(Grigorchuk_Group,Order,16,5);
 ##  [ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a,
 ##    c*a*d*a, d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c,
 ##    c*a*b*a*b, c*a*c*a*b ]
@@ -1000,9 +1000,9 @@ DeclareGlobalFunction("IsNoncontracting");
 ##  amenable.
 ##
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> IsAmenable(GrigorchukGroup);
+##  gap> IsAmenable(Grigorchuk_Group);
 ##  true
 ##  \endexample
 ##
@@ -1097,11 +1097,11 @@ DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGro
 ##  `AG_UseRewritingSystem' (see "AG_UseRewritingSystem").
 ##
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> UseAGRewritingSystem(GrigorchukGroup);
+##  gap> UseAGRewritingSystem(Grigorchuk_Group);
 ##  true
-##  gap> IsOfSubexponentialGrowth(GrigorchukGroup,10,6);
+##  gap> IsOfSubexponentialGrowth(Grigorchuk_Group,10,6);
 ##  true
 ##  \endexample
 ##

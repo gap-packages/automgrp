@@ -37,9 +37,9 @@ DeclareOperation("TreeAutomorphismGroup", [IsTreeAutomorphismGroup, IsPermGroup]
 ##  the projection of the stabilizer of $v$ in <G>
 ##  on this vertex coincides with the whole group <G>.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> IsFractal(GrigorchukGroup);
+##  gap> IsFractal(Grigorchuk_Group);
 ##  true
 ##  \endexample
 ##

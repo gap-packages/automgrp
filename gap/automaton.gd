@@ -52,6 +52,8 @@ DeclareCategoryCollections("IsMealyAutomaton");
 ##  a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
 ##  gap> D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
 ##  <automaton>
+##  gap> Display(D);
+##  a = (a, b)(1,2), b = (b, a)
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
 ##  gap> M := MealyAutomaton(u*v*u^-3);
@@ -499,11 +501,11 @@ DeclareAttribute("AdjacencyMatrix", IsMealyAutomaton);
 ##  I.e. returns `true' if the Moore diagram of <A> does not contain cycles with two or more
 ##  states and `false' otherwise.
 ##  \beginexample
-##  gap> A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,b)(1,2),c=(d,c,1),d=(d,1,d)");
+##  gap> A := MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,b)(1,2),c=(d,c,1),d=(d,1,d)");
 ##  <automaton>
 ##  gap> IsAcyclic(A);
 ##  true
-##  gap> A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,d)(1,2),c=(d,c,1),d=(b,1,d)");
+##  gap> A := MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,d)(1,2),c=(d,c,1),d=(b,1,d)");
 ##  <automaton>
 ##  gap> IsAcyclic(A);
 ##  false

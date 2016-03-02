@@ -414,7 +414,7 @@ end);
 ##
 ##  For example, consider a subgroup $\langle a, b\rangle$ of Grigorchuk group.
 ##  \beginexample
-##  gap> GrigorchukGroup := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
 ##  gap> f := IsomorphismPermGroup(Group(a, b));
 ##  MappingByFunction( < a, b >, Group(

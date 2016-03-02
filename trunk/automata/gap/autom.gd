@@ -47,6 +47,7 @@ DeclareCategoryCollections("IsInvertibleAutom");
 ##
 DeclareOperation("Autom", [IsAssocWord, IsAutom]);
 DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
+DeclareOperation("Autom", [IsAssocWord, IsList]);
 
 
 ###############################################################################
@@ -55,6 +56,7 @@ DeclareOperation("Autom", [IsAssocWord, IsAutomFamily]);
 ##
 DeclareOperation("StatesWords", [IsAutom]);
 
+#DeclareOperation("Perm", [IsAutom]);
 
 DeclareGlobalFunction("__AG_CreateAutom");
 

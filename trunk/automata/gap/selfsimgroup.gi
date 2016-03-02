@@ -104,7 +104,7 @@ end);
 ##
 #M  GroupOfSelfSimFamily(<G>)
 ##
-InstallOtherMethod(GroupOfSelfSimFamily, "for [IsSelfSimGroup]",
+InstallMethod(GroupOfSelfSimFamily, "for [IsSelfSimGroup]",
                    [IsSelfSimGroup],
 function(G)
   return GroupOfSelfSimFamily(UnderlyingSelfSimFamily(G));

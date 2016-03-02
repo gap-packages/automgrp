@@ -106,7 +106,7 @@ end);
 ##
 #M  SemigroupOfSelfSimFamily(<G>)
 ##
-InstallOtherMethod(SemigroupOfSelfSimFamily, "for [IsSelfSimSemigroup]",
+InstallMethod(SemigroupOfSelfSimFamily, "for [IsSelfSimSemigroup]",
                    [IsSelfSimSemigroup],
 function(G)
   return SemigroupOfSelfSimFamily(UnderlyingSelfSimFamily(G));

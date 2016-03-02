@@ -4,7 +4,7 @@
 #W                                                             Dmytro Savchuk
 ##  automgrp v 1.3
 ##
-#Y  Copyright (C) 2003 - 2015 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
 ##
 
 
@@ -36,15 +36,26 @@
 ##    f = (s, f)[1,1] >
 ##  \endexample
 ##  \beginexample
-
+##  gap> S := FRGroup("a=<a*b^-2,b^3>(1,2)","b=<b^-1*a,1>");
+##  <state-closed group over [ 1 .. 2 ] with 2 generators>
+##  gap> AS := FR2AutomGrp(S);
+##  < a, b >
+##  gap> Display(AS);
+##  < a = (a*b^-2, b^3)(1,2),
+##    b = (b^-1*a, 1) >
+##  gap> AssignGeneratorVariables(S);
+##  #I  Global variable `a' is already defined and will be overwritten
+##  #I  Global variable `b' is already defined and will be overwritten
+##  #I  Assigned the global variables [ "a", "b" ]
+##  gap> x := a^3*b*a^-2;
+##  <2|a^3*b*a^-2>
+##  gap> DecompositionOfFRElement(x);
+##  [ [ <2|a*b^-2>, <2|b^3*a^2*b^-1*a^-1> ], [ 2, 1 ] ]
+##  gap> y := FR2AutomGrp(x);
+##  a^3*b*a^-2
+##  gap> Decompose(y);
+##  (a*b^-2, b^3*a^2*b^-1*a^-1)(1,2)
 ##  \endexample
-##  \beginexample
-
-##  \endexample
-##  \beginexample
-
-##  \endexample
-
 DeclareOperation("FR2AutomGrp", [IsObject]);
 
 
@@ -61,7 +72,7 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 ##  \beginexample
 ##  gap> G:=AutomatonGroup("a=(b,a)(1,2),b=(a,b)");
 ##  < a, b >
-##  gap> FG:=AutomGrp2FR(G);
+##  gap> FG := AutomGrp2FR(G);
 ##  <state-closed group over [ 1 .. 2 ] with 2 generators>
 ##  gap> DecompositionOfFRElement(FG.1);
 ##  [ [ <2|b>, <2|a> ], [ 2, 1 ] ]
@@ -89,17 +100,17 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 ##  \beginexample
 ##  gap> G:=SelfSimilarSemigroup("a=(a*b^2,b*a)[1,1],b=(b,a*b*a)(1,2)");
 ##  < a, b >
-##  gap> S:=AutomGrp2FR(G);
+##  gap> S := AutomGrp2FR(G);
 ##  <state-closed semigroup over [ 1 .. 2 ] with 2 generators>
 ##  gap> DecompositionOfFRElement(S.1);
 ##  [ [ <2|a*b^2>, <2|b*a> ], [ 1, 1 ] ]
 ##  \endexample
 ##  \beginexample
-##  gap> G:=AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
+##  gap> G :=A utomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
 ##  < a, b, c >
 ##  gap> Decompose(a*b^-2);
 ##  (b^-1, a^-1)(1,2)
-##  gap> x:=AutomGrp2FR(a*b^-2);
+##  gap> x := AutomGrp2FR(a*b^-2);
 ##  <2|a*b^-2>
 ##  gap> DecompositionOfFRElement(x);
 ##  [ [ <2|b^-1>, <2|a^-1> ], [ 2, 1 ] ]

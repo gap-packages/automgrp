@@ -41,6 +41,10 @@
 ##
 DeclareOperation("AG_ReducedListOfWordsByNielsen", [IsAssocWordCollection]);
 DeclareOperation("AG_ReducedListOfWordsByNielsenBack", [IsAssocWordCollection]);
+DeclareOperation("AG_ReducedListOfWordsByNielsen", [IsAssocWordCollection, IsString]);
+DeclareOperation("AG_ReducedListOfWordsByNielsenBack", [IsAssocWordCollection, IsString]);
+DeclareOperation("AG_ReducedListOfWordsByNielsen", [IsAssocWordCollection, IsFunction]);
+DeclareOperation("AG_ReducedListOfWordsByNielsenBack", [IsAssocWordCollection, IsFunction]);
 
 
 #############################################################################

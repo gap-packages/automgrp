@@ -311,7 +311,7 @@ end);
 ##
 #M  One( <fam> )
 ##
-InstallOtherMethod(One, "for [IsSelfSimFamily]", [IsSelfSimFamily],
+InstallMethod(One, "for [IsSelfSimFamily]", [IsSelfSimFamily],
 function(fam)
   return __AG_CreateSelfSim(fam, One(fam!.freegroup),
                          List([1..fam!.deg], i -> One(fam!.freegroup)),
@@ -439,7 +439,7 @@ end);
 ##
 #M  GeneratorsOfOrderTwo( <fam> )
 ##
-InstallOtherMethod(GeneratorsOfOrderTwo, "for [IsObject]", [IsSelfSimFamily],
+InstallMethod(GeneratorsOfOrderTwo, "for [IsSelfSimFamily]", [IsSelfSimFamily],
 function(fam)
   if not fam!.isgroup then
     Error("not all generators of the family are invertible");

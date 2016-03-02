@@ -7,8 +7,6 @@
 #Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-ColorPrompt(true);
-
 ReadPkg("automgrp", "gap/tree.gd");
 ReadPkg("automgrp", "gap/treehom.gd");
 ReadPkg("automgrp", "gap/treehomsg.gd");
@@ -36,7 +34,6 @@ if not IsBound( IsPackageMarkedForLoading ) then
     return CallFuncList( LoadPackage, arg ) = true;
   end;
 fi;
-
 
 if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
   ReadPkg("automgrp", "gap/convertersfr.gd");

@@ -154,7 +154,7 @@ end);
 ##
 #M  Autom(<word>, <list>)
 ##
-InstallOtherMethod(Autom, "for [IsAssocWord, IsList]",
+InstallMethod(Autom, "for [IsAssocWord, IsList]",
                    [IsAssocWord, IsList],
 function(w, list)
   local fam;
@@ -225,7 +225,7 @@ end);
 ##
 #M  Perm(<a>)
 ##
-InstallOtherMethod(Perm, "for [IsAutom]", [IsAutom],
+InstallMethod(Perm, "for [IsAutom]", [IsAutom],
 function(a)
     return a!.perm;
 end);
@@ -311,7 +311,7 @@ end;
 ##
 #M  IsOne(a)
 ##
-InstallOtherMethod(IsOne, "for [IsAutom]", [IsAutom],
+InstallMethod(IsOne, "for [IsAutom]", [IsAutom],
 function(a)
   local i, w, nw, d, to_check, checked, deb_i, perm, autlist, pos, istrivstate, exp, G, trivstate;
 
@@ -543,7 +543,7 @@ end);
 ##
 #M  Section(a, k)
 ##
-InstallOtherMethod(Section, "for [IsAutom, IsPosInt]", [IsAutom, IsPosInt],
+InstallMethod(Section, "for [IsAutom, IsPosInt]", [IsAutom, IsPosInt],
 function(a, k)
   if k > a!.deg then
     Error("in Section(IsAutom, IsPosInt): invalid vertex ", k);
@@ -575,7 +575,7 @@ end);
 ##
 #M  k ^ a
 ##
-InstallOtherMethod(\^, "for [IsPosInt, IsAutom]", [IsPosInt, IsAutom],
+InstallMethod(\^, "for [IsPosInt, IsAutom]", [IsPosInt, IsAutom],
 function(k, a)
     return k ^ Perm(a);
 end);
@@ -585,7 +585,7 @@ end);
 ##
 #M  seq ^ a
 ##
-InstallOtherMethod(\^, "for [IsList, IsAutom]", [IsList, IsAutom],
+InstallMethod(\^, "for [IsList, IsAutom]", [IsList, IsAutom],
 function(seq, a)
     local i, deg, img, cur;
 
@@ -708,7 +708,7 @@ end);
 ##
 #M  Order(<a>)
 ##
-InstallOtherMethod(Order, "for [IsInvertibleAutom]", true,
+InstallMethod(Order, "for [IsInvertibleAutom]", true,
                    [IsInvertibleAutom],
 function(a)
   local ord_loc;

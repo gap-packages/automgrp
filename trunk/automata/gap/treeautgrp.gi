@@ -179,7 +179,7 @@ InstallMethod(IsFractal, "for [IsTreeAutomorphismGroup]", [IsTreeAutomorphismGro
 function(G)
   local i;
 
-  if DegreeOfTree(G)=1 then 
+  if DegreeOfTree(G)=1 then
     SetIsSphericallyTransitive(G, true);
     Info(InfoAutomGrp, 3, "IsFractal(G): true");
     Info(InfoAutomGrp, 3, "  G acts on 1-ary tree");

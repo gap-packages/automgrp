@@ -55,12 +55,12 @@ function(words)
   return AG_ReducedListOfWordsByNielsen(words, \<);
 end);
 
-InstallOtherMethod(AG_ReducedListOfWordsByNielsen, [IsAssocWordCollection, IsString],
+InstallMethod(AG_ReducedListOfWordsByNielsen, [IsAssocWordCollection, IsString],
 function(words, string)
   return AG_ReducedListOfWordsByNielsen(words, AG_InverseLessThanForLetters);
 end);
 
-InstallOtherMethod(AG_ReducedListOfWordsByNielsenBack, [IsAssocWordCollection, IsString],
+InstallMethod(AG_ReducedListOfWordsByNielsenBack, [IsAssocWordCollection, IsString],
 function(words, string)
   return AG_ReducedListOfWordsByNielsen(words, AG_InverseLessThanForLetters);
 end);
@@ -70,7 +70,7 @@ end);
 ##
 #M  AG_ReducedListOfWordsByNielsen(<words_list>, <lt>)
 ##
-InstallOtherMethod( AG_ReducedListOfWordsByNielsen,
+InstallMethod( AG_ReducedListOfWordsByNielsen,
                     [IsAssocWordCollection, IsFunction],
 function(words_list, lt)
   local result, transform, did_something, n, i, j, try_again, tmp;
@@ -179,7 +179,7 @@ end);
 ##
 #M  AG_ReducedListOfWordsByNielsenBack(<words_list>, <lt>)
 ##
-InstallOtherMethod(AG_ReducedListOfWordsByNielsenBack,
+InstallMethod(AG_ReducedListOfWordsByNielsenBack,
                    [IsAssocWordCollection, IsFunction],
 function(words_list, lt)
   local result, transform, did_something, n, i, j, try_again, tmp;

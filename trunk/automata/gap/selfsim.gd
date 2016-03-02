@@ -47,7 +47,7 @@ DeclareCategoryCollections("IsInvertibleSelfSim");
 ##
 DeclareOperation("SelfSim", [IsAssocWord, IsSelfSim]);
 DeclareOperation("SelfSim", [IsAssocWord, IsSelfSimFamily]);
-
+DeclareOperation("SelfSim", [IsAssocWord, IsList]);
 
 ###############################################################################
 ##

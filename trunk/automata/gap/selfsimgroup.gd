@@ -197,4 +197,11 @@ DeclareAttribute("UnderlyingAutomatonGroup", IsSelfSimGroup, "mutable");
 DeclareAttribute("MonomorphismToAutomatonGroup", IsSelfSimGroup, "mutable");
 
 
+#############################################################################
+##
+#A  GroupOfSelfSimFamily(<G>)
+##
+
+DeclareAttribute("GroupOfSelfSimFamily", IsSelfSimGroup);
+
 #E

@@ -53,7 +53,7 @@ DeclareAttribute( "GeneratingSetWithNucleus", IsTreeAutomorphismGroup, "mutable"
 ##
 #A  GeneratingSetWithNucleusAutom( <G> )
 ##
-##  Computes the automaton of the generating set that includes the nucleus of the contracting group <G>.
+##  Computes the automaton of the generating set that includes the nucleus of a contracting group <G>.
 ##  See also `GeneratingSetWithNucleus' ("GeneratingSetWithNucleus").
 ##  \beginexample
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
@@ -79,7 +79,7 @@ DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "
 ##  minimal level $n$, such that for every vertex $v$ of the $n$-th
 ##  level and all $g, h \in N$ the section $gh|_v \in N$.
 ##
-##  In case if it is not known whether <G> is contracting it first tries to compute
+##  In the case if it is not known whether <G> is contracting, it first tries to compute
 ##  the nucleus. If <G> happens to be noncontracting, it will loop forever. One can
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
@@ -88,6 +88,8 @@ DeclareAttribute( "AG_GeneratingSetWithNucleusAutom", IsTreeAutomorphismGroup, "
 ##  < a, b, c, d >
 ##  gap> ContractingLevel(Grigorchuk_Group);
 ##  1
+##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+##  < u, v >
 ##  gap> ContractingLevel(Basilica);
 ##  2
 ##  \endexample
@@ -99,7 +101,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##
 #A  ContractingTable( <G> )
 ##
-##  Given a contracting group <G> with generating set $N$  of size $k$ that includes the nucleus, stored in
+##  Given a contracting group <G> with a generating set $N$  of size $k$ that includes the nucleus, stored in
 ##  `GeneratingSetWithNucleus'(<G>)~(see "GeneratingSetWithNucleus")
 ##  computes the $k\times k$ table, whose
 ##  [i][j]-th entry contains decomposition of $N$[i]$N$[j] on
@@ -107,7 +109,7 @@ DeclareAttribute( "ContractingLevel", IsTreeAutomorphismGroup, "mutable" );
 ##  $N$[i]$N$[j] on this level belong to $N$. This table is used in the
 ##  algorithm solving the word problem in polynomial time.
 ##
-##  In case if it is not known whether <G> is contracting it first tries to compute
+##  In the case if it is not known whether <G> is contracting it first tries to compute
 ##  the nucleus. If <G> happens to be noncontracting, it will loop forever. One can
 ##  also use `IsNoncontracting' (see "IsNoncontracting") or `FindNucleus' (see
 ##  "FindNucleus") directly.
@@ -156,31 +158,35 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##  gap> ContractingLevel(G);
 ##  6
 ##  gap> ContractingTable(G);; time;
-##  11336
+##  4719
 ##  gap> v := a*b*a*b^2*c*b*c*b^-1*a^-1*b^-1*a^-1;;
 ##  gap> w := b*c*a*b*a*b*c^-1*b^-2*a^-1*b^-1*a^-1;;
 ##  gap> UseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  251
-##  gap> FindGroupRelations(G, 5);; time;
+##  110
+##  gap> FindGroupRelations(G, 9);; time;
 ##  a^2
 ##  b^2
 ##  c^2
-##  b*a*b*c*a*b*a*b*c*a
-##  b*c*a*c*a*b*c*a*c*a
-##  881
+##  (b*a*b*c*a)^2
+##  (b*(c*a)^2)^2
+##  (b*c*b*a*(b*c)^2*a)^2
+##  (b*(c*b*c*a)^2)^2
+##  11578
 ##  gap> DoNotUseContraction(G);;
 ##  gap> IsOne(Comm(v,w)); time;
 ##  true
-##  3855
-##  gap> FindGroupRelations(G, 5);; time;
+##  922
+##  gap> FindGroupRelations(G, 9);; time;
 ##  a^2
 ##  b^2
 ##  c^2
-##  b*a*b*c*a*b*a*b*c*a
-##  b*c*a*c*a*b*c*a*c*a
-##  451
+##  (b*a*b*c*a)^2
+##  (b*(c*a)^2)^2
+##  (b*c*b*a*(b*c)^2*a)^2
+##  (b*(c*b*c*a)^2)^2
+##  23719
 ##  \endexample
 ##
 DeclareOperation( "UseContraction", [IsTreeAutomorphismGroup]);
@@ -378,9 +384,10 @@ DeclareGlobalFunction("GeneratorActionOnVertex");
 ##
 #F  NumberOfVertex( <ver>, <deg> )
 ##
-##  Let <ver> belong to the $n$-th level of the <deg>-ary tree. One can
-##  naturally enumerate all the vertices of this level by the numbers $1,\ldots,<deg>^{<n>}$.
-##  This function returns the number that corresponds to the vertex <ver>.
+##  One can naturally enumerate all the vertices of the $n$-th level of the tree
+##  by the numbers $1,\ldots,<deg>^{<n>}$.
+##  This function returns the number that corresponds to the vertex <ver>
+##  of the <deg>-ary tree. The vertex can be defined either as a list or as a string.
 ##  \beginexample
 ##  gap> NumberOfVertex([1,2,1,2], 2);
 ##  6
@@ -557,7 +564,7 @@ DeclareGlobalFunction("AG_AddInversesListTrack");
 ##
 #O  FindNucleus( <G>[, <max_nucl>, <print_info>] )
 ##
-##  Given a self-similar group <G> it tries to find its nucleus. If the group
+##  Given a self-similar group <G> it tries to find its nucleus. If <G>
 ##  is not contracting it will loop forever. When it finds the nucleus it returns
 ##  the triple [`GroupNucleus'(<G>), `GeneratingSetWithNucleus'(<G>),
 ##  `GeneratingSetWithNucleusAutom'(<G>)] (see "GroupNucleus", "GeneratingSetWithNucleus",
@@ -771,8 +778,8 @@ DeclareGlobalFunction("AG_IsOneWordSubs");
 ##  gap> FindGroupRelations([(1,2)(3,4), (1,2,3)], ["x", "y"]);
 ##  x^2
 ##  y^-3
-##  y^-1*x*y^-1*x*y^-1*x
-##  [ x^2, y^-3, y^-1*x*y^-1*x*y^-1*x ]
+##  (y^-1*x)^3
+##  [ x^2, y^-3, (y^-1*x)^3 ]
 ##  \endexample
 ##
 DeclareOperation("FindGroupRelations", [IsGroup]);
@@ -811,12 +818,12 @@ DeclareOperation("FindGroupRelations", [IsList, IsCyclotomic, IsCyclotomic]);
 ##  y^2*x^3*y=x*y^3*x^2
 ##  [ [ y*x^2*y, x*y^2*x ], [ y*x^3*y^2, x^2*y^3*x ], [ y^2*x^3*y, x*y^3*x^2 ] ]
 ##  gap> FindSemigroupRelations([u*v^-1, v*u],6);
-##  v*u^2*v^-1*u^2=u^2*v*u^2*v^-1
-##  v*u^2*v^-1*u*v^-1*u^2*v*u=u*v^-1*u^2*v*u*v*u^2*v^-1
-##  v*u*v*u^2*v^-1*u*v^-1*u^2=u^2*v*u*v*u^2*v^-1*u*v^-1
+##  v*u^2*v^-1*u^2 = u^2*v*u^2*v^-1
+##  v*u*(u*v^-1)^2*u^2*v*u = u*v^-1*u*(u*v)^2*u^2*v^-1
+##  (v*u)^2*(u*v^-1)^2*u^2 = u*(u*v)^2*u*(u*v^-1)^2
 ##  [ [ v*u^2*v^-1*u^2, u^2*v*u^2*v^-1 ],
-##    [ v*u^2*v^-1*u*v^-1*u^2*v*u, u*v^-1*u^2*v*u*v*u^2*v^-1 ],
-##    [ v*u*v*u^2*v^-1*u*v^-1*u^2, u^2*v*u*v*u^2*v^-1*u*v^-1 ] ]
+##    [ v*u*(u*v^-1)^2*u^2*v*u, u*v^-1*u*(u*v)^2*u^2*v^-1 ],
+##    [ (v*u)^2*(u*v^-1)^2*u^2, u*(u*v)^2*u*(u*v^-1)^2 ] ]
 ##  gap> x := Transformation([1,1,2]);;
 ##  gap> y := Transformation([2,2,3]);;
 ##  gap> FindSemigroupRelations([x,y],["x","y"]);
@@ -865,13 +872,9 @@ DeclareOperation("FindSemigroupRelations", [IsList, IsCyclotomic, IsCyclotomic])
 ##  < u, v >
 ##  gap> SetInfoLevel( InfoAutomGrp, 3);
 ##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
-##  #I  v^13*u^15 is obtained from (u^23*v^-2*u^3*v^15)^1
+##  #I  v^13*u^15 acts transitively on levels and is obtained from (u^23*v^-2*u^3*v^15)^1
 ##      by taking sections and cyclic reductions at vertex [ 1 ]
-##  #I  v^13*u^15 is obtained from (v^13*u^15)^4
-##      by taking sections and cyclic reductions at vertex [ 1, 1 ]
 ##  infinity
-##  gap> OrderUsingSections( u^23*v^-2*u^3*v^15, 2 );
-##  fail
 ##  gap> G := AutomatonGroup("a=(c,a)(1,2), b=(b,c), c=(b,a)");
 ##  < a, b, c >
 ##  gap> OrderUsingSections(b,10);
@@ -918,9 +921,9 @@ DeclareGlobalFunction("AG_SuspiciousForNoncontraction");
 ##  gap> FindElement(Grigorchuk_Group, Order, 16, 5);
 ##  a*b
 ##  gap> FindElements(Grigorchuk_Group,Order,16,5);
-##  [ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a,
-##    c*a*d*a, d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, b*a*b*a*c, b*a*c*a*c,
-##    c*a*b*a*b, c*a*c*a*b ]
+##  [ a*b, b*a, c*a*d, d*a*c, a*b*a*d, a*c*a*d, a*d*a*b, a*d*a*c, b*a*d*a, c*a*d*a,
+##    d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, (b*a)^2*c, b*(a*c)^2, c*(a*b)^2,
+##    (c*a)^2*b ]
 ##  \endexample
 ##
 DeclareOperation("FindElement", [IsTreeHomomorphismSemigroup, IsFunction, IsObject, IsCyclotomic]);
@@ -1099,8 +1102,7 @@ DeclareAttribute("PolynomialDegreeOfGrowthOfUnderlyingAutomaton", IsAutomatonGro
 ##  \beginexample
 ##  gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 ##  < a, b, c, d >
-##  gap> UseAGRewritingSystem(Grigorchuk_Group);
-##  true
+##  gap> AG_UseRewritingSystem(Grigorchuk_Group);
 ##  gap> IsOfSubexponentialGrowth(Grigorchuk_Group,10,6);
 ##  true
 ##  \endexample

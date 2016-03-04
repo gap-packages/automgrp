@@ -80,25 +80,25 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 ##  [ [ <2|a>, <2|b> ], [ 1, 2 ] ]
 ##  \endexample
 ##  \beginexample
-##    gap> G:=SelfSimilarGroup("a=(a*b^-2,b*a)(1,2),b=(b^-1,a*b*a)");
-##    < a, b >
-##    gap> F:=AutomGrp2FR(G);
-##    <state-closed group over [ 1 .. 2 ] with 1 generator>
-##    gap> DecompositionOfFRElement(F.1);
-##    [ [ <2|a*b^-2>, <2|b*a> ], [ 2, 1 ] ]
+##  gap> G := SelfSimilarGroup("a=(a*b^-2,b*a)(1,2),b=(b^-1,a*b*a)");
+##  < a, b >
+##  gap> F := AutomGrp2FR(G);
+##  <state-closed group over [ 1 .. 2 ] with 1 generator>
+##  gap> DecompositionOfFRElement(F.1);
+##  [ [ <2|a*b^-2>, <2|b*a> ], [ 2, 1 ] ]
 ##  \endexample
 ##  \beginexample
-##  gap> G:=AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
+##  gap> G := AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
 ##  < a, b, c >
-##  gap> H:=Group([a*b,b*c^-2,a]);
+##  gap> H := Group([a*b,b*c^-2,a]);
 ##  < a*b, b*c^-2, a >
-##  gap> FH:=AutomGrp2FR(H);
+##  gap> FH := AutomGrp2FR(H);
 ##  <recursive group over [ 1 .. 2 ] with 3 generators>
 ##  gap> DecompositionOfFRElement(FH.1);
 ##  [ [ <2|b^2>, <2|a^2> ], [ 2, 1 ] ]
 ##  \endexample
 ##  \beginexample
-##  gap> G:=SelfSimilarSemigroup("a=(a*b^2,b*a)[1,1],b=(b,a*b*a)(1,2)");
+##  gap> G := SelfSimilarSemigroup("a=(a*b^2,b*a)[1,1],b=(b,a*b*a)(1,2)");
 ##  < a, b >
 ##  gap> S := AutomGrp2FR(G);
 ##  <state-closed semigroup over [ 1 .. 2 ] with 2 generators>
@@ -106,7 +106,7 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 ##  [ [ <2|a*b^2>, <2|b*a> ], [ 1, 1 ] ]
 ##  \endexample
 ##  \beginexample
-##  gap> G :=A utomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
+##  gap> G := AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
 ##  < a, b, c >
 ##  gap> Decompose(a*b^-2);
 ##  (b^-1, a^-1)(1,2)

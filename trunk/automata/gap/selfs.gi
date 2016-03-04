@@ -575,7 +575,7 @@ function(H)
   if not HasIsContracting(H) then
     Info(InfoAutomGrp, 1, "If  < H >  is not contracting, the algorithm will never stop");
   fi;
-  FindNucleus(H);
+  FindNucleus(H,false);
   return ContractingLevel(H);
 end);
 

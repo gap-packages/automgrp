@@ -70,16 +70,6 @@ InstallTrueMethod(IsInvertibleSelfSimCollection, IsSelfSimGroup);
 ##  gap> SelfSimilarGroup([[ [1,2], [-2], ()], [ [], [2,2,1], (1,2) ]], ["a","b"]);
 ##  < a, b >
 ##  \endexample
-##  The <bind_vars> argument works as follows
-##  \beginexample
-##  gap> SelfSimilarGroup("t = (t^2, t)(1,2)", false);;
-##  gap> t;
-##  Variable: 't' must have a value
-##
-##  gap> SelfSimilarGroup("t = (t^2, t)(1,2)", true);;
-##  gap> t;
-##  t
-##  \endexample
 ##
 DeclareOperation("SelfSimilarGroup", [IsList]);
 DeclareOperation("SelfSimilarGroup", [IsList, IsList]);

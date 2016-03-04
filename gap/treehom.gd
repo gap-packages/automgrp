@@ -35,11 +35,11 @@ DeclareAttribute("AutomatonList", IsTreeHomomorphism and IsActingOnRegularTree, 
 ##  on the first level with transformation <tr>. The <states> must
 ##  belong to the same family.
 ##  \beginexample
-##  gap> S:=AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
+##  gap> S := AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
 ##  < a, b >
-##  gap> x:=TreeHomomorphism([a,b^2,a,a*b],Transformation([3,1,2,2]));
+##  gap> x := TreeHomomorphism([a,b^2,a,a*b],Transformation([3,1,2,2]));
 ##  (a, b^2, a, a*b)[3,1,2,2]
-##  gap> y:=TreeHomomorphism([a*b,b,b,b^2],Transformation([1,4,2,3]));
+##  gap> y := TreeHomomorphism([a*b,b,b,b^2],Transformation([1,4,2,3]));
 ##  (a*b, b, b, b^2)[1,4,2,3]
 ##  gap> x*y;
 ##  (a*b, b^2*a*b, a*b, a*b^2)[2,1,4,4]

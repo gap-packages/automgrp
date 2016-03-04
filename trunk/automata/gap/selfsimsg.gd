@@ -67,16 +67,6 @@ DeclareSynonym("IsSelfSimSemigroup", IsSemigroup and IsSelfSimCollection);
 ##  gap> SelfSimilarSemigroup([[[1,2], [2], ()], [[1], [2,2,1], (1,2)]],["a","b"]);
 ##  < a, b >
 ##  \endexample
-##  The <bind_vars> argument works as follows
-##  \beginexample
-##  gap> SelfSimilarSemigroup("t = (t^2, t)(1,2)", false);;
-##  gap> t;
-##  Variable: 't' must have a value
-##
-##  gap> SelfSimilarSemigroup("t = (t^2, t)(1,2)", true);;
-##  gap> t;
-##  t
-##  \endexample
 ##
 DeclareOperation("SelfSimilarSemigroup", [IsList]);
 DeclareOperation("SelfSimilarSemigroup", [IsList, IsList]);
@@ -171,7 +161,7 @@ InstallTrueMethod(IsSemigroupOfSelfSimFamily, IsSelfSimilarSemigroup);
 ##  `IsomorphicAutomSemigroup'(<G>) ("IsomorphicAutomSemigroup") and
 ##  `MonomorphismToAutomatonSemigroup'(<G>) ("MonomorphismToAutomatonSemigroup").
 ##  \beginexample
-##  gap> W:=SelfSimilarGroup("x=(x^-1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
+##  gap> W := SelfSimilarGroup("x=(x^-1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
 ##  < x, y, z >
 ##  gap> IsFiniteState(W);
 ##  true

@@ -19,6 +19,7 @@ g_files =						\
     ../gap/automfam.gd	      ../gap/automfam.gi	\
     ../gap/autom.gd	      ../gap/autom.gi		\
     ../gap/automgroup.gd      ../gap/automgroup.gi	\
+    ../gap/convertersfr.gd	../gap/convertersfr.gi  \
     ../gap/listops.gd	      ../gap/listops.gi		\
     ../gap/rws.gd	      ../gap/rws.gi		\
     ../gap/selfs.gd	      ../gap/selfs.gi		\

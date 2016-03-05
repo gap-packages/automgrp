@@ -7,7 +7,6 @@ archive = $(pkgname)-$(pkgver)
 top_files =			\
     init.g			\
     read.g			\
-    PackageInfo.g		\
     COPYING			\
     README			\
     NEWS

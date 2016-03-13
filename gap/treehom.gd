@@ -241,13 +241,14 @@ DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphism, IsPosInt]);
 
 
 #############################################################################
-##
-#O  \^ ( <ver>, <a> )
-##
-##  Returns the image of a vertex <ver> under the action of a homomorphism <a>.
-##
-#DeclareOperation("\^", [IsPosInt, IsTreeHomomorphism]);
+###
+##O  \^ ( <ver>, <a> )
+###
+###  Returns the image of a vertex <ver> under the action of a homomorphism <a>.
+###
 DeclareOperation("\^", [IsList, IsTreeHomomorphism]);
+
+###DeclareOperation("\^", [IsPosInt, IsTreeHomomorphism]);
 
 
 ###############################################################################

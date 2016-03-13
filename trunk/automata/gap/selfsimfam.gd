@@ -23,11 +23,11 @@ DeclareOperation("SelfSimFamily", [IsList, IsList, IsBool]);
 
 
 
-###############################################################################
-##
-#A  One(<fam>)
-##
-#DeclareAttribute("One", IsSelfSimFamily);
+################################################################################
+###
+##A  One(<fam>)
+###
+##DeclareAttribute("One", IsSelfSimFamily);
 
 
 

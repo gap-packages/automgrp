@@ -148,7 +148,7 @@ DeclareAttribute( "AG_ContractingTable", IsTreeAutomorphismGroup, "mutable" );
 ##
 ##  Below we provide an example which shows that both methods can be of use.
 ##  %notest
-##  \beginexample
+##  \beginexample|unstableoutput
 ##  gap> G := AutomatonGroup("a=(b,b)(1,2), b=(c,a), c=(a,a)");
 ##  < a, b, c >
 ##  gap> IsContracting(G);

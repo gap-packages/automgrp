@@ -29,11 +29,11 @@ DeclareAttribute("GeneratingAutomatonList", IsAutomFamily);
 DeclareAttribute("DualAutomFamily", IsAutomFamily);
 
 
-###############################################################################
-##
-#A  One(<fam>)
-##
-#DeclareAttribute("One", IsAutomFamily);
+################################################################################
+###
+##A  One(<fam>)
+###
+### DeclareAttribute("One", IsAutomFamily);
 
 
 ###############################################################################

@@ -1397,6 +1397,8 @@ function(H, size)
     od;
     return true;
   end;
+  
+
 
 #######################   _FiniteGroupId  itself #########################################
   gr := 1; len := 1;

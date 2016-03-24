@@ -63,6 +63,7 @@ UnitTest("SelfSim", function()
     od;
   od;
 
+  
 
 # example of finite self-similar group
 

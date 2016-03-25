@@ -4,7 +4,7 @@
 In this chapter we present the functionality that does not quite fit in other chapters and the list of predefined groups and semigroups.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Converters to and from `FR' package}
+\Section{Converters to and from FR package}
 
 \Declaration{FR2AutomGrp}
 \Declaration{AutomGrp2FR}

@@ -88,7 +88,7 @@ This notation is very convenient for performing multiplication of
 elements. Throughout this manual and everywhere in the package we use the right
 action of (semi)groups acting on trees and for automorphisms (homomorphisms) of
 a tree $f$ and $g$, the composition $f.g$ means that $f$ acts first. This is
-consistent with the order of multiplication of permutations in \GAP\, even though
+consistent with the order of multiplication of permutations in \GAP\ , even though
 some authors in the field prefer to use the left action. With this convention
 in mind, If $f=(f_1,f_2,\ldots,f_d)\sigma$ and
 $g=(g_1,g_2,\ldots,g_d)\pi$, then

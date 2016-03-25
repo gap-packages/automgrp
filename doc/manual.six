@@ -69,13 +69,13 @@ F 2.3. LevelOfFaithfulAction
 F 2.3. IsomorphismPermGroup
 F 2.3. IsomorphismPermGroup
 F 2.3. Random
-F 2.3. MarkovOperator![treehomsg]
+F 2.3. MarkovOperator
 F 2.3. MihailovaSystem![automgroup]
 F 2.3. AbelImage
 F 2.3. DiagonalPower
 F 2.3. MultAutomAlphabet
 F 2.3. UnderlyingAutomFamily
-S 2.4. Self-similar groups and semigroups defined by wreath recursion
+S 2.4. Self-similar groups and semigroups defined by the wreath recursion
 F 2.4. IsFiniteState![selfsimsg]
 F 2.4. IsomorphicAutomGroup
 F 2.4. IsomorphicAutomSemigroup
@@ -99,6 +99,7 @@ F 2.6. AG_RewritingSystemRules
 C elements.tex 3. Properties and operations with group and semigroup elements
 S 3.1. Creation of tree automorphisms and homomorphisms
 F 3.1. TreeAutomorphism
+F 3.1. TreeHomomorphism
 F 3.1. Representative
 F 3.1. Representative
 S 3.2. Properties and attributes of tree automorphisms and homomorphisms
@@ -139,6 +140,8 @@ F 4.1. MealyAutomaton
 F 4.1. MealyAutomaton
 F 4.1. MealyAutomaton
 F 4.1. MealyAutomaton
+F 4.1. MealyAutomaton
+F 4.1. MealyAutomaton
 F 4.1. IsMealyAutomaton
 F 4.1. NumberOfStates
 F 4.1. SizeOfAlphabet
@@ -167,28 +170,31 @@ F 4.2. SubautomatonWithStates
 F 4.2. AutomatonNucleus
 F 4.2. AreEquivalentAutomata
 C misc.tex 5. Miscellaneous
-S 5.1. Trees
-F 5.1. NumberOfVertex
-F 5.1. VertexNumber
-S 5.2. Some predefined groups
-F 5.2. GrigorchukGroup
-F 5.2. UniversalGrigorchukGroup
-F 5.2. Basilica
-F 5.2. Lamplighter
-F 5.2. AddingMachine
-F 5.2. InfiniteDihedral
-F 5.2. AleshinGroup
-F 5.2. Bellaterra
-F 5.2. SushchanskyGroup
-F 5.2. Hanoi3
-F 5.2. Hanoi4
-F 5.2. GuptaSidki3Group
-F 5.2. GuptaFabrikowskiGroup
-F 5.2. BartholdiGrigorchukGroup
-F 5.2. GrigorchukErschlerGroup
-F 5.2. BartholdiNonunifExponGroup
-F 5.2. IMG_z2plusI
-F 5.2. Airplane
-F 5.2. Rabbit
-F 5.2. TwoStateSemigroupOfIntermediateGrowth
-F 5.2. UniversalD_omega
+S 5.1. Converters to and from FR package
+F 5.1. FR2AutomGrp
+F 5.1. AutomGrp2FR
+S 5.2. Trees
+F 5.2. NumberOfVertex
+F 5.2. VertexNumber
+S 5.3. Some predefined groups
+F 5.3. GrigorchukGroup
+F 5.3. UniversalGrigorchukGroup
+F 5.3. Basilica
+F 5.3. Lamplighter
+F 5.3. AddingMachine
+F 5.3. InfiniteDihedral
+F 5.3. AleshinGroup
+F 5.3. Bellaterra
+F 5.3. SushchanskyGroup
+F 5.3. Hanoi3
+F 5.3. Hanoi4
+F 5.3. GuptaSidki3Group
+F 5.3. GuptaFabrikowskiGroup
+F 5.3. BartholdiGrigorchukGroup
+F 5.3. GrigorchukErschlerGroup
+F 5.3. BartholdiNonunifExponGroup
+F 5.3. IMG_z2plusI
+F 5.3. Airplane
+F 5.3. Rabbit
+F 5.3. TwoStateSemigroupOfIntermediateGrowth
+F 5.3. UniversalD_omega

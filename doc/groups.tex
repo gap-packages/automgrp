@@ -276,7 +276,7 @@ This is sufficient but not necessary condition for <G> to be fractal. See also
 `IsFractal' ("IsFractal").
 
 
-\>`IsSphericallyTransitive( <G> )'{IsSphericallyTransitive}!{[treehomsg]} P
+\>IsSphericallyTransitive( <G> )!{ for tree homomorphism (semi)group} P
 
 Returns whether the group <G> is spherically transitive (see~"Short math background").
 \beginexample
@@ -304,7 +304,7 @@ false
 \endexample
 
 
-\>`IsTransitiveOnLevel( <G>, <lev> )'{IsTransitiveOnLevel}!{[treehomsg]} O
+\>IsTransitiveOnLevel( <G>, <lev> )!{ for tree homomorphism (semi)group} O
 
 Returns whether the group (semigroup) <G> acts transitively on level <lev>.
 
@@ -489,7 +489,7 @@ a1 = (a1, a1), a2 = (a3, a1)(1,2), a3 = (a2, a1)
 \endexample
 
 
-\>`AutomatonList( <G> )'{AutomatonList}!{[automsg]} AM
+\>AutomatonList( <G> )!{ for tree homomorphism (semi)group} AM
 
 Returns an `AutomatonList' of `UnderlyingAutomaton'(<G>) (see "UnderlyingAutomaton").
 \beginexample
@@ -500,7 +500,7 @@ gap> AutomatonList(Basilica);
 \endexample
 
 
-\>`RecurList( <G> )'{RecurList}!{[selfsimsg]} AM
+\>RecurList( <G> )!{ for tree homomorphism (semi)group} AM
 
 Returns an internal representation of the wreath recursion of the
 self-similar group (semigroup) containing <G>.
@@ -976,7 +976,7 @@ gap> MarkovOperator(S,3,[1/3,2/3]);
 \endexample
 
 
-\>`MihailovaSystem( <G> )'{MihailovaSystem}!{[automgroup]} AM
+\>MihailovaSystem( <G> ) AM
 
 In the case when <G> is an automaton fractal group acting on a binary
 tree, computes the generating set for the first level stabilizer in G
@@ -1047,7 +1047,7 @@ Returns the family to which the elements of <G> belong.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Self-similar groups and semigroups defined by the wreath recursion}
 
-\>`IsFiniteState( <G> )'{IsFiniteState![selfsimsg]}@{`IsFiniteState'!`[selfsimsg]'} P
+\>IsFiniteState( <G> )!{ for tree homomorphism (semi)group} P
 
 For a group or semigroup of homomorphisms of the tree defined using a
 wreath recursion, returns `true' if all

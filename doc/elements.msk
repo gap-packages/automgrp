@@ -16,8 +16,8 @@ In this chapter we present the functionality applicable to elements of groups an
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and attributes of tree automorphisms and homomorphisms}
 
-\Declaration{IsSphericallyTransitive}[treehom]{IsSphericallyTransitive}!{[treehom]}
-\Declaration{IsTransitiveOnLevel}[treehom]{IsTransitiveOnLevel}!{[treehom]}
+\Declaration{IsSphericallyTransitive}[treehom]!{ for tree homomorphism}
+\Declaration{IsTransitiveOnLevel}[treehom]!{ for tree homomorphism}
 
 \>IsOne( <a> ) O
 
@@ -72,13 +72,13 @@ infinity
 
 The multiplication of tree homomorphisms is defined in the standard way
 
-\>`<a> \* <b>'{product}!{for tree homomorphisms}
+\>`<a> \* <b>'{product}!{ for tree homomorphisms}
 
 The following operations allow computation of the actions of tree
 homomorphisms on letters and vertices
 
-\>`<letter> ^ <a>'{action}!{of tree homomorphism on letter}
-\>`<vertex> ^ <a>'{action}!{of tree homomorphism on vertex}
+\>`<letter> ^ <a>'{action}!{ of tree homomorphism on letter}
+\>`<vertex> ^ <a>'{action}!{ of tree homomorphism on vertex}
 
 \beginexample
 gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
@@ -92,7 +92,7 @@ gap> [1, 2, 2, 1, 2, 1]^(p*q^2);
 
 The operations below describe how to work with sections of tree homomorphisms.
 
-\Declaration{Section}[treehom]{Section}!{[treehom]}
+\Declaration{Section}[treehom]!{ for tree homomorphism}
 \Declaration{Sections}
 \Declaration{Decompose}
 
@@ -122,7 +122,7 @@ false
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Elements of groups and semigroups defined by wreath recursion}
 
-\Declaration{IsFiniteState}[selfsim]{IsFiniteState}!{[selfsim]}
+\Declaration{IsFiniteState}[selfsim]!{ for tree homomorphism}
 \Declaration{AllSections}
 
 See also operation `MealyAutomaton' ("MealyAutomaton"), which allows to construct

@@ -26,9 +26,9 @@ F 2.2. TopDegreeOfTree
 F 2.2. DegreeOfTree
 F 2.2. IsFractal
 F 2.2. IsFractalByWords
-F 2.2. IsSphericallyTransitive![treehomsg]
+F 2.2. IsSphericallyTransitive! for tree homomorphism (semi)group
 F 2.2. ContainsSphericallyTransitiveElement
-F 2.2. IsTransitiveOnLevel![treehomsg]
+F 2.2. IsTransitiveOnLevel! for tree homomorphism (semi)group
 F 2.2. IsSelfSimilar
 F 2.2. IsContracting
 F 2.2. IsNoncontracting
@@ -38,8 +38,8 @@ F 2.2. PolynomialDegreeOfGrowthOfUnderlyingAutomaton
 F 2.2. IsOfSubexponentialGrowth
 F 2.2. IsAmenable
 F 2.2. UnderlyingAutomaton
-F 2.2. AutomatonList![automsg]
-F 2.2. RecurList![selfsimsg]
+F 2.2. AutomatonList! for tree homomorphism (semi)group
+F 2.2. RecurList! for tree homomorphism (semi)group
 S 2.3. Operations with groups and semigroups
 F 2.3. PermGroupOnLevel
 F 2.3. TransformationSemigroupOnLevel
@@ -70,13 +70,13 @@ F 2.3. IsomorphismPermGroup
 F 2.3. IsomorphismPermGroup
 F 2.3. Random
 F 2.3. MarkovOperator
-F 2.3. MihailovaSystem![automgroup]
+F 2.3. MihailovaSystem
 F 2.3. AbelImage
 F 2.3. DiagonalPower
 F 2.3. MultAutomAlphabet
 F 2.3. UnderlyingAutomFamily
 S 2.4. Self-similar groups and semigroups defined by the wreath recursion
-F 2.4. IsFiniteState![selfsimsg]
+F 2.4. IsFiniteState! for tree homomorphism (semi)group
 F 2.4. IsomorphicAutomGroup
 F 2.4. IsomorphicAutomSemigroup
 F 2.4. UnderlyingAutomatonGroup
@@ -103,8 +103,8 @@ F 3.1. TreeHomomorphism
 F 3.1. Representative
 F 3.1. Representative
 S 3.2. Properties and attributes of tree automorphisms and homomorphisms
-F 3.2. IsSphericallyTransitive![treehom]
-F 3.2. IsTransitiveOnLevel![treehom]
+F 3.2. IsSphericallyTransitive! for tree homomorphism
+F 3.2. IsTransitiveOnLevel! for tree homomorphism
 F 3.2. IsOne
 F 3.2. IsOneContr
 F 3.2. Order
@@ -117,10 +117,10 @@ F 3.2. TransformationOnFirstLevel
 F 3.2. TransformationOnLevelAsMatrix
 F 3.2. Word
 S 3.3. Operations with tree automorphisms and homomorphisms
-F 3.3. product!for tree homomorphisms
-F 3.3. action!of tree homomorphism on letter
-F 3.3. action!of tree homomorphism on vertex
-F 3.3. Section![treehom]
+F 3.3. product! for tree homomorphisms
+F 3.3. action! of tree homomorphism on letter
+F 3.3. action! of tree homomorphism on vertex
+F 3.3. Section! for tree homomorphism
 F 3.3. Sections
 F 3.3. Decompose
 F 3.3. in
@@ -128,7 +128,7 @@ F 3.3. OrbitOfVertex
 F 3.3. PrintOrbitOfVertex
 F 3.3. PermActionOnLevel
 S 3.4. Elements of groups and semigroups defined by wreath recursion
-F 3.4. IsFiniteState![selfsim]
+F 3.4. IsFiniteState! for tree homomorphism
 F 3.4. AllSections
 S 3.5. Elements of contracting groups
 F 3.5. AutomPortrait
@@ -145,7 +145,7 @@ F 4.1. MealyAutomaton
 F 4.1. IsMealyAutomaton
 F 4.1. NumberOfStates
 F 4.1. SizeOfAlphabet
-F 4.1. AutomatonList![automaton]
+F 4.1. AutomatonList! for automaton
 S 4.2. Tools
 F 4.2. IsTrivial
 F 4.2. IsInvertible
@@ -165,7 +165,7 @@ F 4.2. MDReduction
 F 4.2. IsMDTrivial
 F 4.2. IsMDReduced
 F 4.2. DisjointUnion
-F 4.2. product!for noninitial automata
+F 4.2. product! for noninitial automata
 F 4.2. SubautomatonWithStates
 F 4.2. AutomatonNucleus
 F 4.2. AreEquivalentAutomata

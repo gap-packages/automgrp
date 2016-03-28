@@ -76,12 +76,12 @@ gap> Decompose(r);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Properties and attributes of tree automorphisms and homomorphisms}
 
-\>`IsSphericallyTransitive( <a> )'{IsSphericallyTransitive}!{[treehom]} P
+\>IsSphericallyTransitive( <a> )!{ for tree homomorphism} P
 
 Returns whether the action of <a> is spherically transitive (see "Short math background").
 
 
-\>`IsTransitiveOnLevel( <a>, <lev> )'{IsTransitiveOnLevel}!{[treehom]} O
+\>IsTransitiveOnLevel( <a>, <lev> )!{ for tree homomorphism} O
 
 Returns whether <a> acts transitively on level <lev> of the tree.
 
@@ -240,13 +240,13 @@ gap> Length(w);
 
 The multiplication of tree homomorphisms is defined in the standard way
 
-\>`<a> \* <b>'{product}!{for tree homomorphisms}
+\>`<a> \* <b>'{product}!{ for tree homomorphisms}
 
 The following operations allow computation of the actions of tree
 homomorphisms on letters and vertices
 
-\>`<letter> ^ <a>'{action}!{of tree homomorphism on letter}
-\>`<vertex> ^ <a>'{action}!{of tree homomorphism on vertex}
+\>`<letter> ^ <a>'{action}!{ of tree homomorphism on letter}
+\>`<vertex> ^ <a>'{action}!{ of tree homomorphism on vertex}
 
 \beginexample
 gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
@@ -260,7 +260,7 @@ gap> [1, 2, 2, 1, 2, 1]^(p*q^2);
 
 The operations below describe how to work with sections of tree homomorphisms.
 
-\>`Section( <a>, <v> )'{Section}!{[treehom]} O
+\>Section( <a>, <v> )!{ for tree homomorphism} O
 
 Returns the section of the automorphism (homomorphism) <a> at the vertex <v>.
 The vertex <v> can be a list representing the vertex, or a positive integer
@@ -390,7 +390,7 @@ gap> PermActionOnLevel((1,13,5,9,3,15,7,11)(2,14,6,10,4,16,8,12), 4, 2, 2);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Elements of groups and semigroups defined by wreath recursion}
 
-\>`IsFiniteState( <a> )'{IsFiniteState}!{[selfsim]} P
+\>IsFiniteState( <a> )!{ for tree homomorphism} P
 
 Returns `true' if <a> has finitely many different sections.
 It will never stop if the free reduction of words is not sufficient

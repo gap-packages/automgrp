@@ -10,7 +10,7 @@ In this chapter we present the functionality applicable to noninitial automata.
 \Declaration{IsMealyAutomaton}
 \Declaration{NumberOfStates}
 \Declaration{SizeOfAlphabet}
-\Declaration{AutomatonList}[automaton]{AutomatonList}!{[automaton]}
+\Declaration{AutomatonList}[automaton]!{ for automaton}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +41,7 @@ trivial automaton. In this case an automaton is called MD-trivial.
 \Declaration{IsMDTrivial}
 \Declaration{IsMDReduced}
 \Declaration{DisjointUnion}
-\>`<A> \* <B>'{product}!{for noninitial automata}
+\>`<A> \* <B>'{product}!{ for noninitial automata}
 
 Constructs the product of 2 noninitial automata <A> and <B>.
 \beginexample

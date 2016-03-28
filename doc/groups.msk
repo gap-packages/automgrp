@@ -26,9 +26,9 @@ In this chapter we present the functionality applicable to groups and semigroups
 \Declaration{DegreeOfTree}
 \Declaration{IsFractal}
 \Declaration{IsFractalByWords}
-\Declaration{IsSphericallyTransitive}[treehomsg]{IsSphericallyTransitive}!{[treehomsg]}
+\Declaration{IsSphericallyTransitive}[treehomsg]!{ for tree homomorphism (semi)group}
 \Declaration{ContainsSphericallyTransitiveElement}
-\Declaration{IsTransitiveOnLevel}[treehomsg]{IsTransitiveOnLevel}!{[treehomsg]}
+\Declaration{IsTransitiveOnLevel}[treehomsg]!{ for tree homomorphism (semi)group}
 \Declaration{IsSelfSimilar}
 \Declaration{IsContracting}
 \Declaration{IsNoncontracting}
@@ -38,8 +38,8 @@ In this chapter we present the functionality applicable to groups and semigroups
 \Declaration{IsOfSubexponentialGrowth}
 \Declaration{IsAmenable}
 \Declaration{UnderlyingAutomaton}
-\Declaration{AutomatonList}[automsg]{AutomatonList}!{[automsg]}
-\Declaration{RecurList}[selfsimsg]{RecurList}!{[selfsimsg]}
+\Declaration{AutomatonList}[automsg]!{ for tree homomorphism (semi)group}
+\Declaration{RecurList}[selfsimsg]!{ for tree homomorphism (semi)group}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,7 +88,7 @@ gap> l;
 \Declaration{IsomorphismPermGroup}
 \Declaration{Random}
 \Declaration{MarkovOperator}
-\Declaration{MihailovaSystem}[automgroup]{MihailovaSystem}!{[automgroup]}
+\Declaration{MihailovaSystem}
 
 
 
@@ -107,7 +107,7 @@ gap> l;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Self-similar groups and semigroups defined by the wreath recursion}
 
-\Declaration{IsFiniteState}[selfsimsg]
+\Declaration{IsFiniteState}[selfsimsg]!{ for tree homomorphism (semi)group}
 \Declaration{IsomorphicAutomGroup}
 \Declaration{IsomorphicAutomSemigroup}
 

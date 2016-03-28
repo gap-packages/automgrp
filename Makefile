@@ -56,6 +56,7 @@ gap_files =			\
 
 tst_files =			\
     tst/testall.g		\
+    tst/testautom.g		\
     tst/testcontr.g		\
     tst/testexternal.g		\
     tst/testiter.g		\

@@ -7,7 +7,7 @@
 \seccontents {2.2}{Basic properties of groups and semigroups} {13}
 \seccontents {2.3}{Operations with groups and semigroups} {17}
 \seccontents {2.4}{Self-similar groups and semigroups defined by the wreath recursion} {24}
-\seccontents {2.5}{Contracting groups} {27}
+\seccontents {2.5}{Contracting groups} {26}
 \seccontents {2.6}{Rewriting Systems} {29}
 \chapcontents {3}{Properties and operations with group and semigroup elements}{31}
 \seccontents {3.1}{Creation of tree automorphisms and homomorphisms} {31}

@@ -42,8 +42,6 @@ gap> Display(AS);
 < a = (a*b^-2, b^3)(1,2),
   b = (b^-1*a, 1) >
 gap> AssignGeneratorVariables(S);
-#I  Global variable `a' is already defined and will be overwritten
-#I  Global variable `b' is already defined and will be overwritten
 #I  Assigned the global variables [ "a", "b" ]
 gap> x := a^3*b*a^-2;
 <2||a^3*b*a^-2>
@@ -74,12 +72,12 @@ gap> DecompositionOfFRElement(FG.2);
 [ [ <2||a>, <2||b> ], [ 1, 2 ] ]
 \endexample
 \beginexample
-gap> G := SelfSimilarGroup("a=(a*b^-2,b*a)(1,2),b=(b^-1,a*b*a)");
+gap> G := SelfSimilarGroup("a=(a*b^-2,b)(1,2),b=(b^2,a*b*a^-2)");
 < a, b >
 gap> F := AutomGrp2FR(G);
-<state-closed group over [ 1 .. 2 ] with 1 generator>
+<state-closed group over [ 1 .. 2 ] with 2 generators>
 gap> DecompositionOfFRElement(F.1);
-[ [ <2||a*b^-2>, <2||b*a> ], [ 2, 1 ] ]
+[ [ <2||a*b^-2>, <2||b> ], [ 2, 1 ] ]
 \endexample
 \beginexample
 gap> G := AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");

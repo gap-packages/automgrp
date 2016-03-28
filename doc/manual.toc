@@ -1,7 +1,7 @@
 \chapcontents {1}{Introduction}{3}
 \seccontents {1.1}{Short math background} {3}
 \seccontents {1.2}{Installation instructions} {5}
-\seccontents {1.3}{Quick example} {5}
+\seccontents {1.3}{Quick example} {6}
 \chapcontents {2}{Properties and operations with groups and semigroups}{10}
 \seccontents {2.1}{Creation of groups and semigroups} {10}
 \seccontents {2.2}{Basic properties of groups and semigroups} {13}

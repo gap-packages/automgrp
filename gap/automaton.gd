@@ -113,7 +113,7 @@ DeclareOperation("SetStateNames", [IsMealyAutomaton, IsList]);
 ##
 #A  AutomatonList( <A> )
 ##
-##  Returns the list of <A> acceptible by `MealyAutomaton' (see "MealyAutomaton")
+##  Returns the list of <A> acceptable by `MealyAutomaton' (see "MealyAutomaton")
 ##
 ##
 DeclareAttribute("AutomatonList", IsMealyAutomaton);

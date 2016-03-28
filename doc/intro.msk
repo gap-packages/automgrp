@@ -19,7 +19,9 @@ and understanding. This project would be impossible without them.
 We would like to express our warm gratitude to Rostislav Grigorchuk, Zoran Sunic,
 Volodymyr Nekrashevych, Ievgen Bondarenko, Rostyslav Kravchenko, Yaroslav and Maria
 Vorobets and Ben Steinberg for their support, valuable comments, feature requests and constant interest
-in the project.
+in the project. 
+
+We also appreciate the code provided by Andriy Russev that was used to optimize the minimization of autmata function. Last, but not the least, we want to thank the anonymous referee for a very detailed review and numeruous constructive comments that significantly increased the quality of the accepted version of the package.
 
 Both authors were partially supported by NSF grants DMS-0600975, DMS-0456185 and DMS-0308985. The second author
 appreciates the support from the New Researcher Grant from University of South Florida and Simons

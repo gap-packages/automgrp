@@ -5,6 +5,7 @@ distdir = $(pkgname)
 archive = $(pkgname)-$(pkgver)
 
 top_files =			\
+    PackageInfo.g		\
     init.g			\
     read.g			\
     COPYING			\
@@ -22,6 +23,8 @@ gap_files =			\
     gap/automgroup.gi		\
     gap/automsg.gd		\
     gap/automsg.gi		\
+    gap/convertersfr.gd		\
+    gap/convertersfr.gi		\
     gap/globals.g		\
     gap/groups.g		\
     gap/listops.gd		\

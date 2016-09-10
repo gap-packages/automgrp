@@ -597,6 +597,48 @@ function(A)
 end);
 
 
+InstallMethod(Inverse, "for [IsMealyAutomaton]", true,
+              [IsMealyAutomaton],
+function(A)
+  return InverseAutomaton(A);
+end);
+
+
+###############################################################################
+##
+#M  \^
+##
+##  Constructs the power <power> of an automaton, where <power> can be negative as well
+##
+
+InstallMethod(\^, "for [IsMealyAutomaton, IsCyclotomic]", [IsMealyAutomaton, IsCyclotomic],
+function(A, power)
+  if power>0 then
+    TryNextMethod();
+  elif power=0 then
+    return MealyAutomaton([Concatenation(List([1..A!.degree],x->1),[()])]);
+  else
+    return InverseAutomaton(A)^-power;
+  fi;
+end);
+
+
+
+###############################################################################
+##
+#M  \/
+##
+##  Constructs the power <power> of an automaton, where <power> can be negative as well
+##
+
+InstallMethod(\/, "for [IsMealyAutomaton, IsMealyAutomaton]", [IsMealyAutomaton, IsMealyAutomaton],
+function(A1, A2)
+  return A1*A2^-1;
+end);
+
+
+
+
 InstallMethod(IsBireversible, "for [IsMealyAutomaton]", true,
               [IsMealyAutomaton],
 function(A)

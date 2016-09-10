@@ -1280,7 +1280,7 @@ end);
 
 
 InstallMethod(Growth, "for [IsAutomGroup, IsCyclotomic]", true,
-              [IsAutomGroup, IsCyclotomic],
+              [IsGroup, IsCyclotomic],
 function(G, max_len)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, cur_els;
 
@@ -1339,7 +1339,7 @@ end);
 
 
 InstallMethod(ListOfElements, "for [IsTreeHomomorphismSemigroup, IsCyclotomic]", true,
-              [IsTreeHomomorphismSemigroup, IsCyclotomic],
+              [IsGroup, IsCyclotomic],
 function(G, max_len)
   return FindElements(G, ReturnTrue, true, max_len);
 end);
@@ -3005,7 +3005,7 @@ end);
 
 
 InstallMethod(FindElements, "for [IsAutomGroup, IsFunction, IsObject, IsCyclotomic]", true,
-              [IsAutomGroup, IsFunction, IsObject, IsCyclotomic],
+              [IsGroup, IsFunction, IsObject, IsCyclotomic],
 function(G, func, val, n)
   local ElList, GrList, i, j, orig_gens, gen, gens, new_gen, g, len, viewed, oldgr, New, k, cur_els;
 

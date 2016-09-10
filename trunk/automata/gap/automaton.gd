@@ -21,6 +21,8 @@ DeclareCategoryFamily("IsMealyAutomaton");
 DeclareCategoryCollections("IsMealyAutomaton");
 
 
+
+
 ###############################################################################
 ##
 #O  MealyAutomaton( <table>[, <names>[, <alphabet>]] )
@@ -512,6 +514,12 @@ DeclareAttribute("AdjacencyMatrix", IsMealyAutomaton);
 ##  \endexample
 ##
 DeclareProperty("IsAcyclic", IsMealyAutomaton);
+
+
+DeclareOperation("\/", [IsMealyAutomaton, IsMealyAutomaton]);
+DeclareAttribute("Inverse", IsMealyAutomaton);
+
+
 
 ##  PassToPowerOfAlphabet ( <A>, <power> )
 

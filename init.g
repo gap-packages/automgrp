@@ -2,31 +2,31 @@
 ##
 #W  init.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.3
+##  automgrp v 1.3.1
 ##
-#Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2018 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-ReadPkg("automgrp", "gap/tree.gd");
-ReadPkg("automgrp", "gap/treehom.gd");
-ReadPkg("automgrp", "gap/treehomsg.gd");
-ReadPkg("automgrp", "gap/treeaut.gd");
-ReadPkg("automgrp", "gap/treeautgrp.gd");
-ReadPkg("automgrp", "gap/autom.gd");
-ReadPkg("automgrp", "gap/automaton.gd");
-ReadPkg("automgrp", "gap/automfam.gd");
-ReadPkg("automgrp", "gap/automsg.gd");
-ReadPkg("automgrp", "gap/automgroup.gd");
-ReadPkg("automgrp", "gap/listops.gd");
-ReadPkg("automgrp", "gap/utils.gd");
-ReadPkg("automgrp", "gap/utilsfrgrp.gd");
-ReadPkg("automgrp", "gap/rws.gd");
-ReadPkg("automgrp", "gap/selfs.gd");
-ReadPkg("automgrp", "gap/selfsim.gd");
-ReadPkg("automgrp", "gap/selfsimfam.gd");
-ReadPkg("automgrp", "gap/selfsimsg.gd");
-ReadPkg("automgrp", "gap/selfsimgroup.gd");
-#ReadPkg("automgrp", "gap/scilab.gd");
+ReadPackage("automgrp", "gap/tree.gd");
+ReadPackage("automgrp", "gap/treehom.gd");
+ReadPackage("automgrp", "gap/treehomsg.gd");
+ReadPackage("automgrp", "gap/treeaut.gd");
+ReadPackage("automgrp", "gap/treeautgrp.gd");
+ReadPackage("automgrp", "gap/autom.gd");
+ReadPackage("automgrp", "gap/automaton.gd");
+ReadPackage("automgrp", "gap/automfam.gd");
+ReadPackage("automgrp", "gap/automsg.gd");
+ReadPackage("automgrp", "gap/automgroup.gd");
+ReadPackage("automgrp", "gap/listops.gd");
+ReadPackage("automgrp", "gap/utils.gd");
+ReadPackage("automgrp", "gap/utilsfrgrp.gd");
+ReadPackage("automgrp", "gap/rws.gd");
+ReadPackage("automgrp", "gap/selfs.gd");
+ReadPackage("automgrp", "gap/selfsim.gd");
+ReadPackage("automgrp", "gap/selfsimfam.gd");
+ReadPackage("automgrp", "gap/selfsimsg.gd");
+ReadPackage("automgrp", "gap/selfsimgroup.gd");
+#ReadPackage("automgrp", "gap/scilab.gd");
 
 # In GAP 4.4, the function IsPackageMarkedForLoading is not available.
 if not IsBound( IsPackageMarkedForLoading ) then
@@ -36,7 +36,7 @@ if not IsBound( IsPackageMarkedForLoading ) then
 fi;
 
 if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
-  ReadPkg("automgrp", "gap/convertersfr.gd");
+  ReadPackage("automgrp", "gap/convertersfr.gd");
 fi;
 
 #E

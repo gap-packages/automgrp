@@ -2,9 +2,9 @@
 ##
 #W  testutil.g               automata package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.3
+##  automgrp v 1.3.1
 ##
-#Y  Copyright (C) 2003 - 2016 Dmytro Savchuk, Yevgen Muntyan
+#Y  Copyright (C) 2003 - 2018 Dmytro Savchuk, Yevgen Muntyan
 ##
 ##  This is a very simple version of unittest found in Java, C, Python, etc.
 ##  It can't inspect the tests code, it can't handle errors in tests,

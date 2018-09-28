@@ -2,9 +2,9 @@
 ##
 #W  testautom.g               automgrp package                  Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.3
+##  automgrp v 1.3.1
 ##
-#Y  Copyright (C) 2003 - 2016 Dmytro Savchuk, Yevgen Muntyan
+#Y  Copyright (C) 2003 - 2018 Dmytro Savchuk, Yevgen Muntyan
 ##
 
 UnitTest("Automaton", function()

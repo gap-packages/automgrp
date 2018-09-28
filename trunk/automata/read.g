@@ -2,37 +2,37 @@
 ##
 #W  read.g                  automgrp package                   Yevgen Muntyan
 #W                                                             Dmytro Savchuk
-##  automgrp v 1.3
+##  automgrp v 1.3.1
 ##
-#Y  Copyright (C) 2003 - 2016 Yevgen Muntyan, Dmytro Savchuk
+#Y  Copyright (C) 2003 - 2018 Yevgen Muntyan, Dmytro Savchuk
 ##
 
-ReadPkg("automgrp", "gap/globals.g");
-ReadPkg("automgrp", "gap/parser.g");
-ReadPkg("automgrp", "gap/automaton.gi");
-ReadPkg("automgrp", "gap/tree.gi");
-ReadPkg("automgrp", "gap/treehom.gi");
-ReadPkg("automgrp", "gap/treehomsg.gi");
-ReadPkg("automgrp", "gap/treeaut.gi");
-ReadPkg("automgrp", "gap/treeautgrp.gi");
-ReadPkg("automgrp", "gap/autom.gi");
-ReadPkg("automgrp", "gap/automfam.gi");
-ReadPkg("automgrp", "gap/automgroup.gi");
-ReadPkg("automgrp", "gap/automsg.gi");
-ReadPkg("automgrp", "gap/listops.gi");
-ReadPkg("automgrp", "gap/utils.gi");
-ReadPkg("automgrp", "gap/utilsfrgrp.gi");
-ReadPkg("automgrp", "gap/rws.gi");
-ReadPkg("automgrp", "gap/selfs.gi");
-ReadPkg("automgrp", "gap/selfsim.gi");
-ReadPkg("automgrp", "gap/selfsimfam.gi");
-ReadPkg("automgrp", "gap/selfsimsg.gi");
-ReadPkg("automgrp", "gap/selfsimgroup.gi");
-ReadPkg("automgrp", "gap/groups.g");
-#ReadPkg("automgrp", "gap/scilab.gi");
+ReadPackage("automgrp", "gap/globals.g");
+ReadPackage("automgrp", "gap/parser.g");
+ReadPackage("automgrp", "gap/automaton.gi");
+ReadPackage("automgrp", "gap/tree.gi");
+ReadPackage("automgrp", "gap/treehom.gi");
+ReadPackage("automgrp", "gap/treehomsg.gi");
+ReadPackage("automgrp", "gap/treeaut.gi");
+ReadPackage("automgrp", "gap/treeautgrp.gi");
+ReadPackage("automgrp", "gap/autom.gi");
+ReadPackage("automgrp", "gap/automfam.gi");
+ReadPackage("automgrp", "gap/automgroup.gi");
+ReadPackage("automgrp", "gap/automsg.gi");
+ReadPackage("automgrp", "gap/listops.gi");
+ReadPackage("automgrp", "gap/utils.gi");
+ReadPackage("automgrp", "gap/utilsfrgrp.gi");
+ReadPackage("automgrp", "gap/rws.gi");
+ReadPackage("automgrp", "gap/selfs.gi");
+ReadPackage("automgrp", "gap/selfsim.gi");
+ReadPackage("automgrp", "gap/selfsimfam.gi");
+ReadPackage("automgrp", "gap/selfsimsg.gi");
+ReadPackage("automgrp", "gap/selfsimgroup.gi");
+ReadPackage("automgrp", "gap/groups.g");
+#ReadPackage("automgrp", "gap/scilab.gi");
 
 if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
-  ReadPkg("automgrp", "gap/convertersfr.gi");
+  ReadPackage("automgrp", "gap/convertersfr.gi");
 fi;
 
 

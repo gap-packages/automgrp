@@ -690,20 +690,20 @@ end);
 ##
 #M  Random(<G>)
 ##
-InstallMethod(Random, "for [IsAutomGroup]",
-              [IsAutomGroup],
-function(G)
+InstallMethodWithRandomSource(Random, "for a random source and [IsAutomGroup]",
+              [IsRandomSource, IsAutomGroup],
+function(rs, G)
   local F, gens, pi;
 
   if IsTrivial(G) then
     return One(G);
   elif IsAutomatonGroup(G) then
-    return Autom(Random(UnderlyingFreeGroup(G)), UnderlyingAutomFamily(G));
+    return Autom(Random(rs, UnderlyingFreeGroup(G)), UnderlyingAutomFamily(G));
   else
     gens := GeneratorsOfGroup(G);
     F := FreeGroup(Length(gens));
     pi := GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
-    return Random(F)^pi;
+    return Random(rs, F)^pi;
   fi;
 end);
 

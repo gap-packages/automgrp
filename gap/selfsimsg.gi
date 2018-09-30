@@ -340,9 +340,9 @@ end);
 ##
 #M  Random(<G>)
 ##
-InstallMethod(Random, "for [IsSelfSimSemigroup]",
-              [IsSelfSimSemigroup],
-function(G)
+InstallMethodWithRandomSource(Random, "for a random source and [IsSelfSimSemigroup]",
+              [IsRandomSource, IsSelfSimSemigroup],
+function(rs, G)
   local w, monoid, F, gens, pi;
   if IsSelfSimilarSemigroup(G) then
     monoid := UnderlyingFreeMonoid(G);
@@ -351,7 +351,7 @@ function(G)
       w := One(monoid);
     else
       while true do
-        w := Random(monoid);
+        w := Random(rs, monoid);
         if not IsOne(w) then
           break;
         fi;
@@ -363,7 +363,7 @@ function(G)
     F := FreeGroup(Length(gens));
     pi := GroupHomomorphismByImagesNC(F,                      UnderlyingFreeGroup(G),
                                     GeneratorsOfGroup(F),   List(gens, Word)        );
-    return SelfSim( Random( SemigroupByGenerators( GeneratorsOfGroup(F)))^pi, UnderlyingSelfSimFamily(G));
+    return SelfSim( Random( rs, SemigroupByGenerators( GeneratorsOfGroup(F)))^pi, UnderlyingSelfSimFamily(G));
   fi;
 end);
 

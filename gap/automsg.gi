@@ -468,9 +468,9 @@ end);
 ##
 #M  Random(<G>)
 ##
-InstallMethod(Random, "for [IsAutomSemigroup]",
-              [IsAutomSemigroup],
-function(G)
+InstallMethodWithRandomSource(Random, "for a random source and [IsAutomSemigroup]",
+              [IsRandomSource, IsAutomSemigroup],
+function(rs, G)
   local w, monoid, F, gens, pi;
 
   if IsAutomatonSemigroup(G) then
@@ -480,7 +480,7 @@ function(G)
       w := One(monoid);
     else
       while true do
-        w := Random(monoid);
+        w := Random(rs, monoid);
         if not IsOne(w) then
           break;
         fi;
@@ -492,7 +492,7 @@ function(G)
     F := FreeGroup(Length(gens));
     pi := GroupHomomorphismByImagesNC(F,                      UnderlyingFreeGroup(G),
                                       GeneratorsOfGroup(F),   List(gens, Word)        );
-    return Autom( Random( SemigroupByGenerators( GeneratorsOfGroup(F)))^pi, UnderlyingAutomFamily(G));
+    return Autom( Random( rs, SemigroupByGenerators( GeneratorsOfGroup(F)))^pi, UnderlyingAutomFamily(G));
   fi;
 end);
 

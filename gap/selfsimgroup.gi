@@ -646,20 +646,20 @@ end);
 ##  v*u^-3
 ##  \endexample
 ##
-InstallMethod(Random, "for [IsSelfSimGroup]",
-              [IsSelfSimGroup],
-function(G)
+InstallMethodWithRandomSource(Random, "for a random source and [IsSelfSimGroup]",
+              [IsRandomSource, IsSelfSimGroup],
+function(rs, G)
   local F, gens, pi;
 
   if IsTrivial(G) then
     return One(G);
   elif IsSelfSimilarGroup(G) then
-    return SelfSim(Random(UnderlyingFreeGroup(G)), UnderlyingSelfSimFamily(G));
+    return SelfSim(Random(rs, UnderlyingFreeGroup(G)), UnderlyingSelfSimFamily(G));
   else
     gens := GeneratorsOfGroup(G);
     F := FreeGroup(Length(gens));
     pi := GroupHomomorphismByImagesNC(F, G,  GeneratorsOfGroup(F), gens);
-    return Random(F)^pi;
+    return Random(rs, F)^pi;
   fi;
 end);
 

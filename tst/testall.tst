@@ -8,7 +8,7 @@
 ##
 
 # Do this to run tests:
-# ReadTest(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.tst"));
+# Test(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.tst"), rec( compareFunction := "uptowhitespace" ));
 
 gap> START_TEST("automgrp");
 gap> __save_AG_Globals_unit_test_dots := AG_Globals.unit_test_dots;

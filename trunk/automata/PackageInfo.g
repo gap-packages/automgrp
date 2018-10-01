@@ -19,8 +19,7 @@ Version := "1.3.1",
 #
 Date := "30/09/2018",
 
-ArchiveURL := "https://sourceforge.net/projects/finautom/files/automgrp/1.3.1/",
-
+ArchiveURL := "http://sourceforge.net/projects/finautom/files/automgrp/1.3.1/automgrp-1.3.1",
 ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 
 Persons := [

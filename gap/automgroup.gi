@@ -453,7 +453,7 @@ end);
 
 
 InstallMethod(IsomorphismPermGroup, "for [IsAutomGroup]",
-              [IsAutomGroup],
+              [IsAutomGroup], SUM_FLAGS,
 function (G)
   local H;
   H := AG_FiniteGroupId(G);

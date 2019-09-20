@@ -700,7 +700,7 @@ end);
 
 
 InstallMethod(IsomorphismPermGroup, "for [IsTreeAutomorphismGroup and IsSelfSimilar]",
-              [IsTreeAutomorphismGroup and IsSelfSimilar],
+              [IsTreeAutomorphismGroup and IsSelfSimilar], SUM_FLAGS,
 function(G)
   local H, F, gens_in_freegrp, pi, pi_bar, hom_function, inv_hom_function;
   H := PermGroupOnLevel(G, LevelOfFaithfulAction(G));

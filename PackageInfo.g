@@ -13,7 +13,7 @@ PackageName := "AutomGrp",
 ##  one line.
 Subtitle := "Automata groups",
 
-Version := "1.3.1",
+Version := "1.3.1dev",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 #

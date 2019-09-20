@@ -2,7 +2,6 @@
 ##
 #W  utilsfrgrp.gi              automgrp package                Yevgen Muntyan
 ##                                                             Dmytro Savchuk
-##  automgrp v 1.3.1
 ##
 #Y  Copyright (C) 2003 - 2018 Yevgen Muntyan, Dmytro Savchuk
 ##

@@ -1,0 +1,401 @@
+<html><head><title>[automgrp] 4 Noninitial automata</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>4 Noninitial automata</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP004.htm#SECT001">Definition</a>
+<li> <A HREF="CHAP004.htm#SECT002">Tools</a>
+</ol><p>
+<p>
+In this chapter we present the functionality applicable to noninitial automata.
+<p>
+<p>
+<h2><a name="SECT001">4.1 Definition</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>MealyAutomaton( </code><var>table</var><code>[, </code><var>names</var><code>[, </code><var>alphabet</var><code>]] ) O</code>
+<li><code>MealyAutomaton( </code><var>string</var><code> ) O</code>
+<li><code>MealyAutomaton( </code><var>autom</var><code> ) O</code>
+<li><code>MealyAutomaton( </code><var>tree_hom_list</var><code> ) O</code>
+<li><code>MealyAutomaton( </code><var>list</var><code>, </code><var>name_func</var><code> ) O</code>
+<li><code>MealyAutomaton( </code><var>list</var><code>, </code><var>true</var><code> ) O</code>
+<p>
+Creates the Mealy automaton (see <a href="CHAP001.htm#SECT001">Short math background</a>) defined by the argument <var>table</var>, <var>string</var>
+or <var>autom</var>. Format of the argument <var>table</var> is
+the following: it is a list of states, where each state is a list of
+positive integers which represent transition function at the given state and a
+permutation or transformation which represent the output function at this
+state.  Format of the string <var>string</var> is the same as in <code>AutomatonGroup</code> (see&nbsp;<a href="CHAP002.htm#SSEC001.1">AutomatonGroup</a>).
+The third form of this operation takes a tree homomorphism <var>autom</var> as its argument.
+It returns noninitial automaton constructed from the sections of <var>autom</var>, whose first state
+corresponds to <var>autom</var> itself. The fourth form creates a noninitial automaton constructed
+of the states of all tree homomorphisms from the <var>tree_hom_list</var>.
+<p>
+<pre>
+gap&gt; A := MealyAutomaton([[1,2,(1,2)],[3,1,()],[3,3,(1,2)]], ["a","b","c"]);
+&lt;automaton&gt;
+gap&gt; Display(A);
+a = (a, b)(1,2), b = (c, a), c = (c, c)(1,2)
+gap&gt; B:=MealyAutomaton([[1,2,Transformation([1,1])],[3,1,()],[3,3,(1,2)]],["a","b","c"]);
+&lt;automaton&gt;
+gap&gt; Display(B);
+a = (a, b)[ 1, 1 ], b = (c, a), c = (c, c)[ 2, 1 ]
+gap&gt; D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
+&lt;automaton&gt;
+gap&gt; Display(D);
+a = (a, b)(1,2), b = (b, a)
+gap&gt; Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+&lt; u, v &gt;
+gap&gt; M := MealyAutomaton(u*v*u^-3);
+&lt;automaton&gt;
+gap&gt; Display(M);
+a1 = (a2, a5), a2 = (a3, a4), a3 = (a4, a2)(1,2), a4 = (a4, a4), a5 = (a6, a3)
+(1,2), a6 = (a7, a4), a7 = (a6, a4)(1,2)
+</pre>
+<p>
+If <var>list</var> consists of tree homomorphisms, it creates a noninitial automaton
+constructed of their states. If <var>name_func</var> is a function then it is used
+to name the states of the newly constructed automaton. If it is <var>true</var>
+then states of automata from the <var>list</var> are used. If it <var>false</var> then new
+states are named a_1, a_2, etc.
+<p>
+<pre>
+gap&gt; G := AutomatonGroup("a=(b,a),b=(b,a)(1,2)");
+&lt; a, b &gt;
+gap&gt; MealyAutomaton([a*b]);; Display(last);
+a1 = (a2, a4)(1,2), a2 = (a3, a1), a3 = (a3, a1)(1,2), a4 = (a2, a4)
+gap&gt; MealyAutomaton([a*b], true);; Display(last);
+&lt;a*b&gt; = (&lt;b^2&gt;, &lt;a^2&gt;)(1,2), &lt;b^2&gt; = (&lt;b*a&gt;, &lt;a*b&gt;), &lt;b*a&gt; = (&lt;b*a&gt;, &lt;a*b&gt;)(1,2), &lt;a^2&gt; = (&lt;b^2&gt;, &lt;a^2&gt;)
+gap&gt; MealyAutomaton([a*b], String);; Display(last);
+a*b = (b^2, a^2)(1,2), b^2 = (b*a, a*b), b*a = (b*a, a*b)(1,2), a^2 = (b^2, a^2)
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>IsMealyAutomaton( </code><var>A</var><code> ) C</code>
+<p>
+A category of non-initial finite Mealy automata with the same input and
+output alphabet.
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>NumberOfStates( </code><var>A</var><code> ) A</code>
+<p>
+Returns the number of states of the automaton <var>A</var>.
+<p>
+<a name = "SSEC001.4"></a>
+<li><code>SizeOfAlphabet( </code><var>A</var><code> ) A</code>
+<p>
+Returns the number of letters in the alphabet the automaton <var>A</var> acts on.
+<p>
+<a name = "SSEC001.5"></a>
+<li><code>AutomatonList( </code><var>A</var><code> ) A</code>
+<p>
+Returns the list of <var>A</var> acceptable by <code>MealyAutomaton</code> (see <a href="CHAP004.htm#SSEC001.1">MealyAutomaton</a>)
+<p>
+<p>
+<h2><a name="SECT002">4.2 Tools</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>IsTrivial( </code><var>A</var><code> ) P</code>
+<p>
+Computes whether the automaton <var>A</var> is equivalent to the trivial automaton.
+<pre>
+gap&gt; A := MealyAutomaton("a=(c,c), b=(a,b), c=(b,a)");
+&lt;automaton&gt;
+gap&gt; IsTrivial(A);
+true
+</pre>
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>IsInvertible( </code><var>A</var><code> ) P</code>
+<p>
+Is <code>true</code> if <var>A</var> is invertible and <code>false</code> otherwise.
+<p>
+<a name = "SSEC002.3"></a>
+<li><code>MinimizationOfAutomaton( </code><var>A</var><code> ) F</code>
+<p>
+Returns the automaton obtained from automaton <var>A</var> by minimization. The
+implementation of this function was significantly optimized by Andrey Russev
+starting from Version 1.3.
+<pre>
+gap&gt; B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
+&lt;automaton&gt;
+gap&gt; C := MinimizationOfAutomaton(B);
+&lt;automaton&gt;
+gap&gt; Display(C);
+a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
+</pre>
+<p>
+<a name = "SSEC002.4"></a>
+<li><code>MinimizationOfAutomatonTrack( </code><var>A</var><code> ) F</code>
+<p>
+Returns the list <code>[A_new, new_via_old, old_via_new]</code>, where <code>A_new</code> is an
+automaton obtained from automaton <var>A</var> by minimization,
+<code>new_via_old</code> describes how new states are expressed in terms of the old ones, and
+<code>old_via_new</code> describes how old states are expressed in terms of the new ones.
+The implementation of this function was significantly optimized by Andrey Russev
+starting from Version 1.3.
+<pre>
+gap&gt; B := MealyAutomaton("a=(1,a)(1,2), b=(1,a)(1,2), c=(a,b), d=(a,b)");
+&lt;automaton&gt;
+gap&gt; B_min := MinimizationOfAutomatonTrack(B);
+[ &lt;automaton&gt;, [ 1, 3, 5 ], [ 1, 1, 2, 2, 3 ] ]
+gap&gt; Display(B_min[1]);
+a = (1, a)(1,2), c = (a, a), 1 = (1, 1)
+</pre>
+<p>
+<a name = "SSEC002.5"></a>
+<li><code>IsOfPolynomialGrowth( </code><var>A</var><code> ) P</code>
+<p>
+Determines whether the automaton <var>A</var> has polynomial growth in terms of Sidki&nbsp;<a href="biblio.htm#Sid00"><cite>Sid00</cite></a>.
+<p>
+See also <code>IsBounded</code> (<a href="CHAP004.htm#SSEC002.6">IsBounded</a>) and
+<code>PolynomialDegreeOfGrowth</code> (<a href="CHAP004.htm#SSEC002.7">PolynomialDegreeOfGrowth</a>).
+<pre>
+gap&gt; B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
+&lt;automaton&gt;
+gap&gt; IsOfPolynomialGrowth(B);
+true
+gap&gt; D := MealyAutomaton("a=(a,b)(1,2), b=(b,a)");
+&lt;automaton&gt;
+gap&gt; IsOfPolynomialGrowth(D);
+false
+</pre>
+<p>
+<a name = "SSEC002.6"></a>
+<li><code>IsBounded( </code><var>A</var><code> ) P</code>
+<p>
+Determines whether the automaton <var>A</var> is bounded in terms of Sidki&nbsp;<a href="biblio.htm#Sid00"><cite>Sid00</cite></a>.
+<p>
+See also <code>IsOfPolynomialGrowth</code> (<a href="CHAP004.htm#SSEC002.5">IsOfPolynomialGrowth</a>)
+and <code>PolynomialDegreeOfGrowth</code> (<a href="CHAP004.htm#SSEC002.7">PolynomialDegreeOfGrowth</a>).
+<pre>
+gap&gt; B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
+&lt;automaton&gt;
+gap&gt; IsBounded(B);
+true
+gap&gt; C := MealyAutomaton("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
+&lt;automaton&gt;
+gap&gt; IsBounded(C);
+false
+</pre>
+<p>
+<a name = "SSEC002.7"></a>
+<li><code>PolynomialDegreeOfGrowth( </code><var>A</var><code> ) A</code>
+<p>
+For an automaton <var>A</var> of polynomial growth in terms of Sidki&nbsp;<a href="biblio.htm#Sid00"><cite>Sid00</cite></a>
+determines its degree of
+polynomial growth. This degree is 0 if and only if automaton is bounded.
+If the growth of automaton is exponential returns <code>fail</code>.
+<p>
+See also <code>IsOfPolynomialGrowth</code> (<a href="CHAP004.htm#SSEC002.5">IsOfPolynomialGrowth</a>)
+and <code>IsBounded</code> (<a href="CHAP004.htm#SSEC002.6">IsBounded</a>).
+<pre>
+gap&gt; B := MealyAutomaton("a=(b,1)(1,2), b=(a,1)");
+&lt;automaton&gt;
+gap&gt; PolynomialDegreeOfGrowth(B);
+0
+gap&gt; C := MealyAutomaton("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
+&lt;automaton&gt;
+gap&gt; PolynomialDegreeOfGrowth(C);
+2
+</pre>
+<p>
+<a name = "SSEC002.8"></a>
+<li><code>AdjacencyMatrix( </code><var>A</var><code> ) A</code>
+<p>
+Returns the adjacency matrix of a Mealy automaton <var>A</var>, in which the <i>ij</i>-th entry
+contains the number of arrows in the Moore diagram of <var>A</var> from state <i>i</i> to state <i>j</i>.
+<p>
+<pre>
+gap&gt; A:=MealyAutomaton("a=(a,a,b)(1,2,3),b=(a,c,b)(1,2),c=(a,a,a)");
+&lt;automaton&gt;
+gap&gt; AdjacencyMatrix(A);
+[ [ 2, 1, 0 ], [ 1, 1, 1 ], [ 3, 0, 0 ] ]
+</pre>
+<p>
+<a name = "SSEC002.9"></a>
+<li><code>IsAcyclic( </code><var>A</var><code> ) P</code>
+<p>
+Computes whether or not an automaton <var>A</var> is acyclic in the sense of Sidki&nbsp;<a href="biblio.htm#Sid00"><cite>Sid00</cite></a>.
+I.e. returns <code>true</code> if the Moore diagram of <var>A</var> does not contain cycles with two or more
+states and <code>false</code> otherwise.
+<pre>
+gap&gt; A := MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,b)(1,2),c=(d,c,1),d=(d,1,d)");
+&lt;automaton&gt;
+gap&gt; IsAcyclic(A);
+true
+gap&gt; A := MealyAutomaton("a=(a,a,b)(1,2,3),b=(c,c,d)(1,2),c=(d,c,1),d=(b,1,d)");
+&lt;automaton&gt;
+gap&gt; IsAcyclic(A);
+false
+</pre>
+<p>
+<a name = "SSEC002.10"></a>
+<li><code>DualAutomaton( </code><var>A</var><code> ) O</code>
+<p>
+Returns the automaton dual of <var>A</var>.
+<pre>
+gap&gt; A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
+&lt;automaton&gt;
+gap&gt; D := DualAutomaton(A);
+&lt;automaton&gt;
+gap&gt; Display(D);
+d1 = (d2, d1)[ 2, 2 ], d2 = (d1, d2)[ 1, 1 ]
+</pre>
+<p>
+<a name = "SSEC002.11"></a>
+<li><code>InverseAutomaton( </code><var>A</var><code> ) O</code>
+<p>
+Returns the automaton inverse to <var>A</var> if <var>A</var> is invertible.
+<pre>
+gap&gt; A := MealyAutomaton("a=(b,a)(1,2), b=(b,a)");
+&lt;automaton&gt;
+gap&gt; B := InverseAutomaton(A);
+&lt;automaton&gt;
+gap&gt; Display(B);
+a1 = (a1, a2)(1,2), a2 = (a2, a1)
+</pre>
+<p>
+<a name = "SSEC002.12"></a>
+<li><code>IsBireversible( </code><var>A</var><code> ) P</code>
+<p>
+Computes whether or not the automaton <var>A</var> is bireversible, i.e. <var>A</var>, the dual of <var>A</var> and
+the dual of the inverse of <var>A</var> are invertible. The example below shows that the
+Bellaterra automaton is bireversible.
+<pre>
+gap&gt; Bellaterra := MealyAutomaton("a=(c,c)(1,2), b=(a,b), c=(b,a)");
+&lt;automaton&gt;
+gap&gt; IsBireversible(Bellaterra);
+true
+</pre>
+<p>
+<a name = "SSEC002.13"></a>
+<li><code>IsReversible( </code><var>A</var><code> ) P</code>
+<p>
+Computes whether or not the automaton <var>A</var> is reversible, i.e. the dual of <var>A</var>
+is invertible.
+<p>
+<a name = "SSEC002.14"></a>
+<li><code>IsIRAutomaton( </code><var>A</var><code> ) P</code>
+<p>
+Computes whether or not the automaton <var>A</var> is an IR-automaton, i.e. <var>A</var> and its dual are invertible.
+The example below shows that the automaton generating lamplighter group is an IR-automaton.
+<pre>
+gap&gt; L := MealyAutomaton("a=(b,a)(1,2), b=(a,b)");
+&lt;automaton&gt;
+gap&gt; IsIRAutomaton(L);
+true
+</pre>
+<p>
+The next three commands deal with the, so-called, MD-reduction procedure developed
+in&nbsp;<a href="biblio.htm#AKL"><cite>AKL</cite></a>. Particularly, according
+to&nbsp;<a href="biblio.htm#KLI"><cite>KLI</cite></a>, a 2-letter or 2-state invertible reversible automaton
+generates a finite group if and only if the MD-reduction procedure terminates with the
+trivial automaton. In this case an automaton is called MD-trivial.
+<p>
+<a name = "SSEC002.15"></a>
+<li><code>MDReduction( </code><var>A</var><code> ) O</code>
+<p>
+Performs the process of MD-reduction of automaton <var>A</var> (alternating
+applications of minimization and dualization procedures) until a pair of
+minimal automata dual to each other is reached. Returns this pair. The main
+point of this procedure is in the fact that the (semi)group generated by the
+original automaton is finite if and only each of the (semi)groups generated
+by the output automata is finite.
+<pre>
+gap&gt; A:=MealyAutomaton("a=(d,d,d,d)(1,2)(3,4),b=(b,b,b,b)(1,4)(2,3),\\
+&gt;                       c=(a,c,a,c),          d=(c,a,c,a)");
+&lt;automaton&gt;
+gap&gt; NumberOfStates(MinimizationOfAutomaton(A));
+4
+gap&gt; MDR:=MDReduction(A);
+[ &lt;automaton&gt;, &lt;automaton&gt; ]
+gap&gt; Display(MDR[1]);
+d1 = (d2, d2, d1, d1)(1,4,3), d2 = (d1, d1, d2, d2)(1,4)
+gap&gt; Display(MDR[2]);
+d1 = (d4, d4)(1,2), d2 = (d2, d2)(1,2), d3 = (d1, d3), d4 = (d3, d1)
+</pre>
+<p>
+<a name = "SSEC002.16"></a>
+<li><code>IsMDTrivial( </code><var>A</var><code> ) P</code>
+<p>
+Returns <code>true</code> if <var>A</var> is MD-trivial (i.e. if MD-reduction proedure returns the
+trivial automaton) and <code>false</code> otherwise.
+<p>
+<a name = "SSEC002.17"></a>
+<li><code>IsMDReduced( </code><var>A</var><code> ) P</code>
+<p>
+Returns <code>true</code> if <var>A</var> is MD-reduced and <code>false</code> otherwise.
+<p>
+<a name = "SSEC002.18"></a>
+<li><code>DisjointUnion( </code><var>A</var><code>, </code><var>B</var><code> ) O</code>
+<p>
+Constructs the disjoint union of automata <var>A</var> and <var>B</var>
+<pre>
+gap&gt; A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");
+&lt;automaton&gt;
+gap&gt; B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
+&lt;automaton&gt;
+gap&gt; Display(DisjointUnion(A, B));
+a1 = (a1, a2)(1,2), a2 = (a1, a2), a3 = (a4, a3), a4 = (a3, a5)
+(1,2), a5 = (a5, a4)
+</pre>
+<p>
+<a name = "SSEC002.19"></a>
+<li><code></code><var>A</var><code> * </code><var>B</var><code></code>
+<p>
+Constructs the product of 2 noninitial automata <var>A</var> and <var>B</var>.
+<pre>
+gap&gt; A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");
+&lt;automaton&gt;
+gap&gt; B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
+&lt;automaton&gt;
+gap&gt; Print(A*B);
+a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)
+(1,2), a4 = (a2, a4), a5 = (a1, a6)(1,2), a6 = (a3, a5)
+</pre>
+<p>
+<a name = "SSEC002.20"></a>
+<li><code>SubautomatonWithStates( </code><var>A</var><code>, </code><var>states</var><code> ) O</code>
+<p>
+Returns the minimal subautomaton of the automaton <var>A</var> containing states <var>states</var>.
+<pre>
+gap&gt; A := MealyAutomaton("a=(e,d)(1,2),b=(c,c),c=(b,c)(1,2),d=(a,e)(1,2),e=(e,d)");
+&lt;automaton&gt;
+gap&gt; Display(SubautomatonWithStates(A, [1, 4]));
+a = (e, d)(1,2), d = (a, e)(1,2), e = (e, d)
+</pre>
+<p>
+<a name = "SSEC002.21"></a>
+<li><code>AutomatonNucleus( </code><var>A</var><code> ) O</code>
+<p>
+Returns the nucleus of the automaton <var>A</var>, i.e. the minimal subautomaton
+containing all cycles in <var>A</var>.
+<pre>
+gap&gt; A := MealyAutomaton("a=(b,c)(1,2),b=(d,d),c=(d,b)(1,2),d=(d,b)(1,2),e=(a,d)");
+&lt;automaton&gt;
+gap&gt; Display(AutomatonNucleus(A));
+b = (d, d), d = (d, b)(1,2)
+</pre>
+<p>
+<a name = "SSEC002.22"></a>
+<li><code>AreEquivalentAutomata( </code><var>A</var><code>, </code><var>B</var><code> ) O</code>
+<p>
+Returns <code>true</code> if for every state <code>s</code> of the automaton <var>A</var> there is a state of the automaton <var>B</var>
+equivalent to <code>s</code> and vice versa.
+<pre>
+gap&gt; A := MealyAutomaton("a=(b,a)(1,2), b=(a,c), c=(b,c)(1,2)");
+&lt;automaton&gt;
+gap&gt; B := MealyAutomaton("b=(a,c), c=(b,c)(1,2), a=(b,a)(1,2), d=(b,c)(1,2)");
+&lt;automaton&gt;
+gap&gt; AreEquivalentAutomata(A, B);
+true
+</pre>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>automgrp manual<br>September 2019
+</address></body></html>

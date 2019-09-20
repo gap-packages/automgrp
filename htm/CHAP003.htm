@@ -1,0 +1,485 @@
+<html><head><title>[automgrp] 3 Properties and operations with group and semigroup elements</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>3 Properties and operations with group and semigroup elements</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP003.htm#SECT001">Creation of tree automorphisms and homomorphisms</a>
+<li> <A HREF="CHAP003.htm#SECT002">Properties and attributes of tree automorphisms and homomorphisms</a>
+<li> <A HREF="CHAP003.htm#SECT003">Operations with tree automorphisms and homomorphisms</a>
+<li> <A HREF="CHAP003.htm#SECT004">Elements of groups and semigroups defined by wreath recursion</a>
+<li> <A HREF="CHAP003.htm#SECT005">Elements of contracting groups</a>
+</ol><p>
+<p>
+In this chapter we present the functionality applicable to elements of groups and semigroups.
+<p>
+<p>
+<h2><a name="SECT001">3.1 Creation of tree automorphisms and homomorphisms</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>TreeAutomorphism( </code><var>states</var><code>, </code><var>perm</var><code> ) O</code>
+<p>
+Constructs the tree automorphism with states on the first level given by the
+argument <var>states</var> and acting
+on the first level as the permutation <var>perm</var>. The <var>states</var> must
+belong to the same family.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; r := TreeAutomorphism([p, q, p, q^2],(1,2)(3,4));
+(p, q, p, q^2)(1,2)(3,4)
+gap&gt; t := TreeAutomorphism([q, 1, p*q, q],(1,2));
+(q, 1, p*q, q)(1,2)
+gap&gt; r*t;
+(p, q^2, p*q, q^2*p*q)(3,4)
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>TreeHomomorphism( </code><var>states</var><code>, </code><var>tr</var><code> ) O</code>
+<p>
+Constructs an homomorphism with states <var>states</var> and acting
+on the first level with transformation <var>tr</var>. The <var>states</var> must
+belong to the same family.
+<pre>
+gap&gt; S := AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
+&lt; a, b &gt;
+gap&gt; x := TreeHomomorphism([a,b^2,a,a*b],Transformation([3,1,2,2]));
+(a, b^2, a, a*b)[3,1,2,2]
+gap&gt; y := TreeHomomorphism([a*b,b,b,b^2],Transformation([1,4,2,3]));
+(a*b, b, b, b^2)[1,4,2,3]
+gap&gt; x*y;
+(a*b, b^2*a*b, a*b, a*b^2)[2,1,4,4]
+</pre>
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>Representative( </code><var>word</var><code>, </code><var>fam</var><code> ) O</code>
+<li><code>Representative( </code><var>word</var><code>, </code><var>a</var><code> ) O</code>
+<p>
+Given an associative word <var>word</var> constructs the tree homomorphism from the family
+<var>fam</var>, or to which homomorphism <var>a</var> belongs. This function is useful when
+one needs to make some operations with associative words. See also <code>Word</code> (<a href="CHAP003.htm#SSEC002.12">Word</a>).
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; F := UnderlyingFreeGroup(L);
+&lt;free group on the generators [ p, q ]&gt;
+gap&gt; r := Representative(F.1*F.2^2, p);
+p*q^2
+gap&gt; Decompose(r);
+(p*q^2, q*p^2)(1,2)
+gap&gt; H := SelfSimilarGroup("x=(x*y,x)(1,2), y=(x^-1,y)");
+&lt; x, y &gt;
+gap&gt; F := UnderlyingFreeGroup(H);
+&lt;free group on the generators [ x, y ]&gt;
+gap&gt; r := Representative(F.1^-1*F.2, x);
+x^-1*y
+gap&gt; Decompose(r);
+(x^-1*y, y^-1*x^-2)(1,2)
+</pre>
+<p>
+<p>
+<h2><a name="SECT002">3.2 Properties and attributes of tree automorphisms and homomorphisms</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>IsSphericallyTransitive( </code><var>a</var><code> ) P</code>
+<p>
+Returns whether the action of <var>a</var> is spherically transitive (see <a href="CHAP001.htm#SECT001">Short math background</a>).
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>IsTransitiveOnLevel( </code><var>a</var><code>, </code><var>lev</var><code> ) O</code>
+<p>
+Returns whether <var>a</var> acts transitively on level <var>lev</var> of the tree.
+<p>
+<a name = "SSEC002.3"></a>
+<li><code>IsOne( </code><var>a</var><code> ) O</code>
+<p>
+Returns whether an automorphism <var>a</var> acts trivially on the tree. For contracting groups see also
+<code>UseContraction</code> (<a href="CHAP002.htm#SSEC005.6">UseContraction</a>) and <code>IsOneContr</code> (<a href="CHAP003.htm#SSEC002.4">IsOneContr</a>).
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; IsOne(q*p^-1*q*p^-1);
+true
+</pre>
+<p>
+<a name = "SSEC002.4"></a>
+<li><code>IsOneContr( </code><var>a</var><code> ) F</code>
+<p>
+Returns <code>true</code> if <var>a</var> is trivial automorphism and <code>false</code> otherwise. Works for
+contracting groups only. Uses polynomial time algorithm.
+<p>
+<a name = "SSEC002.5"></a>
+<li><code>Order( </code><var>a</var><code> ) O</code>
+<p>
+Computes the order of an automorphism <var>a</var>. In some cases it does not stop. Works always (modulo memory
+restrictions) for groups generated by bounded automata.
+<p>
+If <code>InfoLevel</code> of <code>InfoAutomGrp</code> is greater than or equal to 3 (one can set it by
+<code>SetInfoLevel( InfoAutomGrp, 3)</code>) and the element has infinite order, then the proof of this fact
+is printed.
+<p>
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+&lt; u, v &gt;
+gap&gt; Order(p*q^-1);
+2
+gap&gt; SetInfoLevel( InfoAutomGrp, 3);
+gap&gt; Order( u^35*v^-12*u^2*v^-3 );
+#I  (u^35*v^-12*u^2*v^-3)^68719476736 has conjugate of u^2*v^-3*u^35*v^
+-12 as a section at vertex [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+infinity
+</pre>
+<p>
+<a name = "SSEC002.6"></a>
+<li><code>OrderUsingSections( </code><var>a</var><code>[, </code><var>max_depth</var><code>] ) O</code>
+<p>
+Tries to compute the order of the element <var>a</var> by looking at its sections
+of depth up to <var>max_depth</var>-th level.
+If <var>max_depth</var> is omitted it is assumed to be <code>infinity</code>, but then it may not stop. Also note,
+that if <var>max_depth</var> is not given, it searches the tree in depth first and may be trapped
+in some infinite ray, while specifying finite <var>max_depth</var> may produce a result by looking at
+a section not in that ray.
+For bounded automata it will always produce a result.
+<p>
+If <code>InfoLevel</code> of <code>InfoAutomGrp</code> is greater than
+or equal to 3 (one can set it by <code>SetInfoLevel( InfoAutomGrp, 3)</code>)
+and the element has infinite order, then the proof of this fact is printed.
+<p>
+<pre>
+gap&gt; Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
+&lt; a, b, c, d &gt;
+gap&gt; OrderUsingSections( a*b*a*c*b );
+16
+gap&gt; Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
+&lt; u, v &gt;
+gap&gt; SetInfoLevel( InfoAutomGrp, 3);
+gap&gt; OrderUsingSections( u^23*v^-2*u^3*v^15, 10 );
+#I  v^13*u^15 acts transitively on levels and is obtained from (u^23*v^-2*u^3*v^15)^1
+    by taking sections and cyclic reductions at vertex [ 1 ]
+infinity
+gap&gt; G := AutomatonGroup("a=(c,a)(1,2), b=(b,c), c=(b,a)");
+&lt; a, b, c &gt;
+gap&gt; OrderUsingSections(b,10);
+#I  b*c*a^2*b^2*c*a acts transitively on levels and is obtained from (b)^8
+    by taking sections and cyclic reductions at vertex
+[ 2, 2, 1, 1, 1, 1, 2, 2, 1, 1 ]
+infinity
+</pre>
+<p>
+<a name = "SSEC002.7"></a>
+<li><code>Perm( </code><var>a</var><code>[, </code><var>lev</var><code>] ) O</code>
+<p>
+Returns the permutation induced by the tree automorphism <var>a</var> on the level <var>lev</var>
+(or first level if <var>lev</var> is not given). See also
+<code>TransformationOnLevel</code>&nbsp;(<a href="CHAP003.htm#SSEC002.10">TransformationOnLevel</a>).
+<p>
+<a name = "SSEC002.8"></a>
+<li><code>PermOnLevel( </code><var>a</var><code>, </code><var>k</var><code> ) O</code>
+<p>
+Does the same thing as <code>Perm</code>&nbsp;(<a href="CHAP003.htm#SSEC002.7">Perm</a>).
+<p>
+<a name = "SSEC002.9"></a>
+<li><code>PermOnLevelAsMatrix( </code><var>g</var><code>, </code><var>lev</var><code> ) F</code>
+<p>
+Computes the action of the element <var>g</var> of a group on the <var>lev</var>-th level as a permutational matrix, in
+which the i-th row contains 1 at the position i^<var>g</var>.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; PermOnLevel(p*q,2);
+(1,4)(2,3)
+gap&gt; PermOnLevelAsMatrix(p*q, 2);
+[ [ 0, 0, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 1, 0, 0 ], [ 1, 0, 0, 0 ] ]
+</pre>
+<p>
+<a name = "SSEC002.10"></a>
+<li><code>TransformationOnLevel( </code><var>a</var><code>, </code><var>lev</var><code> ) O</code>
+<a name = "SSEC002.10"></a>
+<li><code>TransformationOnFirstLevel( </code><var>a</var><code> ) O</code>
+<p>
+The first function returns the transformation induced by the tree homomorphism
+<var>a</var> on the level <var>lev</var>. See also <code>PermOnLevel</code>&nbsp;(<a href="CHAP003.htm#SSEC002.8">PermOnLevel</a>).
+<p>
+If the transformation is invertible then it returns a permutation, and
+<code>Transformation</code> otherwise.
+<p>
+<code>TransformationOnFirstLevel</code>(<var>a</var>) is equivalent to
+<code>TransformationOnLevel</code>(<var>a</var>, <code>1</code>).
+<p>
+<a name = "SSEC002.11"></a>
+<li><code>TransformationOnLevelAsMatrix( </code><var>g</var><code>, </code><var>lev</var><code> ) F</code>
+<p>
+Computes the action of the element <var>g</var> on the <var>lev</var>-th level as a permutational matrix, in
+which the i-th row contains 1 at the position i^<var>g</var>.
+<pre>
+gap&gt; L := AutomatonSemigroup("p=(p,q)(1,2), q=(p,q)[1,1]");
+&lt; p, q &gt;
+gap&gt; TransformationOnLevel(p*q,2);
+Transformation( [ 1, 1, 2, 2 ] )
+gap&gt; TransformationOnLevelAsMatrix(p*q,2);
+[ [ 1, 0, 0, 0 ], [ 1, 0, 0, 0 ], [ 0, 1, 0, 0 ], [ 0, 1, 0, 0 ] ]
+</pre>
+<p>
+<a name = "SSEC002.12"></a>
+<li><code>Word( </code><var>a</var><code> ) O</code>
+<p>
+Returns <var>a</var> as an associative word (an element of the underlying free group) in
+the generators of the self-similar group (semigroup) to which <var>a</var> belongs.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; w := Word(p*q^2*p^-1);
+p*q^2*p^-1
+gap&gt; Length(w);
+4
+</pre>
+<p>
+<p>
+<h2><a name="SECT003">3.3 Operations with tree automorphisms and homomorphisms</a></h2>
+<p><p>
+The multiplication of tree homomorphisms is defined in the standard way
+<p>
+<a name = "SSEC003.1"></a>
+<li><code></code><var>a</var><code> * </code><var>b</var><code></code>
+<p>
+The following operations allow computation of the actions of tree
+homomorphisms on letters and vertices
+<p>
+<a name = "SSEC003.2"></a>
+<li><code></code><var>letter</var><code> ^ </code><var>a</var><code></code>
+<a name = "SSEC003.2"></a>
+<li><code></code><var>vertex</var><code> ^ </code><var>a</var><code></code>
+<p>
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; 1^p;
+2
+gap&gt; [1, 2, 2, 1, 2, 1]^(p*q^2);
+[ 2, 1, 2, 2, 1, 2 ]
+</pre>
+<p>
+The operations below describe how to work with sections of tree homomorphisms.
+<p>
+<a name = "SSEC003.3"></a>
+<li><code>Section( </code><var>a</var><code>, </code><var>v</var><code> ) O</code>
+<p>
+Returns the section of the automorphism (homomorphism) <var>a</var> at the vertex <var>v</var>.
+The vertex <var>v</var> can be a list representing the vertex, or a positive integer
+representing a vertex of the first level of the tree.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; Section(p*q*p^2, [1,2,2,1,2,1]);
+p^2*q^2
+</pre>
+<p>
+<a name = "SSEC003.4"></a>
+<li><code>Sections( </code><var>a</var><code> [, </code><var>lev</var><code>] ) O</code>
+<p>
+Returns the list of sections of <var>a</var> at the <var>lev</var>-th level. If <var>lev</var> is omitted
+it is assumed to be 1.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; Sections(p*q*p^2);
+[ p*q^2*p, q*p^2*q ]
+</pre>
+<p>
+<a name = "SSEC003.5"></a>
+<li><code>Decompose( </code><var>a</var><code>[, </code><var>k</var><code>] ) O</code>
+<p>
+Returns the decomposition of the tree homomorphism <var>a</var> on the <var>k</var>-th level of the tree, i.e. the
+representation of the form <br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i> = (<i>a</i><sub>1</sub>, <i>a</i><sub>2</sub>, &#8230;, <i>a</i><sub><i>d</i><sub>1</sub>&times;&#183;.&#183;&times;<i>d</i><sub><i>k</i></sub></sub>)&#963;</td></tr></table></td></tr></table>
+where <i>a</i><sub><i>i</i></sub> are the sections of <var>a</var> at the <var>k</var>-th level, and &#963; is the
+transformation of the <var>k</var>-th level. If <var>k</var> is omitted it is assumed to be 1.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; Decompose(p*q^2);
+(p*q^2, q*p^2)(1,2)
+gap&gt; Decompose(p*q^2,3);
+(p*q^2, q*p^2, p^2*q, q^2*p, p*q*p, q*p*q, p^3, q^3)(1,8,3,5)(2,7,4,6)
+</pre>
+<p>
+<a name = "SSEC003.6"></a>
+<li><code></code><var>a</var><code> in </code><var>G</var><code></code>
+<p>
+Returns whether the automorphism <var>a</var> belongs to the group <var>G</var>. In some cases it does not stop.
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; H := Group([p^2, q^2]);
+&lt; p^2, q^2 &gt;
+gap&gt; p in H;
+false
+</pre>
+<p>
+<a name = "SSEC003.7"></a>
+<li><code>OrbitOfVertex( </code><var>ver</var><code>, </code><var>g</var><code>[, </code><var>n</var><code>] ) O</code>
+<p>
+Returns the list of vertices in the orbit of the vertex <var>ver</var> under the
+action of the semigroup generated by the automorphism <var>g</var>.
+If <var>n</var> is specified, it returns only the first <var>n</var> elements of the orbit.
+Vertices are defined either as lists with entries from {1,&#8230;,<i>d</i>}, or as
+strings containing characters 1,&#8230;,<i>d</i>, where <i>d</i>
+is the degree of the tree.
+<pre>
+gap&gt; T := AutomatonGroup("t=(1,t)(1,2)");
+&lt; t &gt;
+gap&gt; OrbitOfVertex([1,1,1], t);
+[ [ 1, 1, 1 ], [ 2, 1, 1 ], [ 1, 2, 1 ], [ 2, 2, 1 ], [ 1, 1, 2 ],
+  [ 2, 1, 2 ], [ 1, 2, 2 ], [ 2, 2, 2 ] ]
+gap&gt; OrbitOfVertex("11111111111", t, 6);
+[ [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+  [ 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+  [ 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], [ 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1 ] ]
+</pre>
+<p>
+<a name = "SSEC003.8"></a>
+<li><code>PrintOrbitOfVertex( </code><var>ver</var><code>, </code><var>g</var><code>[, </code><var>n</var><code>] ) O</code>
+<p>
+Prints the orbit of the vertex <var>ver</var> under the action of the semigroup generated by
+<var>g</var>. Each vertex is printed as a string containing characters 1,&#8230;,<i>d</i>, where <i>d</i>
+is the degree of the tree. In case of binary tree the symbols `` '' and ``<code>x</code>''
+are used to represent <code>1</code> and <code>2</code>.
+If <var>n</var> is specified only the first <var>n</var> elements of the orbit are printed.
+Vertices are defined either as lists with entries from {1,&#8230;,<i>d</i>}, or as
+strings. See also <code>OrbitOfVertex</code> (<a href="CHAP003.htm#SSEC003.7">OrbitOfVertex</a>).
+<pre>
+gap&gt; L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
+&lt; p, q &gt;
+gap&gt; PrintOrbitOfVertex("2222222222222222222222222222222", p*q^-2, 6);
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ x x x x x x x x x x x x x x x
+x  xx  xx  xx  xx  xx  xx  xx
+   x   x   x   x   x   x   x
+xxx    xxxx    xxxx    xxxx
+ x     x x     x x     x x
+gap&gt; H := AutomatonGroup("t=(s,1,1)(1,2,3), s=(t,s,t)(1,2)");
+&lt; t, s &gt;
+gap&gt; PrintOrbitOfVertex([1,2,1], s^2);
+121
+132
+123
+131
+122
+133
+</pre>
+<p>
+<a name = "SSEC003.9"></a>
+<li><code>PermActionOnLevel( </code><var>perm</var><code>, </code><var>big_lev</var><code>, </code><var>sm_lev</var><code>, </code><var>deg</var><code> ) F</code>
+<p>
+Given a permutation <var>perm</var> on the <var>big_lev</var>-th level of the tree of degree
+<var>deg</var> returns the permutation induced by <var>perm</var> on a smaller level
+<var>sm_lev</var>.
+<pre>
+gap&gt; PermActionOnLevel((1,4,2,3), 2, 1, 2);
+(1,2)
+gap&gt; PermActionOnLevel((1,13,5,9,3,15,7,11)(2,14,6,10,4,16,8,12), 4, 2, 2);
+(1,4,2,3)
+</pre>
+<p>
+<p>
+<h2><a name="SECT004">3.4 Elements of groups and semigroups defined by wreath recursion</a></h2>
+<p><p>
+<a name = "SSEC004.1"></a>
+<li><code>IsFiniteState( </code><var>a</var><code> ) P</code>
+<p>
+Returns <code>true</code> if <var>a</var> has finitely many different sections.
+It will never stop if the free reduction of words is not sufficient
+to establish the finite-state property or if <var>a</var> is not finite-state (has
+infinitely many different sections).
+<p>
+See also <code>AllSections</code> (<a href="CHAP003.htm#SSEC004.2">AllSections</a>) for the list of all sections and
+<code>MealyAutomaton</code> (<a href="CHAP004.htm#SSEC001.1">MealyAutomaton</a>), which allows to construct
+a Mealy automaton whose states are the sections of <var>a</var> and which
+encodes its action on the tree.
+<pre>
+gap&gt; D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
+&lt; x, y, z &gt;
+gap&gt; IsFiniteState(x*y^-1);
+true
+</pre>
+<p>
+<a name = "SSEC004.2"></a>
+<li><code>AllSections( </code><var>a</var><code> ) A</code>
+<p>
+Returns the list of all sections of <var>a</var> if there are finitely many of them and
+this fact can be established using free reduction of words in sections. Otherwise
+will never stop. Note, that in the case when <var>a</var> is an element of a self-similar
+(semi)group defined by wreath recurion it does not check whether all elements of the list
+are actually different automorphisms (homomorphisms) of the tree. If <var>a</var> is a element of
+of a (semi)group generated by finite automaton, it will always return the list of
+all distinct sections of <var>a</var>.
+<pre>
+gap&gt; D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
+&lt; x, y, z &gt;
+gap&gt; AllSections(x*y^-1);
+[ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,
+  y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, x*y*z, y, z^-1, y^-1*x^-1, z*y^-1 ]
+</pre>
+<p>
+See also operation <code>MealyAutomaton</code> (<a href="CHAP004.htm#SSEC001.1">MealyAutomaton</a>), which allows to construct
+a Mealy automaton whose states are the sections of given tree homomorphism and which
+encodes its action on the tree.
+<p>
+<p>
+<h2><a name="SECT005">3.5 Elements of contracting groups</a></h2>
+<p><p>
+<a name = "SSEC005.1"></a>
+<li><code>AutomPortrait( </code><var>a</var><code> ) F</code>
+<a name = "SSEC005.1"></a>
+<li><code>AutomPortraitBoundary( </code><var>a</var><code> ) F</code>
+<a name = "SSEC005.1"></a>
+<li><code>AutomPortraitDepth( </code><var>a</var><code> ) F</code>
+<p>
+Constructs the portrait of an element <var>a</var> of a
+contracting group <i>G</i>. The portrait of <var>a</var> is defined recursively as follows.
+For <i>g</i> in the nucleus of <i>G</i> the portrait is just [<i>g</i>]. For any other
+element <i>g</i>=(<i>g</i><sub>1</sub>,<i>g</i><sub>2</sub>,&#8230;,<i>g</i><sub><i>d</i></sub>)&#963; the portrait of <i>g</i> is
+[&#963;, <tt>AutomPortrait</tt>(<i>g</i><sub>1</sub>),&#8230;, <tt>AutomPortrait</tt>(<i>g</i><sub><i>d</i></sub>)], where <i>d</i> is
+the degree of the tree. This structure describes a finite tree whose inner vertices
+are labelled by permutations from <i>S</i><sub><i>d</i></sub> and the leaves are labelled by
+elements from the nucleus. The contraction in <i>G</i> guarantees that the
+portrait of any element is finite.
+<p>
+The portraits may be considered as ``normal forms''
+of the elements of <i>G</i>, since different elements have different portraits.
+<p>
+One also can be interested only in the boundary of a portrait, which consists
+of all leaves of the portrait. This boundary can be described by an ordered set of
+pairs [<i>level</i><sub><i>i</i></sub>, <i>g</i><sub><i>i</i></sub>], <i>i</i>=1,&#8230;,<i>r</i> representing the leaves of the tree ordered from left
+to right (where <i>level</i><sub><i>i</i></sub> and <i>g</i><sub><i>i</i></sub> are the level and the label of the <i>i</i>-th leaf
+correspondingly, <i>r</i> is the number of leaves). The operation <code>AutomPortraitBoundary</code>(<var>a</var>)
+computes this boundary.
+<p>
+<code>AutomPortraitDepth</code>( <var>a</var> ) returns the depth of the portrait, i.e. the minimal
+level such that all sections of <var>a</var> at this level belong to the nucleus of <i>G</i>.
+<p>
+<pre>
+gap&gt; Basilica := AutomatonGroup("u=(v,1)(1,2), v=(u,1)");
+&lt; u, v &gt;
+gap&gt; AutomPortrait(u^3*v^-2*u);
+[ (), [ (), [ (), [ v ], [ v ] ], [ 1 ] ],
+  [ (), [ (), [ v ], [ u^-1*v ] ], [ v^-1 ] ] ]
+gap&gt; AutomPortrait(u^3*v^-2*u^3);
+[ (), [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ v ] ], [ 1 ] ],
+  [ (), [ (1,2), [ (), [ (), [ v ], [ v ] ], [ 1 ] ], [ u^-1*v ] ], [ v^-1 ]
+     ] ]
+gap&gt; AutomPortraitBoundary(u^3*v^-2*u^3);
+[ [ 5, v ], [ 5, v ], [ 4, 1 ], [ 3, v ], [ 2, 1 ], [ 5, v ], [ 5, v ],
+  [ 4, 1 ], [ 3, u^-1*v ], [ 2, v^-1 ] ]
+gap&gt; AutomPortraitDepth(u^3*v^-2*u^3);
+5
+</pre>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>automgrp manual<br>September 2019
+</address></body></html>

@@ -1,0 +1,354 @@
+<html><head><title>[automgrp] 5 Miscellaneous</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP004.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
+<h1>5 Miscellaneous</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP005.htm#SECT001">Converters to and from FR package</a>
+<li> <A HREF="CHAP005.htm#SECT002">Trees</a>
+<li> <A HREF="CHAP005.htm#SECT003">Some predefined groups</a>
+</ol><p>
+<p>
+In this chapter we present the functionality that does not quite fit in other chapters and the list of predefined groups and semigroups.
+<p>
+<p>
+<h2><a name="SECT001">5.1 Converters to and from FR package</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>FR2AutomGrp O</code>
+<p>
+This operation is designed to convert data structures defined in FR
+package written by Laurent Bartholdi to corresponding structures in
+AutomGrp package. Currently it is implemented for functionally recursive
+groups, semigroups,  and their sub(semi)groups and elements.
+<p>
+<pre>
+gap&gt; ZZ := FRGroup("t=&lt;,t&gt;[2,1]");
+&lt;state-closed group over [ 1 .. 2 ] with 1 generator&gt;
+gap&gt; AZZ := FR2AutomGrp(ZZ);
+&lt; t &gt;
+gap&gt; Display(AZZ);
+&lt; t = (1, t)(1,2) &gt;
+</pre>
+<pre>
+gap&gt; i4 := FRMonoid("s=(1,2)","f=&lt;s,f&gt;[1,1]");
+&lt;state-closed monoid over [ 1 .. 2 ] with 2 generators&gt;
+gap&gt; Ai4 := FR2AutomGrp(i4);
+&lt; 1, s, f &gt;
+gap&gt; Display(Ai4);
+&lt; 1 = (1, 1),
+  s = (1, 1)(1,2),
+  f = (s, f)[1,1] &gt;
+</pre>
+<pre>
+gap&gt; S := FRGroup("a=&lt;a*b^-2,b^3&gt;(1,2)","b=&lt;b^-1*a,1&gt;");
+&lt;state-closed group over [ 1 .. 2 ] with 2 generators&gt;
+gap&gt; AS := FR2AutomGrp(S);
+&lt; a, b &gt;
+gap&gt; Display(AS);
+&lt; a = (a*b^-2, b^3)(1,2),
+  b = (b^-1*a, 1) &gt;
+gap&gt; AssignGeneratorVariables(S);
+#I  Assigned the global variables [ "a", "b" ]
+gap&gt; x := a^3*b*a^-2;
+&lt;2|a^3*b*a^-2&gt;
+gap&gt; DecompositionOfFRElement(x);
+[ [ &lt;2|a*b^-2&gt;, &lt;2|b^3*a^2*b^-1*a^-1&gt; ], [ 2, 1 ] ]
+gap&gt; y := FR2AutomGrp(x);
+a^3*b*a^-2
+gap&gt; Decompose(y);
+(a*b^-2, b^3*a^2*b^-1*a^-1)(1,2)
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>AutomGrp2FR O</code>
+<p>
+This operation is designed to convert data structures defined in AutomGrp
+to corresponding structures in AutomGrp package written by Laurent
+Bartholdi. Currently it is implemented for automaton and self-similari
+(or, functionally recursive in L.Bartholdi's terminology) groups,
+semigroups, their sub(semi)groups and elements.
+<p>
+<pre>
+gap&gt; G:=AutomatonGroup("a=(b,a)(1,2),b=(a,b)");
+&lt; a, b &gt;
+gap&gt; FG := AutomGrp2FR(G);
+&lt;state-closed group over [ 1 .. 2 ] with 2 generators&gt;
+gap&gt; DecompositionOfFRElement(FG.1);
+[ [ &lt;2|b&gt;, &lt;2|a&gt; ], [ 2, 1 ] ]
+gap&gt; DecompositionOfFRElement(FG.2);
+[ [ &lt;2|a&gt;, &lt;2|b&gt; ], [ 1, 2 ] ]
+</pre>
+<pre>
+gap&gt; G := SelfSimilarGroup("a=(a*b^-2,b)(1,2),b=(b^2,a*b*a^-2)");
+&lt; a, b &gt;
+gap&gt; F := AutomGrp2FR(G);
+&lt;state-closed group over [ 1 .. 2 ] with 2 generators&gt;
+gap&gt; DecompositionOfFRElement(F.1);
+[ [ &lt;2|a*b^-2&gt;, &lt;2|b&gt; ], [ 2, 1 ] ]
+</pre>
+<pre>
+gap&gt; G := AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
+&lt; a, b, c &gt;
+gap&gt; H := Group([a*b,b*c^-2,a]);
+&lt; a*b, b*c^-2, a &gt;
+gap&gt; FH := AutomGrp2FR(H);
+&lt;recursive group over [ 1 .. 2 ] with 3 generators&gt;
+gap&gt; DecompositionOfFRElement(FH.1);
+[ [ &lt;2|b^2&gt;, &lt;2|a^2&gt; ], [ 2, 1 ] ]
+</pre>
+<pre>
+gap&gt; G := SelfSimilarSemigroup("a=(a*b^2,b*a)[1,1],b=(b,a*b*a)(1,2)");
+&lt; a, b &gt;
+gap&gt; S := AutomGrp2FR(G);
+&lt;state-closed semigroup over [ 1 .. 2 ] with 2 generators&gt;
+gap&gt; DecompositionOfFRElement(S.1);
+[ [ &lt;2|a*b^2&gt;, &lt;2|b*a&gt; ], [ 1, 1 ] ]
+</pre>
+<pre>
+gap&gt; G := AutomatonGroup("a=(b,a)(1,2),b=(a,b),c=(c,a)(1,2)");
+&lt; a, b, c &gt;
+gap&gt; Decompose(a*b^-2);
+(b^-1, a^-1)(1,2)
+gap&gt; x := AutomGrp2FR(a*b^-2);
+&lt;2|a*b^-2&gt;
+gap&gt; DecompositionOfFRElement(x);
+[ [ &lt;2|b^-1&gt;, &lt;2|a^-1&gt; ], [ 2, 1 ] ]
+</pre>
+<p>
+<p>
+<h2><a name="SECT002">5.2 Trees</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>NumberOfVertex( </code><var>ver</var><code>, </code><var>deg</var><code> ) F</code>
+<p>
+One can naturally enumerate all the vertices of the <i>n</i>-th level of the tree
+by the numbers 1,&#8230;,<i>deg</i> <sup><i>n</i> </sup>.
+This function returns the number that corresponds to the vertex <var>ver</var>
+of the <var>deg</var>-ary tree. The vertex can be defined either as a list or as a string.
+<pre>
+gap&gt; NumberOfVertex([1,2,1,2], 2);
+6
+gap&gt; NumberOfVertex("333", 3);
+27
+</pre>
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>VertexNumber( </code><var>num</var><code>, </code><var>lev</var><code>, </code><var>deg</var><code> ) F</code>
+<p>
+One can naturally enumerate all the vertices of the <var>lev</var>-th level of
+the <var>deg</var>-ary tree by the numbers 1,&#8230;,<i>deg</i> <sup><i>n</i> </sup>.
+This function returns the vertex of this level that has number <var>num</var>.
+<pre>
+gap&gt; VertexNumber(1, 3, 2);
+[ 1, 1, 1 ]
+gap&gt; VertexNumber(4, 4, 3);
+[ 1, 1, 2, 1 ]
+</pre>
+<p>
+<p>
+<h2><a name="SECT003">5.3 Some predefined groups</a></h2>
+<p><p>
+Several groups are predefined as fields in the global variable
+<code>AG_Groups</code>. Here is how to access, for example, Grigorchuk group
+<p>
+<pre>
+gap&gt; G:=AG_Groups.GrigorchukGroup;
+&lt; a, b, c, d &gt;
+</pre>
+<p>
+To perform operations with elements of <code>G</code> one can use <code>AssignGeneratorVariables</code> function.
+<p>
+<pre>
+gap&gt; AssignGeneratorVariables(G);
+#I  Global variable `a' is already defined and will be overwritten
+#I  Global variable `b' is already defined and will be overwritten
+#I  Global variable `c' is already defined and will be overwritten
+#I  Global variable `d' is already defined and will be overwritten
+#I  Assigned the global variables [ a, b, c, d ]
+gap&gt; Decompose(a*b);
+(c, a)(1,2)
+</pre>
+<p>
+Below is a list of all predefined groups with short description and references.
+<p>
+<a name = "SSEC003.1"></a>
+<li><code>GrigorchukGroup V</code>
+<p>
+is the first Grigorchuk group, an infinite 2-group of intermediate growth constructed
+in&nbsp;<a href="biblio.htm#Gri80"><cite>Gri80</cite></a> (see&nbsp;<a href="biblio.htm#Gri05"><cite>Gri05</cite></a> for a survey on this group). It is
+defined as the group generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>c</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,<i>d</i>),&nbsp;&nbsp;&nbsp; <i>d</i>=(1,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.GrigorchukGroup</code>
+<p>
+<a name = "SSEC003.2"></a>
+<li><code>UniversalGrigorchukGroup V</code>
+<p>
+is the universal group for the family of groups <i>G</i><sub>&#969;</sub> (see&nbsp;<a href="biblio.htm#Gri84"><cite>Gri84</cite></a>). It is
+defined as a group acting on the 6-ary tree, generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1,1,1,1,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>a</i>,1,<i>b</i>,<i>b</i>,<i>b</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,1,<i>a</i>,<i>c</i>,<i>c</i>,<i>c</i>),&nbsp;&nbsp;&nbsp; <i>d</i>=(1,<i>a</i>,<i>a</i>,<i>d</i>,<i>d</i>,<i>d</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.UniversalGrigorchukGroup</code>
+<p>
+<a name = "SSEC003.3"></a>
+<li><code>Basilica V</code>
+<p>
+is the Basilica group. It was first studied in <a href="biblio.htm#GZ02a"><cite>GZ02a</cite></a> and
+<a href="biblio.htm#GZ02b"><cite>GZ02b</cite></a>. Later it became the first example of amenable, but not subexponentially
+amenable group (see <a href="biblio.htm#BV05"><cite>BV05</cite></a>). It is the iterated monodromy group of the map <i>f</i>(<i>z</i>)=<i>z</i><sup>2</sup>&#8722;1.
+It is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>u</i>=(<i>v</i>,1)(1,2),&nbsp;&nbsp;&nbsp; <i>v</i>=(<i>u</i>,1).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.Basilica</code>
+<p>
+<a name = "SSEC003.4"></a>
+<li><code>Lamplighter V</code>
+<p>
+is the lamplighter group. This group was the key ingredient in the counterexample
+to the strong Atiyah conjecture (see&nbsp;<a href="biblio.htm#GLSZ00"><cite>GLSZ00</cite></a>). It is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>a</i>,<i>b</i>)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.Lamplighter</code>
+<p>
+<a name = "SSEC003.5"></a>
+<li><code>AddingMachine V</code>
+<p>
+is the free abelian group of rank 1 (see&nbsp;<a href="biblio.htm#GNS00"><cite>GNS00</cite></a>) generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,<i>a</i>)(1,2).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.AddingMachine</code>
+<p>
+<a name = "SSEC003.6"></a>
+<li><code>InfiniteDihedral V</code>
+<p>
+is the infinite dihedral group (see&nbsp;<a href="biblio.htm#GNS00"><cite>GNS00</cite></a>) generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>a</i>,<i>a</i>)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>b</i>,<i>a</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.InfiniteDihedral</code>
+<p>
+<a name = "SSEC003.7"></a>
+<li><code>AleshinGroup V</code>
+<p>
+is a group generated by the Aleshin automaton (see&nbsp;<a href="biblio.htm#Ale83"><cite>Ale83</cite></a>) defined by the
+following wreath recursion:
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>b</i>,<i>c</i>)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>c</i>,<i>b</i>)(1,2),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,<i>a</i>).</td></tr></table></td></tr></table>
+It is isomorphic to the free group of rank 3 as was proved by M.Vorobets and
+Y.Vorobets (see&nbsp;<a href="biblio.htm#VV05"><cite>VV05</cite></a>).
+The group is stored in the global variable <code>AG_Groups.AleshinGroup</code>
+<p>
+<a name = "SSEC003.8"></a>
+<li><code>Bellaterra V</code>
+<p>
+is a group generated by the Aleshin automaton (see&nbsp;<a href="biblio.htm#Ale83"><cite>Ale83</cite></a>) defined by the
+following wreath recursion:
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>c</i>,<i>c</i>)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>b</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>b</i>,<i>a</i>).</td></tr></table></td></tr></table>
+It is isomorphic to the free product of 3 cyclic groups of order 2 (see&nbsp;<a href="biblio.htm#BGK07"><cite>BGK07</cite></a>)
+The group is stored in the global variable <code>AG_Groups.Bellaterra</code>
+<p>
+<a name = "SSEC003.9"></a>
+<li><code>SushchanskyGroup V</code>
+<p>
+is the self-similar closure of the faithful level-transitive action of the Sushchansky group on the
+ternary tree. The original groups constructed in&nbsp;<a href="biblio.htm#Sus79"><cite>Sus79</cite></a> are infinite <i>p</i>-groups
+of intermediate growth acting on the <i>p</i>-ary tree. In&nbsp;<a href="biblio.htm#BS07"><cite>BS07</cite></a> the action of these
+groups on the tree was simplified, so that, in particular, the self-similar closure of one of the 3-groups
+is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>A</i>=(1,1,1)(1,2,3),&nbsp;&nbsp;&nbsp; <i>A</i><sup>2</sup>=(1,1,1)(1,3,2),&nbsp;&nbsp;&nbsp; <i>B</i>=(<i>r</i><sub>1</sub>,<i>q</i><sub>1</sub>,<i>A</i>),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>r</i><sub>1</sub>=(<i>r</i><sub>2</sub>,<i>A</i>,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>2</sub>=(<i>r</i><sub>3</sub>,1,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>3</sub>=(<i>r</i><sub>4</sub>,1,1),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>r</i><sub>4</sub>=(<i>r</i><sub>5</sub>,<i>A</i>,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>5</sub>=(<i>r</i><sub>6</sub>,<i>A</i><sup>2</sup>,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>6</sub>=(<i>r</i><sub>7</sub>,<i>A</i>,1),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>r</i><sub>7</sub>=(<i>r</i><sub>8</sub>,<i>A</i>,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>8</sub>=(<i>r</i><sub>9</sub>,<i>A</i>,1),&nbsp;&nbsp;&nbsp; <i>r</i><sub>9</sub>=(<i>r</i><sub>1</sub>,<i>A</i><sup>2</sup>,1),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>q</i><sub>1</sub>=(<i>q</i><sub>2</sub>,1,1),&nbsp;&nbsp;&nbsp; <i>q</i><sub>2</sub>=(<i>q</i><sub>3</sub>,<i>A</i>,1),&nbsp;&nbsp;&nbsp; <i>q</i><sub>3</sub>=(<i>q</i><sub>1</sub>,<i>A</i>,1).</td></tr></table></td></tr></table>
+The group &#9001;<i>A</i>,<i>B</i>&#9002; is isomorphic to the original Sushchansky 3-group.
+The group is stored in the global variable <code>AG_Groups.SushchanskyGroup</code>
+<p>
+<a name = "SSEC003.10"></a>
+<li><code>Hanoi3 V</code>
+<a name = "SSEC003.10"></a>
+<li><code>Hanoi4 V</code>
+<p>
+Groups related to the Hanoi towers game on 3 and 4 pegs correspondingly
+(see&nbsp;<a href="biblio.htm#GS06a"><cite>GS06a</cite></a> and <a href="biblio.htm#GS06b"><cite>GS06b</cite></a>).
+For 3 pegs <code>Hanoi3</code> is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i><sub>23</sub>=(<i>a</i><sub>23</sub>,1,1)(2,3),&nbsp;&nbsp;&nbsp; <i>a</i><sub>13</sub>=(1,<i>a</i><sub>13</sub>,1)(1,3),&nbsp;&nbsp;&nbsp; <i>a</i><sub>12</sub>=(1,1,<i>a</i><sub>12</sub>)(1,2),</td></tr></table></td></tr></table>
+while the automaton generating <code>Hanoi4</code> is
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i><sub>12</sub>=(1,1,<i>a</i><sub>12</sub>,<i>a</i><sub>12</sub>)(1,2),&nbsp;&nbsp;&nbsp; <i>a</i><sub>13</sub>=(1,<i>a</i><sub>13</sub>,1,<i>a</i><sub>13</sub>)(1,3),&nbsp;&nbsp;&nbsp; <i>a</i><sub>14</sub>=(1,<i>a</i><sub>14</sub>,<i>a</i><sub>14</sub>,1)(1,4),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i><sub>23</sub>=(<i>a</i><sub>23</sub>,1,1,<i>a</i><sub>23</sub>)(2,3),&nbsp;&nbsp;&nbsp; <i>a</i><sub>24</sub>=(<i>a</i><sub>24</sub>,1,<i>a</i><sub>24</sub>,1)(2,4),&nbsp;&nbsp;&nbsp; <i>a</i><sub>34</sub>=(<i>a</i><sub>34</sub>,<i>a</i><sub>34</sub>,1,1)(3,4).</td></tr></table></td></tr></table>
+The groups are stored in the global variables <code>AG_Groups.Hanoi3</code> and <code>AG_Groups.Hanoi4</code>
+<p>
+<a name = "SSEC003.11"></a>
+<li><code>GuptaSidki3Group V</code>
+<p>
+is the Gupta-Sidki infinite 3-group constructed in&nbsp;<a href="biblio.htm#GS83"><cite>GS83</cite></a> and generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1,1)(1,2,3),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>a</i><sup>&#8722;1</sup>,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.GuptaSidki3Group</code>
+<p>
+<a name = "SSEC003.12"></a>
+<li><code>GuptaFabrikowskiGroup V</code>
+<p>
+is the Gupta-Fabrykowski group of intermediate growth constructed in&nbsp;<a href="biblio.htm#FG85"><cite>FG85</cite></a> and
+generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1,1)(1,2,3),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,1,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.GuptaFabrikowskiGroup</code>
+<p>
+<a name = "SSEC003.13"></a>
+<li><code>BartholdiGrigorchukGroup V</code>
+<p>
+is the Bartholdi-Grigorchuk group studied in&nbsp;<a href="biblio.htm#BG02"><cite>BG02</cite></a> and generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1,1)(1,2,3),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>a</i>,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.BartholdiGrigorchukGroup</code>
+<p>
+<a name = "SSEC003.14"></a>
+<li><code>GrigorchukErschlerGroup V</code>
+<p>
+is the group of subexponential growth studied by Erschler in&nbsp;<a href="biblio.htm#Ers04"><cite>Ers04</cite></a>.
+It grows faster than exp(<i>n</i><sup>&#945;</sup>) for any &#945; &lt; 1. It belongs to the class of groups
+constructed by Grigorchuk in&nbsp;<a href="biblio.htm#Gri84"><cite>Gri84</cite></a> and corresponds to the sequence 01010101&#8230;.
+It is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>b</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,<i>d</i>),&nbsp;&nbsp;&nbsp; <i>d</i>=(1,<i>c</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.GrigorchukErschlerGroup</code>
+<p>
+<a name = "SSEC003.15"></a>
+<li><code>BartholdiNonunifExponGroup V</code>
+<p>
+is the group of nonuniformly exponential growth constructed by Bartholdi in&nbsp;<a href="biblio.htm#Bar03"><cite>Bar03</cite></a>. Similar
+examples were constructed earlier in <a href="biblio.htm#Wil04"><cite>Wil04</cite></a> by Wilson. It is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>x</i>=(1,1,1,1,1,1,1)(1,5)(3,7),&nbsp;&nbsp;&nbsp; <i>y</i>=(1,1,1,1,1,1,1)(2,3)(6,7),&nbsp;&nbsp;&nbsp; <i>z</i>=(1,1,1,1,1,1,1)(4,6)(5,7),</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>x</i><sub>1</sub>=(<i>x</i><sub>1</sub>,<i>x</i>,1,1,1,1,1),&nbsp;&nbsp;&nbsp; <i>y</i><sub>1</sub>=(<i>y</i><sub>1</sub>,<i>y</i>,1,1,1,1,1),&nbsp;&nbsp;&nbsp; <i>z</i><sub>1</sub>=(<i>z</i><sub>1</sub>,<i>z</i>,1,1,1,1,1).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.BartholdiNonunifExponGroup</code>
+<p>
+<a name = "SSEC003.16"></a>
+<li><code>IMG_z2plusI V</code>
+<p>
+The iterated monodromy group of the map <i>f</i>(<i>z</i>)=<i>z</i><sup>2</sup>+<i>i</i>. It has intermediate growth (see&nbsp;<a href="biblio.htm#BP06"><cite>BP06</cite></a>)
+and was studied in <a href="biblio.htm#GSS07"><cite>GSS07</cite></a>.
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>c</i>), <i>c</i>=(<i>b</i>,1).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.IMG_z2plusI</code>
+<p>
+<a name = "SSEC003.17"></a>
+<li><code>Airplane V</code>
+<a name = "SSEC003.17"></a>
+<li><code>Rabbit V</code>
+<p>
+These are iterated monodromy groups of certain quadratic polynomials studied in&nbsp;<a href="biblio.htm#BN06"><cite>BN06</cite></a>.
+It was proved there that they are not isomorphic. The automata generating them are the following
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>b</i>,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>c</i>,1),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,1);</td></tr></table></td></tr></table>
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(<i>b</i>,1)(1,2),&nbsp;&nbsp;&nbsp; <i>b</i>=(1,<i>c</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>a</i>,1).</td></tr></table></td></tr></table>
+The groups are stored in the global variables <code>AG_Groups.Airplane</code> and <code>AG_Groups.Rabbit</code>
+<p>
+<a name = "SSEC003.18"></a>
+<li><code>TwoStateSemigroupOfIntermediateGrowth V</code>
+<p>
+is the semigroup of intermediate growth studied in&nbsp;<a href="biblio.htm#BRS06"><cite>BRS06</cite></a>. It is generated by the automaton
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>f</i><sub>0</sub>=(<i>f</i><sub>0</sub>,<i>f</i><sub>0</sub>)(1,2),&nbsp;&nbsp;&nbsp; <i>f</i><sub>1</sub>=(<i>f</i><sub>1</sub>,<i>f</i><sub>0</sub>)[2,2]&#183;</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.TwoStateSemigroupOfIntermediateGrowth</code>
+<p>
+<a name = "SSEC003.19"></a>
+<li><code>UniversalD_omega V</code>
+<p>
+is the group constructed in&nbsp;<a href="biblio.htm#Nek07"><cite>Nek07</cite></a> as the universal group which covers an uncountable family
+of groups parameterized by infinite binary sequences. It is contracting with nucleus consisting of 35
+elements. Its generating automaton is as follows (it acts on the 4-ary tree):
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>a</i>=(1,2)(3,4),&nbsp;&nbsp;&nbsp; <i>b</i>=(<i>a</i>,<i>c</i>,<i>a</i>,<i>c</i>),&nbsp;&nbsp;&nbsp; <i>c</i>=(<i>b</i>,1,1,<i>b</i>).</td></tr></table></td></tr></table>
+The group is stored in the global variable <code>AG_Groups.UniversalD_omega</code>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP004.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>automgrp manual<br>September 2019
+</address></body></html>

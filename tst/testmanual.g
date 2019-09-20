@@ -2,7 +2,6 @@
 ##
 #W  testmanual.g               automata package                Dmytro Savchuk
 #W                                                             Yevgen Muntyan
-##  automgrp v 1.3.1
 ##
 #Y  Copyright (C) 2003 - 2018 Dmytro Savchuk, Yevgen Muntyan
 ##

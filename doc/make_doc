@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+./buildman.pe -f buildman.config
+
+echo "TeXing documentation"
+# TeX the manual
+pdftex manual
+# ... and build its bibliography
+bibtex manual
+# # TeX the manual again to incorporate the ToC 
+pdftex manual
+# ... and build the index
+../../../doc/manualindex manual
+# Finally TeX the manual again to get cross-references right
+pdftex manual
+
+# The HTML version of the manual
+rm -rf ../htm
+mkdir ../htm
+echo "Creating HTML documentation"
+./convert.pl -i -u -c -n automgrp . ../htm

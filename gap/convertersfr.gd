@@ -9,7 +9,7 @@
 
 #############################################################################
 ##
-#O  FR2AutomGrp
+#O  FR2AutomGrp( <G> )
 ##
 ##  This operation is designed to convert data structures defined in FR
 ##  package written by Laurent Bartholdi to corresponding structures in
@@ -58,7 +58,7 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 
 #############################################################################
 ##
-#O  AutomGrp2FR
+#O  AutomGrp2FR( <G> )
 ##
 ##  This operation is designed to convert data structures defined in AutomGrp
 ##  to corresponding structures in AutomGrp package written by Laurent

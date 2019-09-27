@@ -19,4 +19,4 @@ pdftex manual
 rm -rf ../htm
 mkdir ../htm
 echo "Creating HTML documentation"
-./convert.pl -i -u -c -n automgrp . ../htm
+../../../etc/convert.pl -i -u -c -n automgrp . ../htm

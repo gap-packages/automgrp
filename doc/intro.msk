@@ -200,7 +200,7 @@ and `FR2AutomGrp' ("FR2AutomGrp")) of the basic data types were implemented in `
 
 To test the installation, issue the command
 \beginexample
-gap> Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst"), "testall.g"));
+gap> Read( Filename( DirectoriesPackageLibrary( "automgrp", "tst" ), "testall.g"));
 \endexample
 in the \GAP\ command line.
 

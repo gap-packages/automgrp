@@ -42,7 +42,7 @@ LoadPackage( "AutomGrp" );
 
 Execute the following at the GAP prompt to test the installation:
 
-Read( Filename( DirectoriesLibrary( "pkg/automgrp/tst" ), "testall.g" ) );
+Read( Filename( DirectoriesPackageLibrary( "automgrp", "tst" ), "testall.g" ) );
 
 
 Bug reports, comments, etc.

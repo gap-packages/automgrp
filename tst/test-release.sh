@@ -13,7 +13,7 @@ echo1 () {
 cat << HERE_EOF
 LoadPackage("automgrp");
 AG_Globals.run_tests_forever := true;
-Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
+Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.g"));
 HERE_EOF
 }
 
@@ -21,7 +21,7 @@ echo2 () {
 cat << HERE_EOF
 LoadAllPackages();
 AG_Globals.run_tests_forever := true;
-Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
+Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.g"));
 HERE_EOF
 }
 

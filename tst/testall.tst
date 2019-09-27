@@ -7,14 +7,14 @@
 ##
 
 # Do this to run tests:
-# Test(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.tst"), rec( compareFunction := "uptowhitespace" ));
+# Test(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.tst"), rec( compareFunction := "uptowhitespace" ));
 
 gap> START_TEST("automgrp");
 gap> __save_AG_Globals_unit_test_dots := AG_Globals.unit_test_dots;
 false
 gap> AG_Globals.unit_test_dots := false;
 false
-gap> Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.g"));
 Testing automgrp package
 
 Parsing automaton string  done

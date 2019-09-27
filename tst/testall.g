@@ -7,13 +7,13 @@
 ##
 
 # Do this to run tests:
-# Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testall.g"));
+# Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.g"));
 #
 # Test AG_Globals.run_tests_forever flag for tests which require
 # lot of time, i.e. if a test needs a minute to run, put it inside
 # if AG_Globals.run_tests_forever then ... fi;
 
-Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), "testutil.g"));
+Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testutil.g"));
 
 saved := rec(
   info_level := InfoLevel(InfoAutomGrp),
@@ -38,7 +38,7 @@ for name in [
   "testautom.g",
 ]
 do
-Read(Filename(DirectoriesLibrary("pkg/automgrp/tst"), name));
+Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), name));
 od;
 
 UnitTestRun();

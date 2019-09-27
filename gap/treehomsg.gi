@@ -165,7 +165,7 @@ function(arg)
   end;
 
   shallow_copy := function(iter)
-    return create_iter_rec(iter!.G);
+    return create_iter_rec(iter!.group);
   end;
 
   return IteratorByFunctions(create_iter_rec(G));

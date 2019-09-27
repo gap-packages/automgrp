@@ -11,6 +11,7 @@
 /doc/*.lab
 /doc/*.log
 /doc/*.six
+/doc/*.tex
 /doc/*.toc
 /doc/manual.pdf
 /doc/notfound

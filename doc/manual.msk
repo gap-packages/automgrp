@@ -1,4 +1,4 @@
-\input gapmacro
+\input ../../../doc/gapmacro
 \Package{AutomGrp}
 \BeginningOfBook{AutomGrp}
 

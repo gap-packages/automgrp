@@ -5,16 +5,12 @@
 ##
 #Y  Copyright (C) 2003 - 2018 Dmytro Savchuk, Yevgen Muntyan
 ##
-
-# Do this to run tests:
-# Test(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.tst"), rec( compareFunction := "uptowhitespace" ));
-
 gap> START_TEST("automgrp");
 gap> __save_AG_Globals_unit_test_dots := AG_Globals.unit_test_dots;
 false
 gap> AG_Globals.unit_test_dots := false;
 false
-gap> Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "testall.g"));
+gap> Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), "run_unittests.g"));
 Testing automgrp package
 
 Parsing automaton string  done
@@ -40,8 +36,3 @@ All 6480 tests passed
 gap> AG_Globals.unit_test_dots := __save_AG_Globals_unit_test_dots;
 false
 gap> STOP_TEST("automgrp/tst/testall.tst", 10000);
-automgrp
-GAP4stones: 0
-
-
-## -*- gap -*-

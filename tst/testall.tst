@@ -28,11 +28,10 @@ Contracting groups  done
 Iterator  done
 Miscellaneous  done
 SelfSim  done
-Examples from manual  done
 RWS 1  done
 Automaton  done
 
-All 6480 tests passed
+All 6470 tests passed
 gap> AG_Globals.unit_test_dots := __save_AG_Globals_unit_test_dots;
 false
 gap> STOP_TEST("automgrp/tst/testall.tst", 10000);

@@ -7,8 +7,8 @@ SetPackageInfo(rec(
 
 PackageName := "AutomGrp",
 Subtitle := "Automata groups",
-Version := "1.3.1dev",
-Date := "30/09/2018", # dd/mm/yyyy format
+Version := "1.3.2",
+Date := "30/09/2019", # dd/mm/yyyy format
 License := "MIT",
 
 Persons := [

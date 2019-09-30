@@ -26,13 +26,9 @@ AG_Globals.bind_vars_autom_family := false;
 UnitTestInit("automgrp package");
 
 for name in [
-#  "testexternal.g",
   "teststructures.g",
   "testorder.g",
-  "testmisc.g",
   "testselfsim.g",
-  "testrws.g",
-  "testautom.g",
 ]
 do
 Read(Filename(DirectoriesPackageLibrary("automgrp", "tst"), name));

@@ -30,7 +30,6 @@ for name in [
   "teststructures.g",
   "testorder.g",
   "testcontr.g",
-  "testiter.g",
   "testmisc.g",
   "testselfsim.g",
   "testrws.g",

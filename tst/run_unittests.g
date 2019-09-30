@@ -29,7 +29,6 @@ for name in [
 #  "testexternal.g",
   "teststructures.g",
   "testorder.g",
-  "testcontr.g",
   "testmisc.g",
   "testselfsim.g",
   "testrws.g",

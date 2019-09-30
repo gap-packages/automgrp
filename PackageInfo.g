@@ -5,19 +5,11 @@
 
 SetPackageInfo(rec(
 
-##  This is case sensitive, use your preferred spelling.
-#
 PackageName := "AutomGrp",
-
-##  This may be used by a default banner or on a Web page, should fit on
-##  one line.
 Subtitle := "Automata groups",
-
 Version := "1.3.1dev",
-
-##  Release date of the current version in dd/mm/yyyy format.
-#
-Date := "30/09/2018",
+Date := "30/09/2018", # dd/mm/yyyy format
+License := "MIT",
 
 Persons := [
   rec(

@@ -33,7 +33,6 @@ for name in [
   "testiter.g",
   "testmisc.g",
   "testselfsim.g",
-  "testmanual.g",
   "testrws.g",
   "testautom.g",
 ]

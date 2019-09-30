@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/gap-packages/automgrp.svg)](https://travis-ci.com/gap-packages/automgrp)
+[![Code Coverage](https://codecov.io/github/gap-packages/automgrp/coverage.svg)](https://codecov.io/gh/gap-packages/automgrp)
+
 The AutomGrp package
 ====================
 

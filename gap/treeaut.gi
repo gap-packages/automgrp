@@ -109,7 +109,7 @@ function(states, perm)
   od;
 
   if autom = fail then
-    # XXX homogenous tree, stupid!
+    # XXX homogeneous tree, stupid!
     Error("Can't create an automaton with all trivial states ",
           "without information about the tree");
   fi;

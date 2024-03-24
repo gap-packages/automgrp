@@ -67,8 +67,6 @@ and elements.",
 PackageDoc := rec(
  # use same as in GAP
  BookName  := "AutomGrp",
- # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
-#  Archive := "",
  ArchiveURLSubset := ["doc", "htm"],
  HTMLStart := "htm/chapters.htm",
  PDFFile   := "doc/manual.pdf",

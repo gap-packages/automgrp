@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/gap-packages/automgrp/workflows/CI/badge.svg?branch=master)](https://github.com/gap-packages/automgrp/actions?query=workflow%3ACI+branch%3Amaster)
+[![Build Status](https://github.com/gap-packages/automgrp/actions/workflows/CI.yml/badge.svg)](https://github.com/gap-packages/automgrp/actions/workflows/CI.yml)
 [![Code Coverage](https://codecov.io/github/gap-packages/automgrp/coverage.svg)](https://codecov.io/gh/gap-packages/automgrp)
 
 The AutomGrp package

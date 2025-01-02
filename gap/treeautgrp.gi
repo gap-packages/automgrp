@@ -451,12 +451,18 @@ end);
 
 ###############################################################################
 ##
-#M  ProjectionOp (<G>, <k>)
+#M  Projection(<G>, <k>)
 ##
-InstallMethod(ProjectionOp, "for [IsTreeAutomorphismGroup, IsPosInt]",
+InstallMethod(Projection, "for [IsTreeAutomorphismGroup, IsPosInt]",
               [IsTreeAutomorphismGroup, IsPosInt],
 function(G, k)
-  return Projection(G, [k]);
+  if not IsBound(G!.projections) then
+    G!.projections := [];
+  fi;
+  if not IsBound(G!.projections[k]) then
+    G!.projections[k] := Projection(G, [k]);
+  fi;
+  return G!.projections[k];
 end);
 
 

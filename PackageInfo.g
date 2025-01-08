@@ -7,8 +7,8 @@ SetPackageInfo(rec(
 
 PackageName := "AutomGrp",
 Subtitle := "Automata groups",
-Version := "1.3.2",
-Date := "30/09/2019", # dd/mm/yyyy format
+Version := "1.3.3",
+Date := "08/01/2025", # dd/mm/yyyy format
 License := "MIT",
 
 Persons := [
@@ -67,8 +67,6 @@ and elements.",
 PackageDoc := rec(
  # use same as in GAP
  BookName  := "AutomGrp",
- # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
-#  Archive := "",
  ArchiveURLSubset := ["doc", "htm"],
  HTMLStart := "htm/chapters.htm",
  PDFFile   := "doc/manual.pdf",
@@ -78,9 +76,6 @@ PackageDoc := rec(
  # fit on a single text line (appears with the '?books' command in GAP)
  # LongTitle := "Elementary Divisors of Integer Matrices",
  LongTitle := "Automata Groups",
- # Should this help book be autoloaded when GAP starts up? This should
- # usually be 'true', otherwise say 'false'.
- Autoload  := true
 ),
 
 ##  Are there restrictions on the operating system for this package? Or does
@@ -133,7 +128,6 @@ BannerString := Concatenation(
 ##  started.  This should usually be 'false'. Say 'true' only if your package
 ##  provides some improvements of the GAP library which are likely to enhance
 ##  the overall system performance for many users.
-Autoload := true,
 
 ##  *Optional*, but recommended: path relative to package root to a file which
 ##  contains as many tests of the package functionality as sensible.

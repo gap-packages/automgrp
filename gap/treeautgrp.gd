@@ -174,7 +174,6 @@ DeclareOperation("StabilizerOfVertex", [IsTreeAutomorphismGroup, IsObject]);
 ##  < u, v >
 ##  \endexample
 ##
-KeyDependentOperation("Projection", IsTreeAutomorphismGroup, IsPosInt, ReturnTrue);
 DeclareOperation("Projection", [IsTreeAutomorphismGroup, IsList]);
 DeclareOperation("ProjectionNC", [IsTreeAutomorphismGroup, IsObject]);
 

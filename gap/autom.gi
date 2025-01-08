@@ -558,15 +558,11 @@ end);
 ## TODO
 InstallMethod(Section, "for [IsAutom, IsList]", [IsAutom, IsList],
 function(a, v)
-  if Length(v) = 0 then
-    return a;
-  fi;
-
-  if Length(v) = 1 then
-    return Section(a, v[1]);
-  fi;
-
-  return Section(Section(a, v[1]), v{[2..Length(v)]});
+  local k;
+  for k in v do
+    a := Section(a, k);
+  od;
+  return a;
 end);
 
 

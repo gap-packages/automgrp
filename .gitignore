@@ -15,6 +15,8 @@
 /doc/*.toc
 /doc/manual.pdf
 /doc/notfound
+/doc/manual.example-*.tst
+
 /htm/
 
 /gh-pages/

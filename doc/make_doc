@@ -1,14 +1,17 @@
 #!/bin/sh
 set -e
 
+echo "TeXing documentation"
+# delete old stuff to avoid spurious or "hidden errors" caused by their presence
+rm -f manual.aux manual.pdf manual.idx manual.ilg manual.ind manual.lab manual.log manual.six manual.toc
+
 ./buildman.pe -f buildman.config
 
-echo "TeXing documentation"
 # TeX the manual
 pdftex manual
 # ... and build its bibliography
 bibtex manual
-# # TeX the manual again to incorporate the ToC 
+# TeX the manual again to incorporate the ToC 
 pdftex manual
 # ... and build the index
 ../../../doc/manualindex manual
@@ -16,7 +19,6 @@ pdftex manual
 pdftex manual
 
 # The HTML version of the manual
-rm -rf ../htm
-mkdir ../htm
+mkdir -p ../htm
 echo "Creating HTML documentation"
 ../../../etc/convert.pl -i -u -c -n automgrp . ../htm

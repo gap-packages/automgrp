@@ -239,6 +239,7 @@ function(G)
     od;
     Print("  "); printone(gens[Length(gens)]); Print(" >");
   fi;
+  Print("\n");
 end);
 
 

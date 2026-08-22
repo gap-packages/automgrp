@@ -257,6 +257,7 @@ function(a)
       Print(", ");
     fi;
   od;
+  Print("\n");
 end);
 
 InstallMethod(String, [IsMealyAutomaton and IsMealyAutomatonRep],

@@ -11,9 +11,15 @@
 ##
 #C  IsSelfSim
 ##
-##  A category of objects created using `SelfSimGroup'~("SelfSimGroup"). These
+##  <#GAPDoc Label="IsSelfSim">
+##  <ManSection>
+##  <Filt Name="IsSelfSim" Arg="" Type="Category"/>
+##  <Description>
+##  A category of objects created using <Ref Func="SelfSimilarGroup"/>. These
 ##  objects are (possibly infinite) initial automata.
-##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareCategory("IsSelfSim", IsTreeHomomorphism);
 DeclareCategoryCollections("IsSelfSim");
 DeclareCategoryFamily("IsSelfSim");
@@ -30,10 +36,15 @@ DeclareCategoryCollections("IsInvertibleSelfSim");
 #O  SelfSim( <word>, <a> )
 #O  SelfSim( <word>, <fam> )
 ##
-##  Given assosiative word <word> constructs a tree homomorphism from the family
-##  <fam>, or to which homomorphism <a> belongs. This function is useful when
-##  one needs to make some operations with associative words. See also `Word' ("Word").
-##  \beginexample
+##  <#GAPDoc Label="SelfSim">
+##  <ManSection>
+##  <Oper Name="SelfSim" Arg="word, a"/>
+##  <Oper Name="SelfSim" Label="for word, fam" Arg="word, fam"/>
+##  <Description>
+##  Given assosiative word <A>word</A> constructs a tree homomorphism from the family
+##  <A>fam</A>, or to which homomorphism <A>a</A> belongs. This function is useful when
+##  one needs to make some operations with associative words. See also <Ref Func="Word"/>.
+##  <Example><![CDATA[
 ##  gap> G := SelfSimilarGroup("a=(a*b,b)(1,2), b=(a^-1,b)");
 ##  < a, b >
 ##  gap> F := UnderlyingFreeGroup(G);
@@ -42,8 +53,10 @@ DeclareCategoryCollections("IsInvertibleSelfSim");
 ##  a*b^2
 ##  gap> IsSelfSim(c);
 ##  true
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("SelfSim", [IsAssocWord, IsSelfSim]);
 DeclareOperation("SelfSim", [IsAssocWord, IsSelfSimFamily]);
 DeclareOperation("SelfSim", [IsAssocWord, IsList]);
@@ -52,6 +65,14 @@ DeclareOperation("SelfSim", [IsAssocWord, IsList]);
 ##
 #O  StatesWords( <a> )
 ##
+##  <#GAPDoc Label="selfsim:StatesWords">
+##  <ManSection>
+##  <Oper Name="StatesWords" Arg="a"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("StatesWords", [IsSelfSim]);
 
 
@@ -59,22 +80,28 @@ DeclareOperation("StatesWords", [IsSelfSim]);
 ##
 #P  IsFiniteState( <a> )
 ##
-##  Returns `true' if <a> has finitely many different sections.
+##  <#GAPDoc Label="selfsim:IsFiniteState">
+##  <ManSection>
+##  <Prop Name="IsFiniteState" Label="for tree homomorphism" Arg="a"/>
+##  <Description>
+##  Returns <K>true</K> if <A>a</A> has finitely many different sections.
 ##  It will never stop if the free reduction of words is not sufficient
-##  to establish the finite-state property or if <a> is not finite-state (has
+##  to establish the finite-state property or if <A>a</A> is not finite-state (has
 ##  infinitely many different sections).
-##
-##  See also `AllSections' ("AllSections") for the list of all sections and
-##  `MealyAutomaton' ("MealyAutomaton"), which allows to construct
-##  a Mealy automaton whose states are the sections of <a> and which
+##  <P/>
+##  See also <Ref Func="AllSections"/> for the list of all sections and
+##  <Ref Func="MealyAutomaton"/>, which allows to construct
+##  a Mealy automaton whose states are the sections of <A>a</A> and which
 ##  encodes its action on the tree.
-##  \beginexample
+##  <Example><![CDATA[
 ##  gap> D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
 ##  < x, y, z >
 ##  gap> IsFiniteState(x*y^-1);
 ##  true
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareProperty("IsFiniteState", IsSelfSim);
 
 

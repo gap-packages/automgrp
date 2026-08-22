@@ -11,6 +11,14 @@
 ##
 #R  IsMealyAutomatonRep
 ##
+##  <#GAPDoc Label="IsMealyAutomatonRep">
+##  <ManSection>
+##  <Filt Name="IsMealyAutomatonRep" Arg="" Type="Representation"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsMealyAutomatonRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["table",     # transitions: table[i][j] is the state automaton goes to after processing letter j

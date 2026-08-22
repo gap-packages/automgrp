@@ -11,8 +11,14 @@
 ##
 #C  IsTreeHomomorphism
 ##
+##  <#GAPDoc Label="IsTreeHomomorphism">
+##  <ManSection>
+##  <Filt Name="IsTreeHomomorphism" Arg="" Type="Category"/>
+##  <Description>
 ##  Category of level-preserving rooted tree homomorphisms.
-##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareCategory("IsTreeHomomorphism", IsActingOnTree and
                                       IsMultiplicativeElementWithOne and
                                       IsAssociativeElement);
@@ -30,10 +36,14 @@ DeclareAttribute("AutomatonList", IsTreeHomomorphism and IsActingOnRegularTree, 
 ##
 #O  TreeHomomorphism( <states>, <tr> )
 ##
-##  Constructs an homomorphism with states <states> and acting
-##  on the first level with transformation <tr>. The <states> must
+##  <#GAPDoc Label="TreeHomomorphism">
+##  <ManSection>
+##  <Oper Name="TreeHomomorphism" Arg="states, tr"/>
+##  <Description>
+##  Constructs an homomorphism with states <A>states</A> and acting
+##  on the first level with transformation <A>tr</A>. The <A>states</A> must
 ##  belong to the same family.
-##  \beginexample
+##  <Example><![CDATA[
 ##  gap> S := AutomatonSemigroup("a=(a,b)[1,1],b=(b,a)(1,2)");
 ##  < a, b >
 ##  gap> x := TreeHomomorphism([a,b^2,a,a*b],Transformation([3,1,2,2]));
@@ -42,8 +52,10 @@ DeclareAttribute("AutomatonList", IsTreeHomomorphism and IsActingOnRegularTree, 
 ##  (a*b, b, b, b^2)[1,4,2,3]
 ##  gap> x*y;
 ##  (a*b, b^2*a*b, a*b, a*b^2)[2,1,4,4]
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 
 
 ##
@@ -65,10 +77,16 @@ DeclareOperation("TreeHomomorphism", [IsObject, IsObject, IsObject, IsObject, Is
 ##
 #O  TreeHomomorphismFamily( <sph_ind> )
 ##
+##  <#GAPDoc Label="TreeHomomorphismFamily">
+##  <ManSection>
+##  <Oper Name="TreeHomomorphismFamily" Arg="sph_ind"/>
+##  <Description>
 ##  Constructs a family to which all homomorphisms of a tree with spherical
-##  index <sph_ind> belong. It is used internally, objects created with
-##  `TreeAutomorphism' belong to this family.
-##
+##  index <A>sph_ind</A> belong. It is used internally, objects created with
+##  <C>TreeAutomorphism</C> belong to this family.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 
 
@@ -77,15 +95,22 @@ DeclareOperation("TreeHomomorphismFamily", [IsObject]);
 #O  TransformationOnLevel( <a>, <lev> )
 #O  TransformationOnFirstLevel( <a> )
 ##
+##  <#GAPDoc Label="TransformationOnLevel">
+##  <ManSection>
+##  <Oper Name="TransformationOnLevel" Arg="a, lev"/>
+##  <Attr Name="TransformationOnFirstLevel" Arg="a"/>
+##  <Description>
 ##  The first function returns the transformation induced by the tree homomorphism
-##  <a> on the level <lev>. See also `PermOnLevel'~("PermOnLevel").
-##
+##  <A>a</A> on the level <A>lev</A>. See also <Ref Func="PermOnLevel"/>.
+##  <P/>
 ##  If the transformation is invertible then it returns a permutation, and
-##  `Transformation' otherwise.
-##
-##  `TransformationOnFirstLevel'(<a>) is equivalent to
-##  `TransformationOnLevel'(<a>, `1').
-##
+##  <C>Transformation</C> otherwise.
+##  <P/>
+##  <C>TransformationOnFirstLevel</C>(<A>a</A>) is equivalent to
+##  <C>TransformationOnLevel</C>(<A>a</A>, <C>1</C>).
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 KeyDependentOperation("TransformationOnLevel", IsTreeHomomorphism, IsPosInt, ReturnTrue);
 DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
 
@@ -94,10 +119,16 @@ DeclareAttribute("TransformationOnFirstLevel", IsTreeHomomorphism);
 ##
 #O  Perm( <a>[, <lev>] )
 ##
-##  Returns the permutation induced by the tree automorphism <a> on the level <lev>
-##  (or first level if <lev> is not given). See also
-##  `TransformationOnLevel'~("TransformationOnLevel").
-##
+##  <#GAPDoc Label="Perm">
+##  <ManSection>
+##  <Oper Name="Perm" Arg="a[, lev]"/>
+##  <Description>
+##  Returns the permutation induced by the tree automorphism <A>a</A> on the level <A>lev</A>
+##  (or first level if <A>lev</A> is not given). See also
+##  <Ref Func="TransformationOnLevel"/>.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Perm", [IsTreeHomomorphism]);
 DeclareOperation("Perm", [IsTreeHomomorphism, IsPosInt]);
 
@@ -105,8 +136,14 @@ DeclareOperation("Perm", [IsTreeHomomorphism, IsPosInt]);
 ##
 #O  PermOnLevel( <a>, <k> )
 ##
-##  Does the same thing as `Perm'~("Perm").
-##
+##  <#GAPDoc Label="PermOnLevel">
+##  <ManSection>
+##  <Oper Name="PermOnLevel" Arg="a, k"/>
+##  <Description>
+##  Does the same thing as <Ref Func="Perm"/>.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 KeyDependentOperation("PermOnLevel", IsTreeHomomorphism, IsPosInt, ReturnTrue);
 
 
@@ -114,16 +151,22 @@ KeyDependentOperation("PermOnLevel", IsTreeHomomorphism, IsPosInt, ReturnTrue);
 ##
 #O  Section( <a>, <v> )
 ##
-##  Returns the section of the automorphism (homomorphism) <a> at the vertex <v>.
-##  The vertex <v> can be a list representing the vertex, or a positive integer
+##  <#GAPDoc Label="treehom:Section">
+##  <ManSection>
+##  <Oper Name="Section" Label="for tree homomorphism" Arg="a, v"/>
+##  <Description>
+##  Returns the section of the automorphism (homomorphism) <A>a</A> at the vertex <A>v</A>.
+##  The vertex <A>v</A> can be a list representing the vertex, or a positive integer
 ##  representing a vertex of the first level of the tree.
-##  \beginexample
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> Section(p*q*p^2, [1,2,2,1,2,1]);
 ##  p^2*q^2
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Section", [IsTreeHomomorphism, IsList]);
 DeclareOperation("Section", [IsTreeHomomorphism, IsPosInt]);
 
@@ -131,15 +174,21 @@ DeclareOperation("Section", [IsTreeHomomorphism, IsPosInt]);
 ##
 #O  Sections( <a> [, <lev>] )
 ##
-##  Returns the list of sections of <a> at the <lev>-th level. If <lev> is omitted
+##  <#GAPDoc Label="Sections">
+##  <ManSection>
+##  <Oper Name="Sections" Arg="a [, lev]"/>
+##  <Description>
+##  Returns the list of sections of <A>a</A> at the <A>lev</A>-th level. If <A>lev</A> is omitted
 ##  it is assumed to be 1.
-##  \beginexample
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> Sections(p*q*p^2);
 ##  [ p*q^2*p, q*p^2*q ]
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Sections", [IsTreeHomomorphism]);
 DeclareOperation("Sections", [IsTreeHomomorphism, IsCyclotomic]);
 
@@ -147,19 +196,25 @@ DeclareOperation("Sections", [IsTreeHomomorphism, IsCyclotomic]);
 ##
 #O  Decompose( <a>[, <k>] )
 ##
-##  Returns the decomposition of the tree homomorphism <a> on the <k>-th level of the tree, i.e. the
-##  representation of the form $$a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma$$
-##  where $a_i$ are the sections of <a> at the <k>-th level, and $\sigma$ is the
-##  transformation of the <k>-th level. If <k> is omitted it is assumed to be 1.
-##  \beginexample
+##  <#GAPDoc Label="Decompose">
+##  <ManSection>
+##  <Oper Name="Decompose" Arg="a[, k]"/>
+##  <Description>
+##  Returns the decomposition of the tree homomorphism <A>a</A> on the <A>k</A>-th level of the tree, i.e. the
+##  representation of the form <Display>a = (a_1, a_2, \ldots, a_{d_1\times...\times d_k})\sigma</Display>
+##  where <M>a_i</M> are the sections of <A>a</A> at the <A>k</A>-th level, and <M>\sigma</M> is the
+##  transformation of the <A>k</A>-th level. If <A>k</A> is omitted it is assumed to be 1.
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> Decompose(p*q^2);
 ##  (p*q^2, q*p^2)(1,2)
 ##  gap> Decompose(p*q^2,3);
 ##  (p*q^2, q*p^2, p^2*q, q^2*p, p*q*p, q*p*q, p^3, q^3)(1,8,3,5)(2,7,4,6)
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Decompose", [IsTreeHomomorphism]);
 DeclareOperation("Decompose", [IsTreeHomomorphism, IsPosInt]);
 DeclareOperation("Decompose", [IsTreeHomomorphism, IsInt and IsZero]);
@@ -171,10 +226,15 @@ DeclareOperation("Decompose", [IsTreeHomomorphism, IsInt and IsZero]);
 #O  Representative( <word>, <fam> )
 #O  Representative( <word>, <a> )
 ##
-##  Given an associative word <word> constructs the tree homomorphism from the family
-##  <fam>, or to which homomorphism <a> belongs. This function is useful when
-##  one needs to make some operations with associative words. See also `Word' ("Word").
-##  \beginexample
+##  <#GAPDoc Label="Representative">
+##  <ManSection>
+##  <Oper Name="Representative" Arg="word, fam"/>
+##  <Oper Name="Representative" Label="for word, a" Arg="word, a"/>
+##  <Description>
+##  Given an associative word <A>word</A> constructs the tree homomorphism from the family
+##  <A>fam</A>, or to which homomorphism <A>a</A> belongs. This function is useful when
+##  one needs to make some operations with associative words. See also <Ref Func="Word"/>.
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> F := UnderlyingFreeGroup(L);
@@ -191,8 +251,10 @@ DeclareOperation("Decompose", [IsTreeHomomorphism, IsInt and IsZero]);
 ##  x^-1*y
 ##  gap> Decompose(r);
 ##  (x^-1*y, y^-1*x^-2)(1,2)
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphism]);
 DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 
@@ -201,17 +263,23 @@ DeclareOperation("Representative", [IsAssocWord, IsTreeHomomorphismFamily]);
 ##
 #O  Word( <a> )
 ##
-##  Returns <a> as an associative word (an element of the underlying free group) in
-##  the generators of the self-similar group (semigroup) to which <a> belongs.
-##  \beginexample
+##  <#GAPDoc Label="Word">
+##  <ManSection>
+##  <Oper Name="Word" Arg="a"/>
+##  <Description>
+##  Returns <A>a</A> as an associative word (an element of the underlying free group) in
+##  the generators of the self-similar group (semigroup) to which <A>a</A> belongs.
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> w := Word(p*q^2*p^-1);
 ##  p*q^2*p^-1
 ##  gap> Length(w);
 ##  4
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("Word", [IsTreeHomomorphism]);
 
 
@@ -222,8 +290,14 @@ DeclareGlobalFunction("AG_TreeHomomorphismCmp");
 ##
 #P  IsSphericallyTransitive ( <a> )
 ##
-##  Returns whether the action of <a> is spherically transitive (see "Short math background").
-##
+##  <#GAPDoc Label="treehom:IsSphericallyTransitive">
+##  <ManSection>
+##  <Prop Name="IsSphericallyTransitive" Label="for tree homomorphism" Arg="a"/>
+##  <Description>
+##  Returns whether the action of <A>a</A> is spherically transitive (see <Ref Sect="Short math background"/>).
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareProperty("IsSphericallyTransitive", IsTreeHomomorphism);
 # XXX CanEasilyTestSphericalTransitivity isn't really used except for
 # automorphisms of binary tree
@@ -234,8 +308,14 @@ InstallTrueMethod(CanEasilyTestSphericalTransitivity, IsSphericallyTransitive);
 ##
 #O  IsTransitiveOnLevel ( <a>, <lev> )
 ##
-##  Returns whether <a> acts transitively on level <lev> of the tree.
-##
+##  <#GAPDoc Label="treehom:IsTransitiveOnLevel">
+##  <ManSection>
+##  <Oper Name="IsTransitiveOnLevel" Label="for tree homomorphism" Arg="a, lev"/>
+##  <Description>
+##  Returns whether <A>a</A> acts transitively on level <A>lev</A> of the tree.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("IsTransitiveOnLevel", [IsTreeHomomorphism, IsPosInt]);
 
 
@@ -254,21 +334,27 @@ DeclareOperation("\^", [IsList, IsTreeHomomorphism]);
 ##
 #A  AllSections( <a> )
 ##
-##  Returns the list of all sections of <a> if there are finitely many of them and
+##  <#GAPDoc Label="AllSections">
+##  <ManSection>
+##  <Attr Name="AllSections" Arg="a"/>
+##  <Description>
+##  Returns the list of all sections of <A>a</A> if there are finitely many of them and
 ##  this fact can be established using free reduction of words in sections. Otherwise
-##  will never stop. Note, that in the case when <a> is an element of a self-similar
+##  will never stop. Note, that in the case when <A>a</A> is an element of a self-similar
 ##  (semi)group defined by wreath recurion it does not check whether all elements of the list
-##  are actually different automorphisms (homomorphisms) of the tree. If <a> is a element of
+##  are actually different automorphisms (homomorphisms) of the tree. If <A>a</A> is a element of
 ##  of a (semi)group generated by finite automaton, it will always return the list of
-##  all distinct sections of <a>.
-##  \beginexample
+##  all distinct sections of <A>a</A>.
+##  <Example><![CDATA[
 ##  gap> D := SelfSimilarGroup("x=(1,y)(1,2), y=(z^-1,1)(1,2), z=(1,x*y)");
 ##  < x, y, z >
 ##  gap> AllSections(x*y^-1);
-##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z,
+##  [ x*y^-1, z, 1, x*y, y*z^-1, z^-1*y^-1*x^-1, y^-1*x^-1*z*y^-1, z*y^-1*x*y*z, 
 ##    y*z^-1*x*y, z^-1*y^-1*x^-1*y*z^-1, x*y*z, y, z^-1, y^-1*x^-1, z*y^-1 ]
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareAttribute("AllSections", IsTreeHomomorphism);
 
 

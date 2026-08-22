@@ -73,8 +73,8 @@ DeclareOperation("FR2AutomGrp", [IsObject]);
 ##  <Oper Name="AutomGrp2FR" Arg="G"/>
 ##  <Description>
 ##  This operation is designed to convert data structures defined in AutomGrp
-##  to corresponding structures in AutomGrp package written by Laurent
-##  Bartholdi. Currently it is implemented for automaton and self-similari
+##  to corresponding structures in the <C>FR</C> package written by Laurent
+##  Bartholdi. Currently it is implemented for automaton and self-similar
 ##  (or, functionally recursive in L.Bartholdi's terminology) groups,
 ##  semigroups, their sub(semi)groups and elements.
 ##  <Example><![CDATA[

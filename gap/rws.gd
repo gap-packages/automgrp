@@ -60,7 +60,7 @@ DeclareOperation("AG_UseRewritingSystem", [IsObject, IsBool]);
 ##  d
 ##  ]]></Example>
 ##  In some cases it's hard to find relations directly from the wreath
-##  recursion of a self-similar group (at least, there is no general agorithm).
+##  recursion of a self-similar group (at least, there is no general algorithm).
 ##  This function provides possibility to add relators manually. After that
 ##  one can use <Ref Func="AG_UpdateRewritingSystem"/>
 ##  and <Ref Func="AG_UseRewritingSystem"/> to use these

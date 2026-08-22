@@ -85,7 +85,7 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 ##  <Oper Name="DiagonalPower" Arg="fam[, k]"/>
 ##  <Description>
 ##  For a given automaton group <A>G</A> acting on alphabet <M>X</M> and corresponding family
-##  <A>fam</A> of automata one can consider the action of <M>&lt;G&gt;^&lt;k&gt;</M> on <M>X^&lt;k&gt;</M> defined by
+##  <A>fam</A> of automata one can consider the action of <M><A>G</A>^{<A>k</A>}</M> on <M>X^{<A>k</A>}</M> defined by
 ##  <M>(x_1,x_2,\ldots, x_k)^{(g_1,g_2,\ldots,g_k)}=(x_1^{g_1},x_2^{g_2},\ldots,x_k^{g_k})</M>.
 ##  This function constructs a self-similar group, which encodes this action. If
 ##  <A>k</A> is not given it is assumed to be <M>2</M>.

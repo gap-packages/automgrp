@@ -104,7 +104,7 @@ true
 gap> IsContracting(AutomatonGroup("a=(c,a)(1,2), b=(c,b), c=(b,a)"));
 false
 
-# doc/../gap/selfs.gd:1208-1224
+# doc/../gap/selfs.gd:1209-1225
 gap> G := AutomatonGroup("a=(b,a)(1,2), b=(c,b), c=(c,a)");
 < a, b, c >
 gap> IsNoncontracting(G);
@@ -121,7 +121,7 @@ gap> IsNoncontracting(H);
 true
 gap> SetInfoLevel(InfoAutomGrp, 0);
 
-# doc/../gap/selfs.gd:1271-1280
+# doc/../gap/selfs.gd:1272-1281
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> IsGeneratedByAutomatonOfPolynomialGrowth(Basilica);
@@ -131,7 +131,7 @@ gap> D := AutomatonGroup( "a=(a,b)(1,2), b=(b,a)" );
 gap> IsGeneratedByAutomatonOfPolynomialGrowth(D);
 false
 
-# doc/../gap/selfs.gd:1300-1309
+# doc/../gap/selfs.gd:1301-1310
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> IsGeneratedByBoundedAutomaton(Basilica);
@@ -141,7 +141,7 @@ gap> C := AutomatonGroup("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
 gap> IsGeneratedByBoundedAutomaton(C);
 false
 
-# doc/../gap/selfs.gd:1331-1340
+# doc/../gap/selfs.gd:1332-1341
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(Basilica);
@@ -151,14 +151,14 @@ gap> C := AutomatonGroup("a=(a,b)(1,2), b=(b,c), c=(c,1)(1,2)");
 gap> PolynomialDegreeOfGrowthOfUnderlyingAutomaton(C);
 2
 
-# doc/../gap/selfs.gd:1363-1369
+# doc/../gap/selfs.gd:1364-1370
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> AG_UseRewritingSystem(Grigorchuk_Group);
 gap> IsOfSubexponentialGrowth(Grigorchuk_Group,10,6);
 true
 
-# doc/../gap/selfs.gd:1242-1247
+# doc/../gap/selfs.gd:1243-1248
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> IsAmenable(Grigorchuk_Group);
@@ -241,7 +241,7 @@ gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 gap> ProjStab(Basilica, [1,2,1]);
 < u, v >
 
-# doc/../gap/selfs.gd:957-977
+# doc/../gap/selfs.gd:958-978
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> FindGroupRelations(Basilica, 6);
@@ -262,7 +262,7 @@ y^-3
 (y^-1*x)^3
 [ x^2, y^-3, (y^-1*x)^3 ]
 
-# doc/../gap/selfs.gd:1013-1036
+# doc/../gap/selfs.gd:1014-1037
 gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 < u, v >
 gap> FindSemigroupRelations([u*v^-1, v*u], ["x", "y"], 6);
@@ -300,7 +300,7 @@ gap> l;
   a*d*a*b, a*c*a*d, a*b*a*d, (c*a)^2*b, c*(a*b)^2, b*(a*c)^2, (b*a)^2*c, 
   a*d*a*c*a, a*c*a*d*a ]
 
-# doc/../gap/selfs.gd:1138-1147
+# doc/../gap/selfs.gd:1139-1148
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> FindElement(Grigorchuk_Group, Order, 16, 5);
@@ -310,7 +310,7 @@ gap> FindElements(Grigorchuk_Group,Order,16,5);
   c*a*d*a, d*a*b*a, d*a*c*a, a*c*a*d*a, a*d*a*c*a, (b*a)^2*c, b*(a*c)^2, 
   c*(a*b)^2, (c*a)^2*b ]
 
-# doc/../gap/selfs.gd:1175-1180
+# doc/../gap/selfs.gd:1176-1181
 gap> G := AutomatonGroup("a=(1,1)(1,2), b=(a,c), c=(b,1)");
 < a, b, c >
 gap> FindElementOfInfiniteOrder(G, 5, 10);
@@ -326,7 +326,7 @@ gap> G := SelfSimilarGroup("a=(a^-1*b^-1,1)(1,2), b=(b^-1,a*b)");
 gap> SphericallyTransitiveElement(G);
 fail
 
-# doc/../gap/selfs.gd:869-884
+# doc/../gap/selfs.gd:870-885
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> Growth(Grigorchuk_Group, 7);
@@ -342,7 +342,7 @@ gap> H := AutomatonSemigroup("a=(a,b)[1,1], b=(b,a)(1,2)");
 gap> Growth(H,6);
 [ 2, 6, 14, 30, 62, 126 ]
 
-# doc/../gap/selfs.gd:900-906
+# doc/../gap/selfs.gd:901-907
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> ListOfElements(Grigorchuk_Group, 3);

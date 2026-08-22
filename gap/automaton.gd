@@ -515,7 +515,7 @@ DeclareOperation("MDReduction", [IsMealyAutomaton]);
 ##  <ManSection>
 ##  <Prop Name="IsMDTrivial" Arg="A"/>
 ##  <Description>
-##  Returns <K>true</K> if <A>A</A> is MD-trivial (i.e. if MD-reduction proedure returns the
+##  Returns <K>true</K> if <A>A</A> is MD-trivial (i.e. if MD-reduction procedure returns the
 ##  trivial automaton) and <K>false</K> otherwise.
 ##  </Description>
 ##  </ManSection>

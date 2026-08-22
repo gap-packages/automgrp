@@ -68,7 +68,7 @@ gap> Order( u^35*v^-12*u^2*v^-3 );
 infinity
 gap> SetInfoLevel( InfoAutomGrp, 0);
 
-# doc/../gap/selfs.gd:1072-1091
+# doc/../gap/selfs.gd:1073-1092
 gap> Grigorchuk_Group := AutomatonGroup("a=(1,1)(1,2),b=(a,c),c=(a,d),d=(1,b)");
 < a, b, c, d >
 gap> OrderUsingSections( a*b*a*c*b );

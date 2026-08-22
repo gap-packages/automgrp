@@ -41,7 +41,7 @@ DeclareCategoryCollections("IsInvertibleSelfSim");
 ##  <Oper Name="SelfSim" Arg="word, a"/>
 ##  <Oper Name="SelfSim" Label="for word, fam" Arg="word, fam"/>
 ##  <Description>
-##  Given assosiative word <A>word</A> constructs a tree homomorphism from the family
+##  Given associative word <A>word</A> constructs a tree homomorphism from the family
 ##  <A>fam</A>, or to which homomorphism <A>a</A> belongs. This function is useful when
 ##  one needs to make some operations with associative words. See also <Ref Func="Word"/>.
 ##  <Example><![CDATA[

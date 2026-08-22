@@ -74,8 +74,8 @@ DeclareProperty("IsFractal", IsTreeAutomorphismGroup);
 ##  Computes the generators of stabilizers of vertices of the first level
 ##  and their projections on these vertices. Returns <K>true</K> if  the preimages of these
 ##  projections in the free group under the canonical epimorphism generate the whole free
-##  group for each stabilizer, and the <A>G</A> acts transitively on the first level.
-##  This is sufficient but not necessary condition for <A>G</A> to be fractal. See also
+##  group for each stabilizer, and <A>G</A> acts transitively on the first level.
+##  This is a sufficient but not necessary condition for <A>G</A> to be fractal. See also
 ##  <Ref Func="IsFractal"/>.
 ##  </Description>
 ##  </ManSection>

@@ -24,7 +24,7 @@ AutoDoc(rec(
             "autom.xml",
             "misc.xml"
         ],
-        bib := "fa.bib",
+        bib := "fabib.xml",
         entities := rec(
             AutomGrp := "<Package>AutomGrp</Package>",
         ),

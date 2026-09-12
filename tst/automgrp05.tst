@@ -11,11 +11,11 @@
 gap> START_TEST("automgrp05.tst");
 
 # doc/../gap/convertersfr.gd:22-29
-gap> ZZ := FRGroup("t=<,t>[2,1]");
+gap> FZ := FRGroup("t=<,t>[2,1]");
 <state-closed group over [ 1 .. 2 ] with 1 generator>
-gap> AZZ := FR2AutomGrp(ZZ);
+gap> AZ := FR2AutomGrp(FZ);
 < t >
-gap> Display(AZZ);
+gap> Display(AZ);
 < t = (1, t)(1,2) >
 
 # doc/../gap/convertersfr.gd:30-39

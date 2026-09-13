@@ -11,8 +11,14 @@
 ##
 #C  IsTreeAutomorphism
 ##
+##  <#GAPDoc Label="IsTreeAutomorphism">
+##  <ManSection>
+##  <Filt Name="IsTreeAutomorphism" Arg="" Type="Category"/>
+##  <Description>
 ##  Category of rooted tree automorphisms.
-##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareCategory("IsTreeAutomorphism", IsTreeHomomorphism and
                                       IsMultiplicativeElementWithInverse);
 DeclareCategoryFamily("IsTreeAutomorphism");
@@ -26,11 +32,15 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 ##
 #O  TreeAutomorphism( <states>, <perm> )
 ##
+##  <#GAPDoc Label="TreeAutomorphism">
+##  <ManSection>
+##  <Oper Name="TreeAutomorphism" Arg="states, perm"/>
+##  <Description>
 ##  Constructs the tree automorphism with states on the first level given by the
-##  argument <states> and acting
-##  on the first level as the permutation <perm>. The <states> must
+##  argument <A>states</A> and acting
+##  on the first level as the permutation <A>perm</A>. The <A>states</A> must
 ##  belong to the same family.
-##  \beginexample
+##  <Example><![CDATA[
 ##  gap> L := AutomatonGroup("p=(p,q)(1,2), q=(p,q)");
 ##  < p, q >
 ##  gap> r := TreeAutomorphism([p, q, p, q^2],(1,2)(3,4));
@@ -39,8 +49,10 @@ InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsTreeAutomorphismCollection)
 ##  (q, 1, p*q, q)(1,2)
 ##  gap> r*t;
 ##  (p, q^2, p*q, q^2*p*q)(3,4)
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("TreeAutomorphism", [IsList, IsPerm]);
 DeclareOperation("TreeAutomorphismFamily", [IsObject]);
 DeclareOperation("TreeAutomorphism", [IsObject, IsObject, IsPerm]);

@@ -42,7 +42,7 @@ This will give you an archive file with a name like `automgrp-X.Y.Z.tar.bz2`, wh
 To install the AutomGrp package, move the archive file `automgrp-X.Y.Z.tar.bz2` or
 `automgrp-X.Y.Z.tar.gz` (`automgrp-X.Y.Z-win.zip` if you are using a Windows system)
 into the `pkg` directory of your GAP installation, and unpack it. See section
-"ref:Installing GAP Packages" of the GAP 4 reference manual for details and
+"Installing GAP Packages" of the GAP 4 reference manual for details and
 additional options for installing GAP packages.
 
 Restart GAP and load the package by issuing at the GAP prompt the command:
@@ -59,7 +59,7 @@ Bug reports, comments, etc.
 ---------------------------
 
 If you encounter problems or have questions or comments, please use the
-issue tracker at <https://github.com/fingolfin/automgrp/issues>.
+issue tracker at <https://github.com/gap-packages/automgrp/issues>.
 
 When sending a bug report, please include:
 

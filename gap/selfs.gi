@@ -1224,7 +1224,15 @@ end);
 ################################################################################
 ##
 #F WritePortraitToFile. . . . . . . . . . .Writes portrait in a file in the form
-##                                                       understandable by Maple
+##
+##  <#GAPDoc Label="WritePortraitToFile">
+##  <ManSection>
+##  <Func Name="WritePortraitToFile" Arg=""/>
+##  <Description>
+##  understandable by Maple
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 
 # InstallGlobalFunction(WritePortraitToFile, function(p, file, add)
 #   local WritePerm, l;
@@ -1255,7 +1263,15 @@ end);
 ################################################################################
 ##
 #F WritePortraitsToFile. . . . . . . . . . . . .Writes portraitso of elements of
-##                          a list in a file in the form understandable by Maple
+##
+##  <#GAPDoc Label="WritePortraitsToFile">
+##  <ManSection>
+##  <Func Name="WritePortraitsToFile" Arg=""/>
+##  <Description>
+##  a list in a file in the form understandable by Maple
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 
 # InstallGlobalFunction(WritePortraitsToFile, function(lst, G, file, add)
 #   local WritePerm, i, p;

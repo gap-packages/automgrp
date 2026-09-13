@@ -1,22 +1,19 @@
-/doc/.htm-stamp
-/doc/.manual-stamp
-/doc/.pdf-stamp
-/doc/*.aux
-/doc/*.bbl
-/doc/*.blg
-/doc/*.dvi
-/doc/*.idx
-/doc/*.ilg
-/doc/*.ind
-/doc/*.lab
-/doc/*.log
-/doc/*.six
-/doc/*.tex
-/doc/*.toc
+/doc/*.css
+/doc/*.js
+/doc/_*.xml
+/doc/_main.*
+/doc/chap*.html
+/doc/chap*.txt
+/doc/chooser.html
+/doc/manual.lab
 /doc/manual.pdf
-/doc/notfound
-/doc/manual.example-*.tst
+/doc/manual.six
+# generated from fabib.xml for the LaTeX build
+/doc/fabib.xml.bib
+/doc/title.xml
 
+# Output of the old plain-TeX manual; kept ignored until the leftover
+# directory is removed for good.
 /htm/
 
 /gh-pages/

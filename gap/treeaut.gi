@@ -11,7 +11,14 @@
 ##
 #R  IsTreeAutomorphismRep
 ##
-## XXX remove it, use IsTreeHomomorphismRep
+##  <#GAPDoc Label="IsTreeAutomorphismRep">
+##  <ManSection>
+##  <Filt Name="IsTreeAutomorphismRep" Arg="" Type="Representation"/>
+##  <Description>
+##  XXX remove it, use IsTreeHomomorphismRep
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsTreeAutomorphismRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["states", "perm", "deg"]);
@@ -21,6 +28,14 @@ DeclareRepresentation("IsTreeAutomorphismRep",
 ##
 #R  IsTreeAutomorphismFamilyRep
 ##
+##  <#GAPDoc Label="IsTreeAutomorphismFamilyRep">
+##  <ManSection>
+##  <Filt Name="IsTreeAutomorphismFamilyRep" Arg="" Type="Representation"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsTreeAutomorphismFamilyRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["spher_index"]);

@@ -70,7 +70,7 @@ __AG_ReducedForm := function(rws, word)
   word_mon := ImageElm(rws!.mhom, ElementOfFpGroup(rws!.fpg_fam, word));
   reduced := ReducedForm(rws!.kb, UnderlyingElement(word_mon));
   word_mon := ElementOfFpMonoid(rws!.fpm_fam, reduced);
-  return UnderlyingElement(PreImagesRepresentative(rws!.mhom, word_mon));
+  return UnderlyingElement(PreImagesRepresentativeNC(rws!.mhom, word_mon));
 end;
 
 

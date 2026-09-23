@@ -3457,4 +3457,28 @@ function(G, H, gens_G, gens_H)
 end);
 
 
+
+# Membership in the range of a monomorphism to an automaton (semi)group
+# may be undecidable, and the range is the image by construction, so skip
+# the checks GAP 4.17 added. Older GAP does not check. SUM_FLAGS beats the
+# library methods for group homomorphisms.
+if not IsIdenticalObj(PreImagesRepresentative, PreImagesRepresentativeNC) then
+  InstallMethod(PreImagesRepresentative,
+    "for a monomorphism to an automaton (semi)group, and an element",
+    FamRangeEqFamElm,
+    [IsMappingByFunctionWithInverseRep and IsAGMonomorphismToAutomaton, IsObject], SUM_FLAGS,
+    PreImagesRepresentativeNC);
+  InstallMethod(PreImagesElm,
+    "for a monomorphism to an automaton (semi)group, and an element",
+    FamRangeEqFamElm,
+    [IsMappingByFunctionWithInverseRep and IsAGMonomorphismToAutomaton, IsObject], SUM_FLAGS,
+    PreImagesElmNC);
+  InstallMethod(PreImagesSet,
+    "for a monomorphism to an automaton (semi)group, and a collection",
+    CollFamRangeEqFamElms,
+    [IsMappingByFunctionWithInverseRep and IsAGMonomorphismToAutomaton, IsCollection], SUM_FLAGS,
+    PreImagesSetNC);
+fi;
+
+
 #E

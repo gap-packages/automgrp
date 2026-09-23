@@ -890,12 +890,12 @@ function(G)
                                         GeneratorsOfGroup(F),  images_in_freegrp);
 
     hom_function := function(g)
-      return Autom(Image(pi_bar, PreImagesRepresentative(pi, g!.word)), UnderlyingAutomFamily(H));
+      return Autom(Image(pi_bar, PreImagesRepresentativeNC(pi, g!.word)), UnderlyingAutomFamily(H));
     end;
 
 
     inv_hom_function :=  function(b)
-      return SelfSim(Image(pi, PreImagesRepresentative(pi_bar, b!.word)), UnderlyingSelfSimFamily(G));
+      return SelfSim(Image(pi, PreImagesRepresentativeNC(pi_bar, b!.word)), UnderlyingSelfSimFamily(G));
     end;
 
     hom := GroupHomomorphismByFunction(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
@@ -983,7 +983,7 @@ function(G)
 
   H := GroupOfAutomFamily( UnderlyingAutomFamily( UnderlyingAutomatonGroup(G)));
 
-  return List( GroupNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup(G), x));
+  return List( GroupNucleus(H), x -> PreImagesRepresentativeNC( MonomorphismToAutomatonGroup(G), x));
 end);
 
 
@@ -1063,8 +1063,8 @@ function(G, max_nucl)
   if nuclH=fail then return fail; fi;
 
   nuclG := [];
-  Add(nuclG, List( GeneratingSetWithNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
-  Add(nuclG, List( GroupNucleus(H), x -> PreImagesRepresentative( MonomorphismToAutomatonGroup( G ), x )));
+  Add(nuclG, List( GeneratingSetWithNucleus(H), x -> PreImagesRepresentativeNC( MonomorphismToAutomatonGroup( G ), x )));
+  Add(nuclG, List( GroupNucleus(H), x -> PreImagesRepresentativeNC( MonomorphismToAutomatonGroup( G ), x )));
   Add(nuclG, GeneratingSetWithNucleusAutom(H));
 
   SetGroupNucleus(G, nuclG[1]);

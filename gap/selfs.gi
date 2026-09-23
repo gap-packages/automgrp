@@ -3440,16 +3440,16 @@ function(G, H, gens_G, gens_H)
                                       GeneratorsOfGroup(F),  gens_H);
 
   hom_function := function(g)
-    return Image(pi_bar, PreImagesRepresentative(pi, g!.word));
+    return Image(pi_bar, PreImagesRepresentativeNC(pi, g!.word));
   end;
 
   if IsAutomGroup(G) then
     inv_hom_function :=  function(b)
-      return Autom(Image(pi, PreImagesRepresentative(pi_bar, b)), UnderlyingAutomFamily(G));
+      return Autom(Image(pi, PreImagesRepresentativeNC(pi_bar, b)), UnderlyingAutomFamily(G));
     end;
   elif IsSelfSimGroup(G) then
     inv_hom_function :=  function(b)
-      return SelfSim(Image(pi, PreImagesRepresentative(pi_bar, b)), UnderlyingSelfSimFamily(G));
+      return SelfSim(Image(pi, PreImagesRepresentativeNC(pi_bar, b)), UnderlyingSelfSimFamily(G));
     end;
   fi;
 

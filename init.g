@@ -6,6 +6,20 @@
 #Y  Copyright (C) 2003 - 2018 Yevgen Muntyan, Dmytro Savchuk
 ##
 
+# the NC variants exist from GAP 4.17 on
+if not IsBound( PreImagesNC ) then
+    BindGlobal( "PreImagesNC", PreImages );
+fi;
+if not IsBound( PreImagesElmNC ) then
+    BindGlobal( "PreImagesElmNC", PreImagesElm );
+fi;
+if not IsBound( PreImagesSetNC ) then
+    BindGlobal( "PreImagesSetNC", PreImagesSet );
+fi;
+if not IsBound( PreImagesRepresentativeNC ) then
+    BindGlobal( "PreImagesRepresentativeNC", PreImagesRepresentative );
+fi;
+
 ReadPackage("automgrp", "gap/tree.gd");
 ReadPackage("automgrp", "gap/treehom.gd");
 ReadPackage("automgrp", "gap/treehomsg.gd");

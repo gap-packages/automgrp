@@ -83,7 +83,7 @@ PackageDoc := rec(
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.9.1",
+  GAP := ">=4.13",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
@@ -100,6 +100,11 @@ Dependencies := rec(
   # ExternalConditions := []
   ExternalConditions := []
 ),
+
+# converters to and from FR, loaded as soon as FR is loaded
+Extensions := [
+  rec( needed := [ [ "FR", ">= 2.0.0" ] ], filename := "gap/convertersfr.g" ),
+],
 
 AvailabilityTest := ReturnTrue,
 

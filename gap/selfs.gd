@@ -1122,4 +1122,9 @@ DeclareOperation("IsOfSubexponentialGrowth", [IsTreeAutomorphismGroup, IsCycloto
 DeclareGlobalFunction("AG_GroupHomomorphismByImagesNC");
 
 
+
+# set on MonomorphismToAutomatonGroup and MonomorphismToAutomatonSemigroup
+DeclareFilter("IsAGMonomorphismToAutomaton");
+
+
 #E

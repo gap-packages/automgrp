@@ -522,6 +522,7 @@ function(G)
     end;
 
     hom := MappingByFunction(G, SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    SetFilterObj(hom, IsAGMonomorphismToAutomaton);
 
     SetMonomorphismToAutomatonSemigroup(G, hom);
   else
@@ -549,6 +550,7 @@ function(G)
     end;
 
     hom := MappingByFunction(G, SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    SetFilterObj(hom, IsAGMonomorphismToAutomaton);
 
     SetMonomorphismToAutomatonSemigroup(G, hom);
   fi;

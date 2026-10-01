@@ -872,7 +872,12 @@ function(G)
       return SelfSim(Image(inv_free_groups_hom, b!.word), UnderlyingSelfSimFamily(G));
     end;
 
-    hom := GroupHomomorphismByFunction(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    # every state of H is the image of a section of a generator of the
+    # self-similar group G, so the range is the whole group of the family
+    SetIsGroupOfAutomFamily(IsomorphicAutomGroup(G), true);
+    hom := GroupHomomorphismByFunction(G, IsomorphicAutomGroup(G), hom_function, inv_hom_function);
+    SetImagesSource(hom, IsomorphicAutomGroup(G));
+    SetFilterObj(hom, IsAGMonomorphismToAutomaton);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   else
@@ -899,6 +904,7 @@ function(G)
     end;
 
     hom := GroupHomomorphismByFunction(G, GroupWithGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);
+    SetFilterObj(hom, IsAGMonomorphismToAutomaton);
 
     SetMonomorphismToAutomatonGroup(G, hom);
   fi;

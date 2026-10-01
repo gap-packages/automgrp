@@ -540,12 +540,12 @@ function(G)
                                         GeneratorsOfGroup(F),  images_in_freegrp);
 
     hom_function := function(g)
-      return Autom(Image(pi_bar, PreImagesRepresentative(pi, g!.word)), UnderlyingAutomFamily(H));
+      return Autom(Image(pi_bar, PreImagesRepresentativeNC(pi, g!.word)), UnderlyingAutomFamily(H));
     end;
 
 
     inv_hom_function :=  function(b)
-      return SelfSim(Image(pi, PreImagesRepresentative(pi_bar, b!.word)), UnderlyingSelfSimFamily(G));
+      return SelfSim(Image(pi, PreImagesRepresentativeNC(pi_bar, b!.word)), UnderlyingSelfSimFamily(G));
     end;
 
     hom := MappingByFunction(G, SemigroupByGenerators(UnderlyingAutomFamily(H)!.automgens{images}), hom_function, inv_hom_function);

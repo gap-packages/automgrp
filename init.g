@@ -27,15 +27,4 @@ ReadPackage("automgrp", "gap/selfsimsg.gd");
 ReadPackage("automgrp", "gap/selfsimgroup.gd");
 #ReadPackage("automgrp", "gap/scilab.gd");
 
-# In GAP 4.4, the function IsPackageMarkedForLoading is not available.
-if not IsBound( IsPackageMarkedForLoading ) then
-  IsPackageMarkedForLoading:= function( arg )
-    return CallFuncList( LoadPackage, arg ) = true;
-  end;
-fi;
-
-if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
-  ReadPackage("automgrp", "gap/convertersfr.gd");
-fi;
-
 #E

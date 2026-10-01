@@ -30,9 +30,5 @@ ReadPackage("automgrp", "gap/selfsimgroup.gi");
 ReadPackage("automgrp", "gap/groups.g");
 #ReadPackage("automgrp", "gap/scilab.gi");
 
-if IsPackageMarkedForLoading("FR", ">= 2.0.0" ) then
-  ReadPackage("automgrp", "gap/convertersfr.gi");
-fi;
-
 
 #E

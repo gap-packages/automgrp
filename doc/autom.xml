@@ -1,0 +1,59 @@
+<Chapter Label="Noninitial automata">
+<Heading>Noninitial automata</Heading>
+In this chapter we present the functionality applicable to noninitial automata.
+<Section Label="Definition">
+<Heading>Definition</Heading>
+<#Include Label="MealyAutomaton">
+<#Include Label="IsMealyAutomaton">
+<#Include Label="NumberOfStates">
+<#Include Label="SizeOfAlphabet">
+<#Include Label="automaton:AutomatonList">
+</Section>
+<Section Label="Tools">
+<Heading>Tools</Heading>
+<#Include Label="IsTrivial">
+<#Include Label="IsInvertible">
+<#Include Label="MinimizationOfAutomaton">
+<#Include Label="MinimizationOfAutomatonTrack">
+<#Include Label="IsOfPolynomialGrowth">
+<#Include Label="IsBounded">
+<#Include Label="PolynomialDegreeOfGrowth">
+<#Include Label="AdjacencyMatrix">
+<#Include Label="IsAcyclic">
+<#Include Label="DualAutomaton">
+<#Include Label="InverseAutomaton">
+<#Include Label="IsBireversible">
+<#Include Label="IsReversible">
+<#Include Label="IsIRAutomaton">
+<P/>
+The next three commands deal with the, so-called, MD-reduction procedure developed
+in&nbsp;<Cite Key="AKL"/>. Particularly, according
+to&nbsp;<Cite Key="KLI"/>, a 2-letter or 2-state invertible reversible automaton
+generates a finite group if and only if the MD-reduction procedure terminates with the
+trivial automaton. In this case an automaton is called MD-trivial.
+<P/>
+<#Include Label="MDReduction">
+<#Include Label="IsMDTrivial">
+<#Include Label="IsMDReduced">
+<#Include Label="DisjointUnion">
+<ManSection>
+<Meth Name="\*" Label="for noninitial automata" Arg="A, B"/>
+<Description>
+<Index>product<Subkey>for noninitial automata</Subkey></Index>
+Constructs the product of 2 noninitial automata <A>A</A> and <A>B</A>.
+<Example><![CDATA[
+gap> A := MealyAutomaton("a=(a,b)(1,2), b=(a,b)");
+<automaton>
+gap> B := MealyAutomaton("c=(d,c), d=(c,e)(1,2), e=(e,d)");
+<automaton>
+gap> Display(A*B);
+a1 = (a1, a5)(1,2), a2 = (a3, a4), a3 = (a2, a6)
+(1,2), a4 = (a2, a4), a5 = (a1, a6)(1,2), a6 = (a3, a5)
+]]></Example>
+</Description>
+</ManSection>
+<#Include Label="SubautomatonWithStates">
+<#Include Label="AutomatonNucleus">
+<#Include Label="AreEquivalentAutomata">
+</Section>
+</Chapter>

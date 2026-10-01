@@ -11,6 +11,14 @@
 ##
 #R  IsTreeHomomorphismRep
 ##
+##  <#GAPDoc Label="IsTreeHomomorphismRep">
+##  <ManSection>
+##  <Filt Name="IsTreeHomomorphismRep" Arg="" Type="Representation"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsTreeHomomorphismRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["states", "perm", "deg"]);
@@ -19,6 +27,14 @@ DeclareRepresentation("IsTreeHomomorphismRep",
 ##
 #R  IsTreeHomomorphismFamilyRep
 ##
+##  <#GAPDoc Label="IsTreeHomomorphismFamilyRep">
+##  <ManSection>
+##  <Filt Name="IsTreeHomomorphismFamilyRep" Arg="" Type="Representation"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsTreeHomomorphismFamilyRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["spher_index", "top_deg"]);

@@ -18,7 +18,6 @@ Persons := [
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "muntyan@fastmail.fm",
-    PostalAddress := "",
     Place         := "Bellevue, WA, USA",
     Institution   := ""
   ),
@@ -29,7 +28,12 @@ Persons := [
     IsMaintainer  := true,
     Email         := "dmytro.savchuk@gmail.com",
     WWWHome       := "http://savchuk.myweb.usf.edu/",
-    PostalAddress := "Dept of Mathematics and Statistics, University of South Florida, 4202 E Fowler Ave, CMC 342, Tampa, FL, 33647, USA",
+    PostalAddress := Concatenation( [
+                       "Dept of Mathematics and Statistics\n",
+                       "University of South Florida\n",
+                       "4202 E Fowler Ave, CMC 342\n",
+                       "Tampa, FL 33647\n",
+                       "USA" ] ),
     Place         := "Tampa, FL, USA",
     Institution   := "University of South Florida"
   ),
@@ -67,8 +71,8 @@ and elements.",
 PackageDoc := rec(
  # use same as in GAP
  BookName  := "AutomGrp",
- ArchiveURLSubset := ["doc", "htm"],
- HTMLStart := "htm/chapters.htm",
+ ArchiveURLSubset := ["doc"],
+ HTMLStart := "doc/chap0_mj.html",
  PDFFile   := "doc/manual.pdf",
  # the path to the .six file used by GAP's help system
  SixFile   := "doc/manual.six",

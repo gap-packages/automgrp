@@ -11,6 +11,14 @@
 ##
 #O  AutomFamily(<list> [, <names>] [, <bind_vars>])
 ##
+##  <#GAPDoc Label="AutomFamily">
+##  <ManSection>
+##  <Oper Name="AutomFamily" Arg="list [, names] [, bind_vars]"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareOperation("AutomFamily", [IsList]);
 DeclareOperation("AutomFamily", [IsList, IsBool]);
 DeclareOperation("AutomFamily", [IsList, IsList]);
@@ -25,6 +33,14 @@ DeclareAttribute("GeneratingAutomatonList", IsAutomFamily);
 ##
 #A  DualAutomFamily(<fam>)
 ##
+##  <#GAPDoc Label="DualAutomFamily">
+##  <ManSection>
+##  <Attr Name="DualAutomFamily" Arg="fam"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareAttribute("DualAutomFamily", IsAutomFamily);
 
 
@@ -47,6 +63,15 @@ DeclareAttribute("AG_AbelImagesGenerators", IsAutomFamily);
 #A  GroupOfAutomFamily(<fam>)
 #A  SemigroupOfAutomFamily(<fam>)
 ##
+##  <#GAPDoc Label="automfam:GroupOfAutomFamily">
+##  <ManSection>
+##  <Attr Name="GroupOfAutomFamily" Arg="fam"/>
+##  <Attr Name="SemigroupOfAutomFamily" Arg="fam"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareAttribute("GroupOfAutomFamily", IsAutomFamily);
 DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 
@@ -55,20 +80,26 @@ DeclareAttribute("SemigroupOfAutomFamily", IsAutomFamily);
 ##
 #O  DiagonalPower(<fam>[, <k>])
 ##
-##  For a given automaton group <G> acting on alphabet $X$ and corresponding family
-##  <fam> of automata one can consider the action of $<G>^<k>$ on $X^<k>$ defined by
-##  $(x_1,x_2,\ldots, x_k)^{(g_1,g_2,\ldots,g_k)}=(x_1^{g_1},x_2^{g_2},\ldots,x_k^{g_k})$.
+##  <#GAPDoc Label="DiagonalPower">
+##  <ManSection>
+##  <Oper Name="DiagonalPower" Arg="fam[, k]"/>
+##  <Description>
+##  For a given automaton group <A>G</A> acting on alphabet <M>X</M> and corresponding family
+##  <A>fam</A> of automata one can consider the action of <M><A>G</A>^{<A>k</A>}</M> on <M>X^{<A>k</A>}</M> defined by
+##  <M>(x_1,x_2,\ldots, x_k)^{(g_1,g_2,\ldots,g_k)}=(x_1^{g_1},x_2^{g_2},\ldots,x_k^{g_k})</M>.
 ##  This function constructs a self-similar group, which encodes this action. If
-##  <k> is not given it is assumed to be $2$.
-##  \beginexample
+##  <A>k</A> is not given it is assumed to be <M>2</M>.
+##  <Example><![CDATA[
 ##  gap> Basilica := AutomatonGroup( "u=(v,1)(1,2), v=(u,1)" );
 ##  < u, v >
 ##  gap> S := DiagonalPower(UnderlyingAutomFamily(Basilica));
 ##  < uu, uv, u1, vu, vv, v1, 1u, 1v >
 ##  gap> Decompose(uu);
 ##  (vv, v1, 1v, 1)(1,4)(2,3)
-##  \endexample
-##
+##  ]]></Example>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 KeyDependentOperation("DiagonalPower", IsAutomFamily, IsPosInt, ReturnTrue);
 
 
@@ -76,12 +107,28 @@ KeyDependentOperation("DiagonalPower", IsAutomFamily, IsPosInt, ReturnTrue);
 ##
 #O  MultAutomAlphabet(<fam>)
 ##
+##  <#GAPDoc Label="MultAutomAlphabet">
+##  <ManSection>
+##  <Oper Name="MultAutomAlphabet" Arg="fam"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 KeyDependentOperation("MultAutomAlphabet", IsAutomFamily, IsPosInt, ReturnTrue);
 
 #############################################################################
 ##
 #A  GeneratorsOfOrderTwo(<fam>)
 ##
+##  <#GAPDoc Label="automfam:GeneratorsOfOrderTwo">
+##  <ManSection>
+##  <Attr Name="GeneratorsOfOrderTwo" Arg="fam"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareAttribute("GeneratorsOfOrderTwo", IsAutomFamily);
 
 
@@ -90,6 +137,15 @@ DeclareAttribute("GeneratorsOfOrderTwo", IsAutomFamily);
 #A  UnderlyingFreeMonoid(<G>)
 #A  UnderlyingFreeGroup(<G>)
 ##
+##  <#GAPDoc Label="automfam:UnderlyingFreeMonoid">
+##  <ManSection>
+##  <Attr Name="UnderlyingFreeMonoid" Arg="G"/>
+##  <Attr Name="UnderlyingFreeGroup" Arg="G"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareAttribute("UnderlyingFreeMonoid", IsAutomFamily);
 DeclareAttribute("UnderlyingFreeGroup", IsAutomFamily);
 

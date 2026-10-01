@@ -11,7 +11,12 @@
 ##
 #R  IsAutomRep
 ##
+##  <#GAPDoc Label="IsAutomRep">
+##  <ManSection>
+##  <Filt Name="IsAutomRep" Arg="" Type="Representation"/>
+##  <Description>
 ##  This is how IsAutom object is stored in GAP:
+##  <Listing><![CDATA[
 ##  IsAutom object is a thing of kind "w = (w_1, w_2, ..., w_d)\pi", where
 ##    deg = d - arity of tree;
 ##    perm = \pi - permutation on first level;
@@ -19,7 +24,10 @@
 ##      automata group;
 ##    word = w;
 ##    states = [w_1, ..., w_d].
-##
+##  ]]></Listing>
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareRepresentation("IsAutomRep",
                       IsComponentObjectRep and IsAttributeStoringRep,
                       ["word", "states", "perm", "deg"]);

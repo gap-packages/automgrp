@@ -32,6 +32,14 @@ BindGlobal("AG_Globals", rec(
 ##
 #V  InfoAutomGrp
 ##
+##  <#GAPDoc Label="InfoAutomGrp">
+##  <ManSection>
+##  <InfoClass Name="InfoAutomGrp"/>
+##  <Description>
+##
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
 DeclareInfoClass("InfoAutomGrp");
 SetInfoLevel(InfoAutomGrp, 0);
 
